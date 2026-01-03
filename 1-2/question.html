@@ -53,11 +53,46 @@
             transition: width 0.3s ease;
         }
 
+        /* 進度追蹤 */
+        .progress-info {
+            width: 90%;
+            max-width: 600px;
+            padding: 0 20px 10px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: var(--duo-gray);
+        }
+
+        .completed {
+            color: var(--duo-green);
+            font-weight: 700;
+        }
+
+        .remaining {
+            color: var(--duo-blue);
+            font-weight: 700;
+        }
+
+        /* 小節名稱 */
+        .section-name {
+            width: 90%;
+            max-width: 600px;
+            padding: 10px 20px;
+            background-color: #f0f9ff;
+            color: var(--duo-blue);
+            font-weight: 700;
+            font-size: 1.1em;
+            margin-top: 10px;
+            border-radius: 8px;
+            border-left: 4px solid var(--duo-blue);
+        }
+
         /* 主題內容 */
         .content {
             width: 90%;
             max-width: 600px;
-            margin-top: 40px;
+            margin-top: 10px;
             flex-grow: 1;
         }
 
@@ -98,6 +133,18 @@
             background-color: #ddf4ff;
             color: var(--duo-blue);
             transform: translateY(-1px);
+        }
+
+        .option-item.correct {
+            border-color: var(--duo-green);
+            background-color: #e8ffd8;
+            color: var(--text-main);
+        }
+
+        .option-item.wrong {
+            border-color: var(--duo-red);
+            background-color: #ffeaea;
+            color: var(--text-main);
         }
 
         /* 底部操作欄 */
@@ -175,6 +222,7 @@
             font-weight: 900;
             cursor: pointer;
             transition: all 0.2s;
+            min-width: 100px;
         }
 
         .btn-next:hover {
@@ -194,6 +242,11 @@
             font-size: 0.9em;
             margin-bottom: 10px;
         }
+        
+        .next-btn-text {
+            font-size: 1em;
+            font-weight: 700;
+        }
     </style>
 </head>
 <body>
@@ -203,8 +256,15 @@
         <div class="progress-rail"><div class="progress-fill" id="pb"></div></div>
     </div>
 
+    <div class="progress-info" id="progress-info">
+        <div>已完成: <span id="completed-count" class="completed">0</span></div>
+        <div>剩餘: <span id="remaining-count" class="remaining">0</span></div>
+    </div>
+
+    <div class="section-name" id="section-name"></div>
+
     <div class="content" id="quiz-ui">
-        <div class="question-counter" id="counter">第 <span id="current-q">1</span> 題，共 <span id="total-q">?</span> 題</div>
+        <div class="question-counter" id="counter">第 <span id="current-q">1</span> 題</div>
         <div class="speech-bubble" id="q-text">🦉 正在為你準備題目...</div>
         <div class="options-list" id="opt-list"></div>
     </div>
@@ -226,7 +286,9 @@
                 <h2 id="tray-title" style="margin:0">很好！</h2>
                 <p id="tray-desc" style="margin: 5px 0 0; font-weight: 500;"></p>
             </div>
-            <button class="btn-next" onclick="loadNext()">繼續</button>
+            <button class="btn-next" onclick="loadNext()">
+                <span class="next-btn-text" id="next-btn-text">繼續</span>
+            </button>
         </div>
     </div>
 
@@ -237,6 +299,7 @@
     let selectedOption = null;
     let quizData = null;
     let canSelect = true;
+    let totalQuestions = 0;
 
     // 載入測驗數據
     async function loadQuizData() {
@@ -260,11 +323,19 @@
             return;
         }
         
-        // 更新總題數顯示
-        document.getElementById('total-q').textContent = quizData.questions.length;
+        totalQuestions = quizData.questions.length;
+        
+        // 更新進度追蹤
+        updateProgressInfo();
         
         // 載入第一題
         loadQuestion();
+    }
+
+    // 更新進度追蹤資訊
+    function updateProgressInfo() {
+        document.getElementById('completed-count').textContent = currentQuestionIndex;
+        document.getElementById('remaining-count').textContent = totalQuestions - currentQuestionIndex;
     }
 
     // 載入題目
@@ -273,12 +344,18 @@
         
         const question = quizData.questions[currentQuestionIndex];
         
+        // 更新進度追蹤
+        updateProgressInfo();
+        
         // 更新題目編號
         document.getElementById('current-q').textContent = currentQuestionIndex + 1;
         
         // 更新進度條
-        const progress = ((currentQuestionIndex) / quizData.questions.length) * 100;
+        const progress = ((currentQuestionIndex + 1) / totalQuestions) * 100;
         document.getElementById('pb').style.width = `${progress}%`;
+        
+        // 顯示小節名稱
+        document.getElementById('section-name').textContent = question.section;
         
         // 顯示題目
         document.getElementById('q-text').textContent = question.q;
@@ -307,11 +384,26 @@
         
         // 隱藏反饋面板
         document.getElementById('feedback-tray').style.bottom = '-350px';
+        
+        // 更新下一題按鈕文字
+        updateNextButtonText();
+    }
+
+    // 更新下一題按鈕文字
+    function updateNextButtonText() {
+        const nextButton = document.getElementById('next-btn-text');
+        const isLastQuestion = currentQuestionIndex === totalQuestions - 1;
+        
+        if (isLastQuestion) {
+            nextButton.textContent = '查看結果';
+        } else {
+            nextButton.textContent = '下一題';
+        }
     }
 
     // 選擇選項
     function selectOption(optionElement, optionIndex) {
-        if (!canSelect) return; // 如果已經檢查過答案，不能再次選擇
+        if (!canSelect) return;
         
         // 移除所有選項的 active 類
         document.querySelectorAll('.option-item').forEach(item => {
@@ -345,12 +437,8 @@
         allOptions.forEach((option, index) => {
             if (index === question.a) {
                 option.classList.add('correct');
-                option.style.borderColor = '#58cc02';
-                option.style.backgroundColor = '#e8ffd8';
             } else if (index === selectedOption && selectedOption !== question.a) {
                 option.classList.add('wrong');
-                option.style.borderColor = '#ff4b4b';
-                option.style.backgroundColor = '#ffeaea';
             }
         });
         
@@ -375,7 +463,7 @@
     function loadNext() {
         currentQuestionIndex++;
         
-        if (currentQuestionIndex < quizData.questions.length) {
+        if (currentQuestionIndex < totalQuestions) {
             loadQuestion();
         } else {
             // 顯示最終結果
@@ -387,10 +475,12 @@
     function showFinalResults() {
         document.getElementById('quiz-ui').style.display = 'none';
         document.getElementById('footer-bar').style.display = 'none';
+        document.getElementById('section-name').style.display = 'none';
+        document.getElementById('progress-info').style.display = 'none';
         document.getElementById('pb').style.width = '100%';
         document.getElementById('final-screen').style.display = 'block';
         
-        const scorePercent = Math.round((score / quizData.questions.length) * 100);
+        const scorePercent = Math.round((score / totalQuestions) * 100);
         let message = '你完成了所有挑戰！';
         
         if (scorePercent === 100) {
@@ -404,7 +494,7 @@
         }
         
         document.getElementById('final-msg').textContent = message;
-        document.getElementById('final-score').textContent = `得分：${score} / ${quizData.questions.length} (${scorePercent}%)`;
+        document.getElementById('final-score').textContent = `得分：${score} / ${totalQuestions} (${scorePercent}%)`;
     }
 
     // 頁面載入時開始
@@ -420,6 +510,8 @@
             }
         } else if (event.key === 'Enter' && !document.getElementById('check-btn').disabled) {
             handleCheck();
+        } else if (event.key === ' ' && document.getElementById('feedback-tray').style.bottom === '0px') {
+            loadNext();
         }
     });
 </script>
