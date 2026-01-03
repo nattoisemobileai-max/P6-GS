@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>安全先鋒挑戰 - Duolingo Style</title>
+    <title>平安是福：安全測試挑戰</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -27,7 +27,7 @@
             min-height: 100vh;
         }
 
-        /* Top Progress Bar */
+        /* 頂部進度條 */
         .nav-bar {
             width: 100%;
             max-width: 600px;
@@ -50,10 +50,10 @@
             height: 100%;
             background-color: var(--duo-green);
             border-radius: 10px;
-            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: width 0.3s ease;
         }
 
-        /* Quiz Card */
+        /* 主題內容 */
         .content {
             width: 90%;
             max-width: 600px;
@@ -61,39 +61,14 @@
             flex-grow: 1;
         }
 
-        .hero-area {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .mascot {
-            font-size: 60px;
-            background: var(--duo-green);
-            padding: 10px;
-            border-radius: 18px;
-            box-shadow: 0 4px 0 var(--duo-dark-green);
-        }
-
         .speech-bubble {
             border: 2px solid var(--duo-light-gray);
             border-radius: 15px;
-            padding: 15px 20px;
+            padding: 20px;
             font-size: 1.3em;
             font-weight: 700;
+            margin-bottom: 30px;
             position: relative;
-        }
-
-        .speech-bubble::before {
-            content: '';
-            position: absolute;
-            left: -10px;
-            top: 50%;
-            transform: translateY(-50%);
-            border-top: 10px solid transparent;
-            border-bottom: 10px solid transparent;
-            border-right: 10px solid var(--duo-light-gray);
         }
 
         .options-list {
@@ -119,13 +94,14 @@
             color: var(--duo-blue);
         }
 
-        /* Footer Feedback */
+        /* 底部操作欄 */
         .footer {
             width: 100%;
             padding: 20px;
             display: flex;
             justify-content: center;
             border-top: 2px solid var(--duo-light-gray);
+            background: #fff;
         }
 
         .btn-action {
@@ -137,47 +113,42 @@
             font-weight: 900;
             cursor: pointer;
             border: none;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .btn-check {
             background-color: var(--duo-green);
             color: white;
             box-shadow: 0 5px 0 var(--duo-dark-green);
         }
 
-        .btn-check:disabled {
+        .btn-action:disabled {
             background-color: var(--duo-light-gray);
             color: var(--duo-gray);
             box-shadow: 0 5px 0 #ccc;
-            cursor: default;
         }
 
+        /* 反饋滑動層 */
         #feedback-tray {
             position: fixed;
-            bottom: -250px;
+            bottom: -350px;
             left: 0;
             width: 100%;
             padding: 30px;
             box-sizing: border-box;
-            transition: bottom 0.3s ease-out;
-            display: flex;
-            justify-content: center;
-        }
-
-        .tray-content {
-            width: 100%;
-            max-width: 600px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            transition: bottom 0.3s ease;
+            z-index: 100;
         }
 
         .tray-correct { background-color: #d7ffb8; color: #58a700; }
         .tray-wrong { background-color: #ffdfe0; color: #ea2b2b; }
 
-        .btn-next { background-color: currentColor; filter: brightness(0.8); color: white; border: none; padding: 12px 25px; border-radius: 12px; font-weight: 900; cursor: pointer; }
+        .btn-next {
+            background-color: currentColor;
+            filter: brightness(0.8);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 12px;
+            font-weight: 900;
+            cursor: pointer;
+        }
 
         #final-screen { display: none; text-align: center; margin-top: 100px; }
     </style>
@@ -185,33 +156,30 @@
 <body>
 
     <div class="nav-bar">
-        <span style="color:var(--duo-gray); font-size: 24px; cursor: pointer;">✕</span>
+        <span style="color:var(--duo-gray); font-size: 24px;">✕</span>
         <div class="progress-rail"><div class="progress-fill" id="pb"></div></div>
     </div>
 
     <div class="content" id="quiz-ui">
-        <div class="hero-area">
-            <div class="mascot">⛑️</div>
-            <div class="speech-bubble" id="q-text">加載中...</div>
-        </div>
+        <div class="speech-bubble" id="q-text">🦉 正在為你準備題目...</div>
         <div class="options-list" id="opt-list"></div>
     </div>
 
     <div id="final-screen">
-        <h1 style="font-size: 3em;">🏆</h1>
-        <h2>挑戰完成！</h2>
-        <p id="score-report" style="font-size: 1.5em; font-weight: 700;"></p>
-        <button class="btn-action btn-check" onclick="location.reload()">再試一次</button>
+        <h1 style="font-size: 4em;">🏆</h1>
+        <h2 id="final-msg">你完成了所有挑戰！</h2>
+        <p id="final-score" style="font-size: 1.5em; font-weight: 700;"></p>
+        <button class="btn-action" onclick="location.reload()">重新開始</button>
     </div>
 
-    <div class="footer" id="footer">
-        <button class="btn-action btn-check" id="check-btn" disabled onclick="handleCheck()">檢查答案</button>
+    <div class="footer" id="footer-bar">
+        <button class="btn-action" id="check-btn" disabled onclick="handleCheck()">檢查答案</button>
     </div>
 
     <div id="feedback-tray">
-        <div class="tray-content">
+        <div style="max-width: 600px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;">
             <div>
-                <h2 id="tray-msg" style="margin:0">很好！</h2>
+                <h2 id="tray-title" style="margin:0">很好！</h2>
                 <p id="tray-desc" style="margin: 5px 0 0; font-weight: 500;"></p>
             </div>
             <button class="btn-next" onclick="loadNext()">繼續</button>
@@ -219,15 +187,14 @@
     </div>
 
 <script>
-    // 這裡模擬從 JSON 分離出來的數據
+    // 這裡嵌入 JSON 數據，方便單一檔案部署
     const quizDatabase = {
         "questions": [
-            { "q": "火警逃生時應帶備的「逃生三寶」？", "o": ["手提電話、門匙、濕毛巾", "手提電話、錢包、飲用水", "濕毛巾、指南針、哨子"], "a": 0, "d": "逃生三寶是：手提電話、門匙、濕毛巾 [1, 3]。" },
-            { "q": "懷疑氣體洩漏，第一步應做什麼？", "o": ["打開窗戶", "拍門通知鄰居", "關掉供氣總掣"], "a": 2, "d": "應首要關掉總掣以減少洩漏 [1, 5]。" },
-            { "q": "流鼻血時捏住鼻子的哪個部位？", "o": ["鼻樑骨", "鼻骨下的柔軟部分", "整個鼻子"], "a": 1, "d": "捏住柔軟部分約10分鐘並頭微向前傾 [7, 8]。" },
-            { "q": "哪一機構專責搜索及山火救援？", "o": ["聖約翰機構", "民眾安全服務隊 (CAS)", "醫院管理局"], "a": 1, "d": "民安隊負責搜索及天災救援 [9, 10]。" },
-            { "q": "昏厥患者雙腳應如何擺放？", "o": ["略為墊高", "交叉重疊", "垂直放下"], "a": 0, "d": "墊高雙腳可助血液流向頭部 [7, 8]。" },
-            { "q": "過馬路時絕對不應做什麼？", "o": ["戴著耳機聽音樂", "左右觀察", "依照燈號指示"], "a": 0, "d": "戴耳機聽音樂會忽略危險警告 [10, 16]。" }
+            { "q": "火警逃生時，應該帶備哪「逃生三寶」？", "o": ["A. 手提電話、錢包、飲用水", "B. 手提電話、門匙、濕毛巾", "C. 濕毛巾、指南針、地圖", "D. 門匙、雨傘、手電筒"], "a": 1, "d": "正確答案是 B。來源指出逃生三寶為手機、門匙及濕毛巾。" },
+            { "q": "懷疑氣體洩漏時，下列哪項是「絕對禁止」的行為？", "o": ["A. 打開窗戶讓氣體散發", "B. 關掉供氣總掣", "C. 到達安全地方後報警", "D. 在現場撥打電話或開關電掣"], "a": 3, "d": "正確答案是 D。電掣火花或手機訊號可能引發爆炸。" },
+            { "q": "處理流鼻血時，正確的急救姿勢是什麼？", "o": ["A. 捏住鼻骨下柔軟部分並頭微向前傾", "B. 坐下並將頭向後仰", "C. 站立並用力擤鼻涕", "D. 平躺並用冷水沖洗額頭"], "a": 0, "d": "正確答案是 A。應捏住柔軟部分約 10 分鐘並用口呼吸。" },
+            { "q": "哪一個機構擁有超過 6,000 名隊員，負責山火及天災救援？", "o": ["A. 醫療輔助隊 (AMS)", "B. 民眾安全服務隊 (CAS)", "C. 醫院管理局", "D. 香港聖約翰救護機構"], "a": 1, "d": "正確答案是 B。民安隊專責提供搜索及天災救援服務。" },
+            { "q": "處理熱衰竭患者時，應將其身體如何擺放？", "o": ["A. 坐在陽光下喝熱茶", "B. 抬到陰涼處平躺並墊高雙腿", "C. 垂直抬高其雙手", "D. 讓其俯臥在地面"], "a": 1, "d": "正確答案是 B。墊高雙腿可助血液流向頭部。" }
         ]
     };
 
@@ -235,22 +202,23 @@
     let score = 0;
     let currentPick = null;
 
-    function initQuiz() {
+    function render() {
         const item = quizDatabase.questions[idx];
         document.getElementById('q-text').innerText = item.q;
         const list = document.getElementById('opt-list');
         list.innerHTML = '';
+        
         item.o.forEach((text, i) => {
-            const el = document.createElement('div');
-            el.className = 'option-item';
-            el.innerText = text;
-            el.onclick = () => {
+            const div = document.createElement('div');
+            div.className = 'option-item';
+            div.innerText = text; // 這裡已包含 A. B. C. D.
+            div.onclick = () => {
                 currentPick = i;
-                document.querySelectorAll('.option-item').forEach(o => o.classList.remove('active'));
-                el.classList.add('active');
+                document.querySelectorAll('.option-item').forEach(el => el.classList.remove('active'));
+                div.classList.add('active');
                 document.getElementById('check-btn').disabled = false;
             };
-            list.appendChild(el);
+            list.appendChild(div);
         });
         document.getElementById('pb').style.width = `${(idx / quizDatabase.questions.length) * 100}%`;
     }
@@ -258,37 +226,39 @@
     function handleCheck() {
         const item = quizDatabase.questions[idx];
         const tray = document.getElementById('feedback-tray');
-        const msg = document.getElementById('tray-msg');
+        const title = document.getElementById('tray-title');
         const desc = document.getElementById('tray-desc');
 
         if (currentPick === item.a) {
             score++;
             tray.className = 'tray-correct';
-            msg.innerText = '正確！';
+            title.innerText = '答對了！';
         } else {
             tray.className = 'tray-wrong';
-            msg.innerText = '正確答案是：' + item.o[item.a];
+            title.innerText = '再接再厲！';
         }
         desc.innerText = item.d;
         tray.style.bottom = '0';
+        document.getElementById('check-btn').style.visibility = 'hidden';
     }
 
     function loadNext() {
-        document.getElementById('feedback-tray').style.bottom = '-250px';
+        document.getElementById('feedback-tray').style.bottom = '-350px';
+        document.getElementById('check-btn').style.visibility = 'visible';
         document.getElementById('check-btn').disabled = true;
         idx++;
         if (idx < quizDatabase.questions.length) {
-            initQuiz();
+            render();
         } else {
             document.getElementById('quiz-ui').style.display = 'none';
-            document.getElementById('footer').style.display = 'none';
+            document.getElementById('footer-bar').style.display = 'none';
             document.getElementById('pb').style.width = '100%';
             document.getElementById('final-screen').style.display = 'block';
-            document.getElementById('score-report').innerText = `你完成了所有挑戰！得分：${score}/${quizDatabase.questions.length}`;
+            document.getElementById('final-score').innerText = `你的得分：${score} / ${quizDatabase.questions.length}`;
         }
     }
 
-    initQuiz();
+    render();
 </script>
 </body>
 </html>
