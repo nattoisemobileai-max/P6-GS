@@ -230,11 +230,105 @@
             transform: scale(1.05);
         }
 
+        /* 最終畫面 */
         #final-screen { 
             display: none; 
             text-align: center; 
-            margin-top: 100px;
+            width: 90%;
+            max-width: 600px;
+            margin-top: 20px;
             padding: 20px;
+        }
+        
+        /* 答題回顧 */
+        #review-screen {
+            display: none;
+            width: 90%;
+            max-width: 600px;
+            margin-top: 20px;
+            padding: 20px;
+        }
+        
+        .review-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .review-item {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 2px solid var(--duo-light-gray);
+            border-radius: 15px;
+            background-color: #fff;
+        }
+        
+        .review-question {
+            font-size: 1.2em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--text-main);
+        }
+        
+        .review-options {
+            display: grid;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .review-option {
+            padding: 12px 15px;
+            border-radius: 10px;
+            border: 2px solid var(--duo-light-gray);
+            font-size: 1em;
+        }
+        
+        .review-correct-option {
+            border-color: var(--duo-green);
+            background-color: #e8ffd8;
+        }
+        
+        .review-user-answer {
+            border-color: var(--duo-blue);
+            background-color: #ddf4ff;
+        }
+        
+        .review-wrong-answer {
+            border-color: var(--duo-red);
+            background-color: #ffeaea;
+        }
+        
+        .review-result {
+            font-weight: 700;
+            padding: 8px 15px;
+            border-radius: 8px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        
+        .review-result-correct {
+            background-color: #e8ffd8;
+            color: var(--duo-green);
+        }
+        
+        .review-result-wrong {
+            background-color: #ffeaea;
+            color: var(--duo-red);
+        }
+        
+        .review-explanation {
+            margin-top: 10px;
+            padding: 10px 15px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            border-left: 3px solid var(--duo-gray);
+            font-size: 0.95em;
+        }
+        
+        .score-display {
+            font-size: 3em;
+            font-weight: 900;
+            color: var(--duo-blue);
+            margin: 20px 0;
         }
         
         .question-counter {
@@ -246,6 +340,23 @@
         .next-btn-text {
             font-size: 1em;
             font-weight: 700;
+        }
+        
+        .review-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        .review-section-title {
+            color: var(--duo-blue);
+            font-weight: 700;
+            font-size: 1.1em;
+            margin: 20px 0 10px;
+            padding: 8px 15px;
+            background-color: #f0f9ff;
+            border-radius: 8px;
         }
     </style>
 </head>
@@ -272,8 +383,25 @@
     <div id="final-screen">
         <h1 style="font-size: 4em;">🏆</h1>
         <h2 id="final-msg">你完成了所有挑戰！</h2>
-        <p id="final-score" style="font-size: 1.5em; font-weight: 700; color: var(--duo-blue);"></p>
-        <button class="btn-action" onclick="location.reload()" style="margin-top: 20px;">重新開始</button>
+        <div class="score-display" id="final-score"></div>
+        <div style="margin: 30px 0;">
+            <button class="btn-action" onclick="showReview()" style="margin-bottom: 15px;">查看答題詳情</button>
+            <button class="btn-action" onclick="location.reload()" style="background-color: var(--duo-blue); box-shadow: 0 5px 0 #0a9cda;">重新開始</button>
+        </div>
+    </div>
+
+    <div id="review-screen">
+        <div class="review-header">
+            <h2>📊 答題回顧</h2>
+            <div class="score-display" id="review-score"></div>
+        </div>
+        
+        <div id="review-list"></div>
+        
+        <div class="review-buttons">
+            <button class="btn-action" onclick="showFinalScreen()" style="background-color: var(--duo-gray); box-shadow: 0 5px 0 #999;">返回結果</button>
+            <button class="btn-action" onclick="location.reload()">重新挑戰</button>
+        </div>
     </div>
 
     <div class="footer" id="footer-bar">
@@ -300,6 +428,8 @@
     let quizData = null;
     let canSelect = true;
     let totalQuestions = 0;
+    let userAnswers = []; // 儲存用戶的答案
+    let userResults = []; // 儲存每題的對錯結果
 
     // 載入測驗數據
     async function loadQuizData() {
@@ -324,6 +454,8 @@
         }
         
         totalQuestions = quizData.questions.length;
+        userAnswers = new Array(totalQuestions).fill(null);
+        userResults = new Array(totalQuestions).fill(false);
         
         // 更新進度追蹤
         updateProgressInfo();
@@ -432,6 +564,11 @@
         // 禁止再次選擇
         canSelect = false;
         
+        // 保存用戶答案和結果
+        userAnswers[currentQuestionIndex] = selectedOption;
+        const isCorrect = selectedOption === question.a;
+        userResults[currentQuestionIndex] = isCorrect;
+        
         // 高亮顯示正確和錯誤答案
         const allOptions = document.querySelectorAll('.option-item');
         allOptions.forEach((option, index) => {
@@ -443,7 +580,7 @@
         });
         
         // 顯示反饋
-        if (selectedOption === question.a) {
+        if (isCorrect) {
             score++;
             feedbackTray.className = 'tray-correct';
             trayTitle.textContent = '答對了！';
@@ -467,12 +604,12 @@
             loadQuestion();
         } else {
             // 顯示最終結果
-            showFinalResults();
+            showFinalScreen();
         }
     }
 
-    // 顯示最終結果
-    function showFinalResults() {
+    // 顯示最終結果畫面
+    function showFinalScreen() {
         document.getElementById('quiz-ui').style.display = 'none';
         document.getElementById('footer-bar').style.display = 'none';
         document.getElementById('section-name').style.display = 'none';
@@ -494,7 +631,97 @@
         }
         
         document.getElementById('final-msg').textContent = message;
-        document.getElementById('final-score').textContent = `得分：${score} / ${totalQuestions} (${scorePercent}%)`;
+        document.getElementById('final-score').textContent = `${score} / ${totalQuestions}`;
+    }
+
+    // 顯示答題回顧
+    function showReview() {
+        document.getElementById('final-screen').style.display = 'none';
+        document.getElementById('review-screen').style.display = 'block';
+        
+        // 更新回顧頁面的分數
+        document.getElementById('review-score').textContent = `${score} / ${totalQuestions}`;
+        
+        // 生成回顧內容
+        const reviewList = document.getElementById('review-list');
+        reviewList.innerHTML = '';
+        
+        let currentSection = '';
+        
+        quizData.questions.forEach((question, index) => {
+            const userAnswer = userAnswers[index];
+            const isCorrect = userResults[index];
+            const correctAnswer = question.a;
+            
+            // 檢查是否需要顯示小節標題
+            if (question.section !== currentSection) {
+                currentSection = question.section;
+                const sectionTitle = document.createElement('div');
+                sectionTitle.className = 'review-section-title';
+                sectionTitle.textContent = currentSection;
+                reviewList.appendChild(sectionTitle);
+            }
+            
+            // 創建回顧項目
+            const reviewItem = document.createElement('div');
+            reviewItem.className = 'review-item';
+            
+            // 題目
+            const questionDiv = document.createElement('div');
+            questionDiv.className = 'review-question';
+            questionDiv.textContent = `${index + 1}. ${question.q}`;
+            reviewItem.appendChild(questionDiv);
+            
+            // 選項
+            const optionsDiv = document.createElement('div');
+            optionsDiv.className = 'review-options';
+            
+            question.o.forEach((option, optionIndex) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'review-option';
+                optionDiv.textContent = option;
+                
+                // 標記正確答案
+                if (optionIndex === correctAnswer) {
+                    optionDiv.classList.add('review-correct-option');
+                }
+                
+                // 標記用戶答案
+                if (optionIndex === userAnswer) {
+                    optionDiv.classList.add('review-user-answer');
+                    if (!isCorrect) {
+                        optionDiv.classList.add('review-wrong-answer');
+                    }
+                }
+                
+                optionsDiv.appendChild(optionDiv);
+            });
+            
+            reviewItem.appendChild(optionsDiv);
+            
+            // 答題結果
+            const resultDiv = document.createElement('div');
+            resultDiv.className = `review-result ${isCorrect ? 'review-result-correct' : 'review-result-wrong'}`;
+            resultDiv.textContent = isCorrect ? '✓ 答對了' : '✗ 答錯了';
+            reviewItem.appendChild(resultDiv);
+            
+            // 答案解析
+            const explanationDiv = document.createElement('div');
+            explanationDiv.className = 'review-explanation';
+            explanationDiv.textContent = question.d;
+            reviewItem.appendChild(explanationDiv);
+            
+            reviewList.appendChild(reviewItem);
+        });
+        
+        // 滾動到頂部
+        window.scrollTo(0, 0);
+    }
+
+    // 從回顧畫面返回最終結果畫面
+    function showFinalScreen() {
+        document.getElementById('review-screen').style.display = 'none';
+        document.getElementById('final-screen').style.display = 'block';
     }
 
     // 頁面載入時開始
