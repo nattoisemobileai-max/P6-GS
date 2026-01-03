@@ -440,50 +440,116 @@
                 <h1 style="text-align: center; margin-bottom: 30px; font-size: 2.5rem; color: var(--duo-green);">
                     <i class="fas fa-road"></i> 學習進度
                 </h1>
-                <p style="text-align: center; color: var(--text-light); margin-bottom: 40px;">
-                    查看您的學習路徑，繼續完成下一個單元。
-                </p>
-                
-                <!-- 進度路徑容器 -->
-                <div class="progress-path" style="position: relative; margin-bottom: 40px;">
-                    <div class="path-line" style="position: absolute; top: 0; left: 50px; width: 4px; height: 100%; background-color: var(--duo-green); z-index: 1;"></div>
-                    
-                    <div class="course-container" style="position: relative; z-index: 2; display: flex; flex-direction: column; gap: 30px;">
-                        <!-- 課程單元示例 -->
-                        <div class="course-unit" style="display: flex; align-items: flex-start; gap: 25px;">
-                            <div class="unit-number" style="width: 50px; height: 50px; background-color: var(--duo-green); border-radius: 50%; border: 4px solid var(--duo-green); display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.3rem; color: white; flex-shrink: 0; z-index: 3;">1</div>
-                            <div class="unit-content" style="flex: 1; background-color: white; border-radius: 15px; padding: 20px; box-shadow: var(--shadow-light); border-left: 5px solid var(--duo-green);">
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                                    <h2 style="font-size: 1.4rem; font-weight: 900; color: var(--text-main);">GS-6-2</h2>
-                                    <div style="padding: 5px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; background-color: rgba(88, 204, 2, 0.15); color: var(--duo-green);">已完成</div>
-                                </div>
-                                <p style="font-size: 1rem; color: var(--text-light); margin-bottom: 15px;">基礎單元：建立核心概念</p>
-                                <p style="font-size: 0.95rem; color: var(--text-main); line-height: 1.6;">
-                                    本單元介紹了基礎概念和原理，為後續學習打下堅實基礎。
-                                    已完成所有練習和測驗，掌握程度：優秀。
-                                </p>
-                            </div>
-                        </div>
-                        
-                        <div class="course-unit" style="display: flex; align-items: flex-start; gap: 25px;">
-                            <div class="unit-number" style="width: 50px; height: 50px; background-color: var(--duo-blue); border-radius: 50%; border: 4px solid var(--duo-blue); display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.3rem; color: white; flex-shrink: 0; z-index: 3; box-shadow: 0 0 0 4px rgba(28, 176, 246, 0.2);">2</div>
-                            <div class="unit-content" style="flex: 1; background-color: white; border-radius: 15px; padding: 20px; box-shadow: var(--shadow-light); border-left: 5px solid var(--duo-blue);">
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                                    <h2 style="font-size: 1.4rem; font-weight: 900; color: var(--text-main);">GS-6-3</h2>
-                                    <div style="padding: 5px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; background-color: var(--duo-light-blue); color: var(--duo-blue);">進行中</div>
-                                </div>
-                                <p style="font-size: 1rem; color: var(--text-light); margin-bottom: 15px;">進階應用：概念延伸與實踐</p>
-                                <p style="font-size: 0.95rem; color: var(--text-main); line-height: 1.6;">
-                                    目前正在學習如何將基礎概念應用於實際情境中。
-                                    已完成本單元60%的內容，還需要完成3個練習和最終測驗。
-                                </p>
-                                <button class="action-btn" style="margin-top: 15px;">繼續學習</button>
-                            </div>
-                        </div>
+                <div class="subject-header">
+        <h1 class="subject-title">GS課程進度</h1>
+        <p class="subject-subtitle">按照您的學習進度逐步解鎖新單元</p>
+    </div>
+
+    <div class="progress-path">
+        <div class="path-line completed" id="progress-line"></div>
+        
+        <div class="course-container">
+            <!-- GS-6-2 已完成 -->
+            <div class="course-unit">
+                <div class="unit-number completed">1</div>
+                <div class="unit-content completed">
+                    <div class="unit-header">
+                        <h2 class="unit-title">GS-6-2</h2>
+                        <div class="unit-status status-completed">已完成</div>
                     </div>
+                    <p class="unit-subtitle">基礎單元：建立核心概念</p>
+                    <p class="unit-description">
+                        已完成所有練習和測驗，掌握程度：優秀。
+                    </p>
                 </div>
             </div>
+            
+            <!-- GS-6-3 進行中 -->
+            <div class="course-unit">
+                <div class="unit-number current">2</div>
+                <div class="unit-content current">
+                    <div class="unit-header">
+                        <h2 class="unit-title">GS-6-3</h2>
+                        <div class="unit-status status-in-progress">進行中</div>
+                    </div>
+                    <p class="unit-subtitle">進階應用：概念延伸與實踐</p>
+                    <p class="unit-description">
+                        已完成本單元60%的內容，還需要完成3個練習和最終測驗。
+                    </p>
+                </div>
+            </div>
+            
+            <!-- GS-6-4 未開始 -->
+            <div class="course-unit">
+                <div class="unit-number">3</div>
+                <div class="unit-content">
+                    <div class="unit-header">
+                        <h2 class="unit-title">GS-6-4</h2>
+                        <div class="unit-status status-not-started">未開始</div>
+                    </div>
+                    <p class="unit-subtitle">高級整合：跨領域應用</p>
+                    <p class="unit-description">
+                        解鎖條件：完成GS-6-3單元。
+                    </p>
+                </div>
+            </div>
+            
+            <!-- 特殊單元：跳轉到GS-1-1 -->
+            <div class="course-unit special-unit">
+                <div class="unit-number">跳</div>
+                <div class="unit-content">
+                    <div class="unit-header">
+                        <h2 class="unit-title">快速跳轉單元</h2>
+                        <div class="unit-status status-in-progress">可選</div>
+                    </div>
+                    <p class="unit-subtitle">基礎複習與強化</p>
+                    <p class="unit-description">
+                        如果您需要複習基礎概念或強化特定技能，可以跳轉到GS-1系列單元。
+                        這些單元將幫助您鞏固基礎知識。
+                    </p>
+                    <a href="#gs1-units" class="jump-button">跳轉到GS-1單元</a>
+                </div>
+            </div>
+            
+            <!-- GS-1-1 已完成 -->
+            <div class="course-unit" id="gs1-units">
+                <div class="unit-number completed">4</div>
+                <div class="unit-content completed">
+                    <div class="unit-header">
+                        <h2 class="unit-title">GS-1-1</h2>
+                        <div class="unit-status status-completed">已完成</div>
+                    </div>
+                    <p class="unit-subtitle">第一冊第1課::簡單急救</p>
+                    <p class="unit-description">
+                        已完成所有練習，掌握程度：良好。
+                    </p>
+                </div>
+            </div>
+            
+            <!-- GS-1-2 進行中 -->
+            <div class="course-unit">
+                <div class="unit-number current">5</div>
+                <div class="unit-content current">
+                    <div class="unit-header">
+                        <h2 class="unit-title">GS-1-2</h2>
+                        <div class="unit-status status-in-progress">進行中</div>
+                    </div>
+                    <p class="unit-subtitle">第一冊第2課::急救和自救</p>
+                    <p class="unit-description">
+                        已完成本單元40%的內容，還需要完成5個練習和1個測驗。
+                    </p>
+                </div>
+            </div>
+            
+            <div class="footer-nav">
+                <button class="nav-button prev" onclick="goToPrevious()">上一個單元</button>
+                <button class="nav-button next" onclick="goToNext()">繼續學習 GS-6-3</button>
+            </div>
         </div>
+    </div>
+
+
+
         
         <!-- 學習追蹤模塊 -->
         <div class="module" id="tracking">
