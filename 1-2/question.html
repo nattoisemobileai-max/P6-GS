@@ -338,7 +338,6 @@
         }
         
         .next-btn-text {
-            color: var(--duo-blue);
             font-size: 1em;
             font-weight: 700;
         }
@@ -358,6 +357,106 @@
             padding: 8px 15px;
             background-color: #f0f9ff;
             border-radius: 8px;
+        }
+        
+        /* 小節表現 */
+        .section-performance {
+            width: 90%;
+            max-width: 600px;
+            margin: 20px 0;
+        }
+        
+        .performance-card {
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 15px;
+            background-color: #fff;
+            border: 2px solid var(--duo-light-gray);
+        }
+        
+        .performance-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .performance-title {
+            font-weight: 700;
+            font-size: 1.1em;
+            color: var(--text-main);
+        }
+        
+        .performance-score {
+            font-weight: 900;
+            font-size: 1.2em;
+        }
+        
+        .performance-bar {
+            height: 10px;
+            background-color: var(--duo-light-gray);
+            border-radius: 5px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        
+        .performance-fill {
+            height: 100%;
+            background-color: var(--duo-green);
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+        
+        .performance-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: var(--duo-gray);
+        }
+        
+        .performance-best {
+            border-color: var(--duo-green);
+            background-color: #f0fff0;
+        }
+        
+        .performance-worst {
+            border-color: var(--duo-red);
+            background-color: #fff0f0;
+        }
+        
+        .best-section-badge {
+            background-color: var(--duo-green);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 700;
+            margin-left: 10px;
+        }
+        
+        .worst-section-badge {
+            background-color: var(--duo-red);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 700;
+            margin-left: 10px;
+        }
+        
+        .section-comparison {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 15px;
+        }
+        
+        .comparison-title {
+            font-weight: 700;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            color: var(--text-main);
         }
     </style>
 </head>
@@ -385,6 +484,10 @@
         <h1 style="font-size: 4em;">🏆</h1>
         <h2 id="final-msg">你完成了所有挑戰！</h2>
         <div class="score-display" id="final-score"></div>
+        
+        <!-- 小節表現 -->
+        <div id="section-performance-container" style="width: 100%; margin: 30px 0;"></div>
+        
         <div style="margin: 30px 0;">
             <button class="btn-action" onclick="showReview()" style="margin-bottom: 15px;">查看答題詳情</button>
             <button class="btn-action" onclick="location.reload()" style="background-color: var(--duo-blue); box-shadow: 0 5px 0 #0a9cda;">重新開始</button>
@@ -431,6 +534,7 @@
     let totalQuestions = 0;
     let userAnswers = []; // 儲存用戶的答案
     let userResults = []; // 儲存每題的對錯結果
+    let sectionPerformance = {}; // 儲存小節表現數據
 
     // 載入測驗數據
     async function loadQuizData() {
@@ -457,6 +561,21 @@
         totalQuestions = quizData.questions.length;
         userAnswers = new Array(totalQuestions).fill(null);
         userResults = new Array(totalQuestions).fill(false);
+        sectionPerformance = {};
+        
+        // 初始化小節表現數據
+        quizData.questions.forEach((question, index) => {
+            const section = question.section;
+            if (!sectionPerformance[section]) {
+                sectionPerformance[section] = {
+                    total: 0,
+                    correct: 0,
+                    questionIndices: []
+                };
+            }
+            sectionPerformance[section].total++;
+            sectionPerformance[section].questionIndices.push(index);
+        });
         
         // 更新進度追蹤
         updateProgressInfo();
@@ -515,7 +634,7 @@
         canSelect = true;
         document.getElementById('check-btn').disabled = true;
         
-        // 隱藏反饋面板
+        // 確保反饋面板隱藏
         document.getElementById('feedback-tray').style.bottom = '-350px';
         
         // 更新下一題按鈕文字
@@ -570,6 +689,12 @@
         const isCorrect = selectedOption === question.a;
         userResults[currentQuestionIndex] = isCorrect;
         
+        // 更新小節表現數據
+        if (isCorrect) {
+            score++;
+            sectionPerformance[question.section].correct++;
+        }
+        
         // 高亮顯示正確和錯誤答案
         const allOptions = document.querySelectorAll('.option-item');
         allOptions.forEach((option, index) => {
@@ -582,7 +707,6 @@
         
         // 顯示反饋
         if (isCorrect) {
-            score++;
             feedbackTray.className = 'tray-correct';
             trayTitle.textContent = '答對了！';
         } else {
@@ -599,6 +723,9 @@
 
     // 載入下一題
     function loadNext() {
+        // 隱藏反饋面板（修復bug）
+        document.getElementById('feedback-tray').style.bottom = '-350px';
+        
         currentQuestionIndex++;
         
         if (currentQuestionIndex < totalQuestions) {
@@ -611,6 +738,9 @@
 
     // 顯示最終結果畫面
     function showFinalScreen() {
+        // 確保反饋面板隱藏（修復bug）
+        document.getElementById('feedback-tray').style.bottom = '-350px';
+        
         document.getElementById('quiz-ui').style.display = 'none';
         document.getElementById('footer-bar').style.display = 'none';
         document.getElementById('section-name').style.display = 'none';
@@ -633,6 +763,124 @@
         
         document.getElementById('final-msg').textContent = message;
         document.getElementById('final-score').textContent = `${score} / ${totalQuestions}`;
+        
+        // 顯示小節表現
+        displaySectionPerformance();
+    }
+
+    // 顯示小節表現
+    function displaySectionPerformance() {
+        const container = document.getElementById('section-performance-container');
+        container.innerHTML = '';
+        
+        // 計算最佳和最差小節
+        let bestSection = null;
+        let bestScore = -1;
+        let worstSection = null;
+        let worstScore = 101;
+        
+        Object.keys(sectionPerformance).forEach(section => {
+            const performance = sectionPerformance[section];
+            const scorePercent = Math.round((performance.correct / performance.total) * 100);
+            
+            if (scorePercent > bestScore) {
+                bestScore = scorePercent;
+                bestSection = section;
+            }
+            
+            if (scorePercent < worstScore) {
+                worstScore = scorePercent;
+                worstSection = section;
+            }
+        });
+        
+        // 創建小節比較標題
+        const comparisonDiv = document.createElement('div');
+        comparisonDiv.className = 'section-comparison';
+        
+        const comparisonTitle = document.createElement('div');
+        comparisonTitle.className = 'comparison-title';
+        comparisonTitle.textContent = '📈 各小節表現比較';
+        comparisonDiv.appendChild(comparisonTitle);
+        
+        container.appendChild(comparisonDiv);
+        
+        // 為每個小節創建表現卡片
+        Object.keys(sectionPerformance).forEach(section => {
+            const performance = sectionPerformance[section];
+            const scorePercent = Math.round((performance.correct / performance.total) * 100);
+            
+            const card = document.createElement('div');
+            card.className = 'performance-card';
+            
+            // 標記最佳和最差小節
+            if (section === bestSection) {
+                card.classList.add('performance-best');
+            } else if (section === worstSection) {
+                card.classList.add('performance-worst');
+            }
+            
+            // 標題部分
+            const header = document.createElement('div');
+            header.className = 'performance-header';
+            
+            const title = document.createElement('div');
+            title.className = 'performance-title';
+            title.textContent = section;
+            
+            if (section === bestSection) {
+                const bestBadge = document.createElement('span');
+                bestBadge.className = 'best-section-badge';
+                bestBadge.textContent = '最佳表現';
+                title.appendChild(bestBadge);
+            } else if (section === worstSection) {
+                const worstBadge = document.createElement('span');
+                worstBadge.className = 'worst-section-badge';
+                worstBadge.textContent = '需要加強';
+                title.appendChild(worstBadge);
+            }
+            
+            const score = document.createElement('div');
+            score.className = 'performance-score';
+            score.style.color = scorePercent >= 80 ? 'var(--duo-green)' : 
+                              scorePercent >= 60 ? 'var(--duo-blue)' : 
+                              'var(--duo-red)';
+            score.textContent = `${performance.correct}/${performance.total}`;
+            
+            header.appendChild(title);
+            header.appendChild(score);
+            card.appendChild(header);
+            
+            // 進度條
+            const bar = document.createElement('div');
+            bar.className = 'performance-bar';
+            
+            const fill = document.createElement('div');
+            fill.className = 'performance-fill';
+            fill.style.width = `${scorePercent}%`;
+            fill.style.backgroundColor = scorePercent >= 80 ? 'var(--duo-green)' : 
+                                       scorePercent >= 60 ? 'var(--duo-blue)' : 
+                                       'var(--duo-red)';
+            
+            bar.appendChild(fill);
+            card.appendChild(bar);
+            
+            // 統計數據
+            const stats = document.createElement('div');
+            stats.className = 'performance-stats';
+            
+            const percent = document.createElement('div');
+            percent.textContent = `正確率: ${scorePercent}%`;
+            
+            const count = document.createElement('div');
+            count.textContent = `題數: ${performance.total}題`;
+            
+            stats.appendChild(percent);
+            stats.appendChild(count);
+            card.appendChild(stats);
+            
+            container.appendChild(card);
+        });
     }
 
     // 顯示答題回顧
