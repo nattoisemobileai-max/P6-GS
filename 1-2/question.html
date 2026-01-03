@@ -372,6 +372,7 @@
             border-radius: 15px;
             background-color: #fff;
             border: 2px solid var(--duo-light-gray);
+            position: relative;
         }
         
         .performance-header {
@@ -414,6 +415,12 @@
             color: var(--duo-gray);
         }
         
+        .performance-perfect {
+            border-color: var(--duo-green);
+            background-color: #f8fff0;
+            border-width: 3px;
+        }
+        
         .performance-best {
             border-color: var(--duo-green);
             background-color: #f0fff0;
@@ -422,6 +429,20 @@
         .performance-worst {
             border-color: var(--duo-red);
             background-color: #fff0f0;
+        }
+        
+        .perfect-badge {
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            background-color: var(--duo-green);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 700;
+            box-shadow: 0 3px 0 var(--duo-dark-green);
+            z-index: 1;
         }
         
         .best-section-badge {
@@ -458,6 +479,40 @@
             margin-bottom: 15px;
             color: var(--text-main);
         }
+        
+        .perfect-score-badge {
+            display: inline-block;
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: 900;
+            margin: 10px 0;
+            box-shadow: 0 4px 0 #cc8400;
+        }
+        
+        .perfect-sections-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .perfect-section-badge {
+            background: linear-gradient(45deg, var(--duo-green), #46a302);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .badge-icon {
+            font-size: 1.2em;
+        }
     </style>
 </head>
 <body>
@@ -484,6 +539,9 @@
         <h1 style="font-size: 4em;">🏆</h1>
         <h2 id="final-msg">你完成了所有挑戰！</h2>
         <div class="score-display" id="final-score"></div>
+        
+        <!-- 全對小節徽章 -->
+        <div id="perfect-sections-container" class="perfect-sections-container"></div>
         
         <!-- 小節表現 -->
         <div id="section-performance-container" style="width: 100%; margin: 30px 0;"></div>
@@ -535,6 +593,8 @@
     let userAnswers = []; // 儲存用戶的答案
     let userResults = []; // 儲存每題的對錯結果
     let sectionPerformance = {}; // 儲存小節表現數據
+    let randomizedQuestions = []; // 隨機排序後的題目
+    let originalQuestionOrder = []; // 原始題目順序映射
 
     // 載入測驗數據
     async function loadQuizData() {
@@ -558,13 +618,16 @@
             return;
         }
         
-        totalQuestions = quizData.questions.length;
+        // 隨機排序題目
+        randomizeQuestions();
+        
+        totalQuestions = randomizedQuestions.length;
         userAnswers = new Array(totalQuestions).fill(null);
         userResults = new Array(totalQuestions).fill(false);
         sectionPerformance = {};
         
         // 初始化小節表現數據
-        quizData.questions.forEach((question, index) => {
+        randomizedQuestions.forEach((question, index) => {
             const section = question.section;
             if (!sectionPerformance[section]) {
                 sectionPerformance[section] = {
@@ -584,6 +647,57 @@
         loadQuestion();
     }
 
+    // 隨機排序題目
+    function randomizeQuestions() {
+        if (!quizData) return;
+        
+        // 複製原始題目
+        const questionsCopy = [...quizData.questions];
+        
+        // 對每個小節內的題目進行隨機排序
+        const sections = {};
+        
+        // 按小節分組
+        questionsCopy.forEach(question => {
+            if (!sections[question.section]) {
+                sections[question.section] = [];
+            }
+            sections[question.section].push(question);
+        });
+        
+        // 隨機排序每個小節內的題目
+        Object.keys(sections).forEach(section => {
+            sections[section] = shuffleArray(sections[section]);
+        });
+        
+        // 合併所有小節的題目（保持小節順序）
+        randomizedQuestions = [];
+        const sectionOrder = ['小節一：家居危機（火警與氣體）', '小節二：郊遊與急救', '小節三：道路安全與救援'];
+        
+        sectionOrder.forEach(section => {
+            if (sections[section]) {
+                randomizedQuestions.push(...sections[section]);
+            }
+        });
+        
+        // 記錄原始題目順序映射
+        originalQuestionOrder = randomizedQuestions.map((q, index) => {
+            return quizData.questions.findIndex(originalQ => 
+                originalQ.q === q.q && originalQ.section === q.section
+            );
+        });
+    }
+
+    // Fisher-Yates 洗牌算法
+    function shuffleArray(array) {
+        const shuffled = [...array];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        return shuffled;
+    }
+
     // 更新進度追蹤資訊
     function updateProgressInfo() {
         document.getElementById('completed-count').textContent = currentQuestionIndex;
@@ -592,9 +706,9 @@
 
     // 載入題目
     function loadQuestion() {
-        if (!quizData) return;
+        if (!randomizedQuestions || randomizedQuestions.length === 0) return;
         
-        const question = quizData.questions[currentQuestionIndex];
+        const question = randomizedQuestions[currentQuestionIndex];
         
         // 更新進度追蹤
         updateProgressInfo();
@@ -674,9 +788,9 @@
 
     // 檢查答案
     function handleCheck() {
-        if (selectedOption === null || !canSelect || !quizData) return;
+        if (selectedOption === null || !canSelect || !randomizedQuestions) return;
         
-        const question = quizData.questions[currentQuestionIndex];
+        const question = randomizedQuestions[currentQuestionIndex];
         const feedbackTray = document.getElementById('feedback-tray');
         const trayTitle = document.getElementById('tray-title');
         const trayDesc = document.getElementById('tray-desc');
@@ -764,8 +878,47 @@
         document.getElementById('final-msg').textContent = message;
         document.getElementById('final-score').textContent = `${score} / ${totalQuestions}`;
         
+        // 顯示全對小節徽章
+        displayPerfectSectionBadges();
+        
         // 顯示小節表現
         displaySectionPerformance();
+    }
+
+    // 顯示全對小節徽章
+    function displayPerfectSectionBadges() {
+        const container = document.getElementById('perfect-sections-container');
+        container.innerHTML = '';
+        
+        // 找出全對的小節
+        const perfectSections = [];
+        
+        Object.keys(sectionPerformance).forEach(section => {
+            const performance = sectionPerformance[section];
+            const scorePercent = Math.round((performance.correct / performance.total) * 100);
+            
+            if (scorePercent === 100) {
+                perfectSections.push({
+                    name: section,
+                    correct: performance.correct,
+                    total: performance.total
+                });
+            }
+        });
+        
+        // 如果有全對的小節，顯示徽章
+        if (perfectSections.length > 0) {
+            perfectSections.forEach(section => {
+                const badge = document.createElement('div');
+                badge.className = 'perfect-section-badge';
+                badge.innerHTML = `
+                    <span class="badge-icon">🏅</span>
+                    <span>${section.name.replace('小節一：', '').replace('小節二：', '').replace('小節三：', '')}</span>
+                    <span>(${section.correct}/${section.total})</span>
+                `;
+                container.appendChild(badge);
+            });
+        }
     }
 
     // 顯示小節表現
@@ -809,12 +962,20 @@
         Object.keys(sectionPerformance).forEach(section => {
             const performance = sectionPerformance[section];
             const scorePercent = Math.round((performance.correct / performance.total) * 100);
+            const isPerfect = scorePercent === 100;
             
             const card = document.createElement('div');
             card.className = 'performance-card';
             
-            // 標記最佳和最差小節
-            if (section === bestSection) {
+            // 標記表現類型
+            if (isPerfect) {
+                card.classList.add('performance-perfect');
+                // 添加全對徽章
+                const perfectBadge = document.createElement('div');
+                perfectBadge.className = 'perfect-badge';
+                perfectBadge.textContent = '全對 🎯';
+                card.appendChild(perfectBadge);
+            } else if (section === bestSection) {
                 card.classList.add('performance-best');
             } else if (section === worstSection) {
                 card.classList.add('performance-worst');
@@ -828,7 +989,12 @@
             title.className = 'performance-title';
             title.textContent = section;
             
-            if (section === bestSection) {
+            if (isPerfect) {
+                const perfectBadge = document.createElement('span');
+                perfectBadge.className = 'best-section-badge';
+                perfectBadge.textContent = '完美';
+                title.appendChild(perfectBadge);
+            } else if (section === bestSection && !isPerfect) {
                 const bestBadge = document.createElement('span');
                 bestBadge.className = 'best-section-badge';
                 bestBadge.textContent = '最佳表現';
@@ -842,7 +1008,8 @@
             
             const score = document.createElement('div');
             score.className = 'performance-score';
-            score.style.color = scorePercent >= 80 ? 'var(--duo-green)' : 
+            score.style.color = isPerfect ? 'var(--duo-green)' : 
+                              scorePercent >= 80 ? 'var(--duo-green)' : 
                               scorePercent >= 60 ? 'var(--duo-blue)' : 
                               'var(--duo-red)';
             score.textContent = `${performance.correct}/${performance.total}`;
@@ -858,9 +1025,10 @@
             const fill = document.createElement('div');
             fill.className = 'performance-fill';
             fill.style.width = `${scorePercent}%`;
-            fill.style.backgroundColor = scorePercent >= 80 ? 'var(--duo-green)' : 
-                                       scorePercent >= 60 ? 'var(--duo-blue)' : 
-                                       'var(--duo-red)';
+            fill.style.backgroundColor = isPerfect ? 'var(--duo-green)' : 
+                                         scorePercent >= 80 ? 'var(--duo-green)' : 
+                                         scorePercent >= 60 ? 'var(--duo-blue)' : 
+                                         'var(--duo-red)';
             
             bar.appendChild(fill);
             card.appendChild(bar);
@@ -897,7 +1065,7 @@
         
         let currentSection = '';
         
-        quizData.questions.forEach((question, index) => {
+        randomizedQuestions.forEach((question, index) => {
             const userAnswer = userAnswers[index];
             const isCorrect = userResults[index];
             const correctAnswer = question.a;
