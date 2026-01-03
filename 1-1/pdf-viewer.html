@@ -1,1 +1,1625 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>急救知識手冊 - GS學習平台</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- PDF.js 庫 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <style>
+        :root {
+            --duo-green: #58cc02;
+            --duo-dark-green: #46a302;
+            --duo-blue: #1cb0f6;
+            --duo-red: #ff4b4b;
+            --duo-yellow: #ffcd00;
+            --duo-orange: #ff6b35;
+            --duo-purple: #9b59b6;
+            --duo-gray: #afafaf;
+            --duo-light-gray: #e5e5e5;
+            --duo-light-blue: #ddf4ff;
+            --text-main: #4b4b4b;
+            --text-light: #7a7a7a;
+            --shadow-light: 0 4px 8px rgba(0, 0, 0, 0.1);
+            --shadow-medium: 0 6px 12px rgba(0, 0, 0, 0.15);
+            --shadow-heavy: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #f0f2f5;
+            color: var(--text-main);
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        /* 頂部導航欄 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            padding: 15px 30px;
+            box-shadow: var(--shadow-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--duo-green), var(--duo-blue));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 900;
+            font-size: 1.5rem;
+        }
+
+        .logo-text {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: var(--duo-green);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-link {
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: var(--text-main);
+        }
+
+        .nav-link:hover {
+            background-color: var(--duo-light-blue);
+            color: var(--duo-blue);
+        }
+
+        .nav-link.active {
+            background-color: var(--duo-green);
+            color: white;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .profile-icon {
+            width: 45px;
+            height: 45px;
+            background-color: var(--duo-light-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--duo-blue);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        /* 主要內容區域 */
+        .main-content {
+            margin-top: 80px;
+            padding: 0;
+            min-height: calc(100vh - 80px);
+        }
+
+        /* PDF查看器容器 */
+        .pdf-viewer-container {
+            width: 100%;
+            height: calc(100vh - 80px);
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* PDF查看器頭部 */
+        .pdf-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            background-color: white;
+            border-bottom: 1px solid var(--duo-light-gray);
+            flex-shrink: 0;
+        }
+
+        .pdf-title-section {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .pdf-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--duo-red), #d63031);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .pdf-title-wrapper {
+            flex: 1;
+        }
+
+        .pdf-title {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: var(--text-main);
+            margin-bottom: 5px;
+        }
+
+        .pdf-subtitle {
+            font-size: 1rem;
+            color: var(--text-light);
+        }
+
+        .pdf-meta {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .pdf-size {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            padding: 5px 12px;
+            background-color: var(--duo-light-gray);
+            border-radius: 15px;
+        }
+
+        .pdf-pages {
+            font-size: 0.9rem;
+            color: white;
+            padding: 5px 12px;
+            background-color: var(--duo-blue);
+            border-radius: 15px;
+            font-weight: 700;
+        }
+
+        /* PDF工具欄 */
+        .pdf-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid var(--duo-light-gray);
+            flex-shrink: 0;
+        }
+
+        .toolbar-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .toolbar-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            background-color: white;
+            border: 2px solid var(--duo-light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-main);
+            transition: all 0.2s;
+            font-size: 1.1rem;
+        }
+
+        .toolbar-btn:hover {
+            background-color: var(--duo-light-blue);
+            border-color: var(--duo-blue);
+            color: var(--duo-blue);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-light);
+        }
+
+        .toolbar-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .page-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0 15px;
+            border-left: 1px solid var(--duo-light-gray);
+            border-right: 1px solid var(--duo-light-gray);
+        }
+
+        .page-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background-color: white;
+            border: 1px solid var(--duo-light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-main);
+            font-weight: 700;
+        }
+
+        .page-btn:hover {
+            background-color: var(--duo-light-blue);
+            border-color: var(--duo-blue);
+            color: var(--duo-blue);
+        }
+
+        .page-input-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .page-input {
+            width: 60px;
+            height: 36px;
+            border: 2px solid var(--duo-light-gray);
+            border-radius: 8px;
+            text-align: center;
+            font-family: 'Noto Sans TC', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--text-main);
+        }
+
+        .page-input:focus {
+            outline: none;
+            border-color: var(--duo-blue);
+        }
+
+        .page-total {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .zoom-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .zoom-btn {
+            width: 40px;
+            height: 36px;
+            border-radius: 8px;
+            background-color: white;
+            border: 1px solid var(--duo-light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-main);
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .zoom-btn:hover {
+            background-color: var(--duo-light-blue);
+            border-color: var(--duo-blue);
+            color: var(--duo-blue);
+        }
+
+        .zoom-display {
+            min-width: 70px;
+            text-align: center;
+            font-weight: 900;
+            color: var(--text-main);
+            font-size: 1rem;
+        }
+
+        .action-btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+
+        .action-btn.print {
+            background-color: var(--duo-green);
+            color: white;
+        }
+
+        .action-btn.print:hover {
+            background-color: var(--duo-dark-green);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-light);
+        }
+
+        .action-btn.download {
+            background-color: var(--duo-purple);
+            color: white;
+        }
+
+        .action-btn.download:hover {
+            background-color: #8e44ad;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-light);
+        }
+
+        .action-btn.fullscreen {
+            background-color: var(--duo-blue);
+            color: white;
+        }
+
+        .action-btn.fullscreen:hover {
+            background-color: #0a9cda;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-light);
+        }
+
+        /* PDF查看區域 */
+        .pdf-view-area {
+            flex: 1;
+            overflow: auto;
+            background-color: #525659;
+            position: relative;
+            padding: 30px;
+        }
+
+        .canvas-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        #pdf-canvas {
+            display: block;
+            margin: 0 auto;
+            box-shadow: var(--shadow-heavy);
+            background-color: white;
+            max-width: 100%;
+        }
+
+        /* 頁面縮略圖側邊欄 */
+        .thumbnail-sidebar {
+            position: fixed;
+            right: -350px;
+            top: 80px;
+            bottom: 0;
+            width: 350px;
+            background-color: white;
+            box-shadow: var(--shadow-heavy);
+            z-index: 999;
+            transition: right 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .thumbnail-sidebar.active {
+            right: 0;
+        }
+
+        .sidebar-header {
+            padding: 25px;
+            border-bottom: 1px solid var(--duo-light-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .sidebar-title {
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .close-sidebar {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background-color: var(--duo-light-gray);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-main);
+        }
+
+        .close-sidebar:hover {
+            background-color: var(--duo-red);
+            color: white;
+        }
+
+        .thumbnails-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .thumbnail-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .thumbnail {
+            position: relative;
+            border: 2px solid var(--duo-light-gray);
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.2s;
+            aspect-ratio: 1 / 1.414; /* A4比例 */
+            background-color: white;
+        }
+
+        .thumbnail:hover {
+            border-color: var(--duo-blue);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-light);
+        }
+
+        .thumbnail.active {
+            border-color: var(--duo-green);
+            box-shadow: 0 0 0 3px var(--duo-green);
+        }
+
+        .thumbnail canvas {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .page-number {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+
+        /* 加載狀態 */
+        .loading-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.95);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid var(--duo-light-gray);
+            border-top-color: var(--duo-blue);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 25px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-size: 1.2rem;
+            color: var(--text-main);
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .loading-subtext {
+            font-size: 1rem;
+            color: var(--text-light);
+            text-align: center;
+            max-width: 300px;
+        }
+
+        /* 錯誤狀態 */
+        .error-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .error-icon {
+            font-size: 5rem;
+            color: var(--duo-red);
+            margin-bottom: 25px;
+        }
+
+        .error-title {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--text-main);
+            margin-bottom: 15px;
+        }
+
+        .error-message {
+            color: var(--text-light);
+            margin-bottom: 35px;
+            line-height: 1.6;
+            max-width: 500px;
+        }
+
+        .retry-btn {
+            padding: 12px 30px;
+            background-color: var(--duo-blue);
+            color: white;
+            border-radius: 8px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s;
+        }
+
+        .retry-btn:hover {
+            background-color: #0a9cda;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-light);
+        }
+
+        /* 進度指示器 */
+        .progress-bar {
+            width: 300px;
+            height: 6px;
+            background-color: var(--duo-light-gray);
+            border-radius: 3px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--duo-blue);
+            border-radius: 3px;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* 全屏模式 */
+        .pdf-viewer-container.fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 2000;
+            margin: 0;
+            height: 100vh;
+        }
+
+        .fullscreen .navbar {
+            display: none;
+        }
+
+        .fullscreen .main-content {
+            margin-top: 0;
+            height: 100vh;
+        }
+
+        /* 頁面導航提示 */
+        .page-nav-hint {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 100;
+            opacity: 0.9;
+            transition: opacity 0.3s;
+        }
+
+        .page-nav-hint:hover {
+            opacity: 1;
+        }
+
+        .hint-icon {
+            font-size: 1.2rem;
+        }
+
+        /* 響應式設計 */
+        @media (max-width: 1200px) {
+            .thumbnail-sidebar {
+                width: 300px;
+                right: -300px;
+            }
+            
+            .thumbnail-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .navbar {
+                padding: 15px 20px;
+            }
+            
+            .nav-links {
+                gap: 15px;
+            }
+            
+            .pdf-header {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+            
+            .pdf-title-section {
+                width: 100%;
+            }
+            
+            .pdf-meta {
+                width: 100;
+                justify-content: flex-start;
+            }
+            
+            .pdf-toolbar {
+                padding: 15px 20px;
+                flex-wrap: wrap;
+                gap: 15px;
+                justify-content: center;
+            }
+            
+            .toolbar-section {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .pdf-view-area {
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+            }
+            
+            .user-profile {
+                margin-top: 10px;
+            }
+            
+            .main-content {
+                margin-top: 160px;
+            }
+            
+            .pdf-viewer-container {
+                height: calc(100vh - 160px);
+            }
+            
+            .thumbnail-sidebar {
+                top: 160px;
+                width: 100%;
+                right: -100%;
+            }
+            
+            .page-nav-hint {
+                display: none;
+            }
+            
+            .action-btn span {
+                display: none;
+            }
+            
+            .action-btn {
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .pdf-toolbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .toolbar-section {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .page-controls {
+                padding: 0 10px;
+            }
+            
+            .zoom-controls {
+                justify-content: center;
+            }
+            
+            .thumbnail-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .pdf-view-area {
+                padding: 10px;
+            }
+        }
+
+        /* 打印樣式 */
+        @media print {
+            .navbar,
+            .pdf-header,
+            .pdf-toolbar,
+            .thumbnail-sidebar,
+            .page-nav-hint {
+                display: none !important;
+            }
+            
+            .main-content {
+                margin-top: 0;
+            }
+            
+            .pdf-viewer-container {
+                height: auto;
+                box-shadow: none;
+            }
+            
+            .pdf-view-area {
+                padding: 0;
+                background-color: white;
+            }
+            
+            #pdf-canvas {
+                box-shadow: none;
+                max-width: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 頂部導航欄 -->
+    <nav class="navbar">
+        <div class="logo">
+            <div class="logo-icon">GS</div>
+            <div class="logo-text">GS學習平台</div>
+        </div>
+        
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">
+                <i class="fas fa-home"></i> 儀表板
+            </a>
+            <a href="progress.html" class="nav-link">
+                <i class="fas fa-road"></i> 學習進度
+            </a>
+            <a href="first-aid-pdf.html" class="nav-link active">
+                <i class="fas fa-file-pdf"></i> 急救手冊
+            </a>
+            <a href="my-units.html" class="nav-link">
+                <i class="fas fa-book"></i> 我的單元
+            </a>
+        </div>
+        
+        <div class="user-profile">
+            <div class="profile-icon"><i class="fas fa-user"></i></div>
+            <div>
+                <div style="font-weight: 700;">Jayden</div>
+                <div style="font-size: 0.85rem; color: var(--text-light);">等級 6</div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 頁面縮略圖側邊欄 -->
+    <div class="thumbnail-sidebar" id="thumbnail-sidebar">
+        <div class="sidebar-header">
+            <h3 class="sidebar-title">
+                <i class="fas fa-th-large"></i> 頁面縮略圖
+            </h3>
+            <button class="close-sidebar" id="close-sidebar">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="thumbnails-container">
+            <div class="thumbnail-grid" id="thumbnails-grid">
+                <!-- 縮略圖將由JavaScript動態生成 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 主要內容區域 -->
+    <main class="main-content">
+        <div class="pdf-viewer-container" id="pdf-viewer">
+            <!-- PDF頭部 -->
+            <div class="pdf-header">
+                <div class="pdf-title-section">
+                    <div class="pdf-icon">
+                        <i class="fas fa-file-medical"></i>
+                    </div>
+                    <div class="pdf-title-wrapper">
+                        <h1 class="pdf-title" id="pdf-title">急救知識手冊</h1>
+                        <p class="pdf-subtitle" id="pdf-subtitle">GS學習平台安全知識系列 · 官方教材</p>
+                    </div>
+                </div>
+                <div class="pdf-meta">
+                    <span class="pdf-size" id="pdf-size">2.4 MB</span>
+                    <span class="pdf-pages" id="pdf-pages">24 頁</span>
+                </div>
+            </div>
+
+            <!-- PDF工具欄 -->
+            <div class="pdf-toolbar">
+                <div class="toolbar-section">
+                    <!-- 頁面導航 -->
+                    <button class="toolbar-btn" id="first-page" title="第一頁">
+                        <i class="fas fa-fast-backward"></i>
+                    </button>
+                    <button class="toolbar-btn" id="prev-page" title="上一頁">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    
+                    <div class="page-controls">
+                        <div class="page-input-wrapper">
+                            <input type="number" class="page-input" id="page-num" value="1" min="1">
+                            <span class="page-total" id="page-count">/ 24</span>
+                        </div>
+                    </div>
+                    
+                    <button class="toolbar-btn" id="next-page" title="下一頁">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    <button class="toolbar-btn" id="last-page" title="最後一頁">
+                        <i class="fas fa-fast-forward"></i>
+                    </button>
+
+                    <!-- 縮放控制 -->
+                    <button class="toolbar-btn" id="zoom-out" title="縮小">
+                        <i class="fas fa-search-minus"></i>
+                    </button>
+                    <div class="zoom-controls">
+                        <button class="zoom-btn" id="zoom-50">50%</button>
+                        <button class="zoom-btn" id="zoom-75">75%</button>
+                        <span class="zoom-display" id="zoom-level">100%</span>
+                        <button class="zoom-btn" id="zoom-125">125%</button>
+                        <button class="zoom-btn" id="zoom-150">150%</button>
+                    </div>
+                    <button class="toolbar-btn" id="zoom-in" title="放大">
+                        <i class="fas fa-search-plus"></i>
+                    </button>
+                    <button class="toolbar-btn" id="zoom-fit" title="適應寬度">
+                        <i class="fas fa-expand"></i>
+                    </button>
+                </div>
+
+                <div class="toolbar-section">
+                    <!-- 視圖控制 -->
+                    <button class="toolbar-btn" id="toggle-thumbnails" title="顯示縮略圖">
+                        <i class="fas fa-th-large"></i>
+                    </button>
+                    <button class="toolbar-btn" id="rotate-left" title="向左旋轉">
+                        <i class="fas fa-redo fa-flip-horizontal"></i>
+                    </button>
+                    <button class="toolbar-btn" id="rotate-right" title="向右旋轉">
+                        <i class="fas fa-redo"></i>
+                    </button>
+
+                    <!-- 動作按鈕 -->
+                    <button class="action-btn print" id="print-pdf">
+                        <i class="fas fa-print"></i>
+                        <span>打印</span>
+                    </button>
+                    <button class="action-btn download" id="download-pdf">
+                        <i class="fas fa-download"></i>
+                        <span>下載</span>
+                    </button>
+                    <button class="action-btn fullscreen" id="fullscreen">
+                        <i class="fas fa-expand-arrows-alt"></i>
+                        <span>全屏</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- PDF查看區域 -->
+            <div class="pdf-view-area">
+                <div class="canvas-container">
+                    <canvas id="pdf-canvas"></canvas>
+                </div>
+                
+                <!-- 加載狀態 -->
+                <div class="loading-container" id="loading-container">
+                    <div class="loading-spinner"></div>
+                    <div class="loading-text">正在加載急救知識手冊...</div>
+                    <div class="loading-subtext">這可能需要幾秒鐘的時間，請稍候</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                </div>
+
+                <!-- 錯誤狀態 -->
+                <div class="error-container" id="error-container" style="display: none;">
+                    <div class="error-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <h3 class="error-title">無法加載急救手冊</h3>
+                    <p class="error-message" id="error-message">
+                        抱歉，目前無法加載急救知識手冊。請檢查您的網絡連接後重試。
+                    </p>
+                    <button class="retry-btn" id="retry-btn">
+                        <i class="fas fa-redo"></i>
+                        重新加載
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 頁面導航提示 -->
+    <div class="page-nav-hint" id="page-nav-hint">
+        <div class="hint-icon">
+            <i class="fas fa-info-circle"></i>
+        </div>
+        <div>使用左右箭頭鍵翻頁，+/- 鍵縮放</div>
+    </div>
+
+    <script>
+        // 全局變量
+        let pdfDoc = null;
+        let pageNum = 1;
+        let pageRendering = false;
+        let pageNumPending = null;
+        let scale = 1.0;
+        let rotation = 0;
+        let canvas = null;
+        let ctx = null;
+        let totalPages = 0;
+        
+        // 固定的PDF URL
+        const PDF_URL = 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf';
+        // 備用PDF URL（如果主URL失效）
+        const PDF_URL_FALLBACK = 'https://mozilla.github.io/pdf.js/web/compressed.tracemonkey-pldi-09.pdf';
+
+        // 初始化PDF查看器
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化畫布
+            canvas = document.getElementById('pdf-canvas');
+            ctx = canvas.getContext('2d');
+            
+            // 設置PDF.js工作線程
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+            
+            // 綁定事件監聽器
+            bindEvents();
+            
+            // 加載急救知識手冊PDF
+            loadFirstAidPDF();
+            
+            // 隱藏導航提示（5秒後）
+            setTimeout(() => {
+                const hint = document.getElementById('page-nav-hint');
+                if (hint) {
+                    hint.style.opacity = '0';
+                    setTimeout(() => {
+                        hint.style.display = 'none';
+                    }, 300);
+                }
+            }, 5000);
+        });
+
+        // 綁定所有事件
+        function bindEvents() {
+            // 頁面導航
+            document.getElementById('first-page').addEventListener('click', () => gotoPage(1));
+            document.getElementById('prev-page').addEventListener('click', prevPage);
+            document.getElementById('next-page').addEventListener('click', nextPage);
+            document.getElementById('last-page').addEventListener('click', () => gotoPage(totalPages || 1));
+            document.getElementById('page-num').addEventListener('change', function() {
+                gotoPage(parseInt(this.value));
+            });
+            
+            // 縮放控制
+            document.getElementById('zoom-in').addEventListener('click', zoomIn);
+            document.getElementById('zoom-out').addEventListener('click', zoomOut);
+            document.getElementById('zoom-fit').addEventListener('click', fitToWidth);
+            document.getElementById('zoom-50').addEventListener('click', () => setZoom(0.5));
+            document.getElementById('zoom-75').addEventListener('click', () => setZoom(0.75));
+            document.getElementById('zoom-125').addEventListener('click', () => setZoom(1.25));
+            document.getElementById('zoom-150').addEventListener('click', () => setZoom(1.5));
+            
+            // 工具欄功能
+            document.getElementById('toggle-thumbnails').addEventListener('click', toggleThumbnails);
+            document.getElementById('rotate-left').addEventListener('click', rotateLeft);
+            document.getElementById('rotate-right').addEventListener('click', rotateRight);
+            document.getElementById('print-pdf').addEventListener('click', printPDF);
+            document.getElementById('download-pdf').addEventListener('click', downloadPDF);
+            document.getElementById('fullscreen').addEventListener('click', toggleFullscreen);
+            document.getElementById('close-sidebar').addEventListener('click', toggleThumbnails);
+            
+            // 重新加載按鈕
+            document.getElementById('retry-btn').addEventListener('click', loadFirstAidPDF);
+            
+            // 全屏變化監聽
+            document.addEventListener('fullscreenchange', handleFullscreenChange);
+            document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+            document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+            
+            // 鍵盤快捷鍵
+            document.addEventListener('keydown', handleKeyboardShortcuts);
+        }
+
+        // 加載急救知識手冊PDF
+        function loadFirstAidPDF() {
+            showLoading();
+            hideError();
+            
+            // 模擬加載進度
+            simulateLoadingProgress();
+            
+            // 嘗試加載主URL
+            const loadingTask = pdfjsLib.getDocument(PDF_URL);
+            
+            loadingTask.promise.then(function(pdf) {
+                pdfDoc = pdf;
+                totalPages = pdf.numPages;
+                
+                // 更新頁面信息
+                updatePageInfo();
+                
+                // 重置頁碼和縮放
+                pageNum = 1;
+                scale = 1.0;
+                rotation = 0;
+                
+                // 渲染第一頁
+                renderPage(pageNum);
+                
+                // 生成縮略圖
+                generateThumbnails();
+                
+                hideLoading();
+                
+                // 更新標題為實際PDF信息
+                updatePDFInfo(pdf);
+                
+            }).catch(function(error) {
+                console.error('PDF加載錯誤，嘗試備用URL:', error);
+                
+                // 嘗試加載備用URL
+                const fallbackTask = pdfjsLib.getDocument(PDF_URL_FALLBACK);
+                
+                fallbackTask.promise.then(function(pdf) {
+                    pdfDoc = pdf;
+                    totalPages = pdf.numPages;
+                    
+                    // 更新頁面信息
+                    updatePageInfo();
+                    
+                    // 重置頁碼和縮放
+                    pageNum = 1;
+                    scale = 1.0;
+                    rotation = 0;
+                    
+                    // 渲染第一頁
+                    renderPage(pageNum);
+                    
+                    // 生成縮略圖
+                    generateThumbnails();
+                    
+                    hideLoading();
+                    
+                    // 更新標題為備用PDF信息
+                    document.getElementById('pdf-title').textContent = '示例急救手冊';
+                    document.getElementById('pdf-subtitle').textContent = '演示用PDF文檔';
+                    
+                }).catch(function(fallbackError) {
+                    console.error('備用PDF加載錯誤:', fallbackError);
+                    showError('無法加載PDF文檔。請檢查網絡連接或聯繫管理員。');
+                    hideLoading();
+                });
+            });
+        }
+
+        // 模擬加載進度
+        function simulateLoadingProgress() {
+            const progressFill = document.getElementById('progress-fill');
+            let progress = 0;
+            
+            const interval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress > 90) {
+                    progress = 90; // 保持在90%，直到實際加載完成
+                }
+                progressFill.style.width = `${progress}%`;
+            }, 200);
+            
+            // 清理定時器
+            setTimeout(() => {
+                clearInterval(interval);
+            }, 3000);
+        }
+
+        // 更新PDF信息
+        function updatePDFInfo(pdf) {
+            // 模擬文件大小（實際應用中可從服務器獲取）
+            const sizes = ['1.8 MB', '2.4 MB', '3.1 MB', '2.7 MB'];
+            const randomSize = sizes[Math.floor(Math.random() * sizes.length)];
+            document.getElementById('pdf-size').textContent = randomSize;
+            
+            // 獲取PDF文檔信息
+            pdf.getMetadata().then(function(metadata) {
+                if (metadata.info && metadata.info.Title) {
+                    document.getElementById('pdf-title').textContent = metadata.info.Title;
+                }
+            });
+        }
+
+        // 渲染頁面
+        function renderPage(num) {
+            if (!pdfDoc) return;
+            
+            pageRendering = true;
+            
+            pdfDoc.getPage(num).then(function(page) {
+                const viewport = page.getViewport({ scale: scale, rotation: rotation });
+                
+                // 設置畫布尺寸
+                const container = document.querySelector('.canvas-container');
+                const containerWidth = container.clientWidth;
+                
+                // 計算適合的寬度
+                const canvasWidth = Math.min(viewport.width, containerWidth - 40);
+                const canvasScale = canvasWidth / viewport.width;
+                
+                canvas.height = viewport.height * canvasScale;
+                canvas.width = canvasWidth;
+                
+                // 渲染頁面
+                const renderContext = {
+                    canvasContext: ctx,
+                    viewport: page.getViewport({ scale: scale * canvasScale, rotation: rotation })
+                };
+                
+                const renderTask = page.render(renderContext);
+                
+                renderTask.promise.then(function() {
+                    pageRendering = false;
+                    
+                    // 更新頁面信息
+                    updateCurrentPageInfo(num);
+                    
+                    // 更新縮略圖選中狀態
+                    updateThumbnailSelection(num);
+                    
+                    // 如果有待處理的頁面，渲染它
+                    if (pageNumPending !== null) {
+                        renderPage(pageNumPending);
+                        pageNumPending = null;
+                    }
+                }).catch(function(error) {
+                    console.error('頁面渲染錯誤:', error);
+                    pageRendering = false;
+                });
+            }).catch(function(error) {
+                console.error('獲取頁面錯誤:', error);
+                pageRendering = false;
+            });
+        }
+
+        // 生成縮略圖
+        function generateThumbnails() {
+            if (!pdfDoc) return;
+            
+            const container = document.getElementById('thumbnails-grid');
+            container.innerHTML = '';
+            
+            // 限制顯示的縮略圖數量以提高性能
+            const maxThumbnails = Math.min(totalPages, 30);
+            
+            for (let i = 1; i <= maxThumbnails; i++) {
+                createThumbnail(i, container);
+            }
+        }
+
+        // 創建單個縮略圖
+        function createThumbnail(pageNum, container) {
+            const thumbnail = document.createElement('div');
+            thumbnail.className = 'thumbnail';
+            thumbnail.dataset.page = pageNum;
+            
+            if (pageNum === 1) {
+                thumbnail.classList.add('active');
+            }
+            
+            const canvas = document.createElement('canvas');
+            const pageNumber = document.createElement('div');
+            pageNumber.className = 'page-number';
+            pageNumber.textContent = pageNum;
+            
+            thumbnail.appendChild(canvas);
+            thumbnail.appendChild(pageNumber);
+            
+            thumbnail.addEventListener('click', () => {
+                gotoPage(pageNum);
+                // 滾動到可見區域
+                thumbnail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            });
+            
+            container.appendChild(thumbnail);
+            
+            // 異步生成縮略圖
+            generateThumbnailImage(pageNum, canvas);
+        }
+
+        // 生成縮略圖圖片
+        function generateThumbnailImage(pageNum, canvas) {
+            pdfDoc.getPage(pageNum).then(function(page) {
+                const viewport = page.getViewport({ scale: 0.15, rotation: 0 });
+                const ctx = canvas.getContext('2d');
+                
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+                
+                const renderContext = {
+                    canvasContext: ctx,
+                    viewport: viewport
+                };
+                
+                page.render(renderContext);
+            });
+        }
+
+        // 更新當前頁面信息
+        function updateCurrentPageInfo(num) {
+            document.getElementById('page-num').value = num;
+            document.getElementById('zoom-level').textContent = `${Math.round(scale * 100)}%`;
+            
+            // 更新按鈕狀態
+            updateButtonStates(num);
+        }
+
+        // 更新頁面信息
+        function updatePageInfo() {
+            document.getElementById('page-count').textContent = `/ ${totalPages}`;
+            document.getElementById('pdf-pages').textContent = `${totalPages} 頁`;
+            document.getElementById('page-num').max = totalPages;
+        }
+
+        // 更新按鈕狀態
+        function updateButtonStates(currentPage) {
+            const firstPageBtn = document.getElementById('first-page');
+            const prevPageBtn = document.getElementById('prev-page');
+            const nextPageBtn = document.getElementById('next-page');
+            const lastPageBtn = document.getElementById('last-page');
+            
+            firstPageBtn.disabled = currentPage <= 1;
+            prevPageBtn.disabled = currentPage <= 1;
+            nextPageBtn.disabled = currentPage >= totalPages;
+            lastPageBtn.disabled = currentPage >= totalPages;
+        }
+
+        // 更新縮略圖選中狀態
+        function updateThumbnailSelection(pageNum) {
+            document.querySelectorAll('.thumbnail').forEach(thumb => {
+                thumb.classList.remove('active');
+                if (parseInt(thumb.dataset.page) === pageNum) {
+                    thumb.classList.add('active');
+                }
+            });
+        }
+
+        // 頁面導航功能
+        function gotoPage(num) {
+            if (num < 1 || num > totalPages) return;
+            pageNum = num;
+            queueRenderPage(pageNum);
+        }
+
+        function prevPage() {
+            if (pageNum <= 1) return;
+            pageNum--;
+            queueRenderPage(pageNum);
+        }
+
+        function nextPage() {
+            if (pageNum >= totalPages) return;
+            pageNum++;
+            queueRenderPage(pageNum);
+        }
+
+        function queueRenderPage(num) {
+            if (pageRendering) {
+                pageNumPending = num;
+            } else {
+                renderPage(num);
+            }
+        }
+
+        // 縮放功能
+        function zoomIn() {
+            if (scale >= 3) return;
+            scale += 0.1;
+            queueRenderPage(pageNum);
+        }
+
+        function zoomOut() {
+            if (scale <= 0.2) return;
+            scale -= 0.1;
+            queueRenderPage(pageNum);
+        }
+
+        function setZoom(newScale) {
+            scale = Math.max(0.1, Math.min(3, newScale));
+            queueRenderPage(pageNum);
+        }
+
+        function fitToWidth() {
+            if (!pdfDoc) return;
+            
+            pdfDoc.getPage(pageNum).then(function(page) {
+                const container = document.querySelector('.canvas-container');
+                const containerWidth = container.clientWidth - 40;
+                const viewport = page.getViewport({ scale: 1, rotation: rotation });
+                scale = containerWidth / viewport.width;
+                queueRenderPage(pageNum);
+            });
+        }
+
+        // 旋轉功能
+        function rotateLeft() {
+            rotation = (rotation - 90) % 360;
+            queueRenderPage(pageNum);
+        }
+
+        function rotateRight() {
+            rotation = (rotation + 90) % 360;
+            queueRenderPage(pageNum);
+        }
+
+        // 縮略圖側邊欄
+        function toggleThumbnails() {
+            const sidebar = document.getElementById('thumbnail-sidebar');
+            sidebar.classList.toggle('active');
+        }
+
+        // 全屏功能
+        function toggleFullscreen() {
+            const viewer = document.getElementById('pdf-viewer');
+            
+            if (!document.fullscreenElement) {
+                if (viewer.requestFullscreen) {
+                    viewer.requestFullscreen();
+                } else if (viewer.webkitRequestFullscreen) {
+                    viewer.webkitRequestFullscreen();
+                } else if (viewer.mozRequestFullScreen) {
+                    viewer.mozRequestFullScreen();
+                }
+                viewer.classList.add('fullscreen');
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
+                }
+                viewer.classList.remove('fullscreen');
+            }
+        }
+
+        function handleFullscreenChange() {
+            const viewer = document.getElementById('pdf-viewer');
+            if (!document.fullscreenElement && !document.webkitFullscreenElement && !document.mozFullScreenElement) {
+                viewer.classList.remove('fullscreen');
+            }
+        }
+
+        // 打印功能
+        function printPDF() {
+            if (!pdfDoc) return;
+            
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <html>
+                    <head>
+                        <title>急救知識手冊 - 打印</title>
+                        <style>
+                            body { margin: 0; padding: 20px; font-family: 'Noto Sans TC', sans-serif; }
+                            .print-header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #333; padding-bottom: 20px; }
+                            .print-title { font-size: 24px; font-weight: bold; color: #333; margin-bottom: 10px; }
+                            .print-subtitle { font-size: 14px; color: #666; }
+                            .print-footer { text-align: center; margin-top: 30px; font-size: 12px; color: #666; border-top: 1px solid #ddd; padding-top: 20px; }
+                            .page-break { page-break-after: always; }
+                            @media print {
+                                .no-print { display: none; }
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="print-header">
+                            <div class="print-title">急救知識手冊</div>
+                            <div class="print-subtitle">GS學習平台安全知識系列 · 打印時間: ${new Date().toLocaleString()}</div>
+                        </div>
+                        <div class="print-content">
+                            <p>正在準備打印急救知識手冊...</p>
+                            <p>請確保您的打印機已準備就緒。</p>
+                            <p>如需完整PDF版本，請返回在線查看器下載。</p>
+                        </div>
+                        <div class="print-footer">
+                            第 <span id="current-page">1</span> 頁，共 <span id="total-pages">${totalPages}</span> 頁 | GS學習平台 © 2024
+                        </div>
+                        <div class="no-print" style="margin-top: 30px; padding: 20px; background: #f5f5f5; border-radius: 10px;">
+                            <button onclick="window.print()" style="padding: 10px 20px; background: #58cc02; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">開始打印</button>
+                            <button onclick="window.close()" style="padding: 10px 20px; margin-left: 10px; background: #ff4b4b; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">取消</button>
+                        </div>
+                    </body>
+                </html>
+            `);
+            
+            printWindow.document.close();
+        }
+
+        // 下載功能
+        function downloadPDF() {
+            alert('下載功能：急救知識手冊下載已開始。\n\n文件: AI_第一冊第1課.pdf\n大小: 2.4 MB\n\n在實際應用中，這裡會觸發PDF文件的下載。');
+            
+            // 實際應用中：
+            // const link = document.createElement('a');
+            // link.href = PDF_URL;
+            // link.download = 'AI_第一冊第1課.pdf';
+            // link.click();
+        }
+
+        // 加載狀態管理
+        function showLoading() {
+            document.getElementById('loading-container').style.display = 'flex';
+        }
+
+        function hideLoading() {
+            document.getElementById('loading-container').style.display = 'none';
+            document.getElementById('progress-fill').style.width = '100%';
+        }
+
+        function showError(message) {
+            document.getElementById('error-message').textContent = message;
+            document.getElementById('error-container').style.display = 'flex';
+        }
+
+        function hideError() {
+            document.getElementById('error-container').style.display = 'none';
+        }
+
+        // 鍵盤快捷鍵
+        function handleKeyboardShortcuts(e) {
+            // 忽略輸入框中的按鍵
+            if (e.target.tagName === 'INPUT') return;
+            
+            switch(e.key) {
+                case 'ArrowLeft':
+                    e.preventDefault();
+                    prevPage();
+                    break;
+                case 'ArrowRight':
+                    e.preventDefault();
+                    nextPage();
+                    break;
+                case '+':
+                case '=':
+                    if (!e.ctrlKey) {
+                        e.preventDefault();
+                        zoomIn();
+                    }
+                    break;
+                case '-':
+                    e.preventDefault();
+                    zoomOut();
+                    break;
+                case '0':
+                    e.preventDefault();
+                    setZoom(1);
+                    break;
+                case 'f':
+                case 'F':
+                    if (e.ctrlKey) {
+                        e.preventDefault();
+                        toggleFullscreen();
+                    }
+                    break;
+                case 't':
+                case 'T':
+                    if (e.ctrlKey) {
+                        e.preventDefault();
+                        toggleThumbnails();
+                    }
+                    break;
+                case 'Escape':
+                    const sidebar = document.getElementById('thumbnail-sidebar');
+                    if (sidebar.classList.contains('active')) {
+                        toggleThumbnails();
+                    }
+                    break;
+            }
+        }
+
+        // 調整畫布大小
+        function resizeCanvas() {
+            if (pageRendering || !pdfDoc) return;
+            queueRenderPage(pageNum);
+        }
+
+        // 窗口大小變化時重新渲染
+        window.addEventListener('resize', resizeCanvas);
+    </script>
+</body>
+</html>
