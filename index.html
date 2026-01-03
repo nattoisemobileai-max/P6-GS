@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GS課程進度 - Duolingo風格</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --duo-green: #58cc02;
+            --duo-dark-green: #46a302;
+            --duo-blue: #1cb0f6;
+            --duo-red: #ff4b4b;
+            --duo-gray: #afafaf;
+            --duo-light-gray: #e5e5e5;
+            --duo-light-blue: #ddf4ff;
+            --text-main: #4b4b4b;
+            --text-light: #7a7a7a;
+            --shadow-light: 0 4px 8px rgba(0, 0, 0, 0.1);
+            --shadow-medium: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #f9f9f9;
+            color: var(--text-main);
+            line-height: 1.5;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--duo-green), var(--duo-blue));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 900;
+            font-size: 1.5rem;
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--duo-green);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .profile-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--duo-light-gray);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            font-weight: 700;
+        }
+
+        .subject-header {
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: var(--shadow-light);
+            border-top: 5px solid var(--duo-green);
+        }
+
+        .subject-title {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--duo-green);
+            margin-bottom: 5px;
+        }
+
+        .subject-subtitle {
+            font-size: 1rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        /* 進度路徑容器 */
+        .progress-path {
+            width: 100%;
+            max-width: 800px;
+            position: relative;
+            margin-bottom: 40px;
+        }
+
+        /* 路徑線 */
+        .path-line {
+            position: absolute;
+            top: 0;
+            left: 50px;
+            width: 4px;
+            height: 100%;
+            background-color: var(--duo-light-gray);
+            z-index: 1;
+        }
+
+        .path-line.completed {
+            background-color: var(--duo-green);
+        }
+
+        /* 課程單元容器 */
+        .course-container {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        /* 課程單元 */
+        .course-unit {
+            display: flex;
+            align-items: flex-start;
+            gap: 25px;
+            position: relative;
+        }
+
+        .unit-number {
+            width: 50px;
+            height: 50px;
+            background-color: white;
+            border-radius: 50%;
+            border: 4px solid var(--duo-light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.3rem;
+            color: var(--text-light);
+            flex-shrink: 0;
+            z-index: 3;
+        }
+
+        .unit-number.completed {
+            border-color: var(--duo-green);
+            background-color: var(--duo-green);
+            color: white;
+        }
+
+        .unit-number.current {
+            border-color: var(--duo-blue);
+            background-color: var(--duo-blue);
+            color: white;
+            box-shadow: 0 0 0 4px rgba(28, 176, 246, 0.2);
+        }
+
+        .unit-content {
+            flex: 1;
+            background-color: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: var(--shadow-light);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border-left: 5px solid var(--duo-light-gray);
+        }
+
+        .unit-content:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .unit-content.completed {
+            border-left-color: var(--duo-green);
+        }
+
+        .unit-content.current {
+            border-left-color: var(--duo-blue);
+        }
+
+        .unit-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .unit-title {
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: var(--text-main);
+        }
+
+        .unit-subtitle {
+            font-size: 1rem;
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+
+        .unit-status {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .status-not-started {
+            background-color: var(--duo-light-gray);
+            color: var(--text-light);
+        }
+
+        .status-in-progress {
+            background-color: var(--duo-light-blue);
+            color: var(--duo-blue);
+        }
+
+        .status-completed {
+            background-color: rgba(88, 204, 2, 0.15);
+            color: var(--duo-green);
+        }
+
+        .unit-description {
+            font-size: 0.95rem;
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* 特殊課程單元 - 有跳轉按鈕 */
+        .special-unit .unit-content {
+            border-left-color: #ff9f00;
+            position: relative;
+        }
+
+        .special-unit .unit-number {
+            border-color: #ff9f00;
+            color: #ff9f00;
+        }
+
+        .jump-button {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 8px 18px;
+            background-color: #ff9f00;
+            color: white;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: all 0.2s;
+            box-shadow: 0 3px 0 #cc7e00;
+        }
+
+        .jump-button:hover {
+            background-color: #e68a00;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 0 #cc7e00;
+        }
+
+        .jump-button:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 0 #cc7e00;
+        }
+
+        /* 底部導航 */
+        .footer-nav {
+            width: 100%;
+            max-width: 800px;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: var(--shadow-light);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .nav-button {
+            padding: 12px 25px;
+            border-radius: 15px;
+            font-weight: 900;
+            font-size: 1rem;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+
+        .nav-button.prev {
+            background-color: white;
+            color: var(--duo-blue);
+            border: 2px solid var(--duo-blue);
+        }
+
+        .nav-button.prev:hover {
+            background-color: var(--duo-light-blue);
+        }
+
+        .nav-button.next {
+            background-color: var(--duo-green);
+            color: white;
+            box-shadow: 0 4px 0 var(--duo-dark-green);
+        }
+
+        .nav-button.next:hover {
+            background-color: #4bc000;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 var(--duo-dark-green);
+        }
+
+        .nav-button.next:active {
+            transform: translateY(1px);
+            box-shadow: 0 3px 0 var(--duo-dark-green);
+        }
+
+        /* 響應式設計 */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .course-unit {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .unit-content {
+                width: 100%;
+            }
+            
+            .path-line {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            
+            .footer-nav {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <div class="logo-icon">GS</div>
+            <div class="logo-text">GS課程</div>
+        </div>
+        <div class="user-profile">
+            <div class="profile-icon">學</div>
+            <div>
+                <div style="font-weight: 700;">學習者</div>
+                <div style="font-size: 0.85rem; color: var(--text-light);">第6級</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="subject-header">
+        <h1 class="subject-title">GS課程進度</h1>
+        <p class="subject-subtitle">按照您的學習進度逐步解鎖新單元</p>
+    </div>
+
+    <div class="progress-path">
+        <div class="path-line completed" id="progress-line"></div>
+        
+        <div class="course-container">
+            <!-- GS-6-2 已完成 -->
+            <div class="course-unit">
+                <div class="unit-number completed">1</div>
+                <div class="unit-content completed">
+                    <div class="unit-header">
+                        <h2 class="unit-title">GS-6-2</h2>
+                        <div class="unit-status status-completed">已完成</div>
+                    </div>
+                    <p class="unit-subtitle">基礎單元：建立核心概念</p>
+                    <p class="unit-description">
+                        本單元介紹了基礎概念和原理，為後續學習打下堅實基礎。
+                        已完成所有練習和測驗，掌握程度：優秀。
+                    </p>
+                </div>
+            </div>
+            
+            <!-- GS-6-3 進行中 -->
+            <div class="course-unit">
+                <div class="unit-number current">2</div>
+                <div class="unit-content current">
+                    <div class="unit-header">
+                        <h2 class="unit-title">GS-6-3</h2>
+                        <div class="unit-status status-in-progress">進行中</div>
+                    </div>
+                    <p class="unit-subtitle">進階應用：概念延伸與實踐</p>
+                    <p class="unit-description">
+                        目前正在學習如何將基礎概念應用於實際情境中。
+                        已完成本單元60%的內容，還需要完成3個練習和最終測驗。
+                    </p>
+                </div>
+            </div>
+            
+            <!-- GS-6-4 未開始 -->
+            <div class="course-unit">
+                <div class="unit-number">3</div>
+                <div class="unit-content">
+                    <div class="unit-header">
+                        <h2 class="unit-title">GS-6-4</h2>
+                        <div class="unit-status status-not-started">未開始</div>
+                    </div>
+                    <p class="unit-subtitle">高級整合：跨領域應用</p>
+                    <p class="unit-description">
+                        本單元將引導學習者整合多個概念，解決複雜問題。
+                        解鎖條件：完成GS-6-3單元。
+                    </p>
+                </div>
+            </div>
+            
+            <!-- 特殊單元：跳轉到GS-1-1 -->
+            <div class="course-unit special-unit">
+                <div class="unit-number">跳</div>
+                <div class="unit-content">
+                    <div class="unit-header">
+                        <h2 class="unit-title">快速跳轉單元</h2>
+                        <div class="unit-status status-in-progress">可選</div>
+                    </div>
+                    <p class="unit-subtitle">基礎複習與強化</p>
+                    <p class="unit-description">
+                        如果您需要複習基礎概念或強化特定技能，可以跳轉到GS-1系列單元。
+                        這些單元將幫助您鞏固基礎知識。
+                    </p>
+                    <a href="#gs1-units" class="jump-button">跳轉到GS-1單元</a>
+                </div>
+            </div>
+            
+            <!-- GS-1-1 已完成 -->
+            <div class="course-unit" id="gs1-units">
+                <div class="unit-number completed">4</div>
+                <div class="unit-content completed">
+                    <div class="unit-header">
+                        <h2 class="unit-title">GS-1-1</h2>
+                        <div class="unit-status status-completed">已完成</div>
+                    </div>
+                    <p class="unit-subtitle">入門基礎：核心概念介紹</p>
+                    <p class="unit-description">
+                        這是GS課程的入門單元，介紹了最基本的概念和術語。
+                        已完成所有練習，掌握程度：良好。
+                    </p>
+                </div>
+            </div>
+            
+            <!-- GS-1-2 進行中 -->
+            <div class="course-unit">
+                <div class="unit-number current">5</div>
+                <div class="unit-content current">
+                    <div class="unit-header">
+                        <h2 class="unit-title">GS-1-2</h2>
+                        <div class="unit-status status-in-progress">進行中</div>
+                    </div>
+                    <p class="unit-subtitle">基礎擴展：概念應用入門</p>
+                    <p class="unit-description">
+                        正在學習如何將基礎概念應用於簡單情境中。
+                        已完成本單元40%的內容，還需要完成5個練習和1個測驗。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-nav">
+        <button class="nav-button prev" onclick="goToPrevious()">上一個單元</button>
+        <button class="nav-button next" onclick="goToNext()">繼續學習 GS-6-3</button>
+    </div>
+
+    <script>
+        // 動態更新進度線的高度
+        function updateProgressLine() {
+            const progressLine = document.getElementById('progress-line');
+            const completedUnits = document.querySelectorAll('.unit-number.completed').length;
+            const totalUnits = document.querySelectorAll('.unit-number').length;
+            
+            // 計算完成百分比（排除特殊單元）
+            const percentage = (completedUnits / (totalUnits - 1)) * 100;
+            progressLine.style.height = `${Math.min(percentage, 100)}%`;
+        }
+        
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            updateProgressLine();
+            
+            // 添加單元點擊事件
+            document.querySelectorAll('.unit-content').forEach(unit => {
+                unit.addEventListener('click', function() {
+                    const unitTitle = this.querySelector('.unit-title').textContent;
+                    alert(`您點擊了單元：${unitTitle}`);
+                });
+            });
+        });
+        
+        // 導航功能
+        function goToPrevious() {
+            const currentUnits = document.querySelectorAll('.unit-number.current');
+            if (currentUnits.length > 0) {
+                const currentIndex = Array.from(document.querySelectorAll('.unit-number')).indexOf(currentUnits[0]);
+                if (currentIndex > 0) {
+                    alert('導航到上一個單元');
+                    // 實際應用中這裡會進行頁面導航
+                }
+            }
+        }
+        
+        function goToNext() {
+            const currentUnits = document.querySelectorAll('.unit-number.current');
+            if (currentUnits.length > 0) {
+                alert('繼續學習當前單元');
+                // 實際應用中這裡會進行頁面導航
+            }
+        }
+        
+        // 模擬單元完成狀態切換（用於演示）
+        function toggleUnitCompletion(unitNumber) {
+            const unitIndex = unitNumber - 1;
+            const units = document.querySelectorAll('.unit-number');
+            const unitContents = document.querySelectorAll('.unit-content');
+            
+            if (unitIndex >= 0 && unitIndex < units.length) {
+                const unit = units[unitIndex];
+                const content = unitContents[unitIndex];
+                
+                if (unit.classList.contains('completed')) {
+                    unit.classList.remove('completed');
+                    content.classList.remove('completed');
+                    unit.classList.add('current');
+                    content.classList.add('current');
+                } else if (unit.classList.contains('current')) {
+                    unit.classList.remove('current');
+                    content.classList.remove('current');
+                } else {
+                    unit.classList.add('current');
+                    content.classList.add('current');
+                }
+                
+                updateProgressLine();
+            }
+        }
+    </script>
+</body>
+</html>
