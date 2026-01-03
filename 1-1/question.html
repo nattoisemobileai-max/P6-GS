@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>簡易急救知識測驗</title>
+    <style>
+        body { font-family: sans-serif; background-color: #f4f4f9; display: flex; justify-content: center; padding: 20px; }
+        .quiz-container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); max-width: 600px; width: 100%; }
+        h1 { color: #2c3e50; text-align: center; }
+        .question { font-size: 1.2em; margin-bottom: 15px; }
+        .options { list-style: none; padding: 0; }
+        .options li { margin-bottom: 10px; }
+        button { background-color: #3498db; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; width: 100%; font-size: 1em; }
+        button:hover { background-color: #2980b9; }
+        #result { margin-top: 20px; font-weight: bold; text-align: center; color: #e74c3c; }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>急救測驗</h1>
+        <div id="quiz">
+            <div class="question" id="q-text">載入中...</div>
+            <ul class="options" id="q-options"></ul>
+            <button onclick="checkAnswer()">提交答案</button>
+        </div>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const quizData = [
+            { q: "處理流鼻血的正確姿勢是？", a: ["坐下，頭微向前傾", "坐下，頭向後仰", "躺下休息"], correct: 0 },
+            { q: "撞傷或扭傷初期，應如何處理以減輕腫脹？", a: ["熱敷", "冷敷", "塗抹醬油"], correct: 1 },
+            { q: "急救的主要目的不包括哪一項？", a: ["保存生命", "防止惡化", "讓沒病的人更健康"], correct: 2 },
+            { q: "輕微燒傷應至少用冷水沖洗多久？", a: ["1分鐘", "5分鐘", "10分鐘"], correct: 2 }
+        ];
+
+        let currentQ = 0;
+
+        function loadQuiz() {
+            const q = quizData[currentQ];
+            document.getElementById('q-text').innerText = q.q;
+            const optionsUl = document.getElementById('q-options');
+            optionsUl.innerHTML = '';
+            q.a.forEach((ans, i) => {
+                optionsUl.innerHTML += `<li><input type="radio" name="opt" value="${i}"> ${ans}</li>`;
+            });
+        }
+
+        function checkAnswer() {
+            const selected = document.querySelector('input[name="opt"]:checked');
+            if (!selected) return alert("請選擇一個答案");
+            
+            if (parseInt(selected.value) === quizData[currentQ].correct) {
+                alert("正確！");
+                currentQ++;
+                if (currentQ < quizData.length) loadQuiz();
+                else document.getElementById('quiz').innerHTML = "<h2>恭喜完成測驗！</h2>";
+            } else {
+                document.getElementById('result').innerText = "答案錯誤，請再試一次。";
+            }
+        }
+
+        loadQuiz();
+    </script>
+</body>
+</html>
