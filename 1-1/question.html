@@ -3,65 +3,1161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>簡易急救知識測驗</title>
+    <title>平安是福：安全測試挑戰</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500;700;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: sans-serif; background-color: #f4f4f9; display: flex; justify-content: center; padding: 20px; }
-        .quiz-container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); max-width: 600px; width: 100%; }
-        h1 { color: #2c3e50; text-align: center; }
-        .question { font-size: 1.2em; margin-bottom: 15px; }
-        .options { list-style: none; padding: 0; }
-        .options li { margin-bottom: 10px; }
-        button { background-color: #3498db; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; width: 100%; font-size: 1em; }
-        button:hover { background-color: #2980b9; }
-        #result { margin-top: 20px; font-weight: bold; text-align: center; color: #e74c3c; }
+        :root {
+            --duo-green: #58cc02;
+            --duo-dark-green: #46a302;
+            --duo-blue: #1cb0f6;
+            --duo-red: #ff4b4b;
+            --duo-gray: #afafaf;
+            --duo-light-gray: #e5e5e5;
+            --text-main: #4b4b4b;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            margin: 0;
+            background-color: #fff;
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* 頂部進度條 */
+        .nav-bar {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-sizing: border-box;
+        }
+
+        .progress-rail {
+            flex-grow: 1;
+            height: 16px;
+            background-color: var(--duo-light-gray);
+            border-radius: 10px;
+        }
+
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background-color: var(--duo-green);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        /* 進度追蹤 */
+        .progress-info {
+            width: 90%;
+            max-width: 600px;
+            padding: 0 20px 10px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: var(--duo-gray);
+        }
+
+        .completed {
+            color: var(--duo-green);
+            font-weight: 700;
+        }
+
+        .remaining {
+            color: var(--duo-blue);
+            font-weight: 700;
+        }
+
+        /* 小節名稱 */
+        .section-name {
+            width: 90%;
+            max-width: 600px;
+            padding: 10px 20px;
+            background-color: #f0f9ff;
+            color: var(--duo-blue);
+            font-weight: 700;
+            font-size: 1.1em;
+            margin-top: 10px;
+            border-radius: 8px;
+            border-left: 4px solid var(--duo-blue);
+        }
+
+        /* 主題內容 */
+        .content {
+            width: 90%;
+            max-width: 600px;
+            margin-top: 10px;
+            flex-grow: 1;
+        }
+
+        .speech-bubble {
+            border: 2px solid var(--duo-light-gray);
+            border-radius: 15px;
+            padding: 20px;
+            font-size: 1.3em;
+            font-weight: 700;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .options-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option-item {
+            border: 2px solid var(--duo-light-gray);
+            border-bottom-width: 4px;
+            border-radius: 15px;
+            padding: 15px 20px;
+            font-size: 1.1em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.1s;
+            user-select: none;
+        }
+
+        .option-item:hover { 
+            background-color: #f7f7f7; 
+            transform: translateY(-1px);
+        }
+        
+        .option-item.active {
+            border-color: var(--duo-blue);
+            background-color: #ddf4ff;
+            color: var(--duo-blue);
+            transform: translateY(-1px);
+        }
+
+        .option-item.correct {
+            border-color: var(--duo-green);
+            background-color: #e8ffd8;
+            color: var(--text-main);
+        }
+
+        .option-item.wrong {
+            border-color: var(--duo-red);
+            background-color: #ffeaea;
+            color: var(--text-main);
+        }
+
+        /* 底部操作欄 */
+        .footer {
+            width: 100%;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            border-top: 2px solid var(--duo-light-gray);
+            background: #fff;
+        }
+
+        .btn-action {
+            width: 100%;
+            max-width: 600px;
+            padding: 16px;
+            border-radius: 15px;
+            font-size: 1.1em;
+            font-weight: 900;
+            cursor: pointer;
+            border: none;
+            background-color: var(--duo-green);
+            color: white;
+            box-shadow: 0 5px 0 var(--duo-dark-green);
+            transition: all 0.2s;
+        }
+
+        .btn-action:hover {
+            background-color: #4bc000;
+        }
+
+        .btn-action:active {
+            transform: translateY(2px);
+            box-shadow: 0 3px 0 var(--duo-dark-green);
+        }
+
+        .btn-action:disabled {
+            background-color: var(--duo-light-gray);
+            color: var(--duo-gray);
+            box-shadow: 0 5px 0 #ccc;
+            cursor: not-allowed;
+        }
+
+        /* 反饋滑動層 */
+        #feedback-tray {
+            position: fixed;
+            bottom: -350px;
+            left: 0;
+            width: 100%;
+            padding: 30px;
+            box-sizing: border-box;
+            transition: bottom 0.3s ease;
+            z-index: 100;
+        }
+
+        .tray-correct { 
+            background-color: #d7ffb8; 
+            color: #58a700; 
+            border-top: 3px solid #58a700;
+        }
+        
+        .tray-wrong { 
+            background-color: #ffdfe0; 
+            color: #ea2b2b; 
+            border-top: 3px solid #ea2b2b;
+        }
+
+        .btn-next {
+            background-color: currentColor;
+            filter: brightness(0.8);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 12px;
+            font-weight: 900;
+            cursor: pointer;
+            transition: all 0.2s;
+            min-width: 100px;
+        }
+
+        .btn-next:hover {
+            filter: brightness(1);
+            transform: scale(1.05);
+        }
+
+        /* 最終畫面 */
+        #final-screen { 
+            display: none; 
+            text-align: center; 
+            width: 90%;
+            max-width: 600px;
+            margin-top: 20px;
+            padding: 20px;
+        }
+        
+        /* 答題回顧 */
+        #review-screen {
+            display: none;
+            width: 90%;
+            max-width: 600px;
+            margin-top: 20px;
+            padding: 20px;
+        }
+        
+        .review-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .review-item {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 2px solid var(--duo-light-gray);
+            border-radius: 15px;
+            background-color: #fff;
+        }
+        
+        .review-question {
+            font-size: 1.2em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--text-main);
+        }
+        
+        .review-options {
+            display: grid;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .review-option {
+            padding: 12px 15px;
+            border-radius: 10px;
+            border: 2px solid var(--duo-light-gray);
+            font-size: 1em;
+        }
+        
+        .review-correct-option {
+            border-color: var(--duo-green);
+            background-color: #e8ffd8;
+        }
+        
+        .review-user-answer {
+            border-color: var(--duo-blue);
+            background-color: #ddf4ff;
+        }
+        
+        .review-wrong-answer {
+            border-color: var(--duo-red);
+            background-color: #ffeaea;
+        }
+        
+        .review-result {
+            font-weight: 700;
+            padding: 8px 15px;
+            border-radius: 8px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        
+        .review-result-correct {
+            background-color: #e8ffd8;
+            color: var(--duo-green);
+        }
+        
+        .review-result-wrong {
+            background-color: #ffeaea;
+            color: var(--duo-red);
+        }
+        
+        .review-explanation {
+            margin-top: 10px;
+            padding: 10px 15px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            border-left: 3px solid var(--duo-gray);
+            font-size: 0.95em;
+        }
+        
+        .score-display {
+            font-size: 3em;
+            font-weight: 900;
+            color: var(--duo-blue);
+            margin: 20px 0;
+        }
+        
+        .question-counter {
+            color: var(--duo-gray);
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .next-btn-text {
+            font-size: 1em;
+            font-weight: 700;
+        }
+        
+        .review-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        .review-section-title {
+            color: var(--duo-blue);
+            font-weight: 700;
+            font-size: 1.1em;
+            margin: 20px 0 10px;
+            padding: 8px 15px;
+            background-color: #f0f9ff;
+            border-radius: 8px;
+        }
+        
+        /* 小節表現 */
+        .section-performance {
+            width: 90%;
+            max-width: 600px;
+            margin: 20px 0;
+        }
+        
+        .performance-card {
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 15px;
+            background-color: #fff;
+            border: 2px solid var(--duo-light-gray);
+            position: relative;
+        }
+        
+        .performance-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .performance-title {
+            font-weight: 700;
+            font-size: 1.1em;
+            color: var(--text-main);
+        }
+        
+        .performance-score {
+            font-weight: 900;
+            font-size: 1.2em;
+        }
+        
+        .performance-bar {
+            height: 10px;
+            background-color: var(--duo-light-gray);
+            border-radius: 5px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        
+        .performance-fill {
+            height: 100%;
+            background-color: var(--duo-green);
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+        
+        .performance-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: var(--duo-gray);
+        }
+        
+        .performance-perfect {
+            border-color: var(--duo-green);
+            background-color: #f8fff0;
+            border-width: 3px;
+        }
+        
+        .performance-best {
+            border-color: var(--duo-green);
+            background-color: #f0fff0;
+        }
+        
+        .performance-worst {
+            border-color: var(--duo-red);
+            background-color: #fff0f0;
+        }
+        
+        .perfect-badge {
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            background-color: var(--duo-green);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 700;
+            box-shadow: 0 3px 0 var(--duo-dark-green);
+            z-index: 1;
+        }
+        
+        .best-section-badge {
+            background-color: var(--duo-green);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 700;
+            margin-left: 10px;
+        }
+        
+        .worst-section-badge {
+            background-color: var(--duo-red);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 700;
+            margin-left: 10px;
+        }
+        
+        .section-comparison {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 15px;
+        }
+        
+        .comparison-title {
+            font-weight: 700;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            color: var(--text-main);
+        }
+        
+        .perfect-score-badge {
+            display: inline-block;
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: 900;
+            margin: 10px 0;
+            box-shadow: 0 4px 0 #cc8400;
+        }
+        
+        .perfect-sections-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .perfect-section-badge {
+            background: linear-gradient(45deg, var(--duo-green), #46a302);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .badge-icon {
+            font-size: 1.2em;
+        }
     </style>
 </head>
 <body>
-    <div class="quiz-container">
-        <h1>急救測驗</h1>
-        <div id="quiz">
-            <div class="question" id="q-text">載入中...</div>
-            <ul class="options" id="q-options"></ul>
-            <button onclick="checkAnswer()">提交答案</button>
-        </div>
-        <div id="result"></div>
+
+    <div class="nav-bar">
+        <span style="color:var(--duo-gray); font-size: 24px; cursor: pointer;" onclick="location.reload()">✕</span>
+        <div class="progress-rail"><div class="progress-fill" id="pb"></div></div>
     </div>
 
-    <script>
-        const quizData = [
-            { q: "處理流鼻血的正確姿勢是？", a: ["坐下，頭微向前傾", "坐下，頭向後仰", "躺下休息"], correct: 0 },
-            { q: "撞傷或扭傷初期，應如何處理以減輕腫脹？", a: ["熱敷", "冷敷", "塗抹醬油"], correct: 1 },
-            { q: "急救的主要目的不包括哪一項？", a: ["保存生命", "防止惡化", "讓沒病的人更健康"], correct: 2 },
-            { q: "輕微燒傷應至少用冷水沖洗多久？", a: ["1分鐘", "5分鐘", "10分鐘"], correct: 2 }
-        ];
+    <div class="progress-info" id="progress-info">
+        <div>已完成: <span id="completed-count" class="completed">0</span></div>
+        <div>剩餘: <span id="remaining-count" class="remaining">0</span></div>
+    </div>
 
-        let currentQ = 0;
+    <div class="section-name" id="section-name"></div>
 
-        function loadQuiz() {
-            const q = quizData[currentQ];
-            document.getElementById('q-text').innerText = q.q;
-            const optionsUl = document.getElementById('q-options');
-            optionsUl.innerHTML = '';
-            q.a.forEach((ans, i) => {
-                optionsUl.innerHTML += `<li><input type="radio" name="opt" value="${i}"> ${ans}</li>`;
+    <div class="content" id="quiz-ui">
+        <div class="question-counter" id="counter">第 <span id="current-q">1</span> 題</div>
+        <div class="speech-bubble" id="q-text">🦉 正在為你準備題目...</div>
+        <div class="options-list" id="opt-list"></div>
+    </div>
+
+    <div id="final-screen">
+        <h1 style="font-size: 4em;">🏆</h1>
+        <h2 id="final-msg">你完成了所有挑戰！</h2>
+        <div class="score-display" id="final-score"></div>
+        
+        <!-- 全對小節徽章 -->
+        <div id="perfect-sections-container" class="perfect-sections-container"></div>
+        
+        <!-- 小節表現 -->
+        <div id="section-performance-container" style="width: 100%; margin: 30px 0;"></div>
+        
+        <div style="margin: 30px 0;">
+            <button class="btn-action" onclick="showReview()" style="margin-bottom: 15px;">查看答題詳情</button>
+            <button class="btn-action" onclick="location.reload()" style="background-color: var(--duo-blue); box-shadow: 0 5px 0 #0a9cda;">重新開始</button>
+        </div>
+    </div>
+
+    <div id="review-screen">
+        <div class="review-header">
+            <h2>📊 答題回顧</h2>
+            <div class="score-display" id="review-score"></div>
+        </div>
+        
+        <div id="review-list"></div>
+        
+        <div class="review-buttons">
+            <button class="btn-action" onclick="showFinalScreen()" style="background-color: var(--duo-gray); box-shadow: 0 5px 0 #999;">返回結果</button>
+            <button class="btn-action" onclick="location.reload()">重新挑戰</button>
+        </div>
+    </div>
+
+    <div class="footer" id="footer-bar">
+        <button class="btn-action" id="check-btn" disabled onclick="handleCheck()">檢查答案</button>
+    </div>
+
+    <div id="feedback-tray">
+        <div style="max-width: 600px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <h2 id="tray-title" style="margin:0">很好！</h2>
+                <p id="tray-desc" style="margin: 5px 0 0; font-weight: 500;"></p>
+            </div>
+            <button class="btn-next" onclick="loadNext()">
+                <span class="next-btn-text" id="next-btn-text">繼續</span>
+            </button>
+        </div>
+    </div>
+
+<script>
+    // 遊戲狀態變數
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let selectedOption = null;
+    let quizData = null;
+    let canSelect = true;
+    let totalQuestions = 0;
+    let userAnswers = []; // 儲存用戶的答案
+    let userResults = []; // 儲存每題的對錯結果
+    let sectionPerformance = {}; // 儲存小節表現數據
+    let randomizedQuestions = []; // 隨機排序後的題目
+    let originalQuestionOrder = []; // 原始題目順序映射
+
+    // 載入測驗數據
+    async function loadQuizData() {
+        try {
+            const response = await fetch('QuizData.json');
+            if (!response.ok) {
+                throw new Error('無法載入題目數據');
+            }
+            quizData = await response.json();
+            initializeQuiz();
+        } catch (error) {
+            console.error('載入數據失敗:', error);
+            document.getElementById('q-text').innerText = '❌ 無法載入題目數據，請檢查 QuizData.json 檔案是否存在';
+        }
+    }
+
+    // 初始化測驗
+    function initializeQuiz() {
+        if (!quizData || !quizData.questions || quizData.questions.length === 0) {
+            document.getElementById('q-text').innerText = '❌ 沒有可用的題目數據';
+            return;
+        }
+        
+        // 隨機排序題目
+        randomizeQuestions();
+        
+        totalQuestions = randomizedQuestions.length;
+        userAnswers = new Array(totalQuestions).fill(null);
+        userResults = new Array(totalQuestions).fill(false);
+        sectionPerformance = {};
+        
+        // 初始化小節表現數據
+        randomizedQuestions.forEach((question, index) => {
+            const section = question.section;
+            if (!sectionPerformance[section]) {
+                sectionPerformance[section] = {
+                    total: 0,
+                    correct: 0,
+                    questionIndices: []
+                };
+            }
+            sectionPerformance[section].total++;
+            sectionPerformance[section].questionIndices.push(index);
+        });
+        
+        // 更新進度追蹤
+        updateProgressInfo();
+        
+        // 載入第一題
+        loadQuestion();
+    }
+
+    // 隨機排序題目
+    function randomizeQuestions() {
+        if (!quizData) return;
+        
+        // 複製原始題目
+        const questionsCopy = [...quizData.questions];
+        
+        // 對每個小節內的題目進行隨機排序
+        const sections = {};
+        
+        // 按小節分組
+        questionsCopy.forEach(question => {
+            if (!sections[question.section]) {
+                sections[question.section] = [];
+            }
+            sections[question.section].push(question);
+        });
+        
+        // 隨機排序每個小節內的題目
+        Object.keys(sections).forEach(section => {
+            sections[section] = shuffleArray(sections[section]);
+        });
+        
+        // 合併所有小節的題目（保持小節順序）
+        randomizedQuestions = [];
+        const sectionOrder = ['小節一：家居危機（火警與氣體）', '小節二：郊遊與急救', '小節三：道路安全與救援'];
+        
+        sectionOrder.forEach(section => {
+            if (sections[section]) {
+                randomizedQuestions.push(...sections[section]);
+            }
+        });
+        
+        // 記錄原始題目順序映射
+        originalQuestionOrder = randomizedQuestions.map((q, index) => {
+            return quizData.questions.findIndex(originalQ => 
+                originalQ.q === q.q && originalQ.section === q.section
+            );
+        });
+    }
+
+    // Fisher-Yates 洗牌算法
+    function shuffleArray(array) {
+        const shuffled = [...array];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        return shuffled;
+    }
+
+    // 更新進度追蹤資訊
+    function updateProgressInfo() {
+        document.getElementById('completed-count').textContent = currentQuestionIndex;
+        document.getElementById('remaining-count').textContent = totalQuestions - currentQuestionIndex;
+    }
+
+    // 載入題目
+    function loadQuestion() {
+        if (!randomizedQuestions || randomizedQuestions.length === 0) return;
+        
+        const question = randomizedQuestions[currentQuestionIndex];
+        
+        // 更新進度追蹤
+        updateProgressInfo();
+        
+        // 更新題目編號
+        document.getElementById('current-q').textContent = currentQuestionIndex + 1;
+        
+        // 更新進度條
+        const progress = ((currentQuestionIndex + 1) / totalQuestions) * 100;
+        document.getElementById('pb').style.width = `${progress}%`;
+        
+        // 顯示小節名稱
+        document.getElementById('section-name').textContent = question.section;
+        
+        // 顯示題目
+        document.getElementById('q-text').textContent = question.q;
+        
+        // 清空並重建選項
+        const optionsList = document.getElementById('opt-list');
+        optionsList.innerHTML = '';
+        
+        // 創建選項
+        question.o.forEach((optionText, index) => {
+            const optionDiv = document.createElement('div');
+            optionDiv.className = 'option-item';
+            optionDiv.textContent = optionText;
+            optionDiv.dataset.index = index;
+            
+            // 添加點擊事件監聽器
+            optionDiv.addEventListener('click', () => selectOption(optionDiv, index));
+            
+            optionsList.appendChild(optionDiv);
+        });
+        
+        // 重置狀態
+        selectedOption = null;
+        canSelect = true;
+        document.getElementById('check-btn').disabled = true;
+        
+        // 確保反饋面板隱藏
+        document.getElementById('feedback-tray').style.bottom = '-350px';
+        
+        // 更新下一題按鈕文字
+        updateNextButtonText();
+    }
+
+    // 更新下一題按鈕文字
+    function updateNextButtonText() {
+        const nextButton = document.getElementById('next-btn-text');
+        const isLastQuestion = currentQuestionIndex === totalQuestions - 1;
+        
+        if (isLastQuestion) {
+            nextButton.textContent = '查看結果';
+        } else {
+            nextButton.textContent = '下一題';
+        }
+    }
+
+    // 選擇選項
+    function selectOption(optionElement, optionIndex) {
+        if (!canSelect) return;
+        
+        // 移除所有選項的 active 類
+        document.querySelectorAll('.option-item').forEach(item => {
+            item.classList.remove('active');
+        });
+        
+        // 添加當前選項的 active 類
+        optionElement.classList.add('active');
+        
+        // 保存選擇
+        selectedOption = optionIndex;
+        
+        // 啟用檢查答案按鈕
+        document.getElementById('check-btn').disabled = false;
+    }
+
+    // 檢查答案
+    function handleCheck() {
+        if (selectedOption === null || !canSelect || !randomizedQuestions) return;
+        
+        const question = randomizedQuestions[currentQuestionIndex];
+        const feedbackTray = document.getElementById('feedback-tray');
+        const trayTitle = document.getElementById('tray-title');
+        const trayDesc = document.getElementById('tray-desc');
+        
+        // 禁止再次選擇
+        canSelect = false;
+        
+        // 保存用戶答案和結果
+        userAnswers[currentQuestionIndex] = selectedOption;
+        const isCorrect = selectedOption === question.a;
+        userResults[currentQuestionIndex] = isCorrect;
+        
+        // 更新小節表現數據
+        if (isCorrect) {
+            score++;
+            sectionPerformance[question.section].correct++;
+        }
+        
+        // 高亮顯示正確和錯誤答案
+        const allOptions = document.querySelectorAll('.option-item');
+        allOptions.forEach((option, index) => {
+            if (index === question.a) {
+                option.classList.add('correct');
+            } else if (index === selectedOption && selectedOption !== question.a) {
+                option.classList.add('wrong');
+            }
+        });
+        
+        // 顯示反饋
+        if (isCorrect) {
+            feedbackTray.className = 'tray-correct';
+            trayTitle.textContent = '答對了！';
+        } else {
+            feedbackTray.className = 'tray-wrong';
+            trayTitle.textContent = '再接再厲！';
+        }
+        
+        trayDesc.textContent = question.d;
+        feedbackTray.style.bottom = '0';
+        
+        // 禁用檢查按鈕
+        document.getElementById('check-btn').disabled = true;
+    }
+
+    // 載入下一題
+    function loadNext() {
+        // 隱藏反饋面板（修復bug）
+        document.getElementById('feedback-tray').style.bottom = '-350px';
+        
+        currentQuestionIndex++;
+        
+        if (currentQuestionIndex < totalQuestions) {
+            loadQuestion();
+        } else {
+            // 顯示最終結果
+            showFinalScreen();
+        }
+    }
+
+    // 顯示最終結果畫面
+    function showFinalScreen() {
+        // 確保反饋面板隱藏（修復bug）
+        document.getElementById('feedback-tray').style.bottom = '-350px';
+        
+        document.getElementById('quiz-ui').style.display = 'none';
+        document.getElementById('footer-bar').style.display = 'none';
+        document.getElementById('section-name').style.display = 'none';
+        document.getElementById('progress-info').style.display = 'none';
+        document.getElementById('pb').style.width = '100%';
+        document.getElementById('final-screen').style.display = 'block';
+        
+        const scorePercent = Math.round((score / totalQuestions) * 100);
+        let message = '你完成了所有挑戰！';
+        
+        if (scorePercent === 100) {
+            message = '🎉 完美！你是安全知識達人！';
+        } else if (scorePercent >= 80) {
+            message = '👍 優秀！你對安全知識掌握得很好！';
+        } else if (scorePercent >= 60) {
+            message = '👌 不錯！繼續學習會更安全！';
+        } else {
+            message = '💪 再複習一下會更安全喔！';
+        }
+        
+        document.getElementById('final-msg').textContent = message;
+        document.getElementById('final-score').textContent = `${score} / ${totalQuestions}`;
+        
+        // 顯示全對小節徽章
+        displayPerfectSectionBadges();
+        
+        // 顯示小節表現
+        displaySectionPerformance();
+    }
+
+    // 顯示全對小節徽章
+    function displayPerfectSectionBadges() {
+        const container = document.getElementById('perfect-sections-container');
+        container.innerHTML = '';
+        
+        // 找出全對的小節
+        const perfectSections = [];
+        
+        Object.keys(sectionPerformance).forEach(section => {
+            const performance = sectionPerformance[section];
+            const scorePercent = Math.round((performance.correct / performance.total) * 100);
+            
+            if (scorePercent === 100) {
+                perfectSections.push({
+                    name: section,
+                    correct: performance.correct,
+                    total: performance.total
+                });
+            }
+        });
+        
+        // 如果有全對的小節，顯示徽章
+        if (perfectSections.length > 0) {
+            perfectSections.forEach(section => {
+                const badge = document.createElement('div');
+                badge.className = 'perfect-section-badge';
+                badge.innerHTML = `
+                    <span class="badge-icon">🏅</span>
+                    <span>${section.name.replace('小節一：', '').replace('小節二：', '').replace('小節三：', '')}</span>
+                    <span>(${section.correct}/${section.total})</span>
+                `;
+                container.appendChild(badge);
             });
         }
+    }
 
-        function checkAnswer() {
-            const selected = document.querySelector('input[name="opt"]:checked');
-            if (!selected) return alert("請選擇一個答案");
+    // 顯示小節表現
+    function displaySectionPerformance() {
+        const container = document.getElementById('section-performance-container');
+        container.innerHTML = '';
+        
+        // 計算最佳和最差小節
+        let bestSection = null;
+        let bestScore = -1;
+        let worstSection = null;
+        let worstScore = 101;
+        
+        Object.keys(sectionPerformance).forEach(section => {
+            const performance = sectionPerformance[section];
+            const scorePercent = Math.round((performance.correct / performance.total) * 100);
             
-            if (parseInt(selected.value) === quizData[currentQ].correct) {
-                alert("正確！");
-                currentQ++;
-                if (currentQ < quizData.length) loadQuiz();
-                else document.getElementById('quiz').innerHTML = "<h2>恭喜完成測驗！</h2>";
-            } else {
-                document.getElementById('result').innerText = "答案錯誤，請再試一次。";
+            if (scorePercent > bestScore) {
+                bestScore = scorePercent;
+                bestSection = section;
             }
-        }
+            
+            if (scorePercent < worstScore) {
+                worstScore = scorePercent;
+                worstSection = section;
+            }
+        });
+        
+        // 創建小節比較標題
+        const comparisonDiv = document.createElement('div');
+        comparisonDiv.className = 'section-comparison';
+        
+        const comparisonTitle = document.createElement('div');
+        comparisonTitle.className = 'comparison-title';
+        comparisonTitle.textContent = '📈 各小節表現比較';
+        comparisonDiv.appendChild(comparisonTitle);
+        
+        container.appendChild(comparisonDiv);
+        
+        // 為每個小節創建表現卡片
+        Object.keys(sectionPerformance).forEach(section => {
+            const performance = sectionPerformance[section];
+            const scorePercent = Math.round((performance.correct / performance.total) * 100);
+            const isPerfect = scorePercent === 100;
+            
+            const card = document.createElement('div');
+            card.className = 'performance-card';
+            
+            // 標記表現類型
+            if (isPerfect) {
+                card.classList.add('performance-perfect');
+                // 添加全對徽章
+                const perfectBadge = document.createElement('div');
+                perfectBadge.className = 'perfect-badge';
+                perfectBadge.textContent = '全對 🎯';
+                card.appendChild(perfectBadge);
+            } else if (section === bestSection) {
+                card.classList.add('performance-best');
+            } else if (section === worstSection) {
+                card.classList.add('performance-worst');
+            }
+            
+            // 標題部分
+            const header = document.createElement('div');
+            header.className = 'performance-header';
+            
+            const title = document.createElement('div');
+            title.className = 'performance-title';
+            title.textContent = section;
+            
+            if (isPerfect) {
+                const perfectBadge = document.createElement('span');
+                perfectBadge.className = 'best-section-badge';
+                perfectBadge.textContent = '完美';
+                title.appendChild(perfectBadge);
+            } else if (section === bestSection && !isPerfect) {
+                const bestBadge = document.createElement('span');
+                bestBadge.className = 'best-section-badge';
+                bestBadge.textContent = '最佳表現';
+                title.appendChild(bestBadge);
+            } else if (section === worstSection) {
+                const worstBadge = document.createElement('span');
+                worstBadge.className = 'worst-section-badge';
+                worstBadge.textContent = '需要加強';
+                title.appendChild(worstBadge);
+            }
+            
+            const score = document.createElement('div');
+            score.className = 'performance-score';
+            score.style.color = isPerfect ? 'var(--duo-green)' : 
+                              scorePercent >= 80 ? 'var(--duo-green)' : 
+                              scorePercent >= 60 ? 'var(--duo-blue)' : 
+                              'var(--duo-red)';
+            score.textContent = `${performance.correct}/${performance.total}`;
+            
+            header.appendChild(title);
+            header.appendChild(score);
+            card.appendChild(header);
+            
+            // 進度條
+            const bar = document.createElement('div');
+            bar.className = 'performance-bar';
+            
+            const fill = document.createElement('div');
+            fill.className = 'performance-fill';
+            fill.style.width = `${scorePercent}%`;
+            fill.style.backgroundColor = isPerfect ? 'var(--duo-green)' : 
+                                         scorePercent >= 80 ? 'var(--duo-green)' : 
+                                         scorePercent >= 60 ? 'var(--duo-blue)' : 
+                                         'var(--duo-red)';
+            
+            bar.appendChild(fill);
+            card.appendChild(bar);
+            
+            // 統計數據
+            const stats = document.createElement('div');
+            stats.className = 'performance-stats';
+            
+            const percent = document.createElement('div');
+            percent.textContent = `正確率: ${scorePercent}%`;
+            
+            const count = document.createElement('div');
+            count.textContent = `題數: ${performance.total}題`;
+            
+            stats.appendChild(percent);
+            stats.appendChild(count);
+            card.appendChild(stats);
+            
+            container.appendChild(card);
+        });
+    }
 
-        loadQuiz();
-    </script>
+    // 顯示答題回顧
+    function showReview() {
+        document.getElementById('final-screen').style.display = 'none';
+        document.getElementById('review-screen').style.display = 'block';
+        
+        // 更新回顧頁面的分數
+        document.getElementById('review-score').textContent = `${score} / ${totalQuestions}`;
+        
+        // 生成回顧內容
+        const reviewList = document.getElementById('review-list');
+        reviewList.innerHTML = '';
+        
+        let currentSection = '';
+        
+        randomizedQuestions.forEach((question, index) => {
+            const userAnswer = userAnswers[index];
+            const isCorrect = userResults[index];
+            const correctAnswer = question.a;
+            
+            // 檢查是否需要顯示小節標題
+            if (question.section !== currentSection) {
+                currentSection = question.section;
+                const sectionTitle = document.createElement('div');
+                sectionTitle.className = 'review-section-title';
+                sectionTitle.textContent = currentSection;
+                reviewList.appendChild(sectionTitle);
+            }
+            
+            // 創建回顧項目
+            const reviewItem = document.createElement('div');
+            reviewItem.className = 'review-item';
+            
+            // 題目
+            const questionDiv = document.createElement('div');
+            questionDiv.className = 'review-question';
+            questionDiv.textContent = `${index + 1}. ${question.q}`;
+            reviewItem.appendChild(questionDiv);
+            
+            // 選項
+            const optionsDiv = document.createElement('div');
+            optionsDiv.className = 'review-options';
+            
+            question.o.forEach((option, optionIndex) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'review-option';
+                optionDiv.textContent = option;
+                
+                // 標記正確答案
+                if (optionIndex === correctAnswer) {
+                    optionDiv.classList.add('review-correct-option');
+                }
+                
+                // 標記用戶答案
+                if (optionIndex === userAnswer) {
+                    optionDiv.classList.add('review-user-answer');
+                    if (!isCorrect) {
+                        optionDiv.classList.add('review-wrong-answer');
+                    }
+                }
+                
+                optionsDiv.appendChild(optionDiv);
+            });
+            
+            reviewItem.appendChild(optionsDiv);
+            
+            // 答題結果
+            const resultDiv = document.createElement('div');
+            resultDiv.className = `review-result ${isCorrect ? 'review-result-correct' : 'review-result-wrong'}`;
+            resultDiv.textContent = isCorrect ? '✓ 答對了' : '✗ 答錯了';
+            reviewItem.appendChild(resultDiv);
+            
+            // 答案解析
+            const explanationDiv = document.createElement('div');
+            explanationDiv.className = 'review-explanation';
+            explanationDiv.textContent = question.d;
+            reviewItem.appendChild(explanationDiv);
+            
+            reviewList.appendChild(reviewItem);
+        });
+        
+        // 滾動到頂部
+        window.scrollTo(0, 0);
+    }
+
+    // 從回顧畫面返回最終結果畫面
+    function showFinalScreen() {
+        document.getElementById('review-screen').style.display = 'none';
+        document.getElementById('final-screen').style.display = 'block';
+    }
+
+    // 頁面載入時開始
+    document.addEventListener('DOMContentLoaded', loadQuizData);
+    
+    // 添加鍵盤快捷鍵支援
+    document.addEventListener('keydown', function(event) {
+        if (event.key >= '1' && event.key <= '4' && canSelect) {
+            const optionIndex = parseInt(event.key) - 1;
+            const options = document.querySelectorAll('.option-item');
+            if (optionIndex < options.length) {
+                selectOption(options[optionIndex], optionIndex);
+            }
+        } else if (event.key === 'Enter' && !document.getElementById('check-btn').disabled) {
+            handleCheck();
+        } else if (event.key === ' ' && document.getElementById('feedback-tray').style.bottom === '0px') {
+            loadNext();
+        }
+    });
+</script>
 </body>
 </html>
