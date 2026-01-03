@@ -27,7 +27,6 @@
             min-height: 100vh;
         }
 
-        /* 頂部進度條 */
         .nav-bar {
             width: 100%;
             max-width: 600px;
@@ -36,28 +35,37 @@
             align-items: center;
             gap: 15px;
             box-sizing: border-box;
+            background: white;
+            border-bottom: 1px solid var(--duo-light-gray);
+        }
+
+        .progress-text {
+            color: var(--duo-gray);
+            font-size: 1.1em;
+            font-weight: 700;
+            min-width: 120px;
         }
 
         .progress-rail {
             flex-grow: 1;
-            height: 16px;
+            height: 12px;
             background-color: var(--duo-light-gray);
-            border-radius: 10px;
+            border-radius: 6px;
+            overflow: hidden;
         }
 
         .progress-fill {
             width: 0%;
             height: 100%;
-            background-color: var(--duo-green);
-            border-radius: 10px;
-            transition: width 0.3s ease;
+            background: linear-gradient(90deg, var(--duo-green), var(--duo-blue));
+            border-radius: 6px;
+            transition: width 0.4s ease;
         }
 
-        /* 主題內容 */
         .content {
             width: 90%;
             max-width: 600px;
-            margin-top: 40px;
+            margin-top: 20px;
             flex-grow: 1;
         }
 
@@ -69,6 +77,7 @@
             font-weight: 700;
             margin-bottom: 30px;
             position: relative;
+            background: #fafafa;
         }
 
         .options-list {
@@ -84,7 +93,8 @@
             font-size: 1.1em;
             font-weight: 500;
             cursor: pointer;
-            transition: 0.1s;
+            transition: all 0.2s;
+            position: relative;
         }
 
         .option-item:hover { background-color: #f7f7f7; }
@@ -93,8 +103,17 @@
             background-color: #ddf4ff;
             color: var(--duo-blue);
         }
+        .option-item.correct {
+            border-color: var(--duo-green);
+            background-color: #d7ffb8;
+            color: var(--duo-green);
+        }
+        .option-item.wrong {
+            border-color: var(--duo-red);
+            background-color: #ffdfe0;
+            color: var(--duo-red);
+        }
 
-        /* 底部操作欄 */
         .footer {
             width: 100%;
             padding: 20px;
@@ -102,6 +121,8 @@
             justify-content: center;
             border-top: 2px solid var(--duo-light-gray);
             background: #fff;
+            position: sticky;
+            bottom: 0;
         }
 
         .btn-action {
@@ -116,15 +137,16 @@
             background-color: var(--duo-green);
             color: white;
             box-shadow: 0 5px 0 var(--duo-dark-green);
+            transition: all 0.2s;
         }
 
+        .btn-action:hover:not(:disabled) { transform: translateY(-2px); }
         .btn-action:disabled {
             background-color: var(--duo-light-gray);
             color: var(--duo-gray);
             box-shadow: 0 5px 0 #ccc;
         }
 
-        /* 反饋滑動層 */
         #feedback-tray {
             position: fixed;
             bottom: -350px;
@@ -134,10 +156,12 @@
             box-sizing: border-box;
             transition: bottom 0.3s ease;
             z-index: 100;
+            background: white;
+            border-top: 1px solid var(--duo-light-gray);
         }
 
-        .tray-correct { background-color: #d7ffb8; color: #58a700; }
-        .tray-wrong { background-color: #ffdfe0; color: #ea2b2b; }
+        .tray-correct { color: #58a700; }
+        .tray-wrong { color: #ea2b2b; }
 
         .btn-next {
             background-color: currentColor;
@@ -148,71 +172,135 @@
             border-radius: 12px;
             font-weight: 900;
             cursor: pointer;
+            box-shadow: 0 3px 0 rgba(0,0,0,0.2);
         }
 
-        #final-screen { display: none; text-align: center; margin-top: 100px; }
+        #final-screen { 
+            display: none; 
+            text-align: center; 
+            margin-top: 50px;
+            padding: 40px;
+        }
+
+        .results-summary {
+            background: linear-gradient(135deg, #d7ffb8, #ddf4ff);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 20px 0;
+        }
+
+        .review-list {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+
+        .review-question {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .review-q { font-weight: 700; font-size: 1.1em; margin-bottom: 10px; }
+        .review-answer { 
+            font-size: 0.95em; 
+            color: var(--duo-gray); 
+            margin-top: 10px;
+            font-weight: 500;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.2em;
+        }
     </style>
 </head>
 <body>
 
     <div class="nav-bar">
         <span style="color:var(--duo-gray); font-size: 24px;">✕</span>
+        <div class="progress-text" id="progress-text">載入中...</div>
         <div class="progress-rail"><div class="progress-fill" id="pb"></div></div>
     </div>
 
     <div class="content" id="quiz-ui">
-        <div class="speech-bubble" id="q-text">🦉 正在為你準備題目...</div>
-        <div class="options-list" id="opt-list"></div>
+        <div class="loading" id="loading">🦉 正在載入題庫...</div>
     </div>
 
     <div id="final-screen">
-        <h1 style="font-size: 4em;">🏆</h1>
-        <h2 id="final-msg">你完成了所有挑戰！</h2>
-        <p id="final-score" style="font-size: 1.5em; font-weight: 700;"></p>
+        <div class="results-summary">
+            <h1 style="font-size: 3em; margin: 0;">🏆 平安是福</h1>
+            <h2 id="final-msg" style="margin: 10px 0;">你完成了安全測試！</h2>
+            <p id="final-score" style="font-size: 2em; font-weight: 900; margin: 10px 0;"></p>
+        </div>
+        <div class="review-list" id="review-list"></div>
         <button class="btn-action" onclick="location.reload()">重新開始</button>
     </div>
 
-    <div class="footer" id="footer-bar">
+    <div class="footer" id="footer-bar" style="display: none;">
         <button class="btn-action" id="check-btn" disabled onclick="handleCheck()">檢查答案</button>
     </div>
 
     <div id="feedback-tray">
         <div style="max-width: 600px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;">
             <div>
-                <h2 id="tray-title" style="margin:0">很好！</h2>
-                <p id="tray-desc" style="margin: 5px 0 0; font-weight: 500;"></p>
+                <h2 id="tray-title" style="margin:0; font-size: 1.5em;">很好！</h2>
+                <p id="tray-desc" style="margin: 5px 0 0; font-weight: 500; font-size: 1.1em;"></p>
             </div>
-            <button class="btn-next" onclick="loadNext()">繼續</button>
+            <button class="btn-next" id="next-btn" onclick="loadNext()">下一題</button>
         </div>
     </div>
 
 <script>
-    // 這裡嵌入 JSON 數據，方便單一檔案部署
-    const quizDatabase = {
-        "questions": [
-            { "q": "火警逃生時，應該帶備哪「逃生三寶」？", "o": ["A. 手提電話、錢包、飲用水", "B. 手提電話、門匙、濕毛巾", "C. 濕毛巾、指南針、地圖", "D. 門匙、雨傘、手電筒"], "a": 1, "d": "正確答案是 B。來源指出逃生三寶為手機、門匙及濕毛巾。" },
-            { "q": "懷疑氣體洩漏時，下列哪項是「絕對禁止」的行為？", "o": ["A. 打開窗戶讓氣體散發", "B. 關掉供氣總掣", "C. 到達安全地方後報警", "D. 在現場撥打電話或開關電掣"], "a": 3, "d": "正確答案是 D。電掣火花或手機訊號可能引發爆炸。" },
-            { "q": "處理流鼻血時，正確的急救姿勢是什麼？", "o": ["A. 捏住鼻骨下柔軟部分並頭微向前傾", "B. 坐下並將頭向後仰", "C. 站立並用力擤鼻涕", "D. 平躺並用冷水沖洗額頭"], "a": 0, "d": "正確答案是 A。應捏住柔軟部分約 10 分鐘並用口呼吸。" },
-            { "q": "哪一個機構擁有超過 6,000 名隊員，負責山火及天災救援？", "o": ["A. 醫療輔助隊 (AMS)", "B. 民眾安全服務隊 (CAS)", "C. 醫院管理局", "D. 香港聖約翰救護機構"], "a": 1, "d": "正確答案是 B。民安隊專責提供搜索及天災救援服務。" },
-            { "q": "處理熱衰竭患者時，應將其身體如何擺放？", "o": ["A. 坐在陽光下喝熱茶", "B. 抬到陰涼處平躺並墊高雙腿", "C. 垂直抬高其雙手", "D. 讓其俯臥在地面"], "a": 1, "d": "正確答案是 B。墊高雙腿可助血液流向頭部。" }
-        ]
-    };
-
+    let quizDatabase = null;
     let idx = 0;
     let score = 0;
     let currentPick = null;
+    let answers = [];
+
+    // 動態載入外部 JSON
+    async function loadQuizData() {
+        try {
+            const response = await fetch('QuizData.json');
+            quizDatabase = await response.json();
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('footer-bar').style.display = 'flex';
+            render();
+        } catch (error) {
+            document.getElementById('q-text').innerHTML = '❌ 無法載入題庫，請確保 QuizData.json 在同一資料夾。<br>錯誤: ' + error.message;
+        }
+    }
+
+    function updateProgress() {
+        if (!quizDatabase) return;
+        const total = quizDatabase.questions.length;
+        document.getElementById('progress-text').textContent = `題目 ${idx + 1}/${total}`;
+        document.getElementById('pb').style.width = `${((idx) / total) * 100}%`;
+    }
+
+    function clearOptions() {
+        document.querySelectorAll('.option-item').forEach(el => {
+            el.classList.remove('active', 'correct', 'wrong');
+        });
+        currentPick = null;
+        document.getElementById('check-btn').disabled = true;
+    }
 
     function render() {
         const item = quizDatabase.questions[idx];
         document.getElementById('q-text').innerText = item.q;
-        const list = document.getElementById('opt-list');
+        const list = document.getElementById('opt-list') || createOptList();
         list.innerHTML = '';
         
         item.o.forEach((text, i) => {
             const div = document.createElement('div');
             div.className = 'option-item';
-            div.innerText = text; // 這裡已包含 A. B. C. D.
+            div.innerText = text;
             div.onclick = () => {
+                if (answers[idx] !== undefined) return;
                 currentPick = i;
                 document.querySelectorAll('.option-item').forEach(el => el.classList.remove('active'));
                 div.classList.add('active');
@@ -220,45 +308,88 @@
             };
             list.appendChild(div);
         });
-        document.getElementById('pb').style.width = `${(idx / quizDatabase.questions.length) * 100}%`;
+        updateProgress();
+    }
+
+    function createOptList() {
+        const content = document.getElementById('quiz-ui');
+        const list = document.createElement('div');
+        list.id = 'opt-list';
+        list.className = 'options-list';
+        content.appendChild(list);
+        return list;
     }
 
     function handleCheck() {
         const item = quizDatabase.questions[idx];
+        const list = document.getElementById('opt-list');
         const tray = document.getElementById('feedback-tray');
         const title = document.getElementById('tray-title');
         const desc = document.getElementById('tray-desc');
 
+        answers[idx] = currentPick;
+
+        list.childNodes.forEach((node, i) => {
+            if (i === item.a) {
+                node.classList.add('correct');
+            } else if (i === currentPick && i !== item.a) {
+                node.classList.add('wrong');
+            }
+        });
+
         if (currentPick === item.a) {
             score++;
-            tray.className = 'tray-correct';
-            title.innerText = '答對了！';
+            title.innerText = '✅ 答對了！';
+            tray.classList.add('tray-correct');
+            tray.classList.remove('tray-wrong');
         } else {
-            tray.className = 'tray-wrong';
-            title.innerText = '再接再厲！';
+            title.innerText = '❌ 再接再厲！';
+            tray.classList.add('tray-wrong');
+            tray.classList.remove('tray-correct');
         }
         desc.innerText = item.d;
         tray.style.bottom = '0';
-        document.getElementById('check-btn').style.visibility = 'hidden';
+        document.getElementById('check-btn').style.display = 'none';
+        document.getElementById('next-btn').textContent = idx === quizDatabase.questions.length - 1 ? '完成測試' : '下一題';
     }
 
     function loadNext() {
         document.getElementById('feedback-tray').style.bottom = '-350px';
-        document.getElementById('check-btn').style.visibility = 'visible';
-        document.getElementById('check-btn').disabled = true;
+        document.getElementById('check-btn').style.display = 'block';
         idx++;
         if (idx < quizDatabase.questions.length) {
+            clearOptions();
             render();
         } else {
-            document.getElementById('quiz-ui').style.display = 'none';
-            document.getElementById('footer-bar').style.display = 'none';
-            document.getElementById('pb').style.width = '100%';
-            document.getElementById('final-screen').style.display = 'block';
-            document.getElementById('final-score').innerText = `你的得分：${score} / ${quizDatabase.questions.length}`;
+            showResults();
         }
     }
 
-    render();
+    function showResults() {
+        document.getElementById('quiz-ui').style.display = 'none';
+        document.getElementById('footer-bar').style.display = 'none';
+        document.getElementById('final-screen').style.display = 'block';
+        document.getElementById('final-score').innerText = `得分：${score} / ${quizDatabase.questions.length} (${Math.round((score / quizDatabase.questions.length) * 100)}%)`;
+
+        const reviewList = document.getElementById('review-list');
+        reviewList.innerHTML = '';
+        quizDatabase.questions.forEach((item, i) => {
+            const div = document.createElement('div');
+            div.className = 'review-question';
+            const isCorrect = answers[i] === item.a;
+            div.innerHTML = `
+                <div class="review-q">Q${i+1}: ${item.q}</div>
+                <div>你的答案: ${item.o[answers[i] || '?']}</div>
+                <div class="${isCorrect ? 'review-answer' : 'review-answer'}" style="color: ${isCorrect ? 'var(--duo-green)' : 'var(--duo-red)'}">
+                    正確答案: ${item.o[item.a]} ${item.d}
+                </div>
+            `;
+            reviewList.appendChild(div);
+        });
+    }
+
+    // 啟動載入
+    loadQuizData();
 </script>
 </body>
 </html>
