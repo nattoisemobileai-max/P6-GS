@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>學習追蹤 - Duolingo風格</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --duo-green: #58cc02;
+            --duo-dark-green: #46a302;
+            --duo-blue: #1cb0f6;
+            --duo-red: #ff4b4b;
+            --duo-yellow: #ffcd00;
+            --duo-gray: #afafaf;
+            --duo-light-gray: #e5e5e5;
+            --duo-light-blue: #ddf4ff;
+            --text-main: #4b4b4b;
+            --text-light: #7a7a7a;
+            --shadow-light: 0 4px 8px rgba(0, 0, 0, 0.1);
+            --shadow-medium: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--text-main);
+            line-height: 1.5;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: var(--shadow-light);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--duo-green), var(--duo-blue));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 900;
+            font-size: 1.8rem;
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--duo-green);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .profile-icon {
+            width: 45px;
+            height: 45px;
+            background-color: var(--duo-light-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--duo-blue);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        /* 統計卡片 */
+        .stats-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .stat-card {
+            background-color: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: var(--shadow-light);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .stat-card.streak {
+            border-top: 6px solid var(--duo-red);
+        }
+
+        .stat-card.xp {
+            border-top: 6px solid var(--duo-green);
+        }
+
+        .stat-value {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 5px;
+        }
+
+        .stat-card.streak .stat-value {
+            color: var(--duo-red);
+        }
+
+        .stat-card.xp .stat-value {
+            color: var(--duo-green);
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .stat-progress {
+            width: 100%;
+            background-color: var(--duo-light-gray);
+            height: 12px;
+            border-radius: 6px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .stat-progress-fill {
+            height: 100%;
+            border-radius: 6px;
+            transition: width 0.5s ease;
+        }
+
+        .streak .stat-progress-fill {
+            background-color: var(--duo-red);
+            width: 70%; /* 14/20 天 */
+        }
+
+        .xp .stat-progress-fill {
+            background-color: var(--duo-green);
+            width: 50%; /* 10/20 XP */
+        }
+
+        .progress-text {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-top: 8px;
+        }
+
+        /* 日曆部分 */
+        .calendar-container {
+            background-color: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--shadow-light);
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .calendar-title {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--text-main);
+        }
+
+        .calendar-nav {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--duo-light-gray);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .nav-btn:hover {
+            background-color: var(--duo-gray);
+            color: white;
+        }
+
+        .weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: 700;
+            color: var(--text-light);
+        }
+
+        .calendar-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .calendar-day.empty {
+            background-color: transparent;
+            cursor: default;
+        }
+
+        .calendar-day.inactive {
+            background-color: var(--duo-light-gray);
+            color: var(--text-light);
+        }
+
+        .calendar-day.active {
+            background-color: var(--duo-green);
+            color: white;
+            box-shadow: 0 4px 0 var(--duo-dark-green);
+        }
+
+        .calendar-day.today {
+            background-color: var(--duo-blue);
+            color: white;
+            box-shadow: 0 4px 0 #0a9cda;
+        }
+
+        .calendar-day.streak {
+            background-color: var(--duo-red);
+            color: white;
+            box-shadow: 0 4px 0 #d33;
+        }
+
+        .calendar-day:hover:not(.empty):not(.inactive) {
+            transform: scale(1.05);
+        }
+
+        /* 成就卡片 */
+        .achievement-card {
+            background-color: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--shadow-light);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            border-top: 6px solid var(--duo-yellow);
+        }
+
+        .achievement-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--duo-yellow), #ff9d00);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .achievement-title {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--text-main);
+            margin-bottom: 10px;
+        }
+
+        .achievement-desc {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        /* 底部按鈕 */
+        .continue-btn {
+            display: block;
+            width: 100%;
+            padding: 20px;
+            background-color: var(--duo-green);
+            color: white;
+            border-radius: 20px;
+            font-weight: 900;
+            font-size: 1.3rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 6px 0 var(--duo-dark-green);
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .continue-btn:hover {
+            background-color: #4bc000;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 0 var(--duo-dark-green);
+        }
+
+        .continue-btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 5px 0 var(--duo-dark-green);
+        }
+
+        /* 響應式設計 */
+        @media (max-width: 768px) {
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .calendar-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .calendar-day {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <div class="logo-icon"><i class="fas fa-language"></i></div>
+                <div class="logo-text">每日學習</div>
+            </div>
+            <div class="user-profile">
+                <div class="profile-icon"><i class="fas fa-user"></i></div>
+                <div>
+                    <div style="font-weight: 700;">Jayden</div>
+                    <div style="font-size: 0.85rem; color: var(--text-light);">第14天連擊</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-container">
+            <div class="stat-card streak">
+                <div class="stat-value">14</div>
+                <div class="stat-label">連續學習天數</div>
+                <div class="stat-progress">
+                    <div class="stat-progress-fill"></div>
+                </div>
+                <div class="progress-text">距離30天目標還有16天</div>
+            </div>
+            
+            <div class="stat-card xp">
+                <div class="stat-value">10 / 20</div>
+                <div class="stat-label">今日XP點數</div>
+                <div class="stat-progress">
+                    <div class="stat-progress-fill"></div>
+                </div>
+                <div class="progress-text">已完成每日目標的50%</div>
+            </div>
+        </div>
+
+        <div class="calendar-container">
+            <div class="calendar-header">
+                <div class="calendar-title">2024年 4月</div>
+                <div class="calendar-nav">
+                    <button class="nav-btn" id="prev-month"><i class="fas fa-chevron-left"></i></button>
+                    <button class="nav-btn" id="next-month"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+            
+            <div class="weekdays">
+                <div>一</div>
+                <div>二</div>
+                <div>三</div>
+                <div>四</div>
+                <div>五</div>
+                <div>六</div>
+                <div>日</div>
+            </div>
+            
+            <div class="calendar-days" id="calendar-days">
+                <!-- 日曆天數將由JavaScript動態生成 -->
+            </div>
+        </div>
+
+        <div class="achievement-card">
+            <div class="achievement-icon"><i class="fas fa-trophy"></i></div>
+            <h2 class="achievement-title">14天連續學習！</h2>
+            <p class="achievement-desc">
+                您已經連續學習兩週了！您正在建立強大的學習習慣！
+                保持動力，明天繼續您的學習之旅。
+            </p>
+            <div style="display: flex; gap: 15px; margin-top: 10px;">
+                <span style="padding: 8px 16px; background-color: #ffdfba; color: #e68a00; border-radius: 20px; font-weight: 700;">食物</span>
+                <span style="padding: 8px 16px; background-color: #d4edda; color: #155724; border-radius: 20px; font-weight: 700;">家庭</span>
+            </div>
+        </div>
+
+        <a href="#" class="continue-btn" id="continue-btn">
+            <i class="fas fa-play" style="margin-right: 10px;"></i> 繼續學習
+        </a>
+    </div>
+
+    <script>
+        // 學習數據
+        const learningData = {
+            currentStreak: 14,
+            todayXP: 10,
+            dailyGoal: 20,
+            streakGoal: 30,
+            
+            // 2024年4月的學習記錄（模擬數據）
+            april2024: {
+                // 日期: { completed: 是否完成, xp: 獲得XP, streakDay: 是否連續學習 }
+                1: { completed: false, xp: 0, streakDay: false },
+                2: { completed: false, xp: 0, streakDay: false },
+                3: { completed: false, xp: 0, streakDay: false },
+                4: { completed: false, xp: 0, streakDay: false },
+                5: { completed: false, xp: 0, streakDay: false },
+                6: { completed: true, xp: 15, streakDay: true },
+                7: { completed: true, xp: 20, streakDay: true },
+                8: { completed: true, xp: 18, streakDay: true },
+                9: { completed: true, xp: 22, streakDay: true },
+                10: { completed: true, xp: 25, streakDay: true },
+                11: { completed: true, xp: 20, streakDay: true },
+                12: { completed: true, xp: 19, streakDay: true },
+                13: { completed: true, xp: 21, streakDay: true },
+                14: { completed: true, xp: 23, streakDay: true },
+                15: { completed: true, xp: 18, streakDay: true },
+                16: { completed: true, xp: 20, streakDay: true }, // 今天
+                17: { completed: false, xp: 0, streakDay: false },
+                18: { completed: false, xp: 0, streakDay: false },
+                19: { completed: false, xp: 0, streakDay: false },
+                20: { completed: false, xp: 0, streakDay: false },
+                21: { completed: false, xp: 0, streakDay: false },
+                22: { completed: false, xp: 0, streakDay: false },
+                23: { completed: false, xp: 0, streakDay: false },
+                24: { completed: false, xp: 0, streakDay: false },
+                25: { completed: false, xp: 0, streakDay: false },
+                26: { completed: false, xp: 0, streakDay: false },
+                27: { completed: false, xp: 0, streakDay: false },
+                28: { completed: false, xp: 0, streakDay: false },
+                29: { completed: false, xp: 0, streakDay: false },
+                30: { completed: false, xp: 0, streakDay: false }
+            },
+            
+            // 之前的月份也有學習記錄
+            march2024: {
+                // 3月最後幾天也在連續學習
+                28: { completed: true, xp: 20, streakDay: true },
+                29: { completed: true, xp: 18, streakDay: true },
+                30: { completed: true, xp: 22, streakDay: true },
+                31: { completed: true, xp: 25, streakDay: true }
+            }
+        };
+        
+        // 當前顯示的年份和月份
+        let currentYear = 2024;
+        let currentMonth = 3; // 0 = 一月, 3 = 四月
+        
+        // 初始化日曆
+        function initCalendar(year, month) {
+            const calendarDays = document.getElementById('calendar-days');
+            calendarDays.innerHTML = '';
+            
+            // 設置日曆標題
+            document.querySelector('.calendar-title').textContent = `${year}年 ${month + 1}月`;
+            
+            // 獲取月份的第一天和該月的天數
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const daysInMonth = lastDay.getDate();
+            const startingDay = firstDay.getDay(); // 0 = 星期日, 1 = 星期一...
+            
+            // 調整起始日為星期一開始（台灣日曆習慣）
+            const adjustedStartingDay = startingDay === 0 ? 6 : startingDay - 1;
+            
+            // 添加空白格子
+            for (let i = 0; i < adjustedStartingDay; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'calendar-day empty';
+                calendarDays.appendChild(emptyDay);
+            }
+            
+            // 獲取今天的日期
+            const today = new Date();
+            const isCurrentMonth = today.getFullYear() === year && today.getMonth() === month;
+            
+            // 添加月份中的每一天
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+                dayElement.textContent = day;
+                
+                // 檢查是否是今天
+                if (isCurrentMonth && day === today.getDate()) {
+                    dayElement.classList.add('today');
+                }
+                
+                // 檢查是否有學習記錄
+                const monthKey = getMonthKey(year, month);
+                if (learningData[monthKey] && learningData[monthKey][day]) {
+                    const dayData = learningData[monthKey][day];
+                    
+                    if (dayData.completed) {
+                        dayElement.classList.add('active');
+                        
+                        // 如果是連續學習日，添加特別樣式
+                        if (dayData.streakDay) {
+                            dayElement.classList.add('streak');
+                        }
+                        
+                        // 添加XP提示
+                        dayElement.title = `獲得 ${dayData.xp} XP`;
+                    }
+                } else if (day < today.getDate() && isCurrentMonth) {
+                    // 如果是當前月份中今天之前的日期但沒有學習記錄
+                    dayElement.classList.add('inactive');
+                }
+                
+                // 添加點擊事件
+                dayElement.addEventListener('click', function() {
+                    const monthKey = getMonthKey(year, month);
+                    if (learningData[monthKey] && learningData[monthKey][day]) {
+                        const dayData = learningData[monthKey][day];
+                        alert(`${year}年${month + 1}月${day}日\n學習完成: ${dayData.completed ? '是' : '否'}\n獲得XP: ${dayData.xp}\n連續學習: ${dayData.streakDay ? '是' : '否'}`);
+                    } else {
+                        alert(`${year}年${month + 1}月${day}日\n尚未學習`);
+                    }
+                });
+                
+                calendarDays.appendChild(dayElement);
+            }
+        }
+        
+        // 生成月份鍵
+        function getMonthKey(year, month) {
+            const monthNames = ['january', 'february', 'march', 'april', 'may', 'june', 
+                                'july', 'august', 'september', 'october', 'november', 'december'];
+            return `${monthNames[month]}${year}`;
+        }
+        
+        // 更新統計數據
+        function updateStats() {
+            // 更新連續學習天數
+            document.querySelector('.streak .stat-value').textContent = learningData.currentStreak;
+            document.querySelector('.streak .stat-progress-fill').style.width = 
+                `${(learningData.currentStreak / learningData.streakGoal) * 100}%`;
+            document.querySelector('.streak .progress-text').textContent = 
+                `距離${learningData.streakGoal}天目標還有${learningData.streakGoal - learningData.currentStreak}天`;
+            
+            // 更新XP數據
+            document.querySelector('.xp .stat-value').textContent = 
+                `${learningData.todayXP} / ${learningData.dailyGoal}`;
+            document.querySelector('.xp .stat-progress-fill').style.width = 
+                `${(learningData.todayXP / learningData.dailyGoal) * 100}%`;
+            document.querySelector('.xp .progress-text').textContent = 
+                `已完成每日目標的${Math.round((learningData.todayXP / learningData.dailyGoal) * 100)}%`;
+        }
+        
+        // 模擬完成今日學習
+        function completeToday() {
+            const today = new Date();
+            const day = today.getDate();
+            const monthKey = getMonthKey(currentYear, currentMonth);
+            
+            if (!learningData[monthKey]) {
+                learningData[monthKey] = {};
+            }
+            
+            // 如果今天還沒完成學習
+            if (!learningData[monthKey][day] || !learningData[monthKey][day].completed) {
+                // 隨機生成一些XP
+                const xpEarned = Math.min(learningData.dailyGoal, learningData.todayXP + 5 + Math.floor(Math.random() * 10));
+                
+                learningData[monthKey][day] = {
+                    completed: true,
+                    xp: xpEarned,
+                    streakDay: true
+                };
+                
+                // 更新今日XP和連續天數
+                learningData.todayXP = xpEarned;
+                learningData.currentStreak++;
+                
+                // 更新顯示
+                updateStats();
+                initCalendar(currentYear, currentMonth);
+                
+                // 更新成就消息
+                updateAchievementMessage();
+                
+                alert(`恭喜！您已完成今日學習，獲得 ${xpEarned} XP！`);
+            } else {
+                alert('您今天已經完成學習了！');
+            }
+        }
+        
+        // 更新成就消息
+        function updateAchievementMessage() {
+            const achievementTitle = document.querySelector('.achievement-title');
+            const achievementDesc = document.querySelector('.achievement-desc');
+            
+            if (learningData.currentStreak >= 30) {
+                achievementTitle.textContent = '30天連續學習！';
+                achievementDesc.textContent = '太驚人了！您已經連續學習一個月了！這是一個令人印象深刻的成就，繼續保持！';
+            } else if (learningData.currentStreak >= 14) {
+                achievementTitle.textContent = '14天連續學習！';
+                achievementDesc.textContent = '您已經連續學習兩週了！您正在建立強大的學習習慣！保持動力，明天繼續您的學習之旅。';
+            } else if (learningData.currentStreak >= 7) {
+                achievementTitle.textContent = '7天連續學習！';
+                achievementDesc.textContent = '恭喜！您已經完成一週的連續學習！繼續保持這個好習慣。';
+            } else {
+                achievementTitle.textContent = '保持學習！';
+                achievementDesc.textContent = '每天學習一點點，積少成多！繼續保持您的學習動力。';
+            }
+        }
+        
+        // 初始化頁面
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化日曆
+            initCalendar(currentYear, currentMonth);
+            
+            // 更新統計數據
+            updateStats();
+            
+            // 更新成就消息
+            updateAchievementMessage();
+            
+            // 上個月按鈕
+            document.getElementById('prev-month').addEventListener('click', function() {
+                currentMonth--;
+                if (currentMonth < 0) {
+                    currentMonth = 11;
+                    currentYear--;
+                }
+                initCalendar(currentYear, currentMonth);
+            });
+            
+            // 下個月按鈕
+            document.getElementById('next-month').addEventListener('click', function() {
+                currentMonth++;
+                if (currentMonth > 11) {
+                    currentMonth = 0;
+                    currentYear++;
+                }
+                initCalendar(currentYear, currentMonth);
+            });
+            
+            // 繼續學習按鈕
+            document.getElementById('continue-btn').addEventListener('click', function(e) {
+                e.preventDefault();
+                completeToday();
+            });
+            
+            // 模擬點擊今天完成學習
+            const today = new Date();
+            const todayElement = document.querySelector('.calendar-day.today');
+            if (todayElement) {
+                todayElement.addEventListener('click', function() {
+                    const monthKey = getMonthKey(currentYear, currentMonth);
+                    const day = today.getDate();
+                    
+                    if (learningData[monthKey] && learningData[monthKey][day] && learningData[monthKey][day].completed) {
+                        alert('今天您已經完成了學習！點擊「繼續學習」按鈕可以添加更多練習。');
+                    } else {
+                        alert('今天還沒有完成學習。點擊「繼續學習」按鈕開始學習吧！');
+                    }
+                });
+            }
+        });
+        
+        // 模擬每日自動更新
+        function simulateDailyUpdate() {
+            const now = new Date();
+            const hours = now.getHours();
+            
+            // 如果是新的一天（凌晨），重置今日XP
+            if (hours >= 0 && hours < 6 && learningData.todayXP > 0) {
+                learningData.todayXP = 0;
+                updateStats();
+            }
+        }
+        
+        // 每小時檢查一次是否需要更新
+        setInterval(simulateDailyUpdate, 60 * 60 * 1000);
+    </script>
+</body>
+</html>
