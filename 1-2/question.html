@@ -43,13 +43,9 @@
             height: 16px;
             background-color: var(--duo-light-gray);
             border-radius: 10px;
-            position: relative;
         }
 
         .progress-fill {
-            position: absolute;
-            left: 0;
-            top: 0;
             width: 0%;
             height: 100%;
             background-color: var(--duo-green);
@@ -57,24 +53,11 @@
             transition: width 0.3s ease;
         }
 
-        /* 小節標題 */
-        .section-title {
-            width: 100%;
-            max-width: 600px;
-            padding: 10px 20px;
-            background-color: #f0f9ff;
-            color: var(--duo-blue);
-            font-weight: 700;
-            font-size: 1.1em;
-            margin-top: 10px;
-            border-left: 4px solid var(--duo-blue);
-        }
-
         /* 主題內容 */
         .content {
             width: 90%;
             max-width: 600px;
-            margin-top: 20px;
+            margin-top: 40px;
             flex-grow: 1;
         }
 
@@ -86,7 +69,6 @@
             font-weight: 700;
             margin-bottom: 30px;
             position: relative;
-            background-color: white;
         }
 
         .options-list {
@@ -103,26 +85,19 @@
             font-weight: 500;
             cursor: pointer;
             transition: 0.1s;
-            background-color: white;
+            user-select: none;
         }
 
-        .option-item:hover { background-color: #f7f7f7; }
+        .option-item:hover { 
+            background-color: #f7f7f7; 
+            transform: translateY(-1px);
+        }
+        
         .option-item.active {
             border-color: var(--duo-blue);
             background-color: #ddf4ff;
-            color: var(--text-main);
-        }
-        
-        .option-item.correct {
-            border-color: var(--duo-green);
-            background-color: #e8ffd8;
-            color: var(--text-main);
-        }
-        
-        .option-item.wrong {
-            border-color: var(--duo-red);
-            background-color: #ffeaea;
-            color: var(--text-main);
+            color: var(--duo-blue);
+            transform: translateY(-1px);
         }
 
         /* 底部操作欄 */
@@ -151,13 +126,12 @@
         }
 
         .btn-action:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 7px 0 var(--duo-dark-green);
+            background-color: #4bc000;
         }
 
         .btn-action:active {
-            transform: translateY(3px);
-            box-shadow: 0 2px 0 var(--duo-dark-green);
+            transform: translateY(2px);
+            box-shadow: 0 3px 0 var(--duo-dark-green);
         }
 
         .btn-action:disabled {
@@ -165,7 +139,6 @@
             color: var(--duo-gray);
             box-shadow: 0 5px 0 #ccc;
             cursor: not-allowed;
-            transform: none;
         }
 
         /* 反饋滑動層 */
@@ -183,13 +156,13 @@
         .tray-correct { 
             background-color: #d7ffb8; 
             color: #58a700; 
-            border-top: 4px solid #58a700;
+            border-top: 3px solid #58a700;
         }
         
         .tray-wrong { 
             background-color: #ffdfe0; 
             color: #ea2b2b; 
-            border-top: 4px solid #ea2b2b;
+            border-top: 3px solid #ea2b2b;
         }
 
         .btn-next {
@@ -203,7 +176,7 @@
             cursor: pointer;
             transition: all 0.2s;
         }
-        
+
         .btn-next:hover {
             filter: brightness(1);
             transform: scale(1.05);
@@ -216,17 +189,9 @@
             padding: 20px;
         }
         
-        .score-display {
-            font-size: 3em;
-            font-weight: 900;
-            color: var(--duo-blue);
-            margin: 20px 0;
-        }
-        
-        .current-section {
-            color: var(--duo-blue);
-            font-weight: 700;
-            font-size: 1.2em;
+        .question-counter {
+            color: var(--duo-gray);
+            font-size: 0.9em;
             margin-bottom: 10px;
         }
     </style>
@@ -235,14 +200,11 @@
 
     <div class="nav-bar">
         <span style="color:var(--duo-gray); font-size: 24px; cursor: pointer;" onclick="location.reload()">✕</span>
-        <div class="progress-rail">
-            <div class="progress-fill" id="pb"></div>
-        </div>
+        <div class="progress-rail"><div class="progress-fill" id="pb"></div></div>
     </div>
 
-    <div id="section-title" class="section-title"></div>
-
     <div class="content" id="quiz-ui">
+        <div class="question-counter" id="counter">第 <span id="current-q">1</span> 題，共 <span id="total-q">?</span> 題</div>
         <div class="speech-bubble" id="q-text">🦉 正在為你準備題目...</div>
         <div class="options-list" id="opt-list"></div>
     </div>
@@ -250,9 +212,8 @@
     <div id="final-screen">
         <h1 style="font-size: 4em;">🏆</h1>
         <h2 id="final-msg">你完成了所有挑戰！</h2>
-        <div class="score-display" id="final-score"></div>
-        <p style="color: var(--duo-gray); margin-bottom: 30px;">感謝你學習安全知識，祝你平安！</p>
-        <button class="btn-action" onclick="location.reload()">重新開始挑戰</button>
+        <p id="final-score" style="font-size: 1.5em; font-weight: 700; color: var(--duo-blue);"></p>
+        <button class="btn-action" onclick="location.reload()" style="margin-top: 20px;">重新開始</button>
     </div>
 
     <div class="footer" id="footer-bar">
@@ -270,309 +231,195 @@
     </div>
 
 <script>
-    // 使用提供的 JSON 數據
-    const quizDatabase = {
-        "questions": [
-            {
-                "section": "小節一：家居危機（火警與氣體）",
-                "id": 1,
-                "q": "Q1. 火警發生時，走廊濃煙滿佈，應留在家中做第一件事？",
-                "o": ["A. 立即用升降機逃生", "B. 關上大門密封門縫", "C. 打開所有窗戶", "D. 繼續使用電器"],
-                "a": 1,
-                "d": "正確答案是 B。用膠紙/濕毛巾密封門縫隔絕煙火。（教材第12頁）"
-            },
-            {
-                "section": "小節一：家居危機（火警與氣體）",
-                "id": 2,
-                "q": "Q2. 火警逃生『三寶』不包括以下哪項？",
-                "o": ["A. 手提電話", "B. 門匙", "C. 錢包", "D. 濕毛巾"],
-                "a": 2,
-                "d": "正確答案是 C。三寶：手提電話、門匙、濕毛巾。（教材第12頁）"
-            },
-            {
-                "section": "小節一：家居危機（火警與氣體）",
-                "id": 3,
-                "q": "Q3. 留在火警單位內求救，應致電哪個電話？",
-                "o": ["A. 1823", "B. 999", "C. 110", "D. 995"],
-                "a": 1,
-                "d": "正確答案是 B。999火警求救。（教材第12頁）"
-            },
-            {
-                "section": "小節一：家居危機（火警與氣體）",
-                "id": 4,
-                "q": "Q4. 氣體洩漏時，第一步應做什麼？",
-                "o": ["A. 開燈檢查", "B. 打開窗戶", "C. 使用電話報警", "D. 開抽氣扇"],
-                "a": 1,
-                "d": "正確答案是 B。打開窗戶散氣，然後關總掣。（教材第13頁）"
-            },
-            {
-                "section": "小節一：家居危機（火警與氣體）",
-                "id": 5,
-                "q": "Q5. 氣體洩漏時絕對禁止什麼？",
-                "o": ["A. 關供氣總掣", "B. 開關電器電掣", "C. 通知鄰居", "D. 到安全地方報警"],
-                "a": 1,
-                "d": "正確答案是 B。開關電器產生火花引爆炸。（教材第13頁）"
-            },
-            {
-                "section": "小節一：家居危機（火警與氣體）",
-                "id": 6,
-                "q": "Q6. 火警濃煙時應如何逃生？",
-                "o": ["A. 直立奔跑", "B. 伏地爬行", "C. 用毛巾捂口", "D. 以上B、C都對"],
-                "a": 3,
-                "d": "正確答案是 D。伏地少煙，用濕毛巾捂口。（教材第12頁）"
-            },
-            {
-                "section": "小節一：家居危機（火警與氣體）",
-                "id": 7,
-                "q": "Q7. 預防火警應保持什麼暢通？",
-                "o": ["A. 廚房水槽", "B. 逃生走道", "C. 電器插頭", "D. 窗戶簾幕"],
-                "a": 1,
-                "d": "正確答案是 B。保持走道暢通，防火門常關。（教材第12頁）"
-            },
-            {
-                "section": "小節一：家居危機（火警與氣體）",
-                "id": 8,
-                "q": "Q8. 氣體洩漏預防措施是？",
-                "o": ["A. 每天檢查喉管", "B. 定期專業檢查", "C. 用火測試洩漏", "D. 增加氣壓"],
-                "a": 1,
-                "d": "正確答案是 B。聘請合資格人員定期檢查。（教材第13頁）"
-            },
-            {
-                "section": "小節一：家居危機（火警與氣體）",
-                "id": 9,
-                "q": "Q9. 火警時消防員如何找到你？",
-                "o": ["A. 打電話", "B. 揮動毛巾", "C. 發簡訊", "D. 敲窗戶"],
-                "a": 1,
-                "d": "正確答案是 B。窗邊/露台揮毛巾標示位置。（教材第12頁）"
-            },
-            {
-                "section": "小節一：家居危機（火警與氣體）",
-                "id": 10,
-                "q": "Q10. 火警逃生切勿使用什麼？",
-                "o": ["A. 樓梯", "B. 升降機", "C. 濕毛巾", "D. 手提電話"],
-                "a": 1,
-                "d": "正確答案是 B。升降機可能故障停駛。（教材第12頁）"
-            },
-            {
-                "section": "小節二：郊遊與急救",
-                "id": 11,
-                "q": "Q11. 熱衰竭第一步處理？",
-                "o": ["A. 抬陰涼處躺下", "B. 喝熱茶", "C. 跑步活動", "D. 蓋被子"],
-                "a": 0,
-                "d": "正確答案是 A。移陰涼通風處躺下。（教材第14頁）"
-            },
-            {
-                "section": "小節二：郊遊與急救",
-                "id": 12,
-                "q": "Q12. 預防熱衰竭應做什麼？",
-                "o": ["A. 穿深色厚衣", "B. 定時補水", "C. 食用野果", "D. 燒烤不滅火"],
-                "a": 1,
-                "d": "正確答案是 B。充足食水、淺色透氣衣。（教材第14頁）"
-            },
-            {
-                "section": "小節二：郊遊與急救",
-                "id": 13,
-                "q": "Q13. 郊遊燒烤後必須？",
-                "o": ["A. 立即離開", "B. 用水淋熄", "C. 蓋沙掩埋", "D. 以上皆錯"],
-                "a": 1,
-                "d": "正確答案是 B。徹底用水淋熄火種。（教材第14頁）"
-            },
-            {
-                "section": "小節二：郊遊與急救",
-                "id": 14,
-                "q": "Q14. 熱衰竭應墊高什麼？",
-                "o": ["A. 頭部", "B. 雙腿", "C. 手臂", "D. 腰部"],
-                "a": 1,
-                "d": "正確答案是 B。墊高雙腿助血流頭部。（教材第14頁）"
-            },
-            {
-                "section": "小節二：郊遊與急救",
-                "id": 15,
-                "q": "Q15. 郊遊前應避免什麼？",
-                "o": ["A. 帶足水", "B. 食用野生果菌", "C. 穿運動鞋", "D. 觀察環境"],
-                "a": 1,
-                "d": "正確答案是 B。切勿採摘食用野果。（教材第14頁）"
-            },
-            {
-                "section": "小節三：道路安全與救援",
-                "id": 16,
-                "q": "Q16. 過馬路最安全方式？",
-                "o": ["A. 衝紅燈", "B. 行人天橋", "C. 戴耳機", "D. 直行不看"],
-                "a": 1,
-                "d": "正確答案是 B。使用天橋/斑馬線。（教材第16頁）"
-            },
-            {
-                "section": "小節三：道路安全與救援",
-                "id": 17,
-                "q": "Q17. 巴士上應握緊？",
-                "o": ["A. 手機", "B. 扶手", "C. 背包", "D. 門把"],
-                "a": 1,
-                "d": "正確答案是 B。握緊扶手確保安全。（教材第16頁）"
-            },
-            {
-                "section": "小節三：道路安全與救援",
-                "id": 18,
-                "q": "Q18. 救援電話999應提供什麼？",
-                "o": ["A. 準確地點", "B. 心情描述", "C. 寵物名字", "D. 以上皆非"],
-                "a": 0,
-                "d": "正確答案是 A。地點、事件、傷者人數、傷勢。（教材第17頁）"
-            },
-            {
-                "section": "小節三：道路安全與救援",
-                "id": 19,
-                "q": "Q19. CAS主要救援什麼？",
-                "o": ["A. 醫院治療", "B. 山嶺搜索", "C. 火警滅火", "D. 交通指揮"],
-                "a": 1,
-                "d": "正確答案是 B。民眾安全服務隊支援天災。（教材第17頁）"
-            },
-            {
-                "section": "小節三：道路安全與救援",
-                "id": 20,
-                "q": "Q20. 私家車必須做什麼？",
-                "o": ["A. 開窗聽歌", "B. 扣安全帶", "C. 站上層", "D. 不握扶手"],
-                "a": 1,
-                "d": "正確答案是 B。私家車/的士必須扣安全帶。（教材第16頁）"
-            },
-            {
-                "section": "小節三：道路安全與救援",
-                "id": 21,
-                "q": "Q21. 濫用999會造成什麼？",
-                "o": ["A. 更快救援", "B. 延誤真正急症", "C. 免費服務", "D. 無影響"],
-                "a": 1,
-                "d": "正確答案是 B。延誤生命危急者救援。（教材第17頁）"
-            }
-        ]
-    };
-
-    let idx = 0;
+    // 遊戲狀態變數
+    let currentQuestionIndex = 0;
     let score = 0;
-    let currentPick = null;
-    let currentSection = "";
+    let selectedOption = null;
+    let quizData = null;
+    let canSelect = true;
 
-    function render() {
-        const item = quizDatabase.questions[idx];
-        document.getElementById('q-text').innerText = item.q;
-        const list = document.getElementById('opt-list');
-        list.innerHTML = '';
-        
-        // 更新小節標題
-        if (item.section !== currentSection) {
-            currentSection = item.section;
-            document.getElementById('section-title').innerText = currentSection;
-            document.getElementById('section-title').style.display = 'block';
+    // 載入測驗數據
+    async function loadQuizData() {
+        try {
+            const response = await fetch('QuizData.json');
+            if (!response.ok) {
+                throw new Error('無法載入題目數據');
+            }
+            quizData = await response.json();
+            initializeQuiz();
+        } catch (error) {
+            console.error('載入數據失敗:', error);
+            document.getElementById('q-text').innerText = '❌ 無法載入題目數據，請檢查 QuizData.json 檔案是否存在';
+        }
+    }
+
+    // 初始化測驗
+    function initializeQuiz() {
+        if (!quizData || !quizData.questions || quizData.questions.length === 0) {
+            document.getElementById('q-text').innerText = '❌ 沒有可用的題目數據';
+            return;
         }
         
-        item.o.forEach((text, i) => {
-            const div = document.createElement('div');
-            div.className = 'option-item';
-            div.innerText = text;
-            div.onclick = () => {
-                if (document.getElementById('check-btn').disabled) return; // 已檢查答案時不可選
-                
-                currentPick = i;
-                document.querySelectorAll('.option-item').forEach(el => {
-                    el.classList.remove('active');
-                });
-                div.classList.add('active');
-                document.getElementById('check-btn').disabled = false;
-            };
-            list.appendChild(div);
-        });
+        // 更新總題數顯示
+        document.getElementById('total-q').textContent = quizData.questions.length;
+        
+        // 載入第一題
+        loadQuestion();
+    }
+
+    // 載入題目
+    function loadQuestion() {
+        if (!quizData) return;
+        
+        const question = quizData.questions[currentQuestionIndex];
+        
+        // 更新題目編號
+        document.getElementById('current-q').textContent = currentQuestionIndex + 1;
         
         // 更新進度條
-        const progressPercent = ((idx + 1) / quizDatabase.questions.length) * 100;
-        document.getElementById('pb').style.width = `${progressPercent}%`;
+        const progress = ((currentQuestionIndex) / quizData.questions.length) * 100;
+        document.getElementById('pb').style.width = `${progress}%`;
         
-        // 重置檢查按鈕狀態
+        // 顯示題目
+        document.getElementById('q-text').textContent = question.q;
+        
+        // 清空並重建選項
+        const optionsList = document.getElementById('opt-list');
+        optionsList.innerHTML = '';
+        
+        // 創建選項
+        question.o.forEach((optionText, index) => {
+            const optionDiv = document.createElement('div');
+            optionDiv.className = 'option-item';
+            optionDiv.textContent = optionText;
+            optionDiv.dataset.index = index;
+            
+            // 添加點擊事件監聽器
+            optionDiv.addEventListener('click', () => selectOption(optionDiv, index));
+            
+            optionsList.appendChild(optionDiv);
+        });
+        
+        // 重置狀態
+        selectedOption = null;
+        canSelect = true;
         document.getElementById('check-btn').disabled = true;
-        currentPick = null;
+        
+        // 隱藏反饋面板
+        document.getElementById('feedback-tray').style.bottom = '-350px';
     }
 
-    function handleCheck() {
-        const item = quizDatabase.questions[idx];
-        const tray = document.getElementById('feedback-tray');
-        const title = document.getElementById('tray-title');
-        const desc = document.getElementById('tray-desc');
+    // 選擇選項
+    function selectOption(optionElement, optionIndex) {
+        if (!canSelect) return; // 如果已經檢查過答案，不能再次選擇
         
-        // 顯示正確/錯誤答案的視覺反饋
-        const options = document.querySelectorAll('.option-item');
-        options.forEach((option, i) => {
-            if (i === item.a) {
-                option.classList.add('correct');
-            } else if (i === currentPick && currentPick !== item.a) {
-                option.classList.add('wrong');
-            }
+        // 移除所有選項的 active 類
+        document.querySelectorAll('.option-item').forEach(item => {
+            item.classList.remove('active');
         });
-
-        if (currentPick === item.a) {
-            score++;
-            tray.className = 'tray-correct';
-            title.innerText = '答對了！';
-        } else {
-            tray.className = 'tray-wrong';
-            title.innerText = '再接再厲！';
-        }
         
-        desc.innerText = item.d;
-        tray.style.bottom = '0';
-        document.getElementById('check-btn').disabled = true;
+        // 添加當前選項的 active 類
+        optionElement.classList.add('active');
+        
+        // 保存選擇
+        selectedOption = optionIndex;
+        
+        // 啟用檢查答案按鈕
+        document.getElementById('check-btn').disabled = false;
+    }
+
+    // 檢查答案
+    function handleCheck() {
+        if (selectedOption === null || !canSelect || !quizData) return;
+        
+        const question = quizData.questions[currentQuestionIndex];
+        const feedbackTray = document.getElementById('feedback-tray');
+        const trayTitle = document.getElementById('tray-title');
+        const trayDesc = document.getElementById('tray-desc');
         
         // 禁止再次選擇
-        options.forEach(option => {
-            option.style.pointerEvents = 'none';
+        canSelect = false;
+        
+        // 高亮顯示正確和錯誤答案
+        const allOptions = document.querySelectorAll('.option-item');
+        allOptions.forEach((option, index) => {
+            if (index === question.a) {
+                option.classList.add('correct');
+                option.style.borderColor = '#58cc02';
+                option.style.backgroundColor = '#e8ffd8';
+            } else if (index === selectedOption && selectedOption !== question.a) {
+                option.classList.add('wrong');
+                option.style.borderColor = '#ff4b4b';
+                option.style.backgroundColor = '#ffeaea';
+            }
         });
+        
+        // 顯示反饋
+        if (selectedOption === question.a) {
+            score++;
+            feedbackTray.className = 'tray-correct';
+            trayTitle.textContent = '答對了！';
+        } else {
+            feedbackTray.className = 'tray-wrong';
+            trayTitle.textContent = '再接再厲！';
+        }
+        
+        trayDesc.textContent = question.d;
+        feedbackTray.style.bottom = '0';
+        
+        // 禁用檢查按鈕
+        document.getElementById('check-btn').disabled = true;
     }
 
+    // 載入下一題
     function loadNext() {
-        document.getElementById('feedback-tray').style.bottom = '-350px';
-        idx++;
+        currentQuestionIndex++;
         
-        if (idx < quizDatabase.questions.length) {
-            render();
+        if (currentQuestionIndex < quizData.questions.length) {
+            loadQuestion();
         } else {
-            // 顯示最終畫面
-            document.getElementById('quiz-ui').style.display = 'none';
-            document.getElementById('footer-bar').style.display = 'none';
-            document.getElementById('section-title').style.display = 'none';
-            document.getElementById('pb').style.width = '100%';
-            document.getElementById('final-screen').style.display = 'block';
-            
-            const scorePercent = Math.round((score / quizDatabase.questions.length) * 100);
-            let message = "你完成了所有挑戰！";
-            
-            if (scorePercent === 100) {
-                message = "完美！你是安全知識達人！";
-            } else if (scorePercent >= 80) {
-                message = "優秀！你對安全知識掌握得很好！";
-            } else if (scorePercent >= 60) {
-                message = "不錯！繼續學習會更安全！";
-            } else {
-                message = "再複習一下會更安全喔！";
-            }
-            
-            document.getElementById('final-msg').innerText = message;
-            document.getElementById('final-score').innerText = `${score} / ${quizDatabase.questions.length}`;
+            // 顯示最終結果
+            showFinalResults();
         }
     }
 
-    // 初始渲染
-    render();
+    // 顯示最終結果
+    function showFinalResults() {
+        document.getElementById('quiz-ui').style.display = 'none';
+        document.getElementById('footer-bar').style.display = 'none';
+        document.getElementById('pb').style.width = '100%';
+        document.getElementById('final-screen').style.display = 'block';
+        
+        const scorePercent = Math.round((score / quizData.questions.length) * 100);
+        let message = '你完成了所有挑戰！';
+        
+        if (scorePercent === 100) {
+            message = '🎉 完美！你是安全知識達人！';
+        } else if (scorePercent >= 80) {
+            message = '👍 優秀！你對安全知識掌握得很好！';
+        } else if (scorePercent >= 60) {
+            message = '👌 不錯！繼續學習會更安全！';
+        } else {
+            message = '💪 再複習一下會更安全喔！';
+        }
+        
+        document.getElementById('final-msg').textContent = message;
+        document.getElementById('final-score').textContent = `得分：${score} / ${quizData.questions.length} (${scorePercent}%)`;
+    }
+
+    // 頁面載入時開始
+    document.addEventListener('DOMContentLoaded', loadQuizData);
     
-    // 添加鍵盤支援
+    // 添加鍵盤快捷鍵支援
     document.addEventListener('keydown', function(event) {
-        if (event.key >= '1' && event.key <= '4') {
+        if (event.key >= '1' && event.key <= '4' && canSelect) {
             const optionIndex = parseInt(event.key) - 1;
             const options = document.querySelectorAll('.option-item');
             if (optionIndex < options.length) {
-                options[optionIndex].click();
+                selectOption(options[optionIndex], optionIndex);
             }
         } else if (event.key === 'Enter' && !document.getElementById('check-btn').disabled) {
             handleCheck();
-        } else if (event.key === ' ' || event.key === 'ArrowRight') {
-            const tray = document.getElementById('feedback-tray');
-            if (tray.style.bottom === '0px') {
-                loadNext();
-            }
         }
     });
 </script>
