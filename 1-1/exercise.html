@@ -76,7 +76,29 @@
             background-color: white; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center;
             border-bottom: 1px solid #eee; font-size: 14px; font-weight: bold; color: #777;
         }
-        .status-right { color: #555; }
+        
+        /* Navigator (New) */
+        .nav-grid-container {
+            padding: 10px 20px;
+            background: #f9f9f9;
+            border-bottom: 1px solid #eee;
+            display: none; /* Initially hidden, can toggle if needed, or show always. Let's show always for this request */
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(35px, 1fr));
+            gap: 8px;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        .nav-btn {
+            width: 35px; height: 35px; border-radius: 50%; border: 2px solid #ddd; background: white;
+            font-size: 12px; font-weight: bold; color: #555; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s;
+        }
+        .nav-btn:hover { background: #eee; }
+        .nav-btn.active { border-color: var(--duo-blue); color: var(--duo-blue); background: #eef9ff; transform: scale(1.1); }
+        .nav-btn.correct { background: var(--duo-green); color: white; border-color: var(--duo-green-shadow); }
+        .nav-btn.wrong { background: var(--duo-red); color: white; border-color: var(--duo-red-shadow); }
+
 
         /* --- Question Area --- */
         .question-area {
@@ -223,14 +245,19 @@
     <!-- Header -->
     <div class="header-banner" id="header-banner">
         <div class="banner-title">🦌 P6 常識科練習</div>
-        <div class="banner-subtitle">急救與安全 (試前強化練習)</div>
+        <div class="banner-subtitle">急救與安全 (全卷綜合練習)</div>
         <div class="progress-track"><div class="progress-fill" id="progress-bar"></div></div>
     </div>
 
     <!-- Status Bar -->
     <div class="status-bar" id="status-bar">
-        <div class="status-left" id="question-tracker">題目 1/--</div>
+        <div class="status-left" id="question-tracker">題目 1/33</div>
         <div class="status-right" id="score-tracker">正確: 0 | 不正確: 0</div>
+    </div>
+    
+    <!-- Question Navigator -->
+    <div class="nav-grid-container" id="nav-grid">
+        <!-- Buttons injected by JS -->
     </div>
 
     <!-- Quiz Content -->
@@ -277,404 +304,244 @@
 
 <script>
     
+    // --- Complete Question Database (33 Questions) ---
     const questions = [
-        // --- 1. 圖片選擇題 (Image MC) ---
         {
-            id: 1,
-            type: "mc_image_grid",
-            page: "6",
+            id: 1, type: "mc_image_grid", page: "6",
             instruction: "請選擇正確的圖片：",
             question: "1. 以下哪個是處理昏厥的正確方法？",
-            options: [
-                { label: "A", img: "img/option1-1.jpg" }, 
-                { label: "B", img: "img/option1-2.jpg" }, 
-                { label: "C", img: "img/option1-3.jpg" }  
-            ],
-            correct: 2, 
-            explanation: "昏厥處理：應讓患者平臥，墊高雙腳，以增加腦部血液供應。"
+            options: [{ label: "A", img: "img/option1-1.jpg" }, { label: "B", img: "img/option1-2.jpg" }, { label: "C", img: "img/option1-3.jpg" }],
+            correct: 2, explanation: "昏厥處理：應讓患者平臥，墊高雙腳，以增加腦部血液供應。"
         },
         {
-            id: 2,
-            type: "mc_image_grid",
-            page: "6",
+            id: 2, type: "mc_image_grid", page: "6",
             instruction: "請選擇正確的圖片：",
             question: "2. 以下哪個是處理燙傷的正確方法？",
-            options: [
-                { label: "A", img: "img/option2-1.jpg" }, 
-                { label: "B", img: "img/option2-2.jpg" }, 
-                { label: "C", img: "img/option2-3.jpg" }  
-            ],
-            correct: 2, 
-            explanation: "燙傷處理：應立即用清水沖洗傷口降溫，切勿塗抹牙膏或豉油。"
+            options: [{ label: "A", img: "img/option2-1.jpg" }, { label: "B", img: "img/option2-2.jpg" }, { label: "C", img: "img/option2-3.jpg" }],
+            correct: 2, explanation: "燙傷處理：應立即用清水沖洗傷口降溫，切勿塗抹牙膏或豉油。"
         },
-
-        // --- 2. 是非題 (True/False) ---
         {
-            id: 3,
-            type: "tf",
-            page: "5",
+            id: 3, type: "tf", page: "5",
             instruction: "判斷句子描述是否正確：",
             question: "郊遊時容易發生意外，所以應儘量避免參加戶外活動。",
             options: ["正確 ✔️", "不正確 ❌"],
-            correct: 1, 
-            explanation: "不正確。應做好準備和注意安全，而不是完全避免。"
+            correct: 1, explanation: "不正確。應做好準備和注意安全，而不是完全避免。"
         },
         {
-            id: 4,
-            type: "tf",
-            page: "5",
+            id: 4, type: "tf", page: "5",
             instruction: "判斷句子描述是否正確：",
             question: "發現家裏有氣體泄漏，須即時打 999 求助。",
             options: ["正確 ✔️", "不正確 ❌"],
-            correct: 1, 
-            explanation: "不正確。應先關掉總掣並到安全通風處才打電話，避免電話火花引發爆炸。"
+            correct: 1, explanation: "不正確。應先關掉總掣並到安全通風處才打電話，避免電話火花引發爆炸。"
         },
-        
-        // --- 3. 填充題 (Fill in Blank) ---
         {
-            id: 5,
-            type: "fill",
-            page: "5",
+            id: 5, type: "fill", page: "5",
             instruction: "選擇正確的詞語填空：",
             question: "日常生活中，我們要做好防火措施，熟悉住處的 _______ 和逃生路線。",
             options: ["消防設施", "走火通道", "警務處", "熱衰竭"],
-            correct: 1, 
-            explanation: "答案：走火通道。"
+            correct: 1, explanation: "答案：走火通道。"
         },
         {
-            id: 6,
-            type: "fill",
-            page: "5",
+            id: 6, type: "fill", page: "5",
             instruction: "選擇正確的詞語填空：",
             question: "我們不應 _______ 緊急救援服務，以免真正有需要的求助者得不到及時的協助。",
             options: ["善用", "濫用", "使用", "呼叫"],
-            correct: 1, 
-            explanation: "我們不應濫用緊急服務，以免影響真正有需要的人。"
+            correct: 1, explanation: "我們不應濫用緊急服務。"
         },
-        
-        // --- 4. 排序題 (Sequence) ---
         {
-            id: 7,
-            type: "sequence",
-            page: "4",
+            id: 7, type: "sequence", page: "4",
             instruction: "請按正確順序排列處理「流鼻血」的步驟：",
             question: "1. 同學流鼻血應怎樣處理？",
             options: ["A. 解開衣物", "B. 坐下", "C. 頭向前傾", "D. 捏鼻骨"],
-            correct: [1, 2, 3, 0], 
-            explanation: "正確順序：先坐下，頭向前傾，捏住鼻骨，最後解開緊身衣物。"
+            correct: [1, 2, 3, 0], explanation: "正確順序：先坐下，頭向前傾，捏住鼻骨，最後解開緊身衣物。"
         },
-        // --- 新增題目 8-15 ---
         {
-            id: 8,
-            type: "fill",
-            page: "5",
+            id: 8, type: "fill", page: "5",
             instruction: "選擇正確的詞語填空：",
             question: "_______ 是身體因過度流汗而喪失水分及鹽分而出現的反應。",
             options: ["中暑", "熱衰竭", "燒傷", "燙傷"],
-            correct: 1, 
-            explanation: "答案：熱衰竭。"
+            correct: 1, explanation: "答案：熱衰竭。"
         },
         {
-            id: 9,
-            type: "fill",
-            page: "7",
+            id: 9, type: "fill", page: "7",
             instruction: "選擇正確的詞語填空：",
             question: "寫出兩個可能引致昏厥的原因。",
-            options: ["過度疲勞/過度飢餓/極度驚恐或痛楚/情緒激動/貧血"],
-            correct: 0, 
-            explanation: "答案：過度疲勞、飢餓、驚恐、痛楚或貧血等。"
+            options: ["過度疲勞/飢餓", "睡眠充足/運動", "喝水/休息"],
+            correct: 0, explanation: "答案：過度疲勞、飢餓、驚恐、痛楚或貧血等。"
         },
         {
-            id: 10,
-            type: "mc_image_grid",
-            page: "7",
+            id: 10, type: "mc_image_grid", page: "7",
             instruction: "請選擇正確的圖片：",
             question: "2. 以下哪套是郊遊時的正確裝束？",
-            options: [
-                { label: "A", img: "img/option3-1.jpg" }, 
-                { label: "B", img: "img/option3-2.jpg" }, 
-                { label: "C", img: "img/option3-3.jpg" }  
-            ],
-            correct: 0, // A 是正確的
-            explanation: "郊遊應穿著輕便、透氣且保護性良好的衣物。"
+            options: [{ label: "A", img: "img/option3-1.jpg" }, { label: "B", img: "img/option3-2.jpg" }, { label: "C", img: "img/option3-3.jpg" }],
+            correct: 0, explanation: "郊遊應穿著輕便、透氣且保護性良好的衣物。"
         },
         {
-            id: 11,
-            type: "fill",
-            page: "7",
+            id: 11, type: "fill", page: "7",
             instruction: "選擇正確的詞語填空：",
             question: "不小心觸碰火焰會引起甚麼傷患?",
             options: ["扭傷", "撞傷", "燒傷", "燙傷"],
-            correct: 2, 
-            explanation: "答案：燒傷"
+            correct: 2, explanation: "答案：燒傷"
         },
         {
-            id: 12,
-            type: "fill",
-            page: "7",
+            id: 12, type: "fill", page: "7",
             instruction: "選擇正確的詞語填空：",
             question: "為甚麼要替昏厥的人解開衣物?",
-            options: ["替昏厥的人解開衣物，有助血液循環。"],
-            correct: 0, 
-            explanation: "答案：替昏厥的人解開衣物，有助血液循環。"
+            options: ["有助血液循環", "為了降溫", "為了檢查傷口"],
+            correct: 0, explanation: "答案：替昏厥的人解開衣物，有助血液循環。"
         },
-       {
-            id: 13,
-            type: "fill",
-            page: "7",
+        {
+            id: 13, type: "fill", page: "7",
             instruction: "選擇正確的詞語填空：",
             question: "多部電器從同一個插座處取電，有機會導致甚麼危險?",
-            options: ["有機會導致短路/火警。"],
-            correct: 0, 
-            explanation: "短路或火警。"
+            options: ["短路/火警", "停電", "電器損壞"],
+            correct: 0, explanation: "短路或火警。"
         },
-        // --- 綜合能力訓練 (Case Study) ---
         {
-            id: 14,
-            type: "case_study",
-            page: "8",
+            id: 14, type: "case_study", page: "8",
             instruction: "根據以下情境，回答問題。",
             img: "img/case_study.jpg", 
             subQuestions: [
-                {
-                    qid: "1-1",
-                    text: "1. 甚麼是「逃生三寶」？",
-                    type: "fill", 
-                    options: ["手機、鑰匙、錢包", "毛巾、鑰匙、手機", "水、食物、毛巾"],
-                    correct: 1, 
-                    correctText: "毛巾、鑰匙、手機"
-                },
-                {
-                    qid: "1-2",
-                    text: "2. 以上情境中，誰的做法是對的？",
-                    type: "mc",
-                    options: ["家俊 (留在屋內)", "詩琪 (帶三寶逃生)"],
-                    correct: 1,
-                    correctText: "詩琪 (帶三寶逃生)"
-                },
-                {
-                    qid: "1-3",
-                    text: "3. 日常生活中，我們應該做好哪些防火措施？(請填寫一項)",
-                    type: "text_input",
-                    correct: "保持走火通道暢通", 
-                    altCorrect: ["熟悉逃生路線", "檢查消防設施", "不阻塞防火門"],
-                    correctText: "保持走火通道暢通"
-                }
+                { qid: "1-1", text: "1. 甚麼是「逃生三寶」？", type: "fill", options: ["手機、鑰匙、錢包", "毛巾、鑰匙、手機", "水、食物、毛巾"], correct: 1, correctText: "毛巾、鑰匙、手機" },
+                { qid: "1-2", text: "2. 以上情境中，誰的做法是對的？", type: "mc", options: ["家俊 (留在屋內)", "詩琪 (帶三寶逃生)"], correct: 1, correctText: "詩琪 (帶三寶逃生)" },
+                { qid: "1-3", text: "3. 日常生活中，我們應該做好哪些防火措施？(請填寫一項)", type: "text_input", correct: "保持走火通道暢通", altCorrect: ["熟悉逃生路線", "檢查消防設施", "不阻塞防火門"], correctText: "保持走火通道暢通" }
             ],
-            explanation: "解說：樓上起火應盡快向下逃生（詩琪正確）。家俊想塞門縫是錯誤判斷。逃生三寶為：濕毛巾、鑰匙、手機。"
+            explanation: "逃生三寶為：濕毛巾、鑰匙、手機。樓上起火應向下逃生。"
         },
         {
-            id: 15,
-            type: "tf",
-            page: "5",
+            id: 15, type: "tf", page: "5",
             instruction: "判斷句子描述是否正確：",
             question: "民眾安全服務隊會協助救災，還會提供山野搜索及救援服務。",
             options: ["正確 ✔️", "不正確 ❌"],
-            correct: 0, 
-            explanation: "正確。民安隊負責協助緊急救災，並設有專門的山嶺搜救中隊。"
+            correct: 0, explanation: "正確。民安隊負責協助緊急救災及山嶺搜救。"
         },
         {
-            id: 16,
-            type: "fill",
-            page: "1",
+            id: 16, type: "fill", page: "練習卷",
             instruction: "選擇正確的詞語填空：",
             question: "在酷熱的天氣下進行戶外活動時，我們應該穿著 _______ 衣服，以防患上熱衰竭。",
-            options: ["淺色、透氣", "深色、緊身", "厚重、保暖"],
-            correct: 0, 
-            explanation: "淺色、透氣或寬鬆的衣服有助散熱，減少中暑或熱衰竭的風險。"
+            options: ["淺色、透氣", "深色、緊身", "厚重、保暖", "鮮豔、反光"],
+            correct: 0, explanation: "淺色及透氣的衣服有助散熱。"
         },
         {
-            id: 17,
-            type: "fill",
-            page: "1",
+            id: 17, type: "fill", page: "練習卷",
             instruction: "選擇正確的詞語填空：",
             question: "輕微燙傷或燒傷的患處上如出現 _______，我們不應把它刺破，以免受 _______ 感染。",
-            options: ["紅腫 / 病毒", "水泡 / 細菌", "瘀傷 / 灰塵"],
-            correct: 1, 
-            explanation: "水泡是保護層，刺破容易引致細菌感染。"
+            options: ["紅腫 / 病毒", "水泡 / 細菌", "瘀傷 / 灰塵", "皮外傷 / 風寒"],
+            correct: 1, explanation: "水泡是保護層，刺破容易引致細菌感染。"
         },
         {
-            id: 18,
-            type: "fill",
-            page: "1",
+            id: 18, type: "fill", page: "練習卷",
             instruction: "選擇正確的詞語填空：",
             question: "當意外發生後，為傷者進行 _______ 能防止傷勢或病情惡化。",
-            options: ["手術", "急救", "檢查"],
-            correct: 1, 
-            explanation: "急救的目的是保存生命、防止傷勢惡化及促進復原。"
+            options: ["手術", "急救", "檢查", "觀察"],
+            correct: 1, explanation: "急救能防止傷勢惡化。"
         },
-         {
-            id: 19,
-            type: "fill", // 雖然是選擇題，但為了配合單選格式，這裡用 fill 或 standard mc 均可，這裡沿用標準選擇題格式
-            page: "練習卷",
+        {
+            id: 19, type: "fill", page: "練習卷",
             instruction: "請選擇正確的答案：",
             question: "以下哪些是正確的急救方法？<br>i. 把昏厥患者的雙腳抬高。<br>ii. 流鼻血時，把頭微向後傾。<br>iii. 讓熱衰竭患者喝下冷鹽水。",
             options: ["A. 只有 i 及 ii", "B. 只有 i 及 iii", "C. 只有 ii 及 iii", "D. 以上全部皆是"],
-            correct: 1, 
-            explanation: "昏厥時應抬高雙腳助血液回流腦部；熱衰竭應補充水分及鹽分。流鼻血時頭應向前傾，否則血液可能倒流至氣管。"
+            correct: 1, explanation: "昏厥應抬高雙腳；熱衰竭應補充鹽水。流鼻血頭應前傾。"
         },
         {
-            id: 20,
-            type: "fill",
-            page: "練習卷",
+            id: 20, type: "fill", page: "練習卷",
             instruction: "請選擇正確的答案：",
             question: "當我們看到交通意外時，應該怎樣處理？",
             options: ["A. 漠不關心", "B. 上前圍觀", "C. 馬上把傷者移動至陰涼處", "D. 先確保自己的安全再提供協助"],
-            correct: 3, 
-            explanation: "急救的首要原則是確保現場環境安全及自身的安全，切勿貿然移動傷者（除非有即時危險），以免加重傷勢。"
-        },
-         {
-            id: 21,
-            type: "text_input",
-            page: "練習卷",
-            instruction: "回答問題：",
-            question: "為甚麼有人昏厥時，我們要請圍觀的人讓開？",
-            correct: "保持空氣流通",
-            explanation: "請圍觀者讓開是為了保持空氣流通，確保昏厥者有足夠的新鮮空氣，並方便救援人員進行急救。"
+            correct: 3, explanation: "急救首要原則是確保自身安全。"
         },
         {
-            id: 22,
-            type: "fill",
-            page: "練習卷",
+            id: 21, type: "text_input", page: "練習卷",
+            instruction: "回答問題：",
+            question: "為甚麼有人昏厥時，我們要請圍觀的人讓開？",
+            correct: "保持空氣流通", explanation: "確保空氣流通，讓患者有足夠新鮮空氣。"
+        },
+        {
+            id: 22, type: "fill", page: "練習卷",
             instruction: "回答問題：",
             question: "導致流鼻血的其中一個原因是甚麼？",
             options: ["鼻膜乾燥 / 鼻部受撞擊", "喝太多水", "睡眠充足", "運動適量"],
-            correct: 0,
-            explanation: "常見流鼻血原因包括鼻黏膜乾燥、鼻部受到撞擊、用力挖鼻孔或鼻敏感發作等。"
+            correct: 0, explanation: "常見原因：鼻膜乾燥、受撞擊、挖鼻孔等。"
         },
         {
-            id: 23,
-            type: "text_input",
-            page: "練習卷",
+            id: 23, type: "text_input", page: "練習卷",
             instruction: "回答問題：",
             question: "把昏厥患者的腿部略為抬高，可以令血液流向哪裏？",
-            correct: "腦部",
-            explanation: "抬高雙腳利用地心吸力，協助血液回流至重要器官，特別是腦部，以改善缺氧情況。"
+            correct: "腦部", explanation: "抬高雙腳有助血液回流至腦部。"
         },
         {
-            id: 24,
-            type: "fill",
-            page: "練習卷",
+            id: 24, type: "fill", page: "練習卷",
             instruction: "回答問題：",
             question: "為甚麼郊遊時不應食用野菇或野果？",
             options: ["容易有毒", "味道不好", "未經清洗", "破壞環境"],
-            correct: 0,
-            explanation: "野外的菇類或果實很多都有劇毒，且難以分辨，誤食可能導致中毒甚至死亡。"
+            correct: 0, explanation: "野外菇類果實常有劇毒，誤食可致死。"
         },
-
-        // --- 2. 是非題 ---
         {
-            id: 25,
-            type: "tf",
-            page: "練習卷",
+            id: 25, type: "tf", page: "練習卷",
             instruction: "判斷句子描述是否正確：",
             question: "消防員的職責只是撲滅火警。",
             options: ["正確 ✔️", "不正確 ❌"],
-            correct: 1,
-            explanation: "不正確。消防員的職責還包括救援被困人士、處理危險物質洩漏、提供先遣急救服務及防火教育等。"
+            correct: 1, explanation: "不正確。消防員還負責救援、處理危險品及提供先遣急救等。"
         },
         {
-            id: 26,
-            type: "tf",
-            page: "練習卷",
+            id: 26, type: "tf", page: "練習卷",
             instruction: "判斷句子描述是否正確：",
             question: "我們受傷後，傷口會結痂，這樣可以防止傷口繼續出血，並保護傷口免受感染。",
             options: ["正確 ✔️", "不正確 ❌"],
-            correct: 0,
-            explanation: "正確。結痂是身體修復過程的一部分，能止血並形成保護層阻擋細菌。"
+            correct: 0, explanation: "正確。結痂有助止血及防止感染。"
         },
-
-        // --- 3. 圖片情境判斷題 (需準備對應圖片 img/case_ambulance.jpg) ---
-        // 假設圖片 A: 哽塞/窒息, B: 昏迷, C: 輕微擦傷, D: 心臟病發/嚴重不適
         {
-            id: 27,
-            type: "case_study",
-            page: "練習卷",
+            id: 27, type: "case_study", page: "練習卷",
             instruction: "遇到以下情況時，我們是否需要召喚救護車？",
-            img: "img/case_ambulance.jpg", // 請確保此圖片包含 A, B, C, D 四個場景
+            img: "img/case_ambulance.jpg",
             subQuestions: [
-                {
-                    qid: "2-1",
-                    text: "1. 需要召喚救護車的情況：(請填寫字母，如 A, B)",
-                    type: "text_input",
-                    correct: "A, B, D",
-                    altCorrect: ["A,B,D", "A B D", "ABD"], // 容許不同格式
-                    correctText: "A, B, D"
-                },
-                {
-                    qid: "2-2",
-                    text: "2. 不需要召喚救護車的情況：(請填寫字母)",
-                    type: "text_input",
-                    correct: "C",
-                    correctText: "C"
-                }
+                { qid: "2-1", text: "1. 需要召喚救護車的情況：(請填寫字母，如 A, B)", type: "text_input", correct: "A, B, D", altCorrect: ["A,B,D", "A B D", "ABD"], correctText: "A, B, D" },
+                { qid: "2-2", text: "2. 不需要召喚救護車的情況：(請填寫字母)", type: "text_input", correct: "C", correctText: "C" }
             ],
-            explanation: "圖 A (哽塞)、圖 B (昏迷) 和圖 D (心臟病發/嚴重胸痛) 均屬危急情況，必須召喚救護車。圖 C (輕微擦傷) 可自行處理，不應濫用救護車服務。"
+            explanation: "危急情況(如窒息、昏迷、心臟病發)需叫救護車；輕微擦傷則不用。"
         },
-
-        // --- 4. 選擇題 ---
         {
-            id: 28,
-            type: "fill",
-            page: "練習卷",
+            id: 28, type: "fill", page: "練習卷",
             instruction: "請選擇正確的答案：",
             question: "以下哪項不是導致昏厥的原因？",
             options: ["A. 低血糖", "B. 過度疲勞", "C. 沒有適時補充水分", "D. 在悶熱的地方長時間站立"],
-            correct: 2, 
-            explanation: "這題比較tricky。昏厥通常由腦部供血不足引起。低血糖(A)、過度疲勞(B)、在悶熱地方久站(D)引致的血壓下降都是常見原因。「沒有適時補充水分」雖然可能導致脫水，但相較其他選項，它通常先引起中暑或熱衰竭，未必直接導致突發性昏厥，或者題目設計是想指出單純沒喝水不是直接原因。不過根據常見小學常識題庫，這題最有可能是 C (或視乎課本具體定義，有時也會是排除法)。"
+            correct: 2, explanation: "沒有適時補充水分主要導致中暑/熱衰竭，較少直接引致突發昏厥。"
         },
-         // --- 選擇題 ---
         {
-            id: 29,
-            type: "fill", 
-            page: "練習卷",
+            id: 29, type: "fill", page: "練習卷",
             instruction: "請選擇正確的答案：",
-            question: "4. 滅火筒通常可用來撲滅小火。如果家中有電器短路起火，我們不可以使用以下哪種滅火筒來滅火？",
+            question: "滅火筒通常可用來撲滅小火。如果家中有電器短路起火，我們不可以使用以下哪種滅火筒來滅火？",
             options: ["乾粉式滅火筒", "水式滅火筒", "二氧化碳氣體式滅火筒"],
-            correct: 1, 
-            explanation: "水式滅火筒會導電，用來撲滅電器火警會引致觸電危險。應使用乾粉式或二氧化碳式。"
+            correct: 1, explanation: "水式滅火筒會導電，有觸電危險。"
         },
         {
-            id: 30,
-            type: "fill",
-            page: "練習卷",
+            id: 30, type: "fill", page: "練習卷",
             instruction: "請選擇正確的答案：",
-            question: "1. 愛滋病由人類免疫力缺乏病毒 (HIV) 引致。以下哪項不是感染 HIV 的途徑？",
+            question: "愛滋病由人類免疫力缺乏病毒 (HIV) 引致。以下哪項不是感染 HIV 的途徑？",
             options: ["輸血", "性接觸", "同桌用餐"],
-            correct: 2, 
-            explanation: "HIV 主要透過血液、性接觸及母嬰傳播。一般的社交接觸如共膳、握手並不會傳染。"
+            correct: 2, explanation: "社交接觸（如同桌用餐）不會傳播 HIV。"
         },
         {
-            id: 31,
-            type: "fill",
-            page: "練習卷",
+            id: 31, type: "fill", page: "練習卷",
             instruction: "請選擇正確的答案：",
-            question: "2. 香港居民到公立醫院急症室求診的收費是每次港幣多少元？(以課本為準)",
+            question: "香港居民到公立醫院急症室求診的收費是每次港幣多少元？(以課本為準)",
             options: ["100 元", "180 元", "200 元"],
-            correct: 1, 
-            explanation: "公立醫院急症室收費曾由 $100 調整至 $180，目的是減少非緊急病人濫用急症室服務。(註：政府會不時檢討收費，請留意最新公佈)"
+            correct: 1, explanation: "現時收費為 $180。"
         },
-
-        // --- 填空題 ---
         {
-            id: 32,
-            type: "text_input",
-            page: "練習卷",
+            id: 32, type: "text_input", page: "練習卷",
             instruction: "寫出兩個香港志願救援機構：(請用頓號分隔)",
             question: "寫出兩個香港志願救援機構。",
             correct: "香港聖約翰救傷隊、醫療輔助隊",
-            altCorrect: ["聖約翰救傷隊、醫療輔助隊", "醫療輔助隊、香港聖約翰救傷隊", "民眾安全服務隊、醫療輔助隊", "民安隊、醫療輔助隊"],
-            explanation: "常見的志願救援機構包括：香港聖約翰救傷隊、醫療輔助隊 (AMS)、民眾安全服務隊 (CAS) 等。"
+            altCorrect: ["聖約翰救傷隊、醫療輔助隊", "醫療輔助隊、香港聖約翰救傷隊", "民眾安全服務隊、醫療輔助隊"], 
+            explanation: "常見：聖約翰救傷隊、醫療輔助隊、民眾安全服務隊。"
         },
         {
-            id: 33,
-            type: "text_input",
-            page: "練習卷",
+            id: 33, type: "text_input", page: "練習卷",
             instruction: "寫出兩項可用作清洗傷口的用品：(請用頓號分隔)",
             question: "寫出兩項可用作清洗傷口的用品。",
-            correct: "生理鹽水、消毒藥水",
-            altCorrect: ["生理鹽水、蒸餾水", "消毒藥水、清水", "冷開水、生理鹽水"], 
-            explanation: "清洗傷口最理想是用生理鹽水或消毒藥水，在沒有這些物資時，乾淨的冷開水或蒸餾水也可暫時使用。"
+            correct: "生理鹽水、消毒藥水", altCorrect: ["生理鹽水、蒸餾水", "消毒藥水、清水"],
+            explanation: "生理鹽水、消毒藥水或蒸餾水均可。"
         }
     ];
 
@@ -686,9 +553,10 @@
         selectedOption: null,
         sequenceAnswer: [],
         inputValue: "",
-        subAnswers: {}, // For case study
+        subAnswers: {}, 
         isChecking: false,
-        userHistory: [] 
+        userHistory: [],
+        answeredMap: {} // { 0: 'correct', 1: 'wrong', ... }
     };
 
     // DOM Elements
@@ -711,19 +579,61 @@
             header: document.getElementById('header-banner'),
             status: document.getElementById('status-bar')
         },
-        reviewList: document.getElementById('review-list')
+        reviewList: document.getElementById('review-list'),
+        navGrid: document.getElementById('nav-grid')
     };
 
     function init() {
+        renderNavGrid();
         renderQuestion();
         updateHeaderUI();
     }
 
+    function renderNavGrid() {
+        dom.navGrid.innerHTML = '';
+        questions.forEach((q, idx) => {
+            const btn = document.createElement('div');
+            btn.className = 'nav-btn';
+            btn.innerText = idx + 1;
+            btn.id = `nav-btn-${idx}`;
+            btn.onclick = () => jumpToQuestion(idx);
+            
+            // Check status
+            if (currentState.answeredMap[idx] === 'correct') btn.classList.add('correct');
+            else if (currentState.answeredMap[idx] === 'wrong') btn.classList.add('wrong');
+            
+            if (idx === currentState.questionIndex) btn.classList.add('active');
+            
+            dom.navGrid.appendChild(btn);
+        });
+    }
+
+    function jumpToQuestion(idx) {
+        if (currentState.isChecking) return; // Prevent jumping while checking
+        currentState.questionIndex = idx;
+        renderQuestion();
+        updateHeaderUI();
+        updateNavHighlight();
+    }
+
+    function updateNavHighlight() {
+        document.querySelectorAll('.nav-btn').forEach((btn, idx) => {
+            if (idx === currentState.questionIndex) btn.classList.add('active');
+            else btn.classList.remove('active');
+        });
+    }
+
+    function updateNavStatus(idx, isCorrect) {
+        const btn = document.getElementById(`nav-btn-${idx}`);
+        currentState.answeredMap[idx] = isCorrect ? 'correct' : 'wrong';
+        btn.classList.remove('correct', 'wrong');
+        btn.classList.add(isCorrect ? 'correct' : 'wrong');
+    }
+
     function updateHeaderUI() {
-        const pct = (currentState.questionIndex / questions.length) * 100;
+        const pct = ((Object.keys(currentState.answeredMap).length) / questions.length) * 100;
         dom.progressBar.style.width = pct + '%';
-        const displayIndex = Math.min(currentState.questionIndex + 1, questions.length);
-        dom.trackers.question.innerText = `題目 ${displayIndex}/${questions.length}`;
+        dom.trackers.question.innerText = `題目 ${currentState.questionIndex + 1}/${questions.length}`;
         dom.trackers.score.innerText = `正確: ${currentState.correctCount} | 不正確: ${currentState.incorrectCount}`;
     }
 
@@ -731,14 +641,22 @@
         const q = questions[currentState.questionIndex];
         const area = dom.questionArea;
         
+        // Check if already answered
+        const isAnswered = currentState.answeredMap.hasOwnProperty(currentState.questionIndex);
+
         currentState.selectedOption = null;
         currentState.sequenceAnswer = [];
         currentState.inputValue = "";
-        currentState.subAnswers = {}; // Reset for case study
-        currentState.isChecking = false;
+        currentState.subAnswers = {}; 
+        currentState.isChecking = isAnswered; // Disable interaction if answered
         
-        dom.checkBtn.innerText = "檢查";
-        dom.checkBtn.disabled = true;
+        dom.checkBtn.innerText = isAnswered ? "下一題" : "檢查";
+        dom.checkBtn.disabled = !isAnswered; // If answered, enable "Next" immediately
+        if (isAnswered) {
+             dom.checkBtn.onclick = nextQuestion;
+        } else {
+             dom.checkBtn.onclick = checkAnswer;
+        }
 
         let html = `
             <div class="mascot-container">
@@ -747,7 +665,7 @@
             </div>
             <div class="question-header-row">
                 ${q.type !== 'case_study' ? `<h1 class="question-text">${q.question.replace('_______', '<span style="color:#1cb0f6; border-bottom:2px solid #1cb0f6; padding:0 5px;">_______</span>')}</h1>` : ''}
-                <span class="page-badge">第 ${q.page} 頁</span>
+                <span class="page-badge">${q.page}</span>
             </div>
         `;
 
@@ -760,16 +678,30 @@
 
         area.innerHTML = html;
         
-        if(q.type === 'sequence') setupSequenceListeners(q);
-        if(q.type === 'text_input') setupInputListeners();
+        // If answered, maybe show result state? For now, just render clean. 
+        // Improvement: If answered, show previous answer? (Complex to restore state perfectly without saving detailed input)
+        // For simplicity: If answered, user sees "Next" and blank form, or we can block input.
+        if (isAnswered) {
+             // Optional: Disable inputs
+             const inputs = area.querySelectorAll('input, .option-card, .word-bubble');
+             inputs.forEach(el => el.style.pointerEvents = 'none');
+             area.style.opacity = '0.6';
+             let msgDiv = document.createElement('div');
+             msgDiv.innerHTML = '<div style="text-align:center; padding:10px; color:var(--duo-blue); font-weight:bold;">此題已作答</div>';
+             area.insertBefore(msgDiv, area.firstChild);
+        }
+
+        if(!isAnswered) {
+            if(q.type === 'sequence') setupSequenceListeners(q);
+            if(q.type === 'text_input') setupInputListeners();
+        }
     }
 
+    // --- Render Functions (Same as before) ---
     function renderCaseStudyMode(q) {
         let subQHtml = '';
-        
         q.subQuestions.forEach((sub, idx) => {
             let controlHtml = '';
-            
             if(sub.type === 'fill' || sub.type === 'mc') {
                 controlHtml = `<div class="options-grid" style="grid-template-columns:1fr;">`;
                 sub.options.forEach((opt, optIdx) => {
@@ -779,68 +711,35 @@
             } else if (sub.type === 'text_input') {
                 controlHtml = `<input type="text" class="input-field sub-input" data-qid="${sub.qid}" placeholder="請輸入答案" oninput="handleSubInput('${sub.qid}', this.value)">`;
             }
-
-            subQHtml += `
-                <div class="sub-question">
-                    <div class="sub-q-label">問題 ${idx+1}</div>
-                    <div class="sub-q-text">${sub.text}</div>
-                    ${controlHtml}
-                </div>
-            `;
+            subQHtml += `<div class="sub-question"><div class="sub-q-label">問題 ${idx+1}</div><div class="sub-q-text">${sub.text}</div>${controlHtml}</div>`;
         });
-
-        return `
-            <div class="case-study-container">
-                <div class="case-image-box">
-                    <img src="${q.img}" alt="情境圖">
-                </div>
-                <div class="case-questions-box">
-                    ${subQHtml}
-                </div>
-            </div>
-        `;
+        return `<div class="case-study-container"><div class="case-image-box"><img src="${q.img}" alt="情境圖"></div><div class="case-questions-box">${subQHtml}</div></div>`;
     }
 
     function renderTFMode(q) {
         let optsHtml = '<div class="options-grid tf-mode">';
-        q.options.forEach((opt, idx) => {
-            optsHtml += `<div class="option-card center-text" onclick="handleOptionSelect(${idx}, this)">${opt}</div>`;
-        });
-        optsHtml += '</div>';
-        return optsHtml;
+        q.options.forEach((opt, idx) => { optsHtml += `<div class="option-card center-text" onclick="handleOptionSelect(${idx}, this)">${opt}</div>`; });
+        return optsHtml + '</div>';
     }
 
     function renderImageGridMode(q) {
         let optsHtml = '<div class="options-grid image-mode">';
         q.options.forEach((opt, idx) => {
-            optsHtml += `
-                <div class="option-card has-image" onclick="handleOptionSelect(${idx}, this)">
-                    <div class="option-image-container">
-                        <img src="${opt.img}" alt="Option ${opt.label}" onerror="this.style.display='none';this.parentElement.innerText='[圖片無法載入]'">
-                    </div>
-                    <div class="option-label">${opt.label}</div>
-                </div>`;
+            optsHtml += `<div class="option-card has-image" onclick="handleOptionSelect(${idx}, this)"><div class="option-image-container"><img src="${opt.img}" onerror="this.style.display='none'"></div><div class="option-label">${opt.label}</div></div>`;
         });
-        optsHtml += '</div>';
-        return optsHtml;
+        return optsHtml + '</div>';
     }
 
     function renderStandardMode(q) {
         let optsHtml = '<div class="options-grid">';
-        q.options.forEach((opt, idx) => {
-            optsHtml += `<div class="option-card" onclick="handleOptionSelect(${idx}, this)">${opt}</div>`;
-        });
-        optsHtml += '</div>';
-        return optsHtml;
+        q.options.forEach((opt, idx) => { optsHtml += `<div class="option-card" onclick="handleOptionSelect(${idx}, this)">${opt}</div>`; });
+        return optsHtml + '</div>';
     }
 
     function renderSequenceMode(q) {
         let slotsHtml = '<div class="slots-container" id="sequence-slots"></div>';
         let bankHtml = '<div class="word-bank" id="word-bank">';
-        q.options.forEach((opt, idx) => {
-            bankHtml += `<div class="word-bubble" id="word-${idx}" onclick="handleSequenceClick(${idx})">${opt}</div>`;
-        });
-        bankHtml += '</div>';
+        q.options.forEach((opt, idx) => { bankHtml += `<div class="word-bubble" id="word-${idx}" onclick="handleSequenceClick(${idx})">${opt}</div>`; });
         return `<div class="sequence-area">${slotsHtml}${bankHtml}</div>`;
     }
 
@@ -848,35 +747,25 @@
         return `<div class="input-container"><input type="text" id="user-input" class="input-field" placeholder="請在此輸入答案..." autocomplete="off"></div>`;
     }
 
-    // --- Interactions ---
-
-    // Case Study Handlers
+    // --- Logic ---
     window.handleSubOptionClick = (qid, optIdx, el) => {
         if(currentState.isChecking) return;
         const parent = el.parentElement;
         parent.querySelectorAll('.sub-opt').forEach(opt => opt.classList.remove('selected'));
         el.classList.add('selected');
-        
         currentState.subAnswers[qid] = optIdx;
         checkCaseStudyCompletion();
     };
-
     window.handleSubInput = (qid, val) => {
         if(currentState.isChecking) return;
         currentState.subAnswers[qid] = val.trim();
         checkCaseStudyCompletion();
     };
-
     function checkCaseStudyCompletion() {
         const q = questions[currentState.questionIndex];
-        const requiredKeys = q.subQuestions.map(s => s.qid);
-        const allAnswered = requiredKeys.every(k => {
-            const ans = currentState.subAnswers[k];
-            return ans !== undefined && ans !== "";
-        });
+        const allAnswered = q.subQuestions.every(s => currentState.subAnswers[s.qid] !== undefined && currentState.subAnswers[s.qid] !== "");
         dom.checkBtn.disabled = !allAnswered;
     }
-
     window.handleOptionSelect = (idx, el) => {
         if (currentState.isChecking) return;
         document.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
@@ -884,7 +773,6 @@
         currentState.selectedOption = idx;
         dom.checkBtn.disabled = false;
     };
-
     window.handleSequenceClick = (optIdx) => {
         if (currentState.isChecking) return;
         const currentAnswer = currentState.sequenceAnswer;
@@ -893,153 +781,82 @@
         else currentAnswer.splice(existingIndex, 1);
         updateSequenceUI(questions[currentState.questionIndex]);
     };
-
     function updateSequenceUI(q) {
         const slotsContainer = document.getElementById('sequence-slots');
         const bankContainer = document.getElementById('word-bank');
-        
-        slotsContainer.innerHTML = '';
+        slotsContainer.innerHTML = ''; bankContainer.innerHTML = '';
         currentState.sequenceAnswer.forEach(optIdx => {
-            const el = document.createElement('div');
-            el.className = 'word-bubble in-slot';
-            el.innerText = q.options[optIdx];
-            el.onclick = () => handleSequenceClick(optIdx);
-            slotsContainer.appendChild(el);
+            const el = document.createElement('div'); el.className = 'word-bubble in-slot'; el.innerText = q.options[optIdx]; el.onclick = () => handleSequenceClick(optIdx); slotsContainer.appendChild(el);
         });
-
-        bankContainer.innerHTML = '';
         q.options.forEach((optText, idx) => {
-            if (currentState.sequenceAnswer.includes(idx)) {
-                const p = document.createElement('div');
-                p.className = 'word-bubble placeholder';
-                p.innerText = optText;
-                bankContainer.appendChild(p);
-            } else {
-                const el = document.createElement('div');
-                el.className = 'word-bubble';
-                el.innerText = optText;
-                el.onclick = () => handleSequenceClick(idx);
-                bankContainer.appendChild(el);
-            }
+            const el = document.createElement('div');
+            if (currentState.sequenceAnswer.includes(idx)) { el.className = 'word-bubble placeholder'; el.innerText = optText; } 
+            else { el.className = 'word-bubble'; el.innerText = optText; el.onclick = () => handleSequenceClick(idx); }
+            bankContainer.appendChild(el);
         });
         dom.checkBtn.disabled = currentState.sequenceAnswer.length !== q.options.length;
     }
-
     function setupInputListeners() {
         const input = document.getElementById('user-input');
-        input.addEventListener('input', (e) => {
-            currentState.inputValue = e.target.value.trim();
-            dom.checkBtn.disabled = currentState.inputValue.length === 0;
-        });
-        input.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' && currentState.inputValue.length > 0) checkAnswer();
-        });
+        input.addEventListener('input', (e) => { currentState.inputValue = e.target.value.trim(); dom.checkBtn.disabled = currentState.inputValue.length === 0; });
+        input.addEventListener('keypress', (e) => { if (e.key === 'Enter' && currentState.inputValue.length > 0) checkAnswer(); });
     }
 
-    // --- Check Logic ---
+    // --- Check Answer ---
     window.checkAnswer = () => {
         currentState.isChecking = true;
         const q = questions[currentState.questionIndex];
         let isCorrect = false;
-        
-        let userAnsRecord = "";
-        let correctAnsRecord = "";
+        let userAnsRecord = "", correctAnsRecord = "";
 
+        // Logic check (Same as before)
         if (q.type === 'case_study') {
             let allSubCorrect = true;
-            let detailRecord = [];
-            
+            let details = [];
             q.subQuestions.forEach((sub, idx) => {
                 const userAns = currentState.subAnswers[sub.qid];
                 let subCorrect = false;
-                
                 if (sub.type === 'text_input') {
-                    const validAnswers = Array.isArray(sub.altCorrect) ? sub.altCorrect : [];
-                    validAnswers.push(sub.correct);
-                    subCorrect = validAnswers.some(ans => userAns.includes(ans) || ans.includes(userAns)); 
-                    const inputEl = document.querySelector(`.sub-input[data-qid="${sub.qid}"]`);
-                    inputEl.style.borderColor = subCorrect ? '#58cc02' : '#ff4b4b';
-                } else {
-                    subCorrect = (userAns === sub.correct);
-                    const parent = document.querySelector(`.sub-opt[data-qid="${sub.qid}"][data-idx="${userAns}"]`);
-                    if(parent) parent.classList.add(subCorrect ? 'correct' : 'wrong');
-                    if(!subCorrect) {
-                        const correctEl = document.querySelector(`.sub-opt[data-qid="${sub.qid}"][data-idx="${sub.correct}"]`);
-                        if(correctEl) correctEl.classList.add('correct');
-                    }
-                }
-                
+                    const valid = Array.isArray(sub.altCorrect) ? [...sub.altCorrect, sub.correct] : [sub.correct];
+                    subCorrect = valid.some(v => userAns.includes(v) || v.includes(userAns));
+                } else { subCorrect = (userAns === sub.correct); }
                 if(!subCorrect) allSubCorrect = false;
-                let correctText = sub.correctText || sub.correct; 
-                detailRecord.push(`${idx+1}. ${correctText}`);
+                details.push(`${idx+1}. ${sub.correctText || sub.correct}`);
             });
-            
             isCorrect = allSubCorrect;
-            userAnsRecord = isCorrect ? "全部正確" : "部分錯誤"; 
-            correctAnsRecord = detailRecord.join(" | ");
-
+            userAnsRecord = isCorrect ? "全部正確" : "部分錯誤";
+            correctAnsRecord = details.join(" | ");
         } else if (q.type === 'sequence') {
             isCorrect = JSON.stringify(currentState.sequenceAnswer) === JSON.stringify(q.correct);
-            userAnsRecord = currentState.sequenceAnswer.map(idx => q.options[idx]).join(" → ");
-            correctAnsRecord = q.correct.map(idx => q.options[idx]).join(" → ");
-            
-            document.querySelectorAll('.word-bubble.in-slot').forEach(el => {
-                el.style.backgroundColor = isCorrect ? '#d7ffb8' : '#ffdfe0';
-                el.style.borderColor = isCorrect ? '#58cc02' : '#ff4b4b';
-            });
+            userAnsRecord = currentState.sequenceAnswer.map(i => q.options[i]).join("→");
+            correctAnsRecord = q.correct.map(i => q.options[i]).join("→");
         } else if (q.type === 'text_input') {
-            isCorrect = currentState.inputValue === q.correct;
+            const valid = Array.isArray(q.altCorrect) ? [...q.altCorrect, q.correct] : [q.correct];
+            isCorrect = valid.some(v => currentState.inputValue.includes(v) || v.includes(currentState.inputValue));
             userAnsRecord = currentState.inputValue;
             correctAnsRecord = q.correct;
-
-            const input = document.getElementById('user-input');
-            input.style.borderColor = isCorrect ? '#58cc02' : '#ff4b4b';
-            input.style.backgroundColor = isCorrect ? '#d7ffb8' : '#ffdfe0';
-            if(isCorrect) input.style.color = '#58a700';
-        } else if (q.type === 'mc_image_grid') {
-            isCorrect = currentState.selectedOption === q.correct;
-            userAnsRecord = `選項 ${q.options[currentState.selectedOption].label}`;
-            correctAnsRecord = `選項 ${q.options[q.correct].label}`;
-            
-            const sel = document.querySelector('.option-card.selected');
-            if(sel && !isCorrect) sel.classList.add('wrong');
-            if(!isCorrect) document.querySelectorAll('.option-card')[q.correct].classList.add('correct');
-            else sel.classList.add('correct');
         } else {
-            // MC, Fill, TF
             isCorrect = currentState.selectedOption === q.correct;
-            userAnsRecord = q.options[currentState.selectedOption];
-            correctAnsRecord = q.options[q.correct];
-
-            const sel = document.querySelector('.option-card.selected');
-            if(sel && !isCorrect) sel.classList.add('wrong');
-            if(!isCorrect) document.querySelectorAll('.option-card')[q.correct].classList.add('correct');
-            else sel.classList.add('correct');
+            userAnsRecord = q.options[currentState.selectedOption] ? (q.options[currentState.selectedOption].label || q.options[currentState.selectedOption]) : "未作答";
+            correctAnsRecord = q.options[q.correct].label || q.options[q.correct];
         }
 
-        // Save to History
-        currentState.userHistory.push({
-            qIndex: currentState.questionIndex,
-            isCorrect: isCorrect,
-            userAns: userAnsRecord,
-            correctAns: correctAnsRecord
-        });
+        currentState.userHistory.push({ qIndex: currentState.questionIndex, isCorrect, userAns: userAnsRecord, correctAns: correctAnsRecord });
+        updateNavStatus(currentState.questionIndex, isCorrect);
 
-        // Feedback Logic (Always show if explanation exists)
         if (isCorrect) {
             currentState.correctCount++;
-            let msg = q.explanation ? `太棒了！<br>${q.explanation}` : "太棒了！";
-            showFeedback(true, msg);
+            showFeedback(true, q.explanation ? `太棒了！<br>${q.explanation}` : "正確！");
         } else {
             currentState.incorrectCount++;
-            let msg = "";
-            if (q.type === 'text_input') msg = `正確答案是：${q.correct}<br>${q.explanation}`;
-            else if (q.type === 'sequence') msg = `正確順序：<br>${correctAnsRecord}`;
-            else if (q.type === 'case_study') msg = `部分錯誤。<br>${q.explanation}`;
-            else msg = q.explanation;
+            let msg = q.explanation || "請再接再厲！";
+            if(q.type === 'text_input' || q.type === 'sequence') msg = `正確答案：${correctAnsRecord}<br>${msg}`;
             showFeedback(false, msg);
         }
         
+        // Change button to Next
+        dom.checkBtn.innerText = "下一題";
+        dom.checkBtn.onclick = nextQuestion;
         updateHeaderUI();
     };
 
@@ -1054,68 +871,64 @@
 
     window.nextQuestion = () => {
         dom.feedback.overlay.classList.remove('show');
-        currentState.questionIndex++;
-        if (currentState.questionIndex < questions.length) {
+        
+        // Find next unanswered question
+        let nextIdx = currentState.questionIndex + 1;
+        
+        // Simple logic: just go to next index, if > length, show end screen.
+        // User can navigate back via grid if they want.
+        
+        if (nextIdx < questions.length) {
+            currentState.questionIndex = nextIdx;
             setTimeout(() => {
                 renderQuestion();
                 updateHeaderUI();
+                updateNavHighlight();
             }, 300);
         } else {
-            showEndScreen();
+            // Check if all answered?
+            if (Object.keys(currentState.answeredMap).length === questions.length) {
+                showEndScreen();
+            } else {
+                alert("你已到達最後一題，請使用上方導航列檢查未完成的題目，或點擊檢查完成所有題目。");
+                // Optionally show end screen anyway
+                showEndScreen();
+            }
         }
     };
 
     function showEndScreen() {
         dom.screens.quiz.style.display = 'none';
-        dom.screens.header.style.display = 'none';
         dom.screens.status.style.display = 'none';
+        dom.navGrid.style.display = 'none';
         dom.screens.end.style.display = 'flex';
         
         document.getElementById('final-correct').innerText = currentState.correctCount;
         document.getElementById('final-incorrect').innerText = currentState.incorrectCount;
-        dom.progressBar.style.width = '100%';
-
         renderReviewList();
     }
 
-    // --- Review List Logic (Show Correct Answer Always) ---
     function renderReviewList() {
         const list = dom.reviewList;
-        list.innerHTML = ""; 
+        list.innerHTML = "";
+        
+        // Sort history by index
+        currentState.userHistory.sort((a,b) => a.qIndex - b.qIndex);
 
-        currentState.userHistory.forEach((record, i) => {
+        currentState.userHistory.forEach((record) => {
             const q = questions[record.qIndex];
             const item = document.createElement('div');
             item.className = `review-item ${record.isCorrect ? 'correct' : 'wrong'}`;
-
-            // Top Row
             let statusIcon = record.isCorrect ? '✅ 正確' : '❌ 錯誤';
             let qText = q.type === 'case_study' ? '綜合能力訓練 (情境題)' : q.question;
             
             let html = `
-                <div class="review-header">
-                    <span>題目 ${i + 1}</span>
-                    <span>${statusIcon}</span>
-                </div>
+                <div class="review-header"><span>題目 ${record.qIndex + 1}</span><span>${statusIcon}</span></div>
                 <div class="review-q">${qText}</div>
                 <div class="review-feedback">
             `;
-
-            // If wrong, show User Answer
-            if (!record.isCorrect) {
-                html += `
-                    <span class="review-ans-label">您的答案：</span>
-                    <div class="ans-wrong">${record.userAns}</div>
-                    <div style="height:10px"></div>
-                `;
-            }
-
-            // Always show Correct Answer
-            html += `
-                <span class="review-ans-label">正確答案：</span>
-                <div class="ans-correct">${record.correctAns}</div>
-            </div>`;
-
+            if (!record.isCorrect) html += `<span class="review-ans-label">您的答案：</span><div class="ans-wrong">${record.userAns}</div><div style="height:10px"></div>`;
+            html += `<span class="review-ans-label">正確答案：</span><div class="ans-correct">${record.correctAns}</div></div>`;
             item.innerHTML = html;
             list.appendChild(item);
         });
