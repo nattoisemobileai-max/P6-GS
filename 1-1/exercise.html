@@ -237,7 +237,15 @@
         { id: 30, type: "fill", page: "練習卷", instruction: "請選擇正確的答案：", question: "愛滋病由人類免疫力缺乏病毒 (HIV) 引致。以下哪項不是感染 HIV 的途徑？", options: ["輸血", "性接觸", "同桌用餐"], correct: 2, explanation: "社交接觸（如同桌用餐）不會傳播 HIV。" },
         { id: 31, type: "fill", page: "練習卷", instruction: "請選擇正確的答案：", question: "香港居民到公立醫院急症室求診的收費是每次港幣多少元？(以課本為準)", options: ["100 元", "180 元", "200 元"], correct: 1, explanation: "現時收費為 $180。" },
         { id: 32, type: "text_input", page: "練習卷", instruction: "寫出兩個香港志願救援機構：(請用頓號分隔)", question: "寫出兩個香港志願救援機構。", correct: "香港聖約翰救傷隊、醫療輔助隊", altCorrect: ["聖約翰救傷隊、醫療輔助隊", "醫療輔助隊、香港聖約翰救傷隊", "民眾安全服務隊、醫療輔助隊"], explanation: "常見：聖約翰救傷隊、醫療輔助隊、民眾安全服務隊。" },
-        { id: 33, type: "text_input", page: "練習卷", instruction: "寫出兩項可用作清洗傷口的用品：(請用頓號分隔)", question: "寫出兩項可用作清洗傷口的用品。", correct: "生理鹽水、消毒藥水", altCorrect: ["生理鹽水、蒸餾水", "消毒藥水、清水"], explanation: "生理鹽水、消毒藥水或蒸餾水均可。" }
+        { id: 33, type: "text_input", page: "練習卷", instruction: "寫出兩項可用作清洗傷口的用品：(請用頓號分隔)", question: "寫出兩項可用作清洗傷口的用品。", correct: "生理鹽水、消毒藥水", altCorrect: ["生理鹽水、蒸餾水", "消毒藥水、清水"], explanation: "生理鹽水、消毒藥水或蒸餾水均可。" },
+        {
+            id: 34, type: "case_study", page: "練習卷", instruction: "以下是處理熱衰竭患者的正確方法嗎？", img: "img/case_study2.jpg",
+            subQuestions: [
+                { qid: "2-1", text: "1. ", type: "text_input", correct: "錯", correctText: "F" },
+                { qid: "2-2", text: "2. ", type: "text_input", correct: "錯", correctText: "F" },
+                { qid: "2-3", text: "2. ", type: "text_input", correct: "正確", correctText: "T" }
+            ], explanation: "。"
+        },
     ];
 
     let currentState = { questionIndex: 0, correctCount: 0, incorrectCount: 0, selectedOption: null, sequenceAnswer: [], multiSelection: [], inputValue: "", subAnswers: {}, isChecking: false, userHistory: [], answeredMap: {} };
