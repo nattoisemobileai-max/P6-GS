@@ -244,7 +244,55 @@
         { id: 38, type: "fill", page: "練習卷", instruction: "請選擇正確的答案：", question: "處理割傷出血時，急救的第一步是：", options: ["A. 施壓止血", "B. 貼上膠布", "C. 服用止痛藥", "D. 縫合傷口"], correct: 0, explanation: "處理出血傷口的首要步驟是直接施壓止血（Direct Pressure）。" },
         { id: 39, type: "fill", page: "練習卷", instruction: "請選擇正確的答案：", question: "下列哪項是急救箱內的必備物品？", options: ["A. 零食", "B. 消毒火酒和棉花", "C. 玩具", "D. 飲料"], correct: 1, explanation: "急救箱應配備處理傷口的用品，如消毒火酒、棉花等。" },
         { id: 40, type: "mc_multi", page: "Set13-P3-3", instruction: "看圖選出正確的處理方法：(可選多項)", question: "4. 以下哪些處理熱衰竭的方法是正確的？<br><img src='img/heat_exhaustion_full.jpg' style='width:100%; max-width:500px; margin:10px 0; border-radius:8px;' onerror='this.style.display=\"none\"'>", options: ["A. 給患者喝冷水", "B. 給患者蓋毛毯", "C. 幫患者散熱", "D. 讓患者曬太陽"], correct: [0, 2], explanation: "處理熱衰竭應協助患者降溫及補充水分。A (喝冷水) 和 C (散熱) 是正確做法；B (蓋毛毯) 和 D (曬太陽) 會令體溫更難下降。" },
-        { id: 41, type: "sequence", page: "練習卷", instruction: "請按正確順序排列處理「氣體泄漏」的步驟：", question: "發生氣體泄漏時，我們應該怎麼做？<br><img src='img/gas_leak_steps.jpg' style='width:100%; max-width:500px; margin:10px 0; border-radius:8px;' onerror='this.style.display=\"none\"'>", options: ["A. 拍門通知鄰居儘快離開", "B. 打開窗戶", "C. 關掉供氣總掣", "D. 到達安全的地方後，報警求助"], correct: [1, 2, 0, 3], explanation: "處理氣體泄漏時，首要是**打開窗戶**讓空氣流通，隨即**關掉供氣總掣**。接著**拍門通知鄰居**，最後到達室外**安全地方**才報警。" }
+        { id: 41, type: "sequence", page: "練習卷", instruction: "請按正確順序排列處理「氣體泄漏」的步驟：", question: "發生氣體泄漏時，我們應該怎麼做？<br><img src='img/gas_leak_steps.jpg' style='width:100%; max-width:500px; margin:10px 0; border-radius:8px;' onerror='this.style.display=\"none\"'>", options: ["A. 拍門通知鄰居儘快離開", "B. 打開窗戶", "C. 關掉供氣總掣", "D. 到達安全的地方後，報警求助"], correct: [1, 2, 0, 3], explanation: "處理氣體泄漏時，首要是**打開窗戶**讓空氣流通，隨即**關掉供氣總掣**。接著**拍門通知鄰居**，最後到達室外**安全地方**才報警。" },
+        {
+            id: 42,
+            type: "text_input", 
+            page: "練習卷",
+            instruction: "回答問題：",
+            question: "1. 舉出兩項急救的目的。",
+            // 關鍵字檢查：挽救生命、防止惡化、促進復原
+            correct: "挽救生命、防止傷勢惡化",
+            altCorrect: [
+                "挽救生命、促進復原", 
+                "防止傷勢惡化、促進復原", 
+                "救人、防止惡化",
+                "保持生命、防止惡化"
+            ],
+            explanation: "急救的三大目的：(1) 挽救生命 (Preserve Life)、(2) 防止傷勢惡化 (Prevent Deterioration)、(3) 促進復原 (Promote Recovery)。"
+        },
+        {
+            id: 43,
+            type: "text_input", 
+            page: "練習卷",
+            instruction: "回答問題：",
+            question: "2. 為甚麼會流鼻血？舉出兩個原因。",
+            // 關鍵字：撞擊、挖鼻孔、乾燥、高血壓、鼻膜薄
+            correct: "鼻部受撞擊、挖鼻孔",
+            altCorrect: [
+                "鼻膜乾燥、受撞擊", 
+                "挖鼻孔、天氣乾燥", 
+                "鼻部受傷、挖鼻",
+                "鼻膜薄、乾燥"
+            ],
+            explanation: "流鼻血的常見原因包括：鼻部受到撞擊、習慣挖鼻孔弄傷鼻膜、天氣乾燥令鼻膜乾裂、或患有高血壓等。"
+        },
+        {
+            id: 44,
+            type: "text_input", 
+            page: "練習卷",
+            instruction: "回答問題：",
+            question: "3. 在酷熱天氣下，我們可以怎樣預防熱衰竭？舉出兩個方法。",
+            // 關鍵字：多喝水、補充水分、淺色衣服、透氣衣服、避免暴曬、適當休息、擔遮
+            correct: "多喝水、穿淺色透氣衣服",
+            altCorrect: [
+                "補充水分、避免長時間暴曬", 
+                "多飲水、在陰涼處休息", 
+                "穿著透氣衣物、多喝水",
+                "帶備雨傘、多喝水"
+            ],
+            explanation: "預防熱衰竭的方法：穿著淺色及透氣的衣服、補充足夠水分、避免在烈日下長時間暴曬、適當休息及使用防曬用品（如寬邊帽或傘）。"
+        }
     ];
 
     let currentState = { questionIndex: 0, correctCount: 0, incorrectCount: 0, selectedOption: null, sequenceAnswer: [], multiSelection: [], inputValue: "", subAnswers: {}, isChecking: false, userHistory: [], answeredMap: {} };
