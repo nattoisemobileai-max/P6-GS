@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>P6 常識科：急救與安全 (綜合練習)</title>
     <style>
-        /* ... (Keep previous styles) ... */
+        /* ... (Styles remain mostly same) ... */
         :root {
             --duo-sky: #dcf5ff;
             --duo-green: #58cc02;
@@ -90,11 +90,8 @@
 
         .option-card:active { transform: translateY(2px); border-bottom-width: 2px; }
         .option-card.selected { border-color: var(--duo-blue); background-color: #ddf4ff; border-bottom-color: var(--duo-blue-shadow); color: var(--duo-blue-shadow); }
-        /* Multi-select active style (same as selected for now, logic handles multiple) */
-        
         .option-card.correct { border-color: var(--duo-green); background-color: #d7ffb8; border-bottom-color: var(--duo-green-shadow); color: var(--duo-green-shadow); }
         .option-card.wrong { border-color: var(--duo-red); background-color: #ffdfe0; border-bottom-color: var(--duo-red-shadow); color: var(--duo-red-shadow); }
-        /* Missing correct style for unselected correct answers in multi mode */
         .option-card.missed { border-color: var(--duo-green); border-style: dashed; background-color: #f0fff0; color: var(--duo-green-shadow); }
 
         .sequence-area { margin-top: 10px; }
@@ -149,7 +146,7 @@
         <div class="progress-track"><div class="progress-fill" id="progress-bar"></div></div>
     </div>
     <div class="status-bar" id="status-bar">
-        <div class="status-left" id="question-tracker">題目 1/33</div>
+        <div class="status-left" id="question-tracker">題目 1/41</div>
         <div class="status-right" id="score-tracker">正確: 0 | 不正確: 0</div>
     </div>
     <div class="nav-grid-container" id="nav-grid"></div>
@@ -238,104 +235,16 @@
         { id: 31, type: "fill", page: "練習卷", instruction: "請選擇正確的答案：", question: "香港居民到公立醫院急症室求診的收費是每次港幣多少元？(以課本為準)", options: ["100 元", "180 元", "200 元"], correct: 1, explanation: "現時收費為 $180。" },
         { id: 32, type: "text_input", page: "練習卷", instruction: "寫出兩個香港志願救援機構：(請用頓號分隔)", question: "寫出兩個香港志願救援機構。", correct: "香港聖約翰救傷隊、醫療輔助隊", altCorrect: ["聖約翰救傷隊、醫療輔助隊", "醫療輔助隊、香港聖約翰救傷隊", "民眾安全服務隊、醫療輔助隊"], explanation: "常見：聖約翰救傷隊、醫療輔助隊、民眾安全服務隊。" },
         { id: 33, type: "text_input", page: "練習卷", instruction: "寫出兩項可用作清洗傷口的用品：(請用頓號分隔)", question: "寫出兩項可用作清洗傷口的用品。", correct: "生理鹽水、消毒藥水", altCorrect: ["生理鹽水、蒸餾水", "消毒藥水、清水"], explanation: "生理鹽水、消毒藥水或蒸餾水均可。" },
-        {
-            id: 34, type: "case_study", page: "練習卷", instruction: "以下是處理熱衰竭患者的正確方法嗎？", img: "img/case_study2.jpg",
-            subQuestions: [
-                { qid: "2-1", text: "1. ", type: "text_input", correct: "F", correctText: "F" },
-                { qid: "2-2", text: "2. ", type: "text_input", correct: "F", correctText: "F" },
-                { qid: "2-3", text: "2. ", type: "text_input", correct: "T", correctText: "T" }
-            ], explanation: "。"
-        },
-         {
-            id: 34,
-            type: "fill", 
-            page: "Set13-P2",
-            instruction: "請選擇正確的答案：",
-            question: "發現有人在浴室昏迷不醒，以下哪項是<b>不應該做</b>的？",
-            options: ["A. 立即撥打 999 求救", "B. 嘗試把他拉離浴室", "C. 檢查他是否有意識", "D. 讓他靜臥，保持空氣流通"],
-            correct: 1, 
-            explanation: "除非現場有即時危險（如火警），否則不應隨意移動傷者，以免加重其傷勢（如脊椎受傷）。應先確保環境安全（如打開門窗通風），檢查意識並報警求助。"
-        },
-        {
-            id: 35,
-            type: "fill", 
-            page: "Set13-P1",
-            instruction: "請選擇正確的答案：",
-            question: "遇到輕微燒傷時，以下哪種處理方法最適當？",
-            options: ["A. 立即塗抹油膏", "B. 用冷水沖洗患處", "C. 用布料緊緊包紮", "D. 什麼都不做，讓它自然癒合"],
-            correct: 1, 
-            explanation: "燒傷後應立即用流動的清水沖洗患處約 10-15 分鐘以降低溫度，這有助於減輕疼痛和減少組織損傷。切勿塗抹油膏或豉油，以免阻礙散熱或引致感染。"
-        },
-        {
-            id: 36,
-            type: "fill", 
-            page: "Set13-P2",
-            instruction: "請選擇正確的答案：",
-            question: "家中發生火災時，以下哪項是正確的自救方法？",
-            options: ["A. 立即返回房間取回貴重物品", "B. 彎身匍匐前進，避免吸入濃煙", "C. 使用升降機快速逃離", "D. 躲在衣櫃裡等待救援"],
-            correct: 1, 
-            explanation: "火災時濃煙會向上升，靠近地面的空氣較清新，因此應彎腰或匍匐前進。切勿使用升降機（可能停電被困）或躲藏（難以被消防員發現）。"
-        },
-        {
-            id: 37,
-            type: "fill", 
-            page: "per-二1",
-            instruction: "請選擇正確的答案：",
-            question: "如果在郊野公園迷路，以下哪項做法是<b>錯誤</b>的？",
-            options: ["A. 保持冷靜，節省體力", "B. 吹哨子求救", "C. 到處奔跑尋找出路", "D. 留在原處等待救援"],
-            correct: 2, 
-            explanation: "迷路時應保持冷靜，留在原處或安全顯眼的位置等待救援，這能增加被發現的機會。盲目奔跑會消耗體力，更容易迷失方向或發生意外。"
-        },
-        {
-            id: 38,
-            type: "fill", 
-            page: "練習卷",
-            instruction: "請選擇正確的答案：",
-            question: "處理割傷出血時，急救的第一步是：",
-            options: ["A. 施壓止血", "B. 貼上膠布", "C. 服用止痛藥", "D. 縫合傷口"],
-            correct: 0, 
-            explanation: "處理出血傷口的首要步驟是直接施壓止血（Direct Pressure），以防止過量失血。"
-        },
-        {
-            id: 39,
-            type: "fill", 
-            page: "練習卷",
-            instruction: "請選擇正確的答案：",
-            question: "下列哪項是急救箱內的必備物品？",
-            options: ["A. 零食", "B. 消毒火酒和棉花", "C. 玩具", "D. 飲料"],
-            correct: 1, 
-            explanation: "急救箱應配備處理傷口的用品，如消毒火酒、棉花、膠布、繃帶等。"
-        },
-         {
-            id: 40,
-            type: "mc_multi",
-            page: "Set13-P3-3",
-            instruction: "看圖選出正確的處理方法：(可選多項)",
-            question: "4. 以下哪些處理熱衰竭的方法是正確的？<br><img src='img/case_study3.jpg' style='width:100%; max-width:500px; margin:10px 0; border-radius:8px;'>", // 在這裡插入完整大圖
-            options: [
-                "A. 給患者喝冷水", 
-                "B. 給患者蓋毛毯", 
-                "C. 幫患者散熱", 
-                "D. 讓患者曬太陽"
-            ],
-            correct: [0, 2], 
-            explanation: "處理熱衰竭應協助患者降溫及補充水分。A (喝冷水) 和 C (散熱) 是正確做法；B (蓋毛毯) 和 D (曬太陽) 會令體溫更難下降，屬錯誤處理。"
-        },
-        {
-            id: 41,
-            type: "sequence", 
-            page: "練習卷",
-            instruction: "請按正確順序排列處理「氣體泄漏」的步驟：",
-            question: "發生氣體泄漏時，我們應該怎麼做？<br><img src='img/gas_leak_steps.jpg' style='width:100%; max-width:500px; margin:10px 0; border-radius:8px;'>", // 請確保準備好這張圖片
-            options: [
-                "A. 拍門通知鄰居儘快離開", 
-                "B. 打開窗戶", 
-                "C. 關掉供氣總掣", 
-                "D. 到達安全的地方後，報警求助"
-            ],
-            correct: [1, 2, 0, 3], 
-            explanation: "正確順序：B (打開窗戶) → C (關掉總掣) → A (通知鄰居) → D (安全地點報警)。切記不可在現場使用電器或電話。先開窗讓新鮮空氣進入（稀釋），再關掣（截源）。如果先關掣但室內濃度極高，不開窗通風依然危險。"
-        }
+        
+        // --- New Questions Added ---
+        { id: 34, type: "fill", page: "Set13-P2", instruction: "請選擇正確的答案：", question: "發現有人在浴室昏迷不醒，以下哪項是<b>不應該做</b>的？", options: ["A. 立即撥打 999 求救", "B. 嘗試把他拉離浴室", "C. 檢查他是否有意識", "D. 讓他靜臥，保持空氣流通"], correct: 1, explanation: "除非現場有即時危險，否則不應隨意移動傷者，以免加重其傷勢（如脊椎受傷）。應先確保環境安全（如打開門窗通風），檢查意識並報警求助。" },
+        { id: 35, type: "fill", page: "Set13-P1", instruction: "請選擇正確的答案：", question: "遇到輕微燒傷時，以下哪種處理方法最適當？", options: ["A. 立即塗抹油膏", "B. 用冷水沖洗患處", "C. 用布料緊緊包紮", "D. 什麼都不做，讓它自然癒合"], correct: 1, explanation: "燒傷後應立即用流動的清水沖洗患處約 10-15 分鐘以降低溫度。切勿塗抹油膏，以免阻礙散熱。" },
+        { id: 36, type: "fill", page: "Set13-P2", instruction: "請選擇正確的答案：", question: "家中發生火災時，以下哪項是正確的自救方法？", options: ["A. 立即返回房間取回貴重物品", "B. 彎身匍匐前進，避免吸入濃煙", "C. 使用升降機快速逃離", "D. 躲在衣櫃裡等待救援"], correct: 1, explanation: "火災時濃煙會向上升，靠近地面的空氣較清新，因此應彎腰或匍匐前進。" },
+        { id: 37, type: "fill", page: "per-二1", instruction: "請選擇正確的答案：", question: "如果在郊野公園迷路，以下哪項做法是<b>錯誤</b>的？", options: ["A. 保持冷靜，節省體力", "B. 吹哨子求救", "C. 到處奔跑尋找出路", "D. 留在原處等待救援"], correct: 2, explanation: "迷路時應保持冷靜，留在原處等待救援。盲目奔跑會消耗體力，更容易迷失方向。" },
+        { id: 38, type: "fill", page: "練習卷", instruction: "請選擇正確的答案：", question: "處理割傷出血時，急救的第一步是：", options: ["A. 施壓止血", "B. 貼上膠布", "C. 服用止痛藥", "D. 縫合傷口"], correct: 0, explanation: "處理出血傷口的首要步驟是直接施壓止血（Direct Pressure）。" },
+        { id: 39, type: "fill", page: "練習卷", instruction: "請選擇正確的答案：", question: "下列哪項是急救箱內的必備物品？", options: ["A. 零食", "B. 消毒火酒和棉花", "C. 玩具", "D. 飲料"], correct: 1, explanation: "急救箱應配備處理傷口的用品，如消毒火酒、棉花等。" },
+        { id: 40, type: "mc_multi", page: "Set13-P3-3", instruction: "看圖選出正確的處理方法：(可選多項)", question: "4. 以下哪些處理熱衰竭的方法是正確的？<br><img src='img/heat_exhaustion_full.jpg' style='width:100%; max-width:500px; margin:10px 0; border-radius:8px;' onerror='this.style.display=\"none\"'>", options: ["A. 給患者喝冷水", "B. 給患者蓋毛毯", "C. 幫患者散熱", "D. 讓患者曬太陽"], correct: [0, 2], explanation: "處理熱衰竭應協助患者降溫及補充水分。A (喝冷水) 和 C (散熱) 是正確做法；B (蓋毛毯) 和 D (曬太陽) 會令體溫更難下降。" },
+        { id: 41, type: "sequence", page: "練習卷", instruction: "請按正確順序排列處理「氣體泄漏」的步驟：", question: "發生氣體泄漏時，我們應該怎麼做？<br><img src='img/gas_leak_steps.jpg' style='width:100%; max-width:500px; margin:10px 0; border-radius:8px;' onerror='this.style.display=\"none\"'>", options: ["A. 拍門通知鄰居儘快離開", "B. 打開窗戶", "C. 關掉供氣總掣", "D. 到達安全的地方後，報警求助"], correct: [1, 2, 0, 3], explanation: "處理氣體泄漏時，首要是**打開窗戶**讓空氣流通，隨即**關掉供氣總掣**。接著**拍門通知鄰居**，最後到達室外**安全地方**才報警。" }
     ];
 
     let currentState = { questionIndex: 0, correctCount: 0, incorrectCount: 0, selectedOption: null, sequenceAnswer: [], multiSelection: [], inputValue: "", subAnswers: {}, isChecking: false, userHistory: [], answeredMap: {} };
@@ -343,7 +252,19 @@
 
     function init() { renderNavGrid(); renderQuestion(); updateHeaderUI(); }
     function renderNavGrid() { dom.navGrid.innerHTML = ''; questions.forEach((q, idx) => { const btn = document.createElement('div'); btn.className = 'nav-btn'; btn.innerText = idx + 1; btn.id = `nav-btn-${idx}`; btn.onclick = () => jumpToQuestion(idx); if (currentState.answeredMap[idx] === 'correct') btn.classList.add('correct'); else if (currentState.answeredMap[idx] === 'wrong') btn.classList.add('wrong'); if (idx === currentState.questionIndex) btn.classList.add('active'); dom.navGrid.appendChild(btn); }); }
-    function jumpToQuestion(idx) { if (currentState.isChecking) return; currentState.questionIndex = idx; renderQuestion(); updateHeaderUI(); updateNavHighlight(); }
+    
+    // --- BUG FIX: Removed 'if(currentState.isChecking) return;' logic from jumping ---
+    function jumpToQuestion(idx) { 
+        // Allow jumping even if 'isChecking' is true (e.g. user answered but wants to review other questions)
+        // Only block if there's a critical animation or async process (which isn't the case here)
+        currentState.questionIndex = idx; 
+        renderQuestion(); 
+        updateHeaderUI(); 
+        updateNavHighlight(); 
+        // Hide feedback if jumping
+        dom.feedback.overlay.classList.remove('show');
+    }
+    
     function updateNavHighlight() { document.querySelectorAll('.nav-btn').forEach((btn, idx) => { if (idx === currentState.questionIndex) btn.classList.add('active'); else btn.classList.remove('active'); }); }
     function updateNavStatus(idx, isCorrect) { const btn = document.getElementById(`nav-btn-${idx}`); currentState.answeredMap[idx] = isCorrect ? 'correct' : 'wrong'; btn.classList.remove('correct', 'wrong'); btn.classList.add(isCorrect ? 'correct' : 'wrong'); }
     function updateHeaderUI() { const pct = ((Object.keys(currentState.answeredMap).length) / questions.length) * 100; dom.progressBar.style.width = pct + '%'; dom.trackers.question.innerText = `題目 ${currentState.questionIndex + 1}/${questions.length}`; dom.trackers.score.innerText = `正確: ${currentState.correctCount} | 不正確: ${currentState.incorrectCount}`; }
@@ -358,7 +279,10 @@
         currentState.multiSelection = [];
         currentState.inputValue = "";
         currentState.subAnswers = {}; 
-        currentState.isChecking = isAnswered; 
+        
+        // BUG FIX: Don't set 'isChecking' globally to true just because it's answered.
+        // Instead, we use 'isAnswered' to control local input state.
+        currentState.isChecking = false; 
         
         dom.checkBtn.innerText = isAnswered ? "下一題" : "檢查";
         dom.checkBtn.disabled = !isAnswered; 
@@ -374,14 +298,14 @@
         else if (q.type === 'text_input') html += renderInputMode(q);
         else if (q.type === 'tf') html += renderTFMode(q);
         else if (q.type === 'mc_image_grid') html += renderImageGridMode(q);
-        else if (q.type === 'mc_multi') html += renderStandardMode(q, true); // New Mode
+        else if (q.type === 'mc_multi') html += renderStandardMode(q, true); 
         else html += renderStandardMode(q);
 
         area.innerHTML = html;
         
         if (isAnswered) {
              const inputs = area.querySelectorAll('input, .option-card, .word-bubble');
-             inputs.forEach(el => el.style.pointerEvents = 'none');
+             inputs.forEach(el => el.style.pointerEvents = 'none'); // Disable interaction locally
              area.style.opacity = '0.6';
              let msgDiv = document.createElement('div');
              msgDiv.innerHTML = '<div style="text-align:center; padding:10px; color:var(--duo-blue); font-weight:bold;">此題已作答</div>';
@@ -403,7 +327,7 @@
         return optsHtml + '</div>';
     }
 
-    // ... (Keep renderCaseStudyMode, renderTFMode, renderImageGridMode, renderSequenceMode, renderInputMode from previous logic) ...
+    // ... (Render functions mostly same) ...
     function renderCaseStudyMode(q) { let subQHtml = ''; q.subQuestions.forEach((sub, idx) => { let controlHtml = ''; if(sub.type === 'fill' || sub.type === 'mc') { controlHtml = `<div class="options-grid" style="grid-template-columns:1fr;">`; sub.options.forEach((opt, optIdx) => { controlHtml += `<div class="option-card sub-opt" data-qid="${sub.qid}" data-idx="${optIdx}" onclick="handleSubOptionClick('${sub.qid}', ${optIdx}, this)">${opt}</div>`; }); controlHtml += `</div>`; } else if (sub.type === 'text_input') { controlHtml = `<input type="text" class="input-field sub-input" data-qid="${sub.qid}" placeholder="請輸入答案" oninput="handleSubInput('${sub.qid}', this.value)">`; } subQHtml += `<div class="sub-question"><div class="sub-q-label">問題 ${idx+1}</div><div class="sub-q-text">${sub.text}</div>${controlHtml}</div>`; }); return `<div class="case-study-container"><div class="case-image-box"><img src="${q.img}" alt="情境圖"></div><div class="case-questions-box">${subQHtml}</div></div>`; }
     function renderTFMode(q) { let optsHtml = '<div class="options-grid tf-mode">'; q.options.forEach((opt, idx) => { optsHtml += `<div class="option-card center-text" onclick="handleOptionSelect(${idx}, this)">${opt}</div>`; }); return optsHtml + '</div>'; }
     function renderImageGridMode(q) { let optsHtml = '<div class="options-grid image-mode">'; q.options.forEach((opt, idx) => { optsHtml += `<div class="option-card has-image" onclick="handleOptionSelect(${idx}, this)"><div class="option-image-container"><img src="${opt.img}" onerror="this.style.display='none'"></div><div class="option-label">${opt.label}</div></div>`; }); return optsHtml + '</div>'; }
@@ -416,7 +340,6 @@
     function checkCaseStudyCompletion() { const q = questions[currentState.questionIndex]; dom.checkBtn.disabled = !q.subQuestions.every(s => currentState.subAnswers[s.qid] !== undefined && currentState.subAnswers[s.qid] !== ""); }
     window.handleOptionSelect = (idx, el) => { if (currentState.isChecking) return; document.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected')); el.classList.add('selected'); currentState.selectedOption = idx; dom.checkBtn.disabled = false; };
     
-    // New: Multi Select Logic
     window.handleMultiSelect = (idx, el) => {
         if (currentState.isChecking) return;
         el.classList.toggle('selected');
@@ -432,7 +355,8 @@
 
     // --- Check Answer ---
     window.checkAnswer = () => {
-        currentState.isChecking = true;
+        // Set local checking state
+        currentState.isChecking = true; 
         const q = questions[currentState.questionIndex];
         let isCorrect = false;
         let userAnsRecord = "", correctAnsRecord = "";
@@ -447,23 +371,18 @@
             });
             isCorrect = allSubCorrect; userAnsRecord = isCorrect ? "全部正確" : "部分錯誤"; correctAnsRecord = details.join(" | ");
         } else if (q.type === 'mc_multi') {
-            // Check arrays: user's selection vs correct array (order doesn't matter)
             const userSet = new Set(currentState.multiSelection.map(String));
             const correctSet = new Set(q.correct.map(String));
             isCorrect = (userSet.size === correctSet.size) && [...userSet].every(x => correctSet.has(x));
-            
             userAnsRecord = currentState.multiSelection.map(i => q.options[i]).join(", ");
             correctAnsRecord = q.correct.map(i => q.options[i]).join(", ");
-            
-            // Visual feedback for multi
             document.querySelectorAll('.option-card').forEach((el, idx) => {
                 const isSelected = el.classList.contains('selected');
                 const isActuallyCorrect = q.correct.includes(idx);
                 if (isSelected && isActuallyCorrect) el.classList.add('correct');
                 else if (isSelected && !isActuallyCorrect) el.classList.add('wrong');
-                else if (!isSelected && isActuallyCorrect) el.classList.add('missed'); // Show missed correct answers
+                else if (!isSelected && isActuallyCorrect) el.classList.add('missed'); 
             });
-
         } else if (q.type === 'sequence') {
             isCorrect = JSON.stringify(currentState.sequenceAnswer) === JSON.stringify(q.correct);
             userAnsRecord = currentState.sequenceAnswer.map(i => q.options[i]).join("→"); correctAnsRecord = q.correct.map(i => q.options[i]).join("→");
