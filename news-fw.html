@@ -239,7 +239,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>P6 時事題庫(FW)</h1>
+            <h1>🦌 小鹿P6 時事題庫</h1>
             <p>45條時事常識題 (2025年10月-12月)</p>
             <div class="progress">
                 <div class="progress-bar" id="progressBar"></div>
@@ -248,7 +248,7 @@
         
         <div class="stats">
             <span id="questionNum">題目 1/45</span>
-            <span id="score">正確: 0 | 總: 0</span>
+            <span id="score">正確: 0 | 不正確: 0</span>
         </div>
         
         <div class="category-filter">
@@ -691,7 +691,6 @@
         }
 
         function nextQuestion() {
-            // 檢查是否最後一題
             if (currentQuestion + 1 >= filteredQuestions.length) {
                 showCompletionScreen();
             } else {
@@ -703,7 +702,6 @@
         }
 
         function showCompletionScreen() {
-            // 隱藏題目，顯示結果
             elements.quizContent.style.display = 'none';
             elements.resultScreen.style.display = 'block';
 
@@ -711,7 +709,6 @@
             let message = "";
             let emoji = "";
             
-            // 判斷合格/評語邏輯 (P6學生標準)
             if (percentage >= 80) {
                 message = "太棒了！成績優異！🎉";
                 emoji = "🏆";
@@ -727,7 +724,6 @@
             elements.resultMessage.textContent = message;
             elements.resultScoreText.textContent = `得分: ${score} / ${filteredQuestions.length} (${percentage}%)`;
             
-            // 確保進度條全滿
             elements.progressBar.style.width = '100%';
         }
 
@@ -737,7 +733,6 @@
             totalAnswered = 0;
             userAnswers = {};
             
-            // 重置UI顯示
             elements.resultScreen.style.display = 'none';
             elements.quizContent.style.display = 'block';
             elements.feedback.style.display = 'none';
@@ -754,7 +749,8 @@
         }
 
         function updateStats() {
-            elements.score.textContent = `正確: ${score} | 總: ${totalAnswered}`;
+            const incorrect = totalAnswered - score;
+            elements.score.textContent = `正確: ${score} | 不正確: ${incorrect}`;
         }
 
         function setupCategoryFilters() {
@@ -773,7 +769,7 @@
                         filteredQuestions = questions.filter(q => !isLocalNews(q));
                     }
                     
-                    restartQuiz(); // 切換類別時直接重新開始
+                    restartQuiz();
                 };
             });
         }
