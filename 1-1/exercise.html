@@ -305,6 +305,36 @@
             options: ["A. 零食", "B. 消毒火酒和棉花", "C. 玩具", "D. 飲料"],
             correct: 1, 
             explanation: "急救箱應配備處理傷口的用品，如消毒火酒、棉花、膠布、繃帶等。"
+        },
+         {
+            id: 40,
+            type: "mc_multi",
+            page: "Set13-P3-3",
+            instruction: "看圖選出正確的處理方法：(可選多項)",
+            question: "4. 以下哪些處理熱衰竭的方法是正確的？<br><img src='img/case_study3.jpg' style='width:100%; max-width:500px; margin:10px 0; border-radius:8px;'>", // 在這裡插入完整大圖
+            options: [
+                "A. 給患者喝冷水", 
+                "B. 給患者蓋毛毯", 
+                "C. 幫患者散熱", 
+                "D. 讓患者曬太陽"
+            ],
+            correct: [0, 2], 
+            explanation: "處理熱衰竭應協助患者降溫及補充水分。A (喝冷水) 和 C (散熱) 是正確做法；B (蓋毛毯) 和 D (曬太陽) 會令體溫更難下降，屬錯誤處理。"
+        },
+        {
+            id: 41,
+            type: "sequence", 
+            page: "練習卷",
+            instruction: "請按正確順序排列處理「氣體泄漏」的步驟：",
+            question: "發生氣體泄漏時，我們應該怎麼做？<br><img src='img/gas_leak_steps.jpg' style='width:100%; max-width:500px; margin:10px 0; border-radius:8px;'>", // 請確保準備好這張圖片
+            options: [
+                "A. 拍門通知鄰居儘快離開", 
+                "B. 打開窗戶", 
+                "C. 關掉供氣總掣", 
+                "D. 到達安全的地方後，報警求助"
+            ],
+            correct: [1, 2, 0, 3], 
+            explanation: "正確順序：B (打開窗戶) → C (關掉總掣) → A (通知鄰居) → D (安全地點報警)。切記不可在現場使用電器或電話。先開窗讓新鮮空氣進入（稀釋），再關掣（截源）。如果先關掣但室內濃度極高，不開窗通風依然危險。"
         }
     ];
 
