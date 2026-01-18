@@ -56,6 +56,8 @@
         }
         .question-container {
             padding: 40px 30px;
+            position: relative;
+            min-height: 400px;
         }
         .question {
             font-size: 1.4em;
@@ -190,6 +192,44 @@
             background: #58cc02;
             color: white;
         }
+        
+        /* 完成頁面樣式 */
+        .result-screen {
+            text-align: center;
+            padding: 40px 20px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        .result-emoji {
+            font-size: 80px;
+            margin-bottom: 20px;
+            display: block;
+            animation: bounce 1s infinite alternate;
+        }
+        .result-title {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 2em;
+        }
+        .result-score {
+            font-size: 1.8em;
+            color: #58cc02;
+            font-weight: bold;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            display: inline-block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-10px); }
+        }
+
         @media (max-width: 600px) {
             .question { font-size: 1.2em; }
             .header h1 { font-size: 1.8em; }
@@ -199,7 +239,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🦌 小鹿P6 時事題庫</h1>
+            <h1>P6 時事題庫(FW)</h1>
             <p>45條時事常識題 (2025年10月-12月)</p>
             <div class="progress">
                 <div class="progress-bar" id="progressBar"></div>
@@ -219,10 +259,23 @@
         </div>
         
         <div class="question-container">
-            <div class="question" id="questionText"></div>
-            <div class="options" id="options"></div>
-            <div class="feedback" id="feedback"></div>
-            <button class="next-btn" id="nextBtn" disabled>下一題</button>
+            <!-- 題目區域 -->
+            <div id="quizContent">
+                <div class="question" id="questionText"></div>
+                <div class="options" id="options"></div>
+                <div class="feedback" id="feedback"></div>
+                <button class="next-btn" id="nextBtn" disabled>下一題</button>
+            </div>
+
+            <!-- 完成結果區域 -->
+            <div id="resultScreen" class="result-screen">
+                <div class="result-emoji" id="resultEmoji">🏆</div>
+                <h2 class="result-title" id="resultMessage">太棒了！</h2>
+                <div class="result-score" id="resultScoreText">得分: 0/0 (0%)</div>
+                <div>
+                    <button class="next-btn" onclick="restartQuiz()">再玩一次 🔄</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -559,20 +612,23 @@
             nextBtn: document.getElementById('nextBtn'),
             progressBar: document.getElementById('progressBar'),
             questionNum: document.getElementById('questionNum'),
-            score: document.getElementById('score')
+            score: document.getElementById('score'),
+            quizContent: document.getElementById('quizContent'),
+            resultScreen: document.getElementById('resultScreen'),
+            resultEmoji: document.getElementById('resultEmoji'),
+            resultMessage: document.getElementById('resultMessage'),
+            resultScoreText: document.getElementById('resultScoreText')
         };
 
         // 定義新聞類別關鍵字，用於篩選
         const localKeywords = ["香港", "立法會", "港鐵", "城巴", "昂船洲", "太古城", "沙田", "八達通", "筲箕灣", "安柏苑"];
         
         function isLocalNews(q) {
-            // 簡單判斷：分類含"香港" 或 題目內容含"香港"關鍵字 或 特別指定題目
             return q.category.includes("香港") || 
                    q.category.includes("兩岸") || 
                    localKeywords.some(kw => q.question.includes(kw));
         }
 
-        // 初始化
         function init() {
             loadQuestion();
             setupCategoryFilters();
@@ -599,15 +655,12 @@
             const q = filteredQuestions[currentQuestion];
             const options = elements.options.children;
             
-            // 清除之前狀態
             Array.from(options).forEach(opt => {
                 opt.classList.remove('selected', 'correct', 'incorrect');
             });
             
-            // 顯示選擇
             options[selectedIndex].classList.add('selected');
             
-            // 檢查正確性
             setTimeout(() => {
                 const correctOption = options[q.answer];
                 correctOption.classList.add('correct');
@@ -638,14 +691,64 @@
         }
 
         function nextQuestion() {
-            currentQuestion = (currentQuestion + 1) % filteredQuestions.length;
+            // 檢查是否最後一題
+            if (currentQuestion + 1 >= filteredQuestions.length) {
+                showCompletionScreen();
+            } else {
+                currentQuestion++;
+                elements.feedback.style.display = 'none';
+                elements.nextBtn.disabled = true;
+                loadQuestion();
+            }
+        }
+
+        function showCompletionScreen() {
+            // 隱藏題目，顯示結果
+            elements.quizContent.style.display = 'none';
+            elements.resultScreen.style.display = 'block';
+
+            const percentage = Math.round((score / filteredQuestions.length) * 100);
+            let message = "";
+            let emoji = "";
+            
+            // 判斷合格/評語邏輯 (P6學生標準)
+            if (percentage >= 80) {
+                message = "太棒了！成績優異！🎉";
+                emoji = "🏆";
+            } else if (percentage >= 60) {
+                message = "恭喜！測驗合格！✅";
+                emoji = "🌟";
+            } else {
+                message = "繼續加油！下次會更好！💪";
+                emoji = "📚";
+            }
+
+            elements.resultEmoji.textContent = emoji;
+            elements.resultMessage.textContent = message;
+            elements.resultScoreText.textContent = `得分: ${score} / ${filteredQuestions.length} (${percentage}%)`;
+            
+            // 確保進度條全滿
+            elements.progressBar.style.width = '100%';
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            totalAnswered = 0;
+            userAnswers = {};
+            
+            // 重置UI顯示
+            elements.resultScreen.style.display = 'none';
+            elements.quizContent.style.display = 'block';
             elements.feedback.style.display = 'none';
             elements.nextBtn.disabled = true;
+            
+            updateStats();
             loadQuestion();
         }
 
         function updateProgress() {
-            const progress = ((currentQuestion + 1) / filteredQuestions.length) * 100;
+            const progress = ((currentQuestion) / filteredQuestions.length) * 100;
             elements.progressBar.style.width = progress + '%';
             elements.questionNum.textContent = `題目 ${currentQuestion + 1}/${filteredQuestions.length}`;
         }
@@ -670,21 +773,13 @@
                         filteredQuestions = questions.filter(q => !isLocalNews(q));
                     }
                     
-                    currentQuestion = 0;
-                    score = 0;
-                    totalAnswered = 0;
-                    elements.nextBtn.disabled = true;
-                    elements.feedback.style.display = 'none';
-                    updateStats();
-                    loadQuestion();
+                    restartQuiz(); // 切換類別時直接重新開始
                 };
             });
         }
 
-        // 事件綁定
         elements.nextBtn.onclick = nextQuestion;
 
-        // 啟動
         init();
     </script>
 </body>
