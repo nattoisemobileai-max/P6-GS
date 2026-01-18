@@ -40,7 +40,7 @@
             box-shadow: 0 0 20px rgba(0,0,0,0.1);
         }
 
-        /* ---------------- 頭部與進度條 ---------------- */
+        /* Header & Progress */
         header {
             padding: 20px;
             display: flex;
@@ -71,13 +71,30 @@
             border-radius: 10px;
         }
 
-        /* ---------------- 問題區域通用樣式 ---------------- */
+        /* Question Area */
         .question-area {
             flex-grow: 1;
             padding: 20px;
             display: flex;
             flex-direction: column;
-            /* justify-content: center; Removed to allow better flow for ordering */
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .page-badge {
+            background-color: var(--duo-blue);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            white-space: nowrap;
+            margin-left: 10px;
         }
 
         h1.question-text {
@@ -88,7 +105,7 @@
             color: #3c3c3c;
         }
 
-        /* 圖片樣式 */
+        /* Image Style */
         .question-image {
             width: 100%;
             max-width: 300px;
@@ -111,7 +128,7 @@
             object-fit: cover;
         }
 
-        /* ---------------- 模式：選擇題 (Grid) ---------------- */
+        /* Options Grid */
         .options-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -119,7 +136,7 @@
         }
         
         .options-grid.image-mode {
-             grid-template-columns: 1fr 1fr; /* 圖片題並排顯示 */
+             grid-template-columns: 1fr 1fr;
         }
 
         .option-card {
@@ -138,7 +155,7 @@
             min-height: 50px;
         }
 
-        /* 圖片選項卡片特別樣式 */
+        /* Image Option Cards */
         .option-card.has-image {
             flex-direction: column;
             text-align: center;
@@ -183,7 +200,7 @@
             border-bottom-color: var(--duo-red-shadow);
         }
 
-        /* ---------------- 模式：排序題 (Sequence) ---------------- */
+        /* Sequence Mode */
         .sequence-area {
             margin-top: 20px;
         }
@@ -225,7 +242,7 @@
 
         .word-bubble.in-slot {
             background: white; 
-            border-color: var(--duo-blue); /* Used style */
+            border-color: var(--duo-blue);
         }
         
         .word-bubble.placeholder {
@@ -233,16 +250,16 @@
             border-color: transparent;
             color: transparent;
             pointer-events: none;
-            height: 44px; /* Match height of visible bubbles */
+            height: 44px;
             box-sizing: border-box;
         }
 
-        /* ---------------- 底部按鈕區 ---------------- */
+        /* Footer */
         .footer {
             padding: 20px;
             border-top: 2px solid var(--duo-gray);
             background: white;
-            margin-top: auto; /* Push to bottom */
+            margin-top: auto;
         }
 
         .btn-check {
@@ -267,7 +284,7 @@
             cursor: default;
         }
 
-        /* ---------------- 反饋彈窗 ---------------- */
+        /* Feedback Overlay */
         .feedback-overlay {
             position: fixed;
             bottom: 0;
@@ -319,7 +336,7 @@
             border-bottom-color: var(--duo-red-shadow);
         }
 
-        /* ---------------- 吉祥物 ---------------- */
+        /* Mascot */
         .mascot-container {
             display: flex;
             gap: 15px;
@@ -346,7 +363,7 @@
             font-weight: bold;
         }
 
-        /* ---------------- 結束畫面 ---------------- */
+        /* End Screen */
         .end-screen {
             display: none;
             text-align: center;
@@ -408,19 +425,46 @@
 </div>
 
 <script>
-    /* 
-       題目數據結構說明：
-       type: "fill" (填充), "mc" (選擇), "mc_image" (圖片選擇), "sequence" (排序)
-       options: 選項數組
-       correct: 
-          - 對於 mc/fill: 正確選項的 index (0-based)
-          - 對於 sequence: 正確的 index 排列數組 [1, 0, 2, 3] 代表正確順序是 選項B -> 選項A -> 選項C -> 選項D
-    */
     const questions = [
-        // 題目 1: 填充題
+        // 題目 1: 排序題 (第4頁)
         {
             id: 1,
+            type: "sequence",
+            page: "4",
+            instruction: "請按正確順序排列以下處理「流鼻血」的步驟：",
+            question: "1. 同學流鼻血應怎樣處理？",
+            options: [
+                "A. 解開衣物",
+                "B. 坐下",
+                "C. 頭向前傾",
+                "D. 捏鼻骨"
+            ],
+            correct: [1, 2, 3, 0], 
+            explanation: "正確順序：先坐下，頭向前傾，捏住鼻骨，最後解開緊身衣物。"
+        },
+
+        // 題目 2: 排序題 (第4頁)
+        {
+            id: 2,
+            type: "sequence",
+            page: "4",
+            instruction: "請按正確順序排列處理「手臂擦傷」的步驟：",
+            question: "2. 同學的手臂擦傷了，應怎樣替他處理傷口？",
+            options: [
+                "A. 拭乾血水",
+                "B. 清洗傷口",
+                "C. 貼上膠布",
+                "D. 清潔雙手"
+            ],
+            correct: [3, 1, 0, 2],
+            explanation: "急救員應先保護自己(清潔雙手)，再清洗傷口，拭乾後包紮。"
+        },
+
+        // 題目 3: 填充題 (第5頁)
+        {
+            id: 3,
             type: "fill",
+            page: "5",
             instruction: "請選擇正確的詞語填空：",
             question: "香港的緊急救援服務主要由_______、消防處和醫院提供。",
             options: [
@@ -432,44 +476,29 @@
             correct: 0, 
             explanation: "答案：警務處。三大緊急服務為警察、消防及救護。"
         },
-        
-        // 題目 2: 圖片選擇題 (模擬圖片)
-        {
-            id: 2,
-            type: "mc_image",
-            instruction: "看圖回答問題：",
-            question: "以下哪套是郊遊時的正確裝束？",
-            // 這裡模擬圖片路徑，實際使用時請換成 <img src='...'>
-            options: [
-                { text: "A. 涼鞋與短褲", imgPlaceholder: "👡" },
-                { text: "B. 鬆身透氣長袖衣物", imgPlaceholder: "👕" }
-            ],
-            correct: 1,
-            explanation: "郊遊應穿著長袖衣物以防蚊蟲和曬傷。"
-        },
 
-        // 題目 3: 排序題 (排列受傷處理步驟)
-        {
-            id: 3,
-            type: "sequence",
-            instruction: "請按正確順序排列以下處理「流鼻血」的步驟：",
-            question: "1. 同學流鼻血應怎樣處理？",
-            options: [
-                "A. 解開衣物",      // index 0
-                "B. 坐下",          // index 1
-                "C. 頭向前傾",      // index 2
-                "D. 捏鼻骨"         // index 3
-            ],
-            // 假設正確邏輯順序：坐下 -> 頭前傾 -> 捏鼻 -> 解衣
-            // 對應 index: 1 -> 2 -> 3 -> 0
-            correct: [1, 2, 3, 0], 
-            explanation: "正確順序：先坐下，頭向前傾，捏住鼻骨，最後解開緊身衣物。"
-        },
-
-        // 題目 4: 普通選擇題
+        // 題目 4: 填充題 (第5頁)
         {
             id: 4,
+            type: "fill",
+            page: "5",
+            instruction: "請選擇正確的詞語填空：",
+            question: "急救箱應放在固定又容易看見的位置，同時要確保_______難以觸及。",
+            options: [
+                "老人",
+                "小孩",
+                "病人",
+                "傷者"
+            ],
+            correct: 1,
+            explanation: "答案：小孩。避免小孩誤服藥物或受傷。"
+        },
+
+        // 題目 5: 普通選擇題 (第6頁)
+        {
+            id: 5,
             type: "mc",
+            page: "6",
             instruction: "請選擇正確答案：",
             question: "懷疑家中有氣體泄漏，首先要關掉甚麼？",
             options: [
@@ -482,31 +511,30 @@
             explanation: "應立即截斷氣體來源，並避免使用任何電器以免產生火花。"
         },
 
-        // 題目 5: 排序題 (手臂擦傷)
+        // 題目 6: 普通選擇題 (第7頁)
         {
-            id: 5,
-            type: "sequence",
-            instruction: "請按正確順序排列處理「手臂擦傷」的步驟：",
-            question: "2. 同學的手臂擦傷了，應怎樣替他處理傷口？",
+            id: 6,
+            type: "mc",
+            page: "7",
+            instruction: "請選擇正確答案：",
+            question: "遇上緊急傷病時，我們應該撥打甚麼號碼求救？",
             options: [
-                "A. 拭乾血水",      // index 0
-                "B. 清洗傷口",      // index 1
-                "C. 貼上膠布",      // index 2
-                "D. 清潔雙手"       // index 3
+                "A. 999",
+                "B. 1823",
+                "C. 112",
+                "D. 1088"
             ],
-            // 邏輯順序：清潔雙手 -> 清洗傷口 -> 拭乾 -> 貼膠布
-            // 對應 index: 3 -> 1 -> 0 -> 2
-            correct: [3, 1, 0, 2],
-            explanation: "急救員應先保護自己(清潔雙手)，再清洗傷口，拭乾後包紮。"
+            correct: 0,
+            explanation: "答案：999 是香港的緊急求救電話。"
         }
     ];
 
-    // --- 遊戲狀態管理 ---
+    // Game State
     let currentState = {
         questionIndex: 0,
         score: 0,
-        selectedOption: null,      // For MC/Fill
-        sequenceAnswer: [],        // For Sequence: array of option indices
+        selectedOption: null,
+        sequenceAnswer: [],
         isChecking: false
     };
 
@@ -527,7 +555,7 @@
         }
     };
 
-    // --- 初始化 ---
+    // Init
     function init() {
         renderQuestion();
         updateProgress();
@@ -538,28 +566,27 @@
         dom.progressBar.style.width = pct + '%';
     }
 
-    // --- 渲染引擎 ---
     function renderQuestion() {
         const q = questions[currentState.questionIndex];
         const area = dom.questionArea;
         
-        // Reset state
         currentState.selectedOption = null;
         currentState.sequenceAnswer = [];
         currentState.isChecking = false;
         dom.checkBtn.innerText = "檢查";
         dom.checkBtn.disabled = true;
 
-        // Common HTML structure
         let html = `
             <div class="mascot-container">
                 <div class="mascot"></div>
                 <div class="speech-bubble">${q.instruction}</div>
             </div>
-            <h1 class="question-text">${q.question.replace('_______', '<span style="color:#1cb0f6; border-bottom:2px solid #1cb0f6; padding:0 5px;">_______</span>')}</h1>
+            <div class="question-header">
+                <h1 class="question-text">${q.question.replace('_______', '<span style="color:#1cb0f6; border-bottom:2px solid #1cb0f6; padding:0 5px;">_______</span>')}</h1>
+                <span class="page-badge">第 ${q.page} 頁</span>
+            </div>
         `;
 
-        // Render based on type
         if (q.type === 'sequence') {
             html += renderSequenceMode(q);
         } else if (q.type === 'mc_image') {
@@ -570,11 +597,9 @@
 
         area.innerHTML = html;
         
-        // Post-render listeners
         if(q.type === 'sequence') setupSequenceListeners(q);
     }
 
-    // 1. 普通/填充 渲染器
     function renderStandardMode(q) {
         let optsHtml = '<div class="options-grid">';
         q.options.forEach((opt, idx) => {
@@ -584,7 +609,6 @@
         return optsHtml;
     }
 
-    // 2. 圖片題 渲染器
     function renderImageMode(q) {
         let optsHtml = '<div class="options-grid image-mode">';
         q.options.forEach((opt, idx) => {
@@ -598,12 +622,8 @@
         return optsHtml;
     }
 
-    // 3. 排序題 渲染器
     function renderSequenceMode(q) {
-        // 上方填空區 (Slots)
         let slotsHtml = '<div class="slots-container" id="sequence-slots"></div>';
-        
-        // 下方單詞庫 (Bank)
         let bankHtml = '<div class="word-bank" id="word-bank">';
         q.options.forEach((opt, idx) => {
             bankHtml += `<div class="word-bubble" id="word-${idx}" onclick="handleSequenceClick(${idx})">${opt}</div>`;
@@ -613,13 +633,10 @@
         return `<div class="sequence-area">${slotsHtml}${bankHtml}</div>`;
     }
 
-    // --- 交互邏輯 ---
-
-    // 處理普通選擇
+    // Interaction Logic
     window.handleOptionSelect = (idx, el) => {
         if (currentState.isChecking) return;
         
-        // UI Update
         document.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
         el.classList.add('selected');
         
@@ -627,54 +644,49 @@
         dom.checkBtn.disabled = false;
     };
 
-    // 處理排序點擊
     window.handleSequenceClick = (optIdx) => {
         if (currentState.isChecking) return;
 
         const q = questions[currentState.questionIndex];
         const currentAnswer = currentState.sequenceAnswer;
         
-        // Check if already selected (in slots)
         const existingIndex = currentAnswer.indexOf(optIdx);
 
         if (existingIndex === -1) {
-            // Add to slots
             currentAnswer.push(optIdx);
         } else {
-            // Remove from slots (return to bank)
             currentAnswer.splice(existingIndex, 1);
         }
 
         updateSequenceUI(q);
     };
 
+    function setupSequenceListeners(q) {
+        updateSequenceUI(q);
+    }
+
     function updateSequenceUI(q) {
         const slotsContainer = document.getElementById('sequence-slots');
         const bankContainer = document.getElementById('word-bank');
         
-        // 清空
         slotsContainer.innerHTML = '';
         
-        // 重繪 Slots
         currentState.sequenceAnswer.forEach(optIdx => {
             const el = document.createElement('div');
             el.className = 'word-bubble in-slot';
             el.innerText = q.options[optIdx];
-            el.onclick = () => handleSequenceClick(optIdx); // Click slot to remove
+            el.onclick = () => handleSequenceClick(optIdx);
             slotsContainer.appendChild(el);
         });
 
-        // 重繪 Bank (隱藏已選的，保留佔位符以防跳動)
         bankContainer.innerHTML = '';
         q.options.forEach((optText, idx) => {
             if (currentState.sequenceAnswer.includes(idx)) {
-                // Placeholder
                 const p = document.createElement('div');
                 p.className = 'word-bubble placeholder';
                 p.innerText = optText;
                 bankContainer.appendChild(p);
             } else {
-                // Active bubble
                 const el = document.createElement('div');
                 el.className = 'word-bubble';
                 el.innerText = optText;
@@ -683,18 +695,16 @@
             }
         });
 
-        // Enable check if all items placed
         dom.checkBtn.disabled = currentState.sequenceAnswer.length !== q.options.length;
     }
 
-    // --- 檢查答案 ---
+    // Check Answer
     window.checkAnswer = () => {
         currentState.isChecking = true;
         const q = questions[currentState.questionIndex];
         let isCorrect = false;
 
         if (q.type === 'sequence') {
-            // Compare arrays
             const userAns = JSON.stringify(currentState.sequenceAnswer);
             const correctAns = JSON.stringify(q.correct);
             isCorrect = (userAns === correctAns);
@@ -702,16 +712,13 @@
             isCorrect = (currentState.selectedOption === q.correct);
         }
 
-        // UI Feedback
         if (isCorrect) {
             currentState.score++;
             showFeedback(true, "太棒了！");
             
-            // Visuals
             if (q.type !== 'sequence') {
                 document.querySelector('.option-card.selected').classList.add('correct');
             } else {
-                // Turn slots green
                 document.querySelectorAll('.word-bubble.in-slot').forEach(el => {
                    el.style.backgroundColor = '#d7ffb8'; 
                    el.style.borderColor = '#58cc02';
@@ -720,16 +727,12 @@
 
         } else {
             let msg = q.explanation;
-            // For MC, show correct answer text
             if (q.type === 'mc' || q.type === 'fill') {
-                // Highlight wrong
                 const sel = document.querySelector('.option-card.selected');
                 if(sel) sel.classList.add('wrong');
-                // Highlight correct
                 const all = document.querySelectorAll('.option-card');
                 all[q.correct].classList.add('correct');
             } else if (q.type === 'sequence') {
-                 // 顯示正確順序文本
                  const correctText = q.correct.map(idx => q.options[idx]).join(' → ');
                  msg = `正確順序：<br>${correctText}`;
             }
