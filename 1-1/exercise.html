@@ -32,7 +32,7 @@
 
         .app-container {
             width: 100%;
-            max-width: 800px; /* 加寬以適應綜合題 */
+            max-width: 800px;
             background: white;
             min-height: 100vh;
             display: flex;
@@ -92,7 +92,7 @@
             font-size: 19px; margin-bottom: 25px; line-height: 1.6; font-weight: bold; color: #3c3c3c;
         }
 
-        /* --- Case Study Mode (綜合題樣式) --- */
+        /* --- Case Study Mode --- */
         .case-study-container {
             display: flex; flex-direction: column; gap: 20px;
         }
@@ -276,15 +276,6 @@
 </div>
 
 <script>
-    /*
-      Question Types:
-      - tf: True/False
-      - fill: Select word (Standard MC style for single correct)
-      - sequence: Order items
-      - text_input: Type answer
-      - mc_image_grid: Multiple choice with images
-      - case_study: Complex Scenario
-    */
     
     const questions = [
         // --- 1. 圖片選擇題 (Image MC) ---
@@ -295,9 +286,9 @@
             instruction: "請選擇正確的圖片：",
             question: "1. 以下哪個是處理昏厥的正確方法？",
             options: [
-                { label: "A", img: "img/option1-1.jpg" }, // 頭部墊高
-                { label: "B", img: "img/option1-2.jpg" }, // 平躺
-                { label: "C", img: "img/option1-3.jpg" }  // 躺墊高雙腳
+                { label: "A", img: "img/option1-1.jpg" }, 
+                { label: "B", img: "img/option1-2.jpg" }, 
+                { label: "C", img: "img/option1-3.jpg" }  
             ],
             correct: 2, 
             explanation: "昏厥處理：應讓患者平臥，墊高雙腳，以增加腦部血液供應。"
@@ -309,9 +300,9 @@
             instruction: "請選擇正確的圖片：",
             question: "2. 以下哪個是處理燙傷的正確方法？",
             options: [
-                { label: "A", img: "img/option2-1.jpg" }, // 塗牙膏 (錯誤)
-                { label: "B", img: "img/option2-2.jpg" }, // 塗豉油 (錯誤)
-                { label: "C", img: "img/option2-3.jpg" }  // 沖水 (正確)
+                { label: "A", img: "img/option2-1.jpg" }, 
+                { label: "B", img: "img/option2-2.jpg" }, 
+                { label: "C", img: "img/option2-3.jpg" }  
             ],
             correct: 2, 
             explanation: "燙傷處理：應立即用清水沖洗傷口降溫，切勿塗抹牙膏或豉油。"
@@ -339,7 +330,7 @@
             explanation: "不正確。應先關掉總掣並到安全通風處才打電話，避免電話火花引發爆炸。"
         },
         
-        // --- 3. 填充題 / 選擇題 (Fill in Blank) ---
+        // --- 3. 填充題 (Fill in Blank) ---
         {
             id: 5,
             type: "fill",
@@ -358,7 +349,7 @@
             question: "我們不應 _______ 緊急救援服務，以免真正有需要的求助者得不到及時的協助。",
             options: ["善用", "濫用", "使用", "呼叫"],
             correct: 1, 
-            explanation: "答案：緊急救援資源（如救護車、消防車、999 熱線）是有限的，如果隨意或無故使用（濫用），會佔用線路和人手，導致真正遇到危急情況的人無法及時獲得救援，甚至危及生命。"
+            explanation: "我們不應濫用緊急服務，以免影響真正有需要的人。"
         },
         
         // --- 4. 排序題 (Sequence) ---
@@ -372,7 +363,7 @@
             correct: [1, 2, 3, 0], 
             explanation: "正確順序：先坐下，頭向前傾，捏住鼻骨，最後解開緊身衣物。"
         },
-        // --- 新增題目 8-13 ---
+        // --- 新增題目 8-15 ---
         {
             id: 8,
             type: "fill",
@@ -435,7 +426,7 @@
             question: "多部電器從同一個插座處取電，有機會導致甚麼危險?",
             options: ["有機會導致短路/火警。"],
             correct: 0, 
-            explanation: "答案：當多部耗電量大的電器同時連接到同一個插座（例如使用萬能插蘇）時，會導致電流負荷過大（過載），令電線和插座過熱，從而增加電線短路及引發火警的風險。"
+            explanation: "短路或火警。"
         },
         // --- 綜合能力訓練 (Case Study) ---
         {
@@ -450,21 +441,24 @@
                     text: "1. 甚麼是「逃生三寶」？",
                     type: "fill", 
                     options: ["手機、鑰匙、錢包", "毛巾、鑰匙、手機", "水、食物、毛巾"],
-                    correct: 1, // 毛巾、鑰匙、手機
+                    correct: 1, 
+                    correctText: "毛巾、鑰匙、手機"
                 },
                 {
                     qid: "1-2",
                     text: "2. 以上情境中，誰的做法是對的？",
                     type: "mc",
                     options: ["家俊 (留在屋內)", "詩琪 (帶三寶逃生)"],
-                    correct: 1 // 詩琪
+                    correct: 1,
+                    correctText: "詩琪 (帶三寶逃生)"
                 },
                 {
                     qid: "1-3",
                     text: "3. 日常生活中，我們應該做好哪些防火措施？(請填寫一項)",
                     type: "text_input",
                     correct: "保持走火通道暢通", 
-                    altCorrect: ["熟悉逃生路線", "檢查消防設施", "不阻塞防火門"] 
+                    altCorrect: ["熟悉逃生路線", "檢查消防設施", "不阻塞防火門"],
+                    correctText: "保持走火通道暢通"
                 }
             ],
             explanation: "解說：樓上起火應盡快向下逃生（詩琪正確）。家俊想塞門縫是錯誤判斷。逃生三寶為：濕毛巾、鑰匙、手機。"
@@ -477,8 +471,8 @@
             question: "民眾安全服務隊會協助救災，還會提供山野搜索及救援服務。",
             options: ["正確 ✔️", "不正確 ❌"],
             correct: 0, 
-            explanation: "民眾安全服務隊（民安隊）的主要職責包括協助政府執行各項緊急救援工作，例如颱風襲港期間的救援，以及提供山嶺搜救服務。"
-        },
+            explanation: "正確。民安隊負責協助緊急救災，並設有專門的山嶺搜救中隊。"
+        }
     ];
 
     // --- State & History ---
@@ -752,7 +746,7 @@
             let allSubCorrect = true;
             let detailRecord = [];
             
-            q.subQuestions.forEach(sub => {
+            q.subQuestions.forEach((sub, idx) => {
                 const userAns = currentState.subAnswers[sub.qid];
                 let subCorrect = false;
                 
@@ -773,11 +767,12 @@
                 }
                 
                 if(!subCorrect) allSubCorrect = false;
-                detailRecord.push(`Q${sub.qid.split('-')[1]}: ${subCorrect ? '✅' : '❌'}`);
+                let correctText = sub.correctText || sub.correct; 
+                detailRecord.push(`${idx+1}. ${correctText}`);
             });
             
             isCorrect = allSubCorrect;
-            userAnsRecord = "綜合題回答"; 
+            userAnsRecord = isCorrect ? "全部正確" : "部分錯誤"; 
             correctAnsRecord = detailRecord.join(" | ");
 
         } else if (q.type === 'sequence') {
@@ -827,9 +822,11 @@
             correctAns: correctAnsRecord
         });
 
+        // Feedback Logic (Always show if explanation exists)
         if (isCorrect) {
             currentState.correctCount++;
-            showFeedback(true, "太棒了！");
+            let msg = q.explanation ? `太棒了！<br>${q.explanation}` : "太棒了！";
+            showFeedback(true, msg);
         } else {
             currentState.incorrectCount++;
             let msg = "";
@@ -878,40 +875,43 @@
         renderReviewList();
     }
 
-    // --- Review List Logic ---
+    // --- Review List Logic (Show Correct Answer Always) ---
     function renderReviewList() {
         const list = dom.reviewList;
-        list.innerHTML = ""; // Clear
+        list.innerHTML = ""; 
 
         currentState.userHistory.forEach((record, i) => {
             const q = questions[record.qIndex];
             const item = document.createElement('div');
             item.className = `review-item ${record.isCorrect ? 'correct' : 'wrong'}`;
 
-            // Top Row: Index and Status
+            // Top Row
             let statusIcon = record.isCorrect ? '✅ 正確' : '❌ 錯誤';
             let qText = q.type === 'case_study' ? '綜合能力訓練 (情境題)' : q.question;
             
-            // Content
             let html = `
                 <div class="review-header">
                     <span>題目 ${i + 1}</span>
                     <span>${statusIcon}</span>
                 </div>
                 <div class="review-q">${qText}</div>
+                <div class="review-feedback">
             `;
 
-            // If wrong, show detail
+            // If wrong, show User Answer
             if (!record.isCorrect) {
                 html += `
-                    <div class="review-feedback">
-                        <span class="review-ans-label">您的答案：</span>
-                        <div class="ans-wrong">${record.userAns}</div>
-                        <span class="review-ans-label" style="margin-top:8px;">正確答案：</span>
-                        <div class="ans-correct">${record.correctAns}</div>
-                    </div>
+                    <span class="review-ans-label">您的答案：</span>
+                    <div class="ans-wrong">${record.userAns}</div>
+                    <div style="height:10px"></div>
                 `;
             }
+
+            // Always show Correct Answer
+            html += `
+                <span class="review-ans-label">正確答案：</span>
+                <div class="ans-correct">${record.correctAns}</div>
+            </div>`;
 
             item.innerHTML = html;
             list.appendChild(item);
