@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P6常識科時事題庫</title>
+    <style>
+        /* Duolingo風格CSS：鮮豔綠色主題、圓角卡片、動畫反饋 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #2c3e50;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #58cc02 0%, #4caf50 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+        .progress {
+            background: rgba(255,255,255,0.3);
+            height: 8px;
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        .progress-bar {
+            background: #ffeb3b;
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        .question-container {
+            padding: 40px 30px;
+        }
+        .question {
+            font-size: 1.4em;
+            font-weight: 600;
+            margin-bottom: 25px;
+            line-height: 1.5;
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 6px solid #58cc02;
+        }
+        .options {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .option {
+            background: white;
+            border: 3px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 20px 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .option:hover {
+            border-color: #58cc02;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(88,204,2,0.2);
+        }
+        .option.selected {
+            border-color: #58cc02;
+            background: #e8f5e8;
+        }
+        .option.correct {
+            border-color: #58cc02;
+            background: linear-gradient(135deg, #58cc02, #4caf50);
+            color: white;
+            animation: pulse 0.6s ease;
+        }
+        .option.incorrect {
+            border-color: #f44336;
+            background: linear-gradient(135deg, #f44336, #e53935);
+            color: white;
+            animation: shake 0.5s ease;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        .feedback {
+            display: none;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            font-size: 1.2em;
+            font-weight: 500;
+        }
+        .feedback.correct {
+            background: linear-gradient(135deg, #58cc02, #4caf50);
+            color: white;
+        }
+        .feedback.incorrect {
+            background: linear-gradient(135deg, #f44336, #e53935);
+            color: white;
+        }
+        .answer-reveal {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+        .next-btn {
+            background: linear-gradient(135deg, #58cc02, #4caf50);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            font-size: 1.2em;
+            font-weight: 600;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 20px;
+        }
+        .next-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(88,204,2,0.4);
+        }
+        .next-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            background: #f8f9fa;
+            padding: 15px 25px;
+            font-weight: 600;
+            color: #495057;
+        }
+        .category-filter {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .category-btn {
+            background: #e9ecef;
+            border: none;
+            padding: 12px 20px;
+            margin: 0 5px 10px 0;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        .category-btn.active {
+            background: #58cc02;
+            color: white;
+        }
+        @media (max-width: 600px) {
+            .question { font-size: 1.2em; }
+            .header h1 { font-size: 1.8em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🦌 小鹿P6 時事題庫</h1>
+            <p>35條香港+國際時事題 | Duolingo互動練習</p>
+            <div class="progress">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+        </div>
+        
+        <div class="stats">
+            <span id="questionNum">題目 1/35</span>
+            <span id="score">正確: 0 | 總: 0</span>
+        </div>
+        
+        <div class="category-filter">
+            <h3 style="margin-bottom: 15px; color: #2c3e50;">選擇類別：</h3>
+            <button class="category-btn active" data-category="all">全部 (35)</button>
+            <button class="category-btn" data-category="香港本地新聞">香港本地 (8)</button>
+            <button class="category-btn" data-category="施政報告政策">施政報告 (7)</button>
+            <button class="category-btn" data-category="國際貿易戰">貿易戰 (6)</button>
+            <button class="category-btn" data-category="國際新聞">國際 (7)</button>
+            <button class="category-btn" data-category="環保教育">環保教育 (3)</button>
+        </div>
+        
+        <div class="question-container">
+            <div class="question" id="questionText"></div>
+            <div class="options" id="options"></div>
+            <div class="feedback" id="feedback"></div>
+            <button class="next-btn" id="nextBtn" disabled>下一題</button>
+        </div>
+    </div>
+
+    // 45條完整時事常識題目數據（根據PDF內容整理）
+const questions = [
+    {
+        question: "美國總統特朗普提出什麼政策，禁止市民依性別認同選擇護照性別，並強調美國只承認男性及女性的兩種性別？",
+        options: ["A. 性別中立政策", "B. 多元性別政策", "C. 二元性別政策", "D. 性別自由政策"],
+        answer: 2,
+        category: "國際政治",
+        keypoint: "美國性別政策爭議"
+    },
+    {
+        question: "世界衛生組織指出，全球至少有多少名13至15歲的青少年正在吸食電子煙？",
+        options: ["A. 1500萬", "B. 1000萬", "C. 2000萬", "D. 500萬"],
+        answer: 0,
+        category: "公共衛生",
+        keypoint: "青少年吸煙問題"
+    },
+    {
+        question: "香港政府宣布調整外籍家庭傭工的最低工資，由每月的4,990元增至多少元？",
+        options: ["A. 5,050元", "B. 5,100元", "C. 5,200元", "D. 5,150元"],
+        answer: 1,
+        category: "香港民生",
+        keypoint: "外傭最低工資調整"
+    },
+    {
+        question: "日本京都宣布從明年3月1日起上調住宿稅，最高稅額將由現時的1,000日圓大幅提升至多少日圓？",
+        options: ["A. 5,000日圓", "B. 2,000日圓", "C. 8,000日圓", "D. 10,000日圓"],
+        answer: 3,
+        category: "國際旅遊",
+        keypoint: "日本旅遊稅收政策"
+    },
+    {
+        question: "哪位足球名宿獲英王查理斯三世封為爵士頭銜？",
+        options: ["A. 碧咸 (David Beckham)", "B. 朗尼 (Wayne Rooney)", "C. 傑斯 (Ryan Giggs)", "D. 奧雲 (Michael Owen)"],
+        answer: 0,
+        category: "體育新聞",
+        keypoint: "體育界傑出人物榮譽"
+    },
+    {
+        question: "Airbnb在哪個國家的分公司宣布，未完成合法登記的房源將於2026年1月1日下架？",
+        options: ["A. 日本", "B. 韓國", "C. 泰國", "D. 新加坡"],
+        answer: 1,
+        category: "國際商業",
+        keypoint: "共享住宿法規監管"
+    },
+    {
+        question: "巴黎奧運劍擊金牌得主江旻憓出選哪個立法會界別，其對手有區議員馬軼超？",
+        options: ["A. 體育、演藝、文化及出版界", "B. 教育界", "C. 選舉委員會界別", "D. 旅遊界"],
+        answer: 3,
+        category: "香港政治",
+        keypoint: "運動員從政"
+    },
+    {
+        question: "哪個屋苑因公共水管入水口濾網破損，疑令沉積物滲入水管，導致部分住戶食水出現微粒？",
+        options: ["A. 太古城", "B. 康怡花園", "C. 美孚新邨", "D. 黃埔花園"],
+        answer: 0,
+        category: "香港民生",
+        keypoint: "屋苑食水安全事故"
+    },
+    {
+        question: "哪間中學因爆發流感，被衞生署要求全校需佩戴口罩一周？",
+        options: ["A. 皇仁書院", "B. 拔萃男書院", "C. 筲箕灣聖馬可中學", "D. 喇沙書院"],
+        answer: 2,
+        category: "公共衛生",
+        keypoint: "校園傳染病控制"
+    },
+    {
+        question: "安柏苑居屋的組裝合成單位在超強颱風「樺加沙」後，出現了什麼問題？",
+        options: ["A. 牆身裂紋", "B. 滲水問題", "C. 窗戶飛脫", "D. 地板拱起"],
+        answer: 1,
+        category: "香港房屋",
+        keypoint: "組裝合成建築質量"
+    },
+    {
+        question: "戚繼光艦及沂蒙山中國軍艦停泊於香港哪個地方並開放予市民參觀？",
+        options: ["A. 中環軍用碼頭", "B. 石崗軍營", "C. 昂船洲軍營", "D. 赤柱軍營"],
+        answer: 2,
+        category: "軍事國防",
+        keypoint: "解放軍駐港活動"
+    },
+    {
+        question: "第十五屆全國運動會的閉幕式將在哪個城市舉行？",
+        options: ["A. 廣州", "B. 香港", "C. 澳門", "D. 深圳"],
+        answer: 3,
+        category: "體育盛事",
+        keypoint: "全運會舉辦安排"
+    },
+    {
+        question: "馬爾代夫規定從哪一年1月起出生的人，不得在當地購買、使用或被販售煙草產品？",
+        options: ["A. 2007年", "B. 2008年", "C. 2009年", "D. 2010年"],
+        answer: 0,
+        category: "國際法規",
+        keypoint: "全球禁煙政策"
+    },
+    {
+        question: "JR東日本宣布2026年3月14日起全面加票價，山手線的起步價將由150日圓增至多少？",
+        options: ["A. 160日圓", "B. 170日圓", "C. 180日圓", "D. 200日圓"],
+        answer: 0,
+        category: "國際民生",
+        keypoint: "日本交通票價調整"
+    },
+    {
+        question: "哪間公司與日本PayPay流動支付商合作，讓香港市民遊日時可透過其應用程式支付？",
+        options: ["A. WeChat Pay HK", "B. AlipayHK", "C. 八達通", "D. PayMe"],
+        answer: 2,
+        category: "科技金融",
+        keypoint: "跨境支付便利"
+    },
+    {
+        question: "美國哪個州份遭哈隆颱風（Typhoon Halong）吹襲，沖走沿岸民宅？",
+        options: ["A. 佛羅里達州", "B. 加利福尼亞州", "C. 夏威夷州", "D. 阿拉斯加州"],
+        answer: 3,
+        category: "國際氣象",
+        keypoint: "極端天氣影響"
+    },
+    {
+        question: "哪個超強颱風襲港，令天文台發出維持10小時40分鐘的十號風球，成為歷來第二長？",
+        options: ["A. 山竹", "B. 樺加沙", "C. 天鴿", "D. 摩羯"],
+        answer: 1,
+        category: "香港氣象",
+        keypoint: "颱風災害與應對"
+    },
+    {
+        question: "第十五屆全運會吉祥物「喜洋洋」、「樂融融」是以什麼動物為原型設計？",
+        options: ["A. 大熊貓", "B. 華南虎", "C. 中華白海豚", "D. 黑臉琵鷺"],
+        answer: 2,
+        category: "文化象徵",
+        keypoint: "全運會吉祥物設計"
+    },
+    {
+        question: "今年的諾貝爾化學獎由幾位研究金屬有機骨架的科學家獲得？",
+        options: ["A. 1位", "B. 2位", "C. 3位", "D. 4位"],
+        answer: 2,
+        category: "科學成就",
+        keypoint: "諾貝爾獎得主"
+    },
+    {
+        question: "第十五屆什麼大型體育活動將於11月9日至11月21日舉行？",
+        options: ["A. 亞運會", "B. 全運會", "C. 奧運會", "D. 東亞運"],
+        answer: 1,
+        category: "體育盛事",
+        keypoint: "全國運動會日程"
+    },
+    {
+        question: "立法會選舉提名期展開，哪位現任議員已宣布不參選下屆立法會選舉？",
+        options: ["A. 葉劉淑儀", "B. 李慧琼", "C. 梁君彥", "D. 陳克勤"],
+        answer: 2,
+        category: "香港政治",
+        keypoint: "立法會換屆"
+    },
+    {
+        question: "法國巴黎羅浮宮博物館發生了什麼事件，導致8件19世紀法國王室珠寶損失？",
+        options: ["A. 火災", "B. 盜竊案", "C. 示威破壞", "D. 水浸"],
+        answer: 1,
+        category: "國際新聞",
+        keypoint: "博物館保安漏洞"
+    },
+    {
+        question: "獲教育局批准，下學年加開中一班數由4班增至5班的中學共有幾間？",
+        options: ["A. 3間", "B. 4間", "C. 5間", "D. 6間"],
+        answer: 2,
+        category: "香港教育",
+        keypoint: "中學班級結構調整"
+    },
+    {
+        question: "哪間大學獲批籌辦香港第三間醫學院？",
+        options: ["A. 香港理工大學", "B. 香港城市大學", "C. 香港科技大學", "D. 香港浸會大學"],
+        answer: 2,
+        category: "高等教育",
+        keypoint: "本地醫學教育發展"
+    },
+    {
+        question: "美國總統特朗普宣布對進口中國貨物加徵多少關稅，以回應稀土管制？",
+        options: ["A. 25%", "B. 50%", "C. 60%", "D. 100%"],
+        answer: 3,
+        category: "中美貿易",
+        keypoint: "關稅戰升級"
+    },
+    {
+        question: "台灣花蓮哪個城鎮因颱風「樺加沙」帶來豪雨引發堰塞湖溢流，造成嚴重傷亡？",
+        options: ["A. 玉里鎮", "B. 光復鄉", "C. 瑞穗鄉", "D. 壽豐鄉"],
+        answer: 1,
+        category: "兩岸災情",
+        keypoint: "自然災害影響"
+    },
+    {
+        question: "美國總統特朗普因哪間廣播公司在節目中剪輯其言論造成誤導而提出訴訟？",
+        options: ["A. CNN", "B. Fox News", "C. 英國廣播公司 (BBC)", "D. ABC"],
+        answer: 2,
+        category: "國際傳媒",
+        keypoint: "政治與媒體關係"
+    },
+    {
+        question: "時尚品牌SHEIN因銷售外形酷似兒童的成人性玩偶，遭哪個國家暫停其網上平台營運？",
+        options: ["A. 德國", "B. 英國", "C. 意大利", "D. 法國"],
+        answer: 3,
+        category: "商業法規",
+        keypoint: "網購平台監管"
+    },
+    {
+        question: "香港哪個骨灰龕場發生多宗名人骨灰盜竊事件，包括劉家良的骨灰？",
+        options: ["A. 將軍澳華人永遠墳場", "B. 鑽石山火葬場", "C. 沙田寶福山", "D. 和合石墳場"],
+        answer: 2,
+        category: "社會治安",
+        keypoint: "骨灰龕場保安"
+    },
+    {
+        question: "什麼動物近期在日本造成嚴重災情，導致累計近200人受傷及多人死亡？",
+        options: ["A. 野豬", "B. 黑熊", "C. 獼猴", "D. 毒蛇"],
+        answer: 1,
+        category: "生態環境",
+        keypoint: "野生動物衝突"
+    },
+    {
+        question: "英國王室哪位成員因捲入愛潑斯坦性醜聞，被剝奪頭銜並逐出王家居所？",
+        options: ["A. 哈里王子", "B. 威廉王子", "C. 愛德華王子", "D. 安德魯王子"],
+        answer: 3,
+        category: "國際皇室",
+        keypoint: "英國王室醜聞"
+    },
+    {
+        question: "第十五屆全國運動會的開幕式將在哪個城市舉行？",
+        options: ["A. 深圳", "B. 香港", "C. 廣州", "D. 珠海"],
+        answer: 2,
+        category: "體育盛事",
+        keypoint: "全運會開幕安排"
+    },
+    {
+        question: "哪個地鐵站的出口燈箱更新為私人屋苑「朗賢峯」，引起居民爭議？",
+        options: ["A. 黃埔站", "B. 土瓜灣站", "C. 宋皇臺站", "D. 何文田站"],
+        answer: 3,
+        category: "城市規劃",
+        keypoint: "港鐵設施命名爭議"
+    },
+    {
+        question: "誰在自民黨總裁選舉中當選，成為該黨成立以來的首位女性領袖？",
+        options: ["A. 小池百合子", "B. 高市早苗", "C. 野田聖子", "D. 蓮舫"],
+        answer: 1,
+        category: "國際政治",
+        keypoint: "日本政壇女性地位"
+    },
+    {
+        question: "哪間巴士公司宣布2026年度起前線員工整體加薪多2.5%？",
+        options: ["A. 九巴", "B. 龍運巴士", "C. 城巴", "D. 嶼巴"],
+        answer: 2,
+        category: "勞工權益",
+        keypoint: "公共交通薪酬調整"
+    },
+    {
+        question: "國慶黃金周期間，香港哪個地方因遊客踐踏珊瑚而受到生態影響？",
+        options: ["A. 海下灣", "B. 橋咀洲", "C. 東平洲", "D. 印洲塘"],
+        answer: 1,
+        category: "環境保護",
+        keypoint: "生態旅遊破壞"
+    },
+    {
+        question: "今年是中華人民共和國成立多少周年？",
+        options: ["A. 70周年", "B. 75周年", "C. 76周年", "D. 80周年"],
+        answer: 2,
+        category: "國家紀念",
+        keypoint: "國慶周年計算"
+    },
+    {
+        question: "今年香港受到多少個熱帶氣旋影響，打破了歷年紀錄？",
+        options: ["A. 8個", "B. 10個", "C. 12個", "D. 15個"],
+        answer: 2,
+        category: "氣候變化",
+        keypoint: "極端天氣頻率"
+    },
+    {
+        question: "印度哪款止咳糖漿經檢驗後發現含有毒物質需禁售？",
+        options: ["A. Coldrif", "B. Benadryl", "C. CoughFix", "D. Sirofen"],
+        answer: 0,
+        category: "藥物安全",
+        keypoint: "進口藥物監管"
+    },
+    {
+        question: "在泰晤士高等教育世界大學排名中，哪間香港本地大學未排在100名內？",
+        options: ["A. 香港大學", "B. 香港中文大學", "C. 香港科技大學", "D. 嶺南大學"],
+        answer: 3,
+        category: "高等教育",
+        keypoint: "大學國際排名"
+    },
+    {
+        question: "哪個國家的主題樂園發出警告，若無政府援助將對館內30頭白鯨進行安樂死？",
+        options: ["A. 美國", "B. 澳洲", "C. 加拿大", "D. 俄羅斯"],
+        answer: 2,
+        category: "動物權益",
+        keypoint: "海洋公園營運危機"
+    },
+    {
+        question: "公立醫院殮房明年起調整遺體存放收費，免費存放服務將由3天延長至多少天？",
+        options: ["A. 14天", "B. 21天", "C. 28天", "D. 30天"],
+        answer: 2,
+        category: "醫療服務",
+        keypoint: "殮房服務調整"
+    },
+    {
+        question: "面對持續的熊害，日本警察廳允許警員使用什麼武器來取代手槍獵熊？",
+        options: ["A. 步槍", "B. 麻醉槍", "C. 霰彈槍", "D. 電槍"],
+        answer: 0,
+        category: "公共安全",
+        keypoint: "應對野生動物威脅"
+    },
+    {
+        question: "什麼選舉定於12月7日進行投票？",
+        options: ["A. 行政長官選舉", "B. 區議會選舉", "C. 立法會選舉", "D. 選舉委員會選舉"],
+        answer: 2,
+        category: "香港政治",
+        keypoint: "選舉日程"
+    },
+    {
+        question: "香港歷來最大古埃及文物珍藏展覽在哪裡展出？",
+        options: ["A. 香港歷史博物館", "B. 香港藝術館", "C. 香港故宮文化博物館", "D. M+博物館"],
+        answer: 2,
+        category: "文化藝術",
+        keypoint: "博物館專題展覽"
+    }
+];
+
+
+        let currentQuestion = 0;
+        let score = 0;
+        let totalAnswered = 0;
+        let filteredQuestions = [...questions];
+        let userAnswers = {};
+
+        const elements = {
+            questionText: document.getElementById('questionText'),
+            options: document.getElementById('options'),
+            feedback: document.getElementById('feedback'),
+            nextBtn: document.getElementById('nextBtn'),
+            progressBar: document.getElementById('progressBar'),
+            questionNum: document.getElementById('questionNum'),
+            score: document.getElementById('score')
+        };
+
+        // 初始化
+        function init() {
+            loadQuestion();
+            setupCategoryFilters();
+        }
+
+        function loadQuestion() {
+            const q = filteredQuestions[currentQuestion];
+            elements.questionText.textContent = q.question;
+            elements.options.innerHTML = '';
+            
+            q.options.forEach((option, index) => {
+                const btn = document.createElement('div');
+                btn.className = 'option';
+                btn.textContent = option;
+                btn.dataset.index = index;
+                btn.onclick = () => selectAnswer(index);
+                elements.options.appendChild(btn);
+            });
+            
+            updateProgress();
+        }
+
+        function selectAnswer(selectedIndex) {
+            const q = filteredQuestions[currentQuestion];
+            const options = elements.options.children;
+            
+            // 清除之前狀態
+            Array.from(options).forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            // 顯示選擇
+            options[selectedIndex].classList.add('selected');
+            
+            // 檢查正確性
+            setTimeout(() => {
+                const correctOption = options[q.answer];
+                correctOption.classList.add('correct');
+                
+                if (selectedIndex === q.answer) {
+                    score++;
+                    showFeedback(true, q.keypoint);
+                } else {
+                    options[selectedIndex].classList.add('incorrect');
+                    showFeedback(false, q.keypoint);
+                }
+                
+                totalAnswered++;
+                userAnswers[currentQuestion] = selectedIndex;
+                elements.nextBtn.disabled = false;
+                updateStats();
+            }, 500);
+        }
+
+        function showFeedback(isCorrect, keypoint) {
+            elements.feedback.style.display = 'block';
+            elements.feedback.className = `feedback ${isCorrect ? 'correct' : 'incorrect'}`;
+            elements.feedback.innerHTML = `
+                ${isCorrect ? '✅ 正確！' : '❌ 答錯了'}<br>
+                <strong>正確答案：</strong>${questions[currentQuestion].options[questions[currentQuestion].answer]}<br>
+                <div class="answer-reveal">考點：${keypoint}</div>
+            `;
+        }
+
+        function nextQuestion() {
+            currentQuestion = (currentQuestion + 1) % filteredQuestions.length;
+            elements.feedback.style.display = 'none';
+            elements.nextBtn.disabled = true;
+            loadQuestion();
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / filteredQuestions.length) * 100;
+            elements.progressBar.style.width = progress + '%';
+            elements.questionNum.textContent = `題目 ${currentQuestion + 1}/${filteredQuestions.length}`;
+        }
+
+        function updateStats() {
+            elements.score.textContent = `正確: ${score} | 總: ${totalAnswered}`;
+        }
+
+        function setupCategoryFilters() {
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.onclick = () => {
+                    document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    
+                    const category = btn.dataset.category;
+                    filteredQuestions = category === 'all' ? 
+                        [...questions] : 
+                        questions.filter(q => q.category.includes(category));
+                    
+                    currentQuestion = 0;
+                    loadQuestion();
+                };
+            });
+        }
+
+        // 事件綁定
+        elements.nextBtn.onclick = nextQuestion;
+
+        // 啟動
+        init();
+    </script>
+</body>
+</html>
