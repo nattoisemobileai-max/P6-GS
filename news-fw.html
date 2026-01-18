@@ -299,20 +299,20 @@
     <div class="container">
         <div class="header">
             <h1>🦌 小鹿P6 時事題庫</h1>
-            <p>59條精選題 (2025年施政報告 + 10-12月時事)</p>
+            <p>65條精選題 (2025年施政報告 + 10-12月時事 + 交通基建)</p>
             <div class="progress">
                 <div class="progress-bar" id="progressBar"></div>
             </div>
         </div>
         
         <div class="stats">
-            <span id="questionNum">題目 1/59</span>
+            <span id="questionNum">題目 1/65</span>
             <span id="score">正確: 0 | 不正確: 0</span>
         </div>
         
         <div class="category-filter">
             <h3 style="width: 100%; margin-bottom: 10px; font-size: 1em; color: #2c3e50;">選擇新聞類別：</h3>
-            <button class="category-btn active" data-category="all">全部 (59)</button>
+            <button class="category-btn active" data-category="all">全部 (65)</button>
             <button class="category-btn" data-category="policy">📜 施政報告 (12)</button>
             <button class="category-btn" data-category="local">🇭🇰 香港本地 (21)</button>
             <button class="category-btn" data-category="global">🌍 國際新聞 (26)</button>
@@ -349,7 +349,7 @@
     </div>
 
     <script>
-        // 合併後的完整題目數據 (施政報告 + 醫療事故 + 原有時事)
+        // 合併後的完整題目數據 (施政報告 + 醫療事故 + 原有時事 + 交通)
         const questions = [
             {
                 question: "連接西九龍及九龍灣的「中九龍繞道（油麻地段）」將於2025年哪一天正式通車？",
@@ -378,7 +378,7 @@
                 answer: 1,
                 category: "跨境交通政策",
                 keypoint: "大橋通行優化措施"
-            }
+            }, // <--- 這裡修正：補上了逗號
             // --- 2025年施政報告 (12題) ---
              {
                 question: "2025年8月，屯門醫院發生一宗嚴重醫療事故，涉及一名48歲男病人。事故原因是什麼？",
