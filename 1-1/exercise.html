@@ -246,6 +246,66 @@
                 { qid: "2-3", text: "2. ", type: "text_input", correct: "T", correctText: "T" }
             ], explanation: "。"
         },
+         {
+            id: 34,
+            type: "fill", 
+            page: "Set13-P2",
+            instruction: "請選擇正確的答案：",
+            question: "發現有人在浴室昏迷不醒，以下哪項是<b>不應該做</b>的？",
+            options: ["A. 立即撥打 999 求救", "B. 嘗試把他拉離浴室", "C. 檢查他是否有意識", "D. 讓他靜臥，保持空氣流通"],
+            correct: 1, 
+            explanation: "除非現場有即時危險（如火警），否則不應隨意移動傷者，以免加重其傷勢（如脊椎受傷）。應先確保環境安全（如打開門窗通風），檢查意識並報警求助。"
+        },
+        {
+            id: 35,
+            type: "fill", 
+            page: "Set13-P1",
+            instruction: "請選擇正確的答案：",
+            question: "遇到輕微燒傷時，以下哪種處理方法最適當？",
+            options: ["A. 立即塗抹油膏", "B. 用冷水沖洗患處", "C. 用布料緊緊包紮", "D. 什麼都不做，讓它自然癒合"],
+            correct: 1, 
+            explanation: "燒傷後應立即用流動的清水沖洗患處約 10-15 分鐘以降低溫度，這有助於減輕疼痛和減少組織損傷。切勿塗抹油膏或豉油，以免阻礙散熱或引致感染。"
+        },
+        {
+            id: 36,
+            type: "fill", 
+            page: "Set13-P2",
+            instruction: "請選擇正確的答案：",
+            question: "家中發生火災時，以下哪項是正確的自救方法？",
+            options: ["A. 立即返回房間取回貴重物品", "B. 彎身匍匐前進，避免吸入濃煙", "C. 使用升降機快速逃離", "D. 躲在衣櫃裡等待救援"],
+            correct: 1, 
+            explanation: "火災時濃煙會向上升，靠近地面的空氣較清新，因此應彎腰或匍匐前進。切勿使用升降機（可能停電被困）或躲藏（難以被消防員發現）。"
+        },
+        {
+            id: 37,
+            type: "fill", 
+            page: "per-二1",
+            instruction: "請選擇正確的答案：",
+            question: "如果在郊野公園迷路，以下哪項做法是<b>錯誤</b>的？",
+            options: ["A. 保持冷靜，節省體力", "B. 吹哨子求救", "C. 到處奔跑尋找出路", "D. 留在原處等待救援"],
+            correct: 2, 
+            explanation: "迷路時應保持冷靜，留在原處或安全顯眼的位置等待救援，這能增加被發現的機會。盲目奔跑會消耗體力，更容易迷失方向或發生意外。"
+        },
+        {
+            id: 38,
+            type: "fill", 
+            page: "練習卷",
+            instruction: "請選擇正確的答案：",
+            question: "處理割傷出血時，急救的第一步是：",
+            options: ["A. 施壓止血", "B. 貼上膠布", "C. 服用止痛藥", "D. 縫合傷口"],
+            correct: 0, 
+            explanation: "處理出血傷口的首要步驟是直接施壓止血（Direct Pressure），以防止過量失血。"
+        },
+        {
+            id: 39,
+            type: "fill", 
+            page: "練習卷",
+            instruction: "請選擇正確的答案：",
+            question: "下列哪項是急救箱內的必備物品？",
+            options: ["A. 零食", "B. 消毒火酒和棉花", "C. 玩具", "D. 飲料"],
+            correct: 1, 
+            explanation: "急救箱應配備處理傷口的用品，如消毒火酒、棉花、膠布、繃帶等。"
+        }
     ];
 
     let currentState = { questionIndex: 0, correctCount: 0, incorrectCount: 0, selectedOption: null, sequenceAnswer: [], multiSelection: [], inputValue: "", subAnswers: {}, isChecking: false, userHistory: [], answeredMap: {} };
