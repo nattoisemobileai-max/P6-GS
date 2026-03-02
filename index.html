@@ -309,12 +309,12 @@ function updateDetailPanel(book, lesson) {
     modes.forEach(mode => {
         // Build filename based on book and lesson
         let fileName;
-        if (book === '1' && lesson === '1') {
-            // For Chapter 1, link to the Feynman flashcard
+        if (book === '1' && lesson === '3') {
+            // For Chapter 3, link to the Feynman flashcard
             fileName = 'flashcard.html';
         } else {
             // For other chapters, use generic naming
-            fileName = `${bookPrefix}_lesson${lesson}_${mode.name.toLowerCase()}.html`;
+            fileName = `${bookPrefix}_lesson${lesson}/`${bookPrefix}_lesson${lesson}_${mode.name.toLowerCase()}.html`;
         }
         
         const link = document.createElement('a');
