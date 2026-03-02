@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小常識 · 常識學院</title>
+    <!-- Font Awesome for icons (optional but helps with Duolingo/Memo AI vibe) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Nunito', 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #f7f9fc 0%, #eef2f7 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 1.5rem 1.2rem;
+        }
+
+        /* main app container — like Duolingo card */
+        .app-container {
+            max-width: 1100px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(2px);
+            border-radius: 48px 48px 32px 32px;
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.2), 0 8px 20px rgba(0, 0, 0, 0.06);
+            padding: 1.8rem 2rem;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+
+        /* ========== TOP MENU BAR ========= */
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            padding: 0.7rem 1.8rem;
+            border-radius: 60px;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.03), inset 0 2px 4px rgba(255,255,255,0.8);
+            border: 1px solid rgba(175, 200, 220, 0.3);
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 0.8rem 1.5rem;
+        }
+
+        .user-greeting {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: #eef5ff;
+            padding: 0.3rem 1.2rem 0.3rem 0.8rem;
+            border-radius: 40px;
+            border: 1px solid #c1d9f0;
+        }
+        .user-greeting i {
+            font-size: 1.8rem;
+            color: #1c8d7c; /* duolingo greenish */
+            background: white;
+            border-radius: 50%;
+            padding: 0.3rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        .user-greeting span {
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: #1f2d3d;
+            letter-spacing: -0.5px;
+        }
+        .user-greeting .sub {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #4f6f8f;
+            margin-left: 4px;
+        }
+
+        /* quote marquee – scroll right to left twice then stop */
+        .quote-ticker {
+            flex: 1;
+            min-width: 240px;
+            background: #fff9e0;
+            border-radius: 50px;
+            padding: 0.5rem 1.2rem;
+            border: 1px dashed #f3b33d;
+            box-shadow: 0 2px 10px rgba(250, 190, 60, 0.2);
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .quote-scroll {
+            display: inline-block;
+            white-space: nowrap;
+            font-style: italic;
+            font-weight: 500;
+            color: #9b6b00;
+            font-size: 1.1rem;
+        }
+       
+        /* XP and Level */
+        .stats {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            background: #2b3c4e;
+            padding: 0.4rem 1.5rem 0.4rem 1.2rem;
+            border-radius: 40px;
+            color: white;
+            box-shadow: 0 4px 0 #0f1a24;
+        }
+        .xp-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: #ffd966;
+            color: #2f2f2f;
+            padding: 0.3rem 0.9rem;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 1.1rem;
+        }
+        .xp-badge i {
+            color: #f09b22;
+        }
+        .level-badge {
+            background: white;
+            color: #1f3a4b;
+            font-weight: 800;
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            letter-spacing: -0.3px;
+        }
+
+        /* ====== BOOK SECTIONS (rect frame) ===== */
+        .books-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: 2rem;
+            justify-content: center;
+        }
+        .book-card {
+            flex: 1 1 300px;
+            background: white;
+            border-radius: 32px;
+            padding: 1.8rem 1.5rem 1.5rem 1.5rem;
+            box-shadow: 0 14px 0 #b3c9da, 0 20px 30px -8px rgba(60, 80, 100, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            transition: all 0.1s ease;
+        }
+        .book-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 0 #a0b9cf, 0 24px 34px -6px #2f4b6e;
+        }
+        .book-title {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #2f5575;
+            margin-bottom: 0.25rem;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .book-title i {
+            font-size: 2rem;
+            color: #58a700;
+        }
+        .book-sub {
+            font-size: 1rem;
+            color: #4b6d8c;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px dotted #c6d9eb;
+            padding-bottom: 0.5rem;
+        }
+        .lesson-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+        .lesson-btn {
+            background: #f0f6ff;
+            border: 2px solid #c4d5e8;
+            border-radius: 28px;
+            padding: 0.7rem 1.4rem;
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: #1f4973;
+            box-shadow: 0 5px 0 #9fbad0;
+            cursor: pointer;
+            transition: all 0.06s linear;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .lesson-btn i {
+            font-size: 1.2rem;
+            color: #ffa41b;
+        }
+        .lesson-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 1px 0 #9fbad0;
+        }
+
+        /* lesson detail panel (shown after click) */
+        .detail-panel {
+            margin-top: 2.5rem;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 42px;
+            padding: 1.8rem 2rem;
+            border: 3px solid white;
+            box-shadow: 0 12px 0 #9bb7d1, inset 0 0 0 3px #ecf3fa;
+        }
+        .detail-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .detail-header h2 {
+            background: #f4d03f;
+            border-radius: 50px;
+            padding: 0.4rem 1.6rem;
+            font-size: 2rem;
+            font-weight: 900;
+            color: #1a2e3f;
+            box-shadow: 0 6px 0 #b38f1c;
+        }
+        .close-detail {
+            margin-left: auto;
+            background: #d9e5f2;
+            border: none;
+            border-radius: 50%;
+            width: 46px;
+            height: 46px;
+            font-size: 2rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 5px 0 #97b5cf;
+            transition: 0.05s linear;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .close-detail:active {
+            transform: translateY(4px);
+            box-shadow: 0 1px 0 #97b5cf;
+        }
+        .mode-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            justify-content: space-around;
+        }
+        .mode-card {
+            background: #ffffff;
+            border-radius: 28px;
+            flex: 1 1 150px;
+            padding: 1.6rem 0.5rem;
+            text-align: center;
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: #183b56;
+            border: 3px solid #fff6cf;
+            box-shadow: 0 9px 0 #cad9eb, 0 10px 20px rgba(0,0,0,0.05);
+            transition: 0.08s;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+        }
+        .mode-card i {
+            display: block;
+            font-size: 2.6rem;
+            margin-bottom: 0.5rem;
+            color: #3c9b8f;
+        }
+        .mode-card:active {
+            transform: translateY(7px);
+            box-shadow: 0 3px 0 #aebfcf;
+        }
+
+        /* hidden class */
+        .hidden {
+            display: none;
+        }
+
+        /* footer */
+        .footer-credit {
+            margin-top: 2rem;
+            text-align: center;
+            color: #6b8baa;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+<div class="app-container">
+    <!-- TOP MENU BAR -->
+    <div class="top-bar">
+        <div class="user-greeting">
+            <i class="fas fa-user-astronaut"></i>
+            <span>Hi, Jayden!</span>
+            <span class="sub">🌟 小常識</span>
+        </div>
+
+        <!-- 名人金句 scrolling right to left twice, controlled by JS to stop -->
+        <div class="quote-ticker" id="quoteTicker">
+            <span class="quote-scroll" id="quoteSpan">
+                <i class="fas fa-quote-left"></i> 知識就是力量 · 培根  <i class="fas fa-quote-right"></i>  學而不思則罔 · 孔子   ❝ 想像力比知識更重要 ❞ —— 愛因斯坦
+            </span>
+        </div>
+
+        <div class="stats">
+            <div class="xp-badge"><i class="fas fa-star"></i> 1,280 XP</div>
+            <div class="level-badge">Lv. 9</div>
+        </div>
+    </div>
+
+    <!-- BOOKS (rect frames) 第一冊 3課 & 第三冊4課 -->
+    <div class="books-grid">
+        <!-- 第一冊 -->
+        <div class="book-card" id="book1">
+            <div class="book-title"><i class="fas fa-book-open"></i> 第一冊</div>
+            <div class="book-sub">基礎常識 · 3 課</div>
+            <div class="lesson-grid">
+                <div class="lesson-btn" data-book="1" data-lesson="1"><i class="fas fa-leaf"></i> 第1課</div>
+                <div class="lesson-btn" data-book="1" data-lesson="2"><i class="fas fa-cloud"></i> 第2課</div>
+                <div class="lesson-btn" data-book="1" data-lesson="3"><i class="fas fa-sun"></i> 第3課</div>
+            </div>
+        </div>
+        <!-- 第三冊 -->
+        <div class="book-card" id="book3">
+            <div class="book-title"><i class="fas fa-rocket"></i> 第三冊</div>
+            <div class="book-sub">進階常識 · 4 課</div>
+            <div class="lesson-grid">
+                <div class="lesson-btn" data-book="3" data-lesson="1"><i class="fas fa-globe"></i> 第1課</div>
+                <div class="lesson-btn" data-book="3" data-lesson="2"><i class="fas fa-flask"></i> 第2課</div>
+                <div class="lesson-btn" data-book="3" data-lesson="3"><i class="fas fa-music"></i> 第3課</div>
+                <div class="lesson-btn" data-book="3" data-lesson="4"><i class="fas fa-puzzle-piece"></i> 第4課</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lesson detail panel (hidden initially) -->
+    <div id="detailPanel" class="detail-panel hidden">
+        <div class="detail-header">
+            <h2 id="selectedLessonLabel">第一冊 · 第1課</h2>
+            <button class="close-detail" id="closeDetailBtn"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="mode-cards" id="modeCardsContainer">
+            <!-- mode cards will be generated with links here -->
+        </div>
+        <p style="text-align: center; margin-top: 1.2rem; color: #506e8c; font-weight: 500;"><i class="fas fa-hand-point-right"></i> 點擊卡片進入該模式頁面</p>
+    </div>
+
+    <div class="footer-credit">
+        ⚡ 每日常識 · 小習慣大智慧
+    </div>
+</div>
+
+<script>
+    (function() {
+        // ---------- 名人金句 scroll twice then stop (remove animation) ----------
+        const quoteSpan = document.getElementById('quoteSpan');
+        let animCount = 0;
+        let animationRunning = true;
+
+        // Add animation CSS via style tag
+        const styleSheet = document.createElement("style");
+        styleSheet.textContent = `
+            .quote-scroll {
+                animation: scrollRightLeft 14s cubic-bezier(0.2, 0.9, 0.3, 1) 2 forwards;
+                transform: translateX(0);
+                white-space: nowrap;
+            }
+            @keyframes scrollRightLeft {
+                0% { transform: translateX(100%); }
+                25% { transform: translateX(20%); }
+                50% { transform: translateX(-20%); }
+                75% { transform: translateX(-80%); }
+                100% { transform: translateX(-150%); }
+            }
+        `;
+        document.head.appendChild(styleSheet);
+
+        function handleAnimationIteration(e) {
+            animCount++;
+            if (animCount === 2) {
+                quoteSpan.style.animation = 'none';
+                quoteSpan.style.transform = 'translateX(0%)';
+                animationRunning = false;
+            }
+        }
+
+        quoteSpan.addEventListener('animationiteration', handleAnimationIteration);
+        
+        // fallback: after 18 seconds remove animation
+        setTimeout(() => {
+            if (animationRunning) {
+                quoteSpan.style.animation = 'none';
+                quoteSpan.style.transform = 'translateX(0%)';
+            }
+        }, 18000);
+
+        // ---------- Lesson click: show detail panel with book/lesson ----------
+        const lessonBtns = document.querySelectorAll('.lesson-btn');
+        const detailPanel = document.getElementById('detailPanel');
+        const selectedLessonLabel = document.getElementById('selectedLessonLabel');
+        const closeBtn = document.getElementById('closeDetailBtn');
+        const modeCardsContainer = document.getElementById('modeCardsContainer');
+
+        // Mode definitions with icons and page URLs
+        const modes = [
+            { name: 'Flashcard', icon: 'fa-layer-group', file: 'flashcard.html' },
+            { name: 'Test', icon: 'fa-pencil-alt', file: 'test.html' },
+            { name: 'MindMap', icon: 'fa-brain', file: 'mindmap.html' },
+            { name: 'Video', icon: 'fa-video', file: 'video.html' }
+        ];
+
+        function updateDetailPanel(book, lesson) {
+            let bookName = (book === '1') ? '第一冊' : '第三冊';
+            let bookPrefix = (book === '1') ? 'book1' : 'book3';
+            selectedLessonLabel.innerText = `${bookName} · 第${lesson}課`;
+            
+            // Generate mode cards with links
+            modeCardsContainer.innerHTML = '';
+            modes.forEach(mode => {
+                // Build filename: e.g. book1_lesson1_flashcard.html
+                const fileName = `${bookPrefix}_lesson${lesson}_${mode.name.toLowerCase()}.html`;
+                
+                const link = document.createElement('a');
+                link.href = fileName;
+                link.className = 'mode-card';
+                // Add onclick to handle missing pages gracefully (demo)
+                link.onclick = function(e) {
+                    e.preventDefault();
+                    // For demo purposes, show alert and simulate navigation
+                    alert(`🚀 模擬導向至: ${fileName}\n(實際專案中此頁面應存在)`);
+                    // Uncomment below for actual navigation:
+                    // window.location.href = fileName;
+                };
+                
+                link.innerHTML = `<i class="fas ${mode.icon}"></i>${mode.name}`;
+                modeCardsContainer.appendChild(link);
+            });
+        }
+
+        lessonBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const book = btn.getAttribute('data-book');
+                const lesson = btn.getAttribute('data-lesson');
+                updateDetailPanel(book, lesson);
+                detailPanel.classList.remove('hidden');
+                // scroll to detail smoothly
+                detailPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            });
+        });
+
+        // close detail panel
+        closeBtn.addEventListener('click', () => {
+            detailPanel.classList.add('hidden');
+        });
+
+        // Mode cards click simulation (already handled in onclick)
+        // No additional listener needed as we preventDefault in the generated links
+
+        // XP, Level fixed, no extra
+    })();
+</script>
+
+<!-- subtle style adjustment for quote to look good after animation stops -->
+<style>
+    .close-detail {
+        line-height: 1;
+    }
+    .fa-times:before {
+        content: "\f00d";
+    }
+    /* Ensure mode cards are visible as block links */
+    .mode-card {
+        color: inherit;
+        text-decoration: none;
+    }
+</style>
+</body>
+</html>
