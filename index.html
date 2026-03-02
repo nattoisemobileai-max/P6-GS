@@ -314,7 +314,7 @@ function updateDetailPanel(book, lesson) {
             fileName = 'flashcard.html';
         } else {
             // For other chapters, use generic naming
-            fileName = `${bookPrefix}_lesson${lesson}/`${bookPrefix}_lesson${lesson}_${mode.name.toLowerCase()}.html`;
+            fileName = `${bookPrefix}-${lesson}/`${bookPrefix}_lesson${lesson}_${mode.name.toLowerCase()}.html`;
         }
         
         const link = document.createElement('a');
