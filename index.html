@@ -314,6 +314,7 @@ function updateDetailPanel(book, lesson) {
             fileName = 'flashcard.html';
         } else {
             // For other chapters, use generic naming
+            log(${fileName});
             fileName = `${bookPrefix}-${lesson}/`${bookPrefix}_lesson${lesson}_${mode.name.toLowerCase()}.html`;
         }
         
@@ -386,7 +387,7 @@ function updateDetailPanel(book, lesson) {
     <!-- Lesson detail panel (hidden initially) -->
     <div id="detailPanel" class="detail-panel hidden">
         <div class="detail-header">
-            <h2 id="selectedLessonLabel">第一冊 · 第1課</h2>
+            <h2 id="selectedLessonLabel">第一冊 · 第3課</h2>
             <button class="close-detail" id="closeDetailBtn"><i class="fas fa-times"></i></button>
         </div>
         <div class="mode-cards" id="modeCardsContainer">
