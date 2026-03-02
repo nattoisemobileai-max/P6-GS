@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>小常識 · 常識學院</title>
-    <!-- Font Awesome for icons (optional but helps with Duolingo/Memo AI vibe) -->
+    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -23,7 +23,6 @@
             padding: 1.5rem 1.2rem;
         }
 
-        /* main app container — like Duolingo card */
         .app-container {
             max-width: 1100px;
             width: 100%;
@@ -35,7 +34,6 @@
             border: 2px solid rgba(255, 255, 255, 0.5);
         }
 
-        /* ========== TOP MENU BAR ========= */
         .top-bar {
             display: flex;
             align-items: center;
@@ -61,7 +59,7 @@
         }
         .user-greeting i {
             font-size: 1.8rem;
-            color: #1c8d7c; /* duolingo greenish */
+            color: #1c8d7c;
             background: white;
             border-radius: 50%;
             padding: 0.3rem;
@@ -80,7 +78,6 @@
             margin-left: 4px;
         }
 
-        /* quote marquee – scroll right to left twice then stop */
         .quote-ticker {
             flex: 1;
             min-width: 240px;
@@ -99,9 +96,16 @@
             font-weight: 500;
             color: #9b6b00;
             font-size: 1.1rem;
+            animation: scrollRightLeft 14s cubic-bezier(0.2, 0.9, 0.3, 1) 2 forwards;
         }
-       
-        /* XP and Level */
+        @keyframes scrollRightLeft {
+            0% { transform: translateX(100%); }
+            25% { transform: translateX(20%); }
+            50% { transform: translateX(-20%); }
+            75% { transform: translateX(-80%); }
+            100% { transform: translateX(-150%); }
+        }
+
         .stats {
             display: flex;
             align-items: center;
@@ -136,7 +140,6 @@
             letter-spacing: -0.3px;
         }
 
-        /* ====== BOOK SECTIONS (rect frame) ===== */
         .books-grid {
             display: flex;
             flex-wrap: wrap;
@@ -172,11 +175,12 @@
             color: #58a700;
         }
         .book-sub {
-            font-size: 1rem;
+            font-size: 1.1rem;
             color: #4b6d8c;
             margin-bottom: 1.5rem;
             border-bottom: 2px dotted #c6d9eb;
             padding-bottom: 0.5rem;
+            font-weight: 600;
         }
         .lesson-grid {
             display: flex;
@@ -207,7 +211,6 @@
             box-shadow: 0 1px 0 #9fbad0;
         }
 
-        /* lesson detail panel (shown after click) */
         .detail-panel {
             margin-top: 2.5rem;
             background: rgba(255, 255, 255, 0.9);
@@ -260,11 +263,11 @@
         .mode-card {
             background: #ffffff;
             border-radius: 28px;
-            flex: 1 1 150px;
+            flex: 1 1 140px;
             padding: 1.6rem 0.5rem;
             text-align: center;
             font-weight: 800;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             color: #183b56;
             border: 3px solid #fff6cf;
             box-shadow: 0 9px 0 #cad9eb, 0 10px 20px rgba(0,0,0,0.05);
@@ -275,7 +278,7 @@
         }
         .mode-card i {
             display: block;
-            font-size: 2.6rem;
+            font-size: 2.4rem;
             margin-bottom: 0.5rem;
             color: #3c9b8f;
         }
@@ -284,56 +287,16 @@
             box-shadow: 0 3px 0 #aebfcf;
         }
 
-        /* hidden class */
         .hidden {
             display: none;
         }
 
-        /* footer */
         .footer-credit {
             margin-top: 2rem;
             text-align: center;
             color: #6b8baa;
             font-weight: 600;
         }
-
-        // In index.html, update the updateDetailPanel function:
-
-function updateDetailPanel(book, lesson) {
-    let bookName = (book === '1') ? '第一冊' : '第三冊';
-    let bookPrefix = (book === '1') ? 'book1' : 'book3';
-    selectedLessonLabel.innerText = `${bookName} · 第${lesson}課`;
-    
-    // Generate mode cards with links
-    modeCardsContainer.innerHTML = '';
-    modes.forEach(mode => {
-        // Build filename based on book and lesson
-        let fileName;
-        if (book === '1' && lesson === '3') {
-            // For Chapter 3, link to the Feynman flashcard
-            fileName = 'flashcard.html';
-        } else {
-            // For other chapters, use generic naming
-            log(${fileName});
-            fileName = `${bookPrefix}-${lesson}/`${bookPrefix}_lesson${lesson}_${mode.name.toLowerCase()}.html`;
-        }
-        
-        const link = document.createElement('a');
-        link.href = fileName;
-        link.className = 'mode-card';
-        
-        // For demo purposes, show alert for non-existent pages
-        if (book !== '1' || lesson !== '1' || mode.name !== 'Flashcard') {
-            link.onclick = function(e) {
-                e.preventDefault();
-                alert(`🚀 模擬導向至: ${fileName}\n(此頁面尚未建立)`);
-            };
-        }
-        
-        link.innerHTML = `<i class="fas ${mode.icon}"></i>${mode.name}`;
-        modeCardsContainer.appendChild(link);
-    });
-}
     </style>
 </head>
 <body>
@@ -343,10 +306,9 @@ function updateDetailPanel(book, lesson) {
         <div class="user-greeting">
             <i class="fas fa-user-astronaut"></i>
             <span>Hi, Jayden!</span>
-            <span class="sub">🌟 呈三常識 ‧ 物理王</span>
+            <span class="sub">🌟 小常識</span>
         </div>
 
-        <!-- 名人金句 scrolling right to left twice, controlled by JS to stop -->
         <div class="quote-ticker" id="quoteTicker">
             <span class="quote-scroll" id="quoteSpan">
                 <i class="fas fa-quote-left"></i> 知識就是力量 · 培根  <i class="fas fa-quote-right"></i>  學而不思則罔 · 孔子   ❝ 想像力比知識更重要 ❞ —— 愛因斯坦
@@ -359,22 +321,24 @@ function updateDetailPanel(book, lesson) {
         </div>
     </div>
 
-    <!-- BOOKS (rect frames) 第一冊 3課 & 第三冊4課 -->
+    <!-- BOOKS (rect frames) 處變不驚 5課 & 中國的變遷 4課 -->
     <div class="books-grid">
-        <!-- 第一冊 -->
+        <!-- 第一冊：處變不驚 -->
         <div class="book-card" id="book1">
-            <div class="book-title"><i class="fas fa-book-open"></i> 第一冊</div>
-            <div class="book-sub">處變不驚 · 共3 課</div>
+            <div class="book-title"><i class="fas fa-shield-alt"></i> 處變不驚</div>
+            <div class="book-sub">共 5 課</div>
             <div class="lesson-grid">
-                <div class="lesson-btn" data-book="1" data-lesson="3"><i class="fas fa-leaf"></i> 第3課</div>
-                <div class="lesson-btn" data-book="1" data-lesson="4"><i class="fas fa-cloud"></i> 第4課</div>
-                <div class="lesson-btn" data-book="1" data-lesson="5"><i class="fas fa-sun"></i> 第5課</div>
+                <div class="lesson-btn" data-book="1" data-lesson="1"><i class="fas fa-leaf"></i> 第1課</div>
+                <div class="lesson-btn" data-book="1" data-lesson="2"><i class="fas fa-cloud"></i> 第2課</div>
+                <div class="lesson-btn" data-book="1" data-lesson="3"><i class="fas fa-sun"></i> 第3課</div>
+                <div class="lesson-btn" data-book="1" data-lesson="4"><i class="fas fa-moon"></i> 第4課</div>
+                <div class="lesson-btn" data-book="1" data-lesson="5"><i class="fas fa-star"></i> 第5課</div>
             </div>
         </div>
-        <!-- 第三冊 -->
+        <!-- 第三冊：中國的變遷 -->
         <div class="book-card" id="book3">
-            <div class="book-title"><i class="fas fa-rocket"></i> 第三冊</div>
-            <div class="book-sub">中國的變遷 · 共4 課</div>
+            <div class="book-title"><i class="fas fa-dragon"></i> 中國的變遷</div>
+            <div class="book-sub">共 4 課</div>
             <div class="lesson-grid">
                 <div class="lesson-btn" data-book="3" data-lesson="1"><i class="fas fa-globe"></i> 第1課</div>
                 <div class="lesson-btn" data-book="3" data-lesson="2"><i class="fas fa-flask"></i> 第2課</div>
@@ -387,12 +351,11 @@ function updateDetailPanel(book, lesson) {
     <!-- Lesson detail panel (hidden initially) -->
     <div id="detailPanel" class="detail-panel hidden">
         <div class="detail-header">
-            <h2 id="selectedLessonLabel">第一冊 · 第3課</h2>
+            <h2 id="selectedLessonLabel">處變不驚 · 第1課</h2>
             <button class="close-detail" id="closeDetailBtn"><i class="fas fa-times"></i></button>
         </div>
         <div class="mode-cards" id="modeCardsContainer">
             <!-- mode cards will be generated with links here -->
-            <!-- In the mode-cards section of index.html, update the Flashcard link -->
         </div>
         <p style="text-align: center; margin-top: 1.2rem; color: #506e8c; font-weight: 500;"><i class="fas fa-hand-point-right"></i> 點擊卡片進入該模式頁面</p>
     </div>
@@ -404,85 +367,82 @@ function updateDetailPanel(book, lesson) {
 
 <script>
     (function() {
-        // ---------- 名人金句 scroll twice then stop (remove animation) ----------
+        // ---------- 名人金句 scroll twice then stop ----------
         const quoteSpan = document.getElementById('quoteSpan');
         let animCount = 0;
-        let animationRunning = true;
-
-        // Add animation CSS via style tag
-        const styleSheet = document.createElement("style");
-        styleSheet.textContent = `
-            .quote-scroll {
-                animation: scrollRightLeft 14s cubic-bezier(0.2, 0.9, 0.3, 1) 2 forwards;
-                transform: translateX(0);
-                white-space: nowrap;
-            }
-            @keyframes scrollRightLeft {
-                0% { transform: translateX(100%); }
-                25% { transform: translateX(20%); }
-                50% { transform: translateX(-20%); }
-                75% { transform: translateX(-80%); }
-                100% { transform: translateX(-150%); }
-            }
-        `;
-        document.head.appendChild(styleSheet);
 
         function handleAnimationIteration(e) {
             animCount++;
             if (animCount === 2) {
                 quoteSpan.style.animation = 'none';
                 quoteSpan.style.transform = 'translateX(0%)';
-                animationRunning = false;
             }
         }
 
         quoteSpan.addEventListener('animationiteration', handleAnimationIteration);
         
-        // fallback: after 18 seconds remove animation
         setTimeout(() => {
-            if (animationRunning) {
-                quoteSpan.style.animation = 'none';
-                quoteSpan.style.transform = 'translateX(0%)';
-            }
+            quoteSpan.style.animation = 'none';
+            quoteSpan.style.transform = 'translateX(0%)';
         }, 18000);
 
-        // ---------- Lesson click: show detail panel with book/lesson ----------
+        // ---------- Lesson click: show detail panel ----------
         const lessonBtns = document.querySelectorAll('.lesson-btn');
         const detailPanel = document.getElementById('detailPanel');
         const selectedLessonLabel = document.getElementById('selectedLessonLabel');
         const closeBtn = document.getElementById('closeDetailBtn');
         const modeCardsContainer = document.getElementById('modeCardsContainer');
 
-        // Mode definitions with icons and page URLs
+        // Mode definitions - including new Self-Notes button
         const modes = [
-            { name: 'Flashcard', icon: 'fa-layer-group', file: 'flashcard.html' },
-            { name: 'Test', icon: 'fa-pencil-alt', file: 'test.html' },
-            { name: 'MindMap', icon: 'fa-brain', file: 'mindmap.html' },
-            { name: 'Video', icon: 'fa-video', file: 'video.html' }
+            { name: 'Flashcard', icon: 'fa-layer-group' },
+            { name: 'Test', icon: 'fa-pencil-alt' },
+            { name: 'MindMap', icon: 'fa-brain' },
+            { name: 'Video', icon: 'fa-video' },
+            { name: 'Self-Notes', icon: 'fa-book-open' }
         ];
 
         function updateDetailPanel(book, lesson) {
-            let bookName = (book === '1') ? '第一冊' : '第三冊';
+            let bookName = (book === '1') ? '處變不驚' : '中國的變遷';
             let bookPrefix = (book === '1') ? 'book1' : 'book3';
             selectedLessonLabel.innerText = `${bookName} · 第${lesson}課`;
             
-            // Generate mode cards with links
+            // Generate mode cards with appropriate links
             modeCardsContainer.innerHTML = '';
+            
             modes.forEach(mode => {
-                // Build filename: e.g. book1_lesson1_flashcard.html
-                const fileName = `${bookPrefix}_lesson${lesson}_${mode.name.toLowerCase()}.html`;
-                
                 const link = document.createElement('a');
-                link.href = fileName;
                 link.className = 'mode-card';
-                // Add onclick to handle missing pages gracefully (demo)
-                link.onclick = function(e) {
-                    e.preventDefault();
-                    // For demo purposes, show alert and simulate navigation
-                    alert(`🚀 模擬導向至: ${fileName}\n(實際專案中此頁面應存在)`);
-                    // Uncomment below for actual navigation:
-                    // window.location.href = fileName;
-                };
+                
+                // Special handling for all modes of 處變不驚 第5課
+                if (book === '1' && lesson === '5') {
+                    // Map mode names to file paths
+                    const modeFileMap = {
+                        'Flashcard': '1-5/book1_lesson5_flashcard.html',
+                        'Test': '1-5/book1_lesson5_test.html',
+                        'MindMap': '1-5/book1_lesson5_mindmap.html',
+                        'Video': '1-5/book1_lesson5_video.html',
+                        'Self-Notes': '1-5/book1_lesson5_selfnotes.html'
+                    };
+                    
+                    if (modeFileMap[mode.name]) {
+                        link.href = modeFileMap[mode.name];
+                    } else {
+                        link.href = '#';
+                        link.onclick = (e) => {
+                            e.preventDefault();
+                            alert(`🚀 模擬導向至: ${mode.name} 頁面\n(檔案路徑待確認)`);
+                        };
+                    }
+                } else {
+                    // For all other modes/lessons, use generic filename and show demo alert
+                    const fileName = `${bookPrefix}_lesson${lesson}_${mode.name.toLowerCase().replace('-', '')}.html`;
+                    link.href = '#';
+                    link.onclick = function(e) {
+                        e.preventDefault();
+                        alert(`🚀 模擬導向至: ${fileName}\n(此頁面尚未建立)`);
+                    };
+                }
                 
                 link.innerHTML = `<i class="fas ${mode.icon}"></i>${mode.name}`;
                 modeCardsContainer.appendChild(link);
@@ -495,24 +455,17 @@ function updateDetailPanel(book, lesson) {
                 const lesson = btn.getAttribute('data-lesson');
                 updateDetailPanel(book, lesson);
                 detailPanel.classList.remove('hidden');
-                // scroll to detail smoothly
                 detailPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             });
         });
 
-        // close detail panel
+        // Close detail panel
         closeBtn.addEventListener('click', () => {
             detailPanel.classList.add('hidden');
         });
-
-        // Mode cards click simulation (already handled in onclick)
-        // No additional listener needed as we preventDefault in the generated links
-
-        // XP, Level fixed, no extra
     })();
 </script>
 
-<!-- subtle style adjustment for quote to look good after animation stops -->
 <style>
     .close-detail {
         line-height: 1;
@@ -520,10 +473,12 @@ function updateDetailPanel(book, lesson) {
     .fa-times:before {
         content: "\f00d";
     }
-    /* Ensure mode cards are visible as block links */
     .mode-card {
         color: inherit;
         text-decoration: none;
+    }
+    .mode-card[href="#"] {
+        cursor: pointer;
     }
 </style>
 </body>
