@@ -452,7 +452,7 @@
     <!-- Header -->
     <div class="test-header">
         <button class="back-home" id="backToIndexBtn"><i class="fas fa-arrow-left"></i> 返回</button>
-        <span class="test-title" id="lessonTitle">第一冊:: 處變不驚· 第3課</span>
+        <span class="test-title" id="lessonTitle">第3課 · 處變不驚</span>
         <div class="test-stats">
             <span><i class="fas fa-star"></i> <span id="earnedPoints">0</span>/<span id="totalPoints">45</span></span>
             <span><i class="fas fa-clock"></i> <span id="timeEstimate">10-15 mins</span></span>
@@ -518,102 +518,7 @@
         // Load JSON data (simulated fetch)
         function loadTestData() {
             // In a real app, you'd fetch this: fetch('source_data_test.json')
-            // For demo, we'll use the embedded data
-            testData = {
-                "lesson": "第一冊::處變不驚 · 第3課",
-                "totalPoints": 45,
-                "timeEstimate": "10-15 mins",
-                "questions": [
-                    {
-                        "id": 1,
-                        "type": "multiple-choice",
-                        "question": "遇到緊急情況時，下列哪項是正確的應對方式？",
-                        "options": [
-                            "驚慌失措，大聲哭喊",
-                            "保持冷靜，評估情況",
-                            "立即逃跑，不顧他人",
-                            "等待別人來幫忙"
-                        ],
-                        "correctAnswer": 1,
-                        "explanation": "保持冷靜才能做出正確判斷，評估情況後採取適當行動。"
-                    },
-                    {
-                        "id": 2,
-                        "type": "multiple-choice",
-                        "question": "火災發生時，下列哪項逃生行為是錯誤的？",
-                        "options": [
-                            "用濕毛巾捂住口鼻",
-                            "搭乘電梯快速逃離",
-                            "彎腰低身前進",
-                            "觸摸門把確認溫度"
-                        ],
-                        "correctAnswer": 1,
-                        "explanation": "火災時絕對不能使用電梯，可能因斷電受困或成為煙囪效應的通道。"
-                    },
-                    {
-                        "id": 3,
-                        "type": "fill-blank",
-                        "question": "遇到陌生人敲門時，應該先透過_____確認對方身份，再決定是否開門。",
-                        "correctAnswer": ["防盜眼", "貓眼", "窺視孔"],
-                        "acceptedAnswers": ["防盜眼", "貓眼", "窺視孔", "門上小孔"],
-                        "explanation": "透過防盜眼觀察可以確保安全，避免隨意開門。"
-                    },
-                    {
-                        "id": 4,
-                        "type": "fill-blank",
-                        "question": "急救箱中應該備有_____、_____和_____等基本醫療用品。",
-                        "correctAnswer": ["消毒藥水", "紗布", "膠布"],
-                        "acceptedAnswers": ["消毒藥水,紗布,膠布", "碘酒,紗布,OK繃", "酒精,棉花,繃帶"],
-                        "explanation": "基本急救箱應包含消毒用品、包紮材料和固定用品。"
-                    },
-                    {
-                        "id": 5,
-                        "type": "drag-drop",
-                        "question": "請將下列急救步驟按正確順序排列：",
-                        "items": [
-                            "檢查現場安全",
-                            "評估傷者意識",
-                            "呼叫緊急救援",
-                            "進行基本急救",
-                            "等待專業人員"
-                        ],
-                        "correctOrder": [0, 1, 2, 3, 4],
-                        "explanation": "急救順序：先確保自身安全，再評估傷者，然後求救，接著施救，最後等待專業協助。"
-                    },
-                    {
-                        "id": 6,
-                        "type": "drag-drop",
-                        "question": "請將下列地震避難原則按正確順序排列：",
-                        "items": [
-                            "趴下",
-                            "掩護",
-                            "穩住"
-                        ],
-                        "correctOrder": [0, 1, 2],
-                        "explanation": "地震時應牢記「趴下、掩護、穩住」三步驟。"
-                    },
-                    {
-                        "id": 7,
-                        "type": "multiple-choice",
-                        "question": "發現有人昏倒時，第一步應該做什麼？",
-                        "options": [
-                            "立即做心肺復甦",
-                            "呼叫對方並拍肩",
-                            "餵水給他喝",
-                            "移動到陰涼處"
-                        ],
-                        "correctAnswer": 1,
-                        "explanation": "先確認意識狀態，輕拍肩膀大聲呼喚，檢查有無反應。"
-                    },
-                    {
-                        "id": 8,
-                        "type": "fill-blank",
-                        "question": "燙傷處理的正確口訣是「沖、_____、_____、_____、送」。",
-                        "correctAnswer": ["脫", "泡", "蓋"],
-                        "acceptedAnswers": ["脫,泡,蓋", "脫掉,浸泡,覆蓋", "脫衣,泡水,遮蓋"],
-                        "explanation": "燙傷處理五步驟：沖水、脫衣、浸泡、蓋上、送醫。"
-                    }
-                ]
+           
             };
             
             // Initialize user answers array
