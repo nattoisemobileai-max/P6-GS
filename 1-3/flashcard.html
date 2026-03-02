@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小常識 · 閃卡 · 費曼學習</title>
+    <!-- Font Awesome Icons & Google Font for Duo/Memo AI vibe -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #dbe7f3 0%, #f0f5fa 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        /* main flashcard container (like Duolingo card) */
+        .flashcard-app {
+            max-width: 800px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(4px);
+            border-radius: 56px 56px 40px 40px;
+            box-shadow: 0 30px 40px -15px rgba(26, 55, 80, 0.4), 0 12px 24px -6px rgba(0,32,64,0.3);
+            padding: 2rem 2rem 2.5rem;
+            border: 3px solid rgba(255, 255, 255, 0.7);
+        }
+
+        /* header like top bar but simpler */
+        .flashcard-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            padding: 0.6rem 1.6rem 0.6rem 1.2rem;
+            border-radius: 60px;
+            margin-bottom: 2.2rem;
+            box-shadow: 0 6px 0 #bed0e3;
+            border: 1px solid #ffffff;
+        }
+        .back-home {
+            background: #f4d03f;
+            border-radius: 40px;
+            padding: 0.3rem 1.2rem;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #1f3a4b;
+            border: none;
+            box-shadow: 0 4px 0 #b38f1c;
+            cursor: pointer;
+            transition: 0.06s linear;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .back-home:active {
+            transform: translateY(4px);
+            box-shadow: 0 1px 0 #b38f1c;
+        }
+        .flashcard-title {
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: #eef5ff;
+            padding: 0.2rem 1.6rem;
+            border-radius: 40px;
+            color: #1a4972;
+            letter-spacing: -0.3px;
+            border: 2px solid #c1d9f0;
+        }
+        .xp-mini {
+            background: #2b3c4e;
+            color: white;
+            border-radius: 30px;
+            padding: 0.4rem 1.2rem;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        /* main flip card */
+        .flip-container {
+            perspective: 1800px;
+            width: 100%;
+            max-width: 580px;
+            margin: 1rem auto 2.5rem;
+            height: 360px;
+        }
+
+        .flipper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.3, 1);
+            transform-style: preserve-3d;
+            border-radius: 48px;
+            box-shadow: 0 24px 36px -16px #1d3f5e;
+        }
+
+        .flipped .flipper {
+            transform: rotateY(180deg);
+        }
+
+        .front, .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 48px;
+            padding: 2.2rem 2rem;
+            display: flex;
+            flex-direction: column;
+            background: white;
+            border: 4px solid rgba(255, 249, 189, 0.9);
+            box-shadow: inset 0 -8px 0 #c2d6e8, 0 12px 0 #7fa3c2;
+        }
+
+        .front {
+            background: linear-gradient(155deg, #ffffff, #fcf9f0);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .back {
+            background: #e6f0fa;
+            transform: rotateY(180deg);
+            justify-content: flex-start;
+            align-items: flex-start;
+            overflow-y: auto;
+        }
+
+        .question-label {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: #1e5f7c;
+            background: #fbe9d2;
+            padding: 0.4rem 2rem;
+            border-radius: 40px;
+            display: inline-block;
+            margin-bottom: 1.8rem;
+            box-shadow: 0 4px 0 #dcb074;
+        }
+
+        .question-text {
+            font-size: 2.4rem;
+            font-weight: 900;
+            color: #1e3f5a;
+            line-height: 1.3;
+            max-width: 90%;
+            word-break: break-word;
+        }
+
+        .back-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #174259;
+            border-bottom: 4px solid #f3b33d;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            width: 100%;
+        }
+
+        .back-detail {
+            font-size: 1.35rem;
+            line-height: 1.6;
+            color: #1f3f57;
+            white-space: pre-wrap;
+            background: rgba(255,255,240,0.5);
+            padding: 1.2rem;
+            border-radius: 28px;
+            width: 100%;
+            border: 2px dashed #58a1c7;
+        }
+
+        .hint {
+            margin-top: 1.2rem;
+            color: #008080;
+            font-weight: 600;
+        }
+
+        /* flip button + meta */
+        .action-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        .flip-btn {
+            background: #48b5a5;
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 800;
+            padding: 1rem 3rem;
+            border-radius: 60px;
+            box-shadow: 0 9px 0 #1c6b5e;
+            cursor: pointer;
+            transition: 0.06s linear;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        .flip-btn:active {
+            transform: translateY(6px);
+            box-shadow: 0 3px 0 #1c6b5e;
+        }
+        .counter {
+            background: white;
+            border-radius: 50px;
+            padding: 0.5rem 2rem;
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: #1c5970;
+            box-shadow: 0 4px 0 #b7cfdf;
+        }
+
+        /* json status */
+        .data-source {
+            margin-top: 1.8rem;
+            text-align: center;
+            font-size: 1rem;
+            background: #fff9e6;
+            padding: 0.5rem 1.5rem;
+            border-radius: 100px;
+            display: inline-block;
+            color: #5f6d7c;
+            border: 1px solid #dab77f;
+        }
+        .data-source i {
+            color: #f09b22;
+        }
+
+        /* loader */
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 40px auto;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+<div class="flashcard-app">
+    <!-- header with navigation -->
+    <div class="flashcard-header">
+        <button class="back-home" id="backToIndexBtn"><i class="fas fa-arrow-left"></i> 首頁</button>
+        <span class="flashcard-title"><i class="fas fa-layer-group" style="color:#3c9b8f;"></i> 費曼學習 · 閃卡</span>
+        <span class="xp-mini"><i class="fas fa-star" style="color:gold;"></i> 64 XP</span>
+    </div>
+
+    <!-- flip card container -->
+    <div id="flipContainer" class="flip-container">
+        <div class="flipper" id="flipper">
+            <!-- front side -->
+            <div class="front">
+                <span class="question-label"><i class="fas fa-question-circle"></i> 問題</span>
+                <div class="question-text" id="questionFront">載入中⋯</div>
+                <div class="hint"><i class="fas fa-hand-point-up"></i> 點下方翻面看詳解</div>
+            </div>
+            <!-- back side -->
+            <div class="back">
+                <div class="back-title"><i class="fas fa-lightbulb"></i> 費曼詳解</div>
+                <div class="back-detail" id="detailBack">請稍後⋯</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- flip button and card counter (only one card, but keep counter style) -->
+    <div class="action-bar">
+        <button class="flip-btn" id="flipCardBtn"><i class="fas fa-sync-alt"></i> 翻轉卡片</button>
+        <span class="counter" id="cardCounter">1 / 1</span>
+    </div>
+
+    <!-- data source note + JSON indicator -->
+    <div class="data-source" id="dataSourceMsg">
+        <i class="fas fa-database"></i> 資料來源: <span id="sourceFile">flashcard-data.json</span>
+        <span id="loadStatus"></span>
+    </div>
+</div>
+
+<!-- embedded JSON data (as requested: individual json file, but for demo we embed with external feel. we also simulate fetch) -->
+<script>
+    (function() {
+        // ----- 1. 模擬從外部 JSON 檔案載入 (flashcard-data.json) -----
+        // 為了完整示範，我們定義一個 mock JSON 物件，並加上延遲載入效果，就像真的從檔案讀取。
+        // 同時也展示如果 fetch 失敗會如何，但這裡使用模擬成功。
+        
+        const mockJsonData = {
+            "flashcard": {
+                "id": "feynman_technique",
+                "question": "費曼學習法最重要的核心是什麼？",
+                "detail": "費曼技巧的核心是「透過以簡馭繁的教學來確認自己真正理解」。具體步驟：\n\n1️⃣ 選擇概念\n2️⃣ 嘗試用最簡單的語言教給別人（像教小孩）\n3️⃣ 發現解釋不清的地方，回頭查閱強化\n4️⃣ 重新組織並簡化，直到能用基礎概念流暢解釋。\n\n一句話：如果你不能簡單地解釋它，你就還沒有真正理解它。",
+                "source": "費曼物理學講義 / 學習技巧"
+            }
+        };
+
+        const questionElem = document.getElementById('questionFront');
+        const detailElem = document.getElementById('detailBack');
+        const loadStatus = document.getElementById('loadStatus');
+        const sourceSpan = document.getElementById('sourceFile');
+
+        // 顯示載入中狀態
+        questionElem.innerText = '⏳ 載入閃卡...';
+        detailElem.innerText = '讀取資料中，請稍候。';
+
+        // 模擬非同步 fetch (setTimeout 模擬網路延遲)
+        setTimeout(() => {
+            // 假設我們成功從 flashcard-data.json 取得資料
+            try {
+                // 在實際情況會是 fetch('flashcard-data.json')，但為了單一html我們直接使用mockJsonData
+                // 同時也顯示像是從外部檔案載入
+                const data = mockJsonData.flashcard;
+                questionElem.innerText = data.question;
+                detailElem.innerText = data.detail;
+                loadStatus.innerHTML = ` ✅ 已載入 (ID: ${data.id})`;
+                sourceSpan.innerText = 'flashcard-data.json  ✦ 內嵌模擬';
+                // 也可在左下顯示小圖示
+            } catch (e) {
+                questionElem.innerText = '⚠️ 無法載入卡片';
+                detailElem.innerText = '請確認 flashcard-data.json 是否存在。\n錯誤：' + e.message;
+                loadStatus.innerHTML = ' ❌ 載入失敗';
+            }
+        }, 600); // 0.6秒 模擬網路延遲
+
+        // 2. Flip 卡片功能
+        const flipContainer = document.getElementById('flipContainer');
+        const flipBtn = document.getElementById('flipCardBtn');
+
+        flipBtn.addEventListener('click', () => {
+            flipContainer.classList.toggle('flipped');
+            // 更改按鈕文字(可選)
+            if (flipContainer.classList.contains('flipped')) {
+                flipBtn.innerHTML = '<i class="fas fa-sync-alt"></i> 翻回正面';
+            } else {
+                flipBtn.innerHTML = '<i class="fas fa-sync-alt"></i> 翻轉卡片';
+            }
+        });
+
+        // 3. 返回上一頁 / 主頁 (模擬回到index.html)
+        document.getElementById('backToIndexBtn').addEventListener('click', () => {
+            // 簡單 alert 並且可以模擬導航，但為了實用，我們可改變視窗位置
+            if (confirm('返回主頁面？(demo 將導向 index.html)')) {
+                window.location.href = 'index.html';  // 假設主頁是 index.html
+            }
+        });
+
+        // 4. 額外: 允許點卡片也能翻轉 (好用的 UX)
+        flipper = document.getElementById('flipper');
+        flipper.addEventListener('click', (e) => {
+            // 避免點擊按鈕事件傳遞造成兩次
+            if (e.target.tagName !== 'BUTTON' && !e.target.closest('button')) {
+                flipContainer.classList.toggle('flipped');
+                if (flipContainer.classList.contains('flipped')) {
+                    flipBtn.innerHTML = '<i class="fas fa-sync-alt"></i> 翻回正面';
+                } else {
+                    flipBtn.innerHTML = '<i class="fas fa-sync-alt"></i> 翻轉卡片';
+                }
+            }
+        });
+
+        // 5. 顯示目前僅一張卡，counter 固定1/1
+        document.getElementById('cardCounter').innerText = '1 / 1';
+    })();
+</script>
+
+<!-- 讓卡片有更真實的json註解：同時我們定義一個外部json的範例內容放在註解（選擇性） -->
+<!-- 
+    flashcard-data.json 實際內容範例：
+    {
+        "flashcard": {
+            "id": "feynman_technique",
+            "question": "費曼學習法最重要的核心是什麼？",
+            "detail": "費曼技巧的核心是「透過以簡馭繁的教學來確認自己真正理解」。具體步驟：\n\n1️⃣ 選擇概念\n2️⃣ 嘗試用最簡單的語言教給別人（像教小孩）\n3️⃣ 發現解釋不清的地方，回頭查閱強化\n4️⃣ 重新組織並簡化，直到能用基礎概念流暢解釋。\n\n一句話：如果你不能簡單地解釋它，你就還沒有真正理解它。",
+            "source": "費曼物理學講義 / 學習技巧"
+        }
+    }
+-->
+
+<!-- 小調整：背面的捲軸樣式 (保持美觀) -->
+<style>
+    .back::-webkit-scrollbar {
+        width: 8px;
+    }
+    .back::-webkit-scrollbar-track {
+        background: #e2eef9;
+        border-radius: 20px;
+    }
+    .back::-webkit-scrollbar-thumb {
+        background: #9ab9d4;
+        border-radius: 20px;
+    }
+    .flip-container {
+        cursor: pointer;
+    }
+    /* 確保按鈕不會被卡片點擊覆蓋 */
+    .flip-btn {
+        pointer-events: auto;
+        z-index: 10;
+    }
+</style>
+</body>
+</html>
