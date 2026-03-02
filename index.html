@@ -321,23 +321,21 @@
         </div>
     </div>
 
-    <!-- BOOKS (rect frames) 處變不驚 5課 & 中國的變遷 4課 -->
+    <!-- BOOKS (rect frames) with updated titles -->
     <div class="books-grid">
-        <!-- 第一冊：處變不驚 -->
+        <!-- 第一冊：處變不驚 - only 3 lessons (第3課 & 第4課 & 第5課) -->
         <div class="book-card" id="book1">
-            <div class="book-title"><i class="fas fa-shield-alt"></i> 處變不驚</div>
-            <div class="book-sub">共 5 課</div>
+            <div class="book-title"><i class="fas fa-shield-alt"></i> 第一冊::處變不驚</div>
+            <div class="book-sub">共 3 課</div>
             <div class="lesson-grid">
-                <div class="lesson-btn" data-book="1" data-lesson="1"><i class="fas fa-leaf"></i> 第1課</div>
-                <div class="lesson-btn" data-book="1" data-lesson="2"><i class="fas fa-cloud"></i> 第2課</div>
-                <div class="lesson-btn" data-book="1" data-lesson="3"><i class="fas fa-sun"></i> 第3課</div>
+                <div class="lesson-btn" data-book="1" data-lesson="3"><i class="fas fa-moon"></i> 第3課</div>
                 <div class="lesson-btn" data-book="1" data-lesson="4"><i class="fas fa-moon"></i> 第4課</div>
                 <div class="lesson-btn" data-book="1" data-lesson="5"><i class="fas fa-star"></i> 第5課</div>
             </div>
         </div>
-        <!-- 第三冊：中國的變遷 -->
+        <!-- 第三冊：中國的變遷 - 4 lessons -->
         <div class="book-card" id="book3">
-            <div class="book-title"><i class="fas fa-dragon"></i> 中國的變遷</div>
+            <div class="book-title"><i class="fas fa-dragon"></i> 第三冊::中國的變遷</div>
             <div class="book-sub">共 4 課</div>
             <div class="lesson-grid">
                 <div class="lesson-btn" data-book="3" data-lesson="1"><i class="fas fa-globe"></i> 第1課</div>
@@ -351,7 +349,7 @@
     <!-- Lesson detail panel (hidden initially) -->
     <div id="detailPanel" class="detail-panel hidden">
         <div class="detail-header">
-            <h2 id="selectedLessonLabel">處變不驚 · 第1課</h2>
+            <h2 id="selectedLessonLabel">第一冊::處變不驚 · 第4課</h2>
             <button class="close-detail" id="closeDetailBtn"><i class="fas fa-times"></i></button>
         </div>
         <div class="mode-cards" id="modeCardsContainer">
@@ -393,7 +391,7 @@
         const closeBtn = document.getElementById('closeDetailBtn');
         const modeCardsContainer = document.getElementById('modeCardsContainer');
 
-        // Mode definitions - including new Self-Notes button
+        // Mode definitions - including Self-Notes button
         const modes = [
             { name: 'Flashcard', icon: 'fa-layer-group' },
             { name: 'Test', icon: 'fa-pencil-alt' },
@@ -403,46 +401,48 @@
         ];
 
         function updateDetailPanel(book, lesson) {
-            let bookName = (book === '1') ? '處變不驚' : '中國的變遷';
-            let bookPrefix = (book === '1') ? 'book1' : 'book3';
-            selectedLessonLabel.innerText = `${bookName} · 第${lesson}課`;
+            let bookDisplayName = (book === '1') ? '第一冊::處變不驚' : '第三冊::中國的變遷';
+            selectedLessonLabel.innerText = `${bookDisplayName} · 第${lesson}課`;
             
-            // Generate mode cards with appropriate links
+            // Generate mode cards with appropriate links for ALL lessons
             modeCardsContainer.innerHTML = '';
             
             modes.forEach(mode => {
                 const link = document.createElement('a');
                 link.className = 'mode-card';
                 
-                // Special handling for all modes of 處變不驚 第5課
-                if (book === '1' && lesson === '5') {
-                    // Map mode names to file paths
-                    const modeFileMap = {
-                        'Flashcard': '1-5/book1_lesson5_flashcard.html',
-                        'Test': '1-5/book1_lesson5_test.html',
-                        'MindMap': '1-5/book1_lesson5_mindmap.html',
-                        'Video': '1-5/book1_lesson5_video.html',
-                        'Self-Notes': '1-5/book1_lesson5_selfnotes.html'
-                    };
-                    
-                    if (modeFileMap[mode.name]) {
-                        link.href = modeFileMap[mode.name];
-                    } else {
-                        link.href = '#';
-                        link.onclick = (e) => {
-                            e.preventDefault();
-                            alert(`🚀 模擬導向至: ${mode.name} 頁面\n(檔案路徑待確認)`);
-                        };
-                    }
+                // Determine folder path based on book and lesson
+                let folderPath = '';
+                if (book === '1') {
+                    // Book 1 lessons: 4 and 5 only
+                    folderPath = `1-${lesson}`;
                 } else {
-                    // For all other modes/lessons, use generic filename and show demo alert
-                    const fileName = `${bookPrefix}_lesson${lesson}_${mode.name.toLowerCase().replace('-', '')}.html`;
-                    link.href = '#';
-                    link.onclick = function(e) {
-                        e.preventDefault();
-                        alert(`🚀 模擬導向至: ${fileName}\n(此頁面尚未建立)`);
-                    };
+                    // Book 3 lessons: 1,2,3,4
+                    folderPath = `3-${lesson}`;
                 }
+                
+                // Map mode names to file names
+                const modeFileMap = {
+                    'Flashcard': `book${book}_lesson${lesson}_flashcard.html`,
+                    'Test': `book${book}_lesson${lesson}_test.html`,
+                    'MindMap': `book${book}_lesson${lesson}_mindmap.html`,
+                    'Video': `book${book}_lesson${lesson}_video.html`,
+                    'Self-Notes': `book${book}_lesson${lesson}_selfnotes.html`
+                };
+                
+                // Construct full path
+                const fileName = modeFileMap[mode.name];
+                link.href = `${folderPath}/${fileName}`;
+                
+                // Add click handler to handle potential 404s gracefully (optional)
+                link.onclick = function(e) {
+                    // Uncomment the line below to enable the demo alert
+                    // e.preventDefault();
+                    // alert(`🚀 導向至: ${folderPath}/${fileName}`);
+                    
+                    // For actual navigation, we don't prevent default
+                    // The browser will try to navigate to the actual file
+                };
                 
                 link.innerHTML = `<i class="fas ${mode.icon}"></i>${mode.name}`;
                 modeCardsContainer.appendChild(link);
@@ -476,9 +476,6 @@
     .mode-card {
         color: inherit;
         text-decoration: none;
-    }
-    .mode-card[href="#"] {
-        cursor: pointer;
     }
 </style>
 </body>
