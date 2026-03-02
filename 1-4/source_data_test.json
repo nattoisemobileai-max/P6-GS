@@ -1,0 +1,31 @@
+{
+  "lesson": "課程名稱",
+  "totalPoints": 45,
+  "timeEstimate": "10-15 mins",
+  "questions": [
+    {
+      "id": 1,
+      "type": "multiple-choice",
+      "question": "問題文字",
+      "options": ["選項A", "選項B", "選項C", "選項D"],
+      "correctAnswer": 1,
+      "explanation": "解釋文字"
+    },
+    {
+      "id": 2,
+      "type": "fill-blank",
+      "question": "問題文字 _____",
+      "correctAnswer": ["答案1", "答案2"],
+      "acceptedAnswers": ["答案1", "答案2", "其他可接受答案"],
+      "explanation": "解釋文字"
+    },
+    {
+      "id": 3,
+      "type": "drag-drop",
+      "question": "問題文字",
+      "items": ["項目1", "項目2", "項目3"],
+      "correctOrder": [0, 1, 2],
+      "explanation": "解釋文字"
+    }
+  ]
+}
