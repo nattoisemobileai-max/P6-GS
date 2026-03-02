@@ -296,6 +296,43 @@
             color: #6b8baa;
             font-weight: 600;
         }
+
+        // In index.html, update the updateDetailPanel function:
+
+function updateDetailPanel(book, lesson) {
+    let bookName = (book === '1') ? '第一冊' : '第三冊';
+    let bookPrefix = (book === '1') ? 'book1' : 'book3';
+    selectedLessonLabel.innerText = `${bookName} · 第${lesson}課`;
+    
+    // Generate mode cards with links
+    modeCardsContainer.innerHTML = '';
+    modes.forEach(mode => {
+        // Build filename based on book and lesson
+        let fileName;
+        if (book === '1' && lesson === '1') {
+            // For Chapter 1, link to the Feynman flashcard
+            fileName = 'flashcard.html';
+        } else {
+            // For other chapters, use generic naming
+            fileName = `${bookPrefix}_lesson${lesson}_${mode.name.toLowerCase()}.html`;
+        }
+        
+        const link = document.createElement('a');
+        link.href = fileName;
+        link.className = 'mode-card';
+        
+        // For demo purposes, show alert for non-existent pages
+        if (book !== '1' || lesson !== '1' || mode.name !== 'Flashcard') {
+            link.onclick = function(e) {
+                e.preventDefault();
+                alert(`🚀 模擬導向至: ${fileName}\n(此頁面尚未建立)`);
+            };
+        }
+        
+        link.innerHTML = `<i class="fas ${mode.icon}"></i>${mode.name}`;
+        modeCardsContainer.appendChild(link);
+    });
+}
     </style>
 </head>
 <body>
@@ -354,6 +391,10 @@
         </div>
         <div class="mode-cards" id="modeCardsContainer">
             <!-- mode cards will be generated with links here -->
+            <!-- In the mode-cards section of index.html, update the Flashcard link -->
+        <div class="mode-cards" id="modeCardsContainer">
+            <!-- mode cards will be generated with links here -->
+        </div>
         </div>
         <p style="text-align: center; margin-top: 1.2rem; color: #506e8c; font-weight: 500;"><i class="fas fa-hand-point-right"></i> 點擊卡片進入該模式頁面</p>
     </div>
