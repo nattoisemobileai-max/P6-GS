@@ -1,1 +1,1170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小常識 · 測驗 · 第一冊::處變不驚 第4課</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+        }
 
+        body {
+            background: linear-gradient(145deg, #d4e0ec 0%, #eaf0f6 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 1.5rem 1rem;
+        }
+
+        .test-container {
+            max-width: 900px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(4px);
+            border-radius: 48px 48px 32px 32px;
+            box-shadow: 0 25px 40px -15px rgba(0, 40, 60, 0.4);
+            padding: 1.8rem 2rem;
+            border: 3px solid rgba(255, 255, 255, 0.8);
+        }
+
+        /* Header */
+        .test-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 60px;
+            margin-bottom: 2rem;
+            box-shadow: 0 6px 0 #bed0e3;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .back-home {
+            background: #f4d03f;
+            border-radius: 40px;
+            padding: 0.4rem 1.3rem;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #1f3a4b;
+            border: none;
+            box-shadow: 0 4px 0 #b38f1c;
+            cursor: pointer;
+            transition: 0.06s linear;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-home:active {
+            transform: translateY(4px);
+            box-shadow: 0 1px 0 #b38f1c;
+        }
+
+        .test-title {
+            font-size: 1.6rem;
+            font-weight: 900;
+            background: #eef5ff;
+            padding: 0.3rem 1.8rem;
+            border-radius: 40px;
+            color: #1a4972;
+            border: 2px solid #c1d9f0;
+        }
+
+        .test-stats {
+            display: flex;
+            gap: 1rem;
+            background: #2b3c4e;
+            padding: 0.4rem 1.5rem;
+            border-radius: 40px;
+            color: white;
+            font-weight: 600;
+        }
+
+        .test-stats i {
+            color: #ffd966;
+            margin-right: 4px;
+        }
+
+        /* Progress bar */
+        .progress-section {
+            margin-bottom: 2rem;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #2c5a7a;
+        }
+
+        .progress-bar-bg {
+            height: 16px;
+            background: #e2eaf3;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #58cc71, #2e9b5c);
+            width: 0%;
+            border-radius: 30px;
+            transition: width 0.4s ease;
+        }
+
+        /* Question card */
+        .question-card {
+            background: white;
+            border-radius: 40px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 12px 0 #a0b9cf, 0 10px 25px rgba(0,0,0,0.1);
+            border: 3px solid #fff6cf;
+        }
+
+        .question-type-badge {
+            display: inline-block;
+            background: #e6d5a8;
+            padding: 0.3rem 1.2rem;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #4d3e1a;
+            margin-bottom: 1.2rem;
+        }
+
+        .question-text {
+            font-size: 1.7rem;
+            font-weight: 800;
+            color: #1e3f5a;
+            margin-bottom: 1.8rem;
+            line-height: 1.3;
+        }
+
+        /* Multiple choice */
+        .options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .option-btn {
+            background: #f5f9ff;
+            border: 3px solid #cad9eb;
+            border-radius: 50px;
+            padding: 1.2rem 1.8rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1f4973;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.1s;
+            box-shadow: 0 5px 0 #9fbad0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .option-btn:hover {
+            background: #e1efff;
+        }
+
+        .option-btn.selected {
+            background: #c1e5c0;
+            border-color: #58a700;
+            box-shadow: 0 5px 0 #3e7a00;
+        }
+
+        .option-btn.correct {
+            background: #a5d6a5;
+            border-color: #2e7d32;
+            box-shadow: 0 5px 0 #1b5e20;
+        }
+
+        .option-btn.incorrect {
+            background: #ffcdd2;
+            border-color: #c62828;
+            box-shadow: 0 5px 0 #8b0000;
+        }
+
+        .option-prefix {
+            background: #2b5f8a;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+        }
+
+        /* Fill in blank */
+        .fill-blank-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .fill-input {
+            padding: 1.2rem;
+            font-size: 1.2rem;
+            border: 3px solid #cad9eb;
+            border-radius: 50px;
+            outline: none;
+            width: 100%;
+            font-weight: 500;
+        }
+
+        .fill-input:focus {
+            border-color: #58a700;
+            box-shadow: 0 0 0 3px rgba(88, 167, 0, 0.2);
+        }
+
+        .fill-input.correct {
+            background: #e8f5e8;
+            border-color: #2e7d32;
+        }
+
+        .fill-input.incorrect {
+            background: #ffebee;
+            border-color: #c62828;
+        }
+
+        /* Drag and drop */
+        .drag-drop-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .items-pool {
+            background: #eef2f6;
+            border-radius: 30px;
+            padding: 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            border: 3px dashed #a0b9cf;
+        }
+
+        .drag-item {
+            background: white;
+            padding: 1rem 1.8rem;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #1f4973;
+            border: 2px solid #58a700;
+            box-shadow: 0 4px 0 #3e7a00;
+            cursor: grab;
+            user-select: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .drag-item:active {
+            cursor: grabbing;
+            opacity: 0.8;
+        }
+
+        .drag-item.dragging {
+            opacity: 0.5;
+        }
+
+        .drop-zone {
+            background: #e6f0fa;
+            border-radius: 30px;
+            padding: 1.5rem;
+            border: 3px solid #7fa3c2;
+        }
+
+        .drop-slots {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .drop-slot {
+            background: white;
+            border: 3px dashed #9bb7d1;
+            border-radius: 50px;
+            padding: 1rem 1.8rem;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.2s;
+        }
+
+        .drop-slot.filled {
+            background: #f0f9f0;
+            border-color: #58a700;
+            border-style: solid;
+        }
+
+        .slot-number {
+            background: #7fa3c2;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+        }
+
+        .slot-content {
+            flex: 1;
+            font-weight: 600;
+            color: #1f4973;
+        }
+
+        .remove-item {
+            color: #c62828;
+            cursor: pointer;
+            font-size: 1.3rem;
+            margin-left: auto;
+        }
+
+        /* Explanation */
+        .explanation-box {
+            background: #fff9e6;
+            border-left: 8px solid #f3b33d;
+            border-radius: 20px;
+            padding: 1.2rem 1.8rem;
+            margin-top: 1.5rem;
+            font-size: 1.1rem;
+            color: #7d5d2a;
+            display: none;
+        }
+
+        .explanation-box.show {
+            display: block;
+        }
+
+        /* Navigation buttons */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+
+        .nav-btn {
+            background: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #1f4973;
+            box-shadow: 0 6px 0 #9fbad0;
+            cursor: pointer;
+            transition: 0.06s linear;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .nav-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #9fbad0;
+        }
+
+        .nav-btn.primary {
+            background: #58a700;
+            color: white;
+            box-shadow: 0 6px 0 #3e7a00;
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: 0 4px 0 #9fbad0;
+        }
+
+        /* Results screen */
+        .results-screen {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .results-icon {
+            font-size: 5rem;
+            color: #f3b33d;
+            margin-bottom: 1.5rem;
+        }
+
+        .results-score {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #1e3f5a;
+            margin-bottom: 1rem;
+        }
+
+        .results-message {
+            font-size: 1.3rem;
+            color: #4f6f8f;
+            margin-bottom: 2.5rem;
+        }
+
+        .restart-btn {
+            background: #48b5a5;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            padding: 1rem 3rem;
+            border-radius: 60px;
+            box-shadow: 0 8px 0 #1c6b5e;
+            cursor: pointer;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .footer-note {
+            text-align: center;
+            margin-top: 2rem;
+            color: #6b8baa;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+<div class="test-container">
+    <!-- Header -->
+    <div class="test-header">
+        <button class="back-home" id="backToIndexBtn"><i class="fas fa-arrow-left"></i> 返回</button>
+        <span class="test-title" id="lessonTitle">第一冊::處變不驚 · 第4課</span>
+        <div class="test-stats">
+            <span><i class="fas fa-star"></i> <span id="earnedPoints">0</span>/<span id="totalPoints">45</span></span>
+            <span><i class="fas fa-clock"></i> <span id="timeEstimate">10-15 mins</span></span>
+        </div>
+    </div>
+
+    <!-- Progress bar -->
+    <div class="progress-section">
+        <div class="progress-info">
+            <span>問題 <span id="currentQuestion">1</span>/<span id="totalQuestions">8</span></span>
+            <span id="completionPercent">0%</span>
+        </div>
+        <div class="progress-bar-bg">
+            <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
+        </div>
+    </div>
+
+    <!-- Main content area - Questions -->
+    <div id="questionsArea">
+        <!-- Questions will be dynamically inserted here -->
+    </div>
+
+    <!-- Results screen (hidden initially) -->
+    <div id="resultsScreen" class="results-screen hidden">
+        <div class="results-icon">
+            <i class="fas fa-trophy"></i>
+        </div>
+        <div class="results-score" id="finalScore">0/45</div>
+        <div class="results-message" id="finalMessage">恭喜完成測驗！</div>
+        <button class="restart-btn" id="restartTest"><i class="fas fa-redo-alt"></i> 重新測驗</button>
+    </div>
+
+    <!-- Navigation buttons -->
+    <div class="nav-buttons" id="navButtons">
+        <button class="nav-btn" id="prevBtn" disabled><i class="fas fa-chevron-left"></i> 上一題</button>
+        <button class="nav-btn primary" id="nextBtn">下一題 <i class="fas fa-chevron-right"></i></button>
+        <button class="nav-btn primary hidden" id="submitBtn">提交答案 <i class="fas fa-check"></i></button>
+        <button class="nav-btn primary hidden" id="showResultsBtn">查看結果 <i class="fas fa-chart-bar"></i></button>
+    </div>
+
+    <div class="footer-note">
+        <i class="fas fa-lightbulb"></i> 點擊選項作答，每題完成後自動計分
+    </div>
+</div>
+
+<script>
+    (function() {
+        // Load test data
+        let testData = null;
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let questionStatus = []; // 'unanswered', 'correct', 'incorrect'
+        let earnedPoints = 0;
+        let pointsPerQuestion = 5; // Default, can be adjusted per question
+        
+        // Drag and drop state
+        let dragState = {
+            draggedItem: null,
+            draggedIndex: null,
+            sourcePool: null
+        };
+
+        // Load JSON data (simulated fetch)
+        function loadTestData() {
+            // In a real app, you'd fetch this: fetch('source_data_test.json')
+            // For demo, we'll use the embedded data
+            testData = {
+                "lesson": "第一冊::處變不驚 · 第4課",
+                "totalPoints": 45,
+                "timeEstimate": "10-15 mins",
+                "questions": [
+                    {
+                        "id": 1,
+                        "type": "multiple-choice",
+                        "question": "遇到緊急情況時，下列哪項是正確的應對方式？",
+                        "options": [
+                            "驚慌失措，大聲哭喊",
+                            "保持冷靜，評估情況",
+                            "立即逃跑，不顧他人",
+                            "等待別人來幫忙"
+                        ],
+                        "correctAnswer": 1,
+                        "explanation": "保持冷靜才能做出正確判斷，評估情況後採取適當行動。"
+                    },
+                    {
+                        "id": 2,
+                        "type": "multiple-choice",
+                        "question": "火災發生時，下列哪項逃生行為是錯誤的？",
+                        "options": [
+                            "用濕毛巾捂住口鼻",
+                            "搭乘電梯快速逃離",
+                            "彎腰低身前進",
+                            "觸摸門把確認溫度"
+                        ],
+                        "correctAnswer": 1,
+                        "explanation": "火災時絕對不能使用電梯，可能因斷電受困或成為煙囪效應的通道。"
+                    },
+                    {
+                        "id": 3,
+                        "type": "fill-blank",
+                        "question": "遇到陌生人敲門時，應該先透過_____確認對方身份，再決定是否開門。",
+                        "correctAnswer": ["防盜眼", "貓眼", "窺視孔"],
+                        "acceptedAnswers": ["防盜眼", "貓眼", "窺視孔", "門上小孔"],
+                        "explanation": "透過防盜眼觀察可以確保安全，避免隨意開門。"
+                    },
+                    {
+                        "id": 4,
+                        "type": "fill-blank",
+                        "question": "急救箱中應該備有_____、_____和_____等基本醫療用品。",
+                        "correctAnswer": ["消毒藥水", "紗布", "膠布"],
+                        "acceptedAnswers": ["消毒藥水,紗布,膠布", "碘酒,紗布,OK繃", "酒精,棉花,繃帶"],
+                        "explanation": "基本急救箱應包含消毒用品、包紮材料和固定用品。"
+                    },
+                    {
+                        "id": 5,
+                        "type": "drag-drop",
+                        "question": "請將下列急救步驟按正確順序排列：",
+                        "items": [
+                            "檢查現場安全",
+                            "評估傷者意識",
+                            "呼叫緊急救援",
+                            "進行基本急救",
+                            "等待專業人員"
+                        ],
+                        "correctOrder": [0, 1, 2, 3, 4],
+                        "explanation": "急救順序：先確保自身安全，再評估傷者，然後求救，接著施救，最後等待專業協助。"
+                    },
+                    {
+                        "id": 6,
+                        "type": "drag-drop",
+                        "question": "請將下列地震避難原則按正確順序排列：",
+                        "items": [
+                            "趴下",
+                            "掩護",
+                            "穩住"
+                        ],
+                        "correctOrder": [0, 1, 2],
+                        "explanation": "地震時應牢記「趴下、掩護、穩住」三步驟。"
+                    },
+                    {
+                        "id": 7,
+                        "type": "multiple-choice",
+                        "question": "發現有人昏倒時，第一步應該做什麼？",
+                        "options": [
+                            "立即做心肺復甦",
+                            "呼叫對方並拍肩",
+                            "餵水給他喝",
+                            "移動到陰涼處"
+                        ],
+                        "correctAnswer": 1,
+                        "explanation": "先確認意識狀態，輕拍肩膀大聲呼喚，檢查有無反應。"
+                    },
+                    {
+                        "id": 8,
+                        "type": "fill-blank",
+                        "question": "燙傷處理的正確口訣是「沖、_____、_____、_____、送」。",
+                        "correctAnswer": ["脫", "泡", "蓋"],
+                        "acceptedAnswers": ["脫,泡,蓋", "脫掉,浸泡,覆蓋", "脫衣,泡水,遮蓋"],
+                        "explanation": "燙傷處理五步驟：沖水、脫衣、浸泡、蓋上、送醫。"
+                    }
+                ]
+            };
+            
+            // Initialize user answers array
+            testData.questions.forEach((q, index) => {
+                userAnswers[index] = null;
+                questionStatus[index] = 'unanswered';
+            });
+            
+            // Update UI
+            document.getElementById('lessonTitle').textContent = testData.lesson;
+            document.getElementById('totalPoints').textContent = testData.totalPoints;
+            document.getElementById('timeEstimate').textContent = testData.timeEstimate;
+            document.getElementById('totalQuestions').textContent = testData.questions.length;
+            
+            // Load first question
+            loadQuestion(0);
+        }
+
+        // Load question by index
+        function loadQuestion(index) {
+            if (!testData) return;
+            
+            currentQuestionIndex = index;
+            const question = testData.questions[index];
+            const area = document.getElementById('questionsArea');
+            
+            let html = `
+                <div class="question-card">
+                    <div class="question-type-badge">
+                        <i class="fas ${getTypeIcon(question.type)}"></i> 
+                        ${getTypeName(question.type)}
+                    </div>
+                    <div class="question-text">${question.question}</div>
+            `;
+            
+            // Render based on type
+            if (question.type === 'multiple-choice') {
+                html += renderMultipleChoice(question, index);
+            } else if (question.type === 'fill-blank') {
+                html += renderFillBlank(question, index);
+            } else if (question.type === 'drag-drop') {
+                html += renderDragDrop(question, index);
+            }
+            
+            // Explanation box
+            html += `<div class="explanation-box" id="explanation-${index}">`;
+            if (questionStatus[index] !== 'unanswered' && question.explanation) {
+                html += `<i class="fas fa-info-circle"></i> ${question.explanation}`;
+            }
+            html += `</div>`;
+            
+            html += `</div>`;
+            
+            area.innerHTML = html;
+            
+            // Update UI based on status
+            if (questionStatus[index] !== 'unanswered') {
+                document.getElementById(`explanation-${index}`).classList.add('show');
+            }
+            
+            // Restore user answer if exists
+            if (userAnswers[index] !== null) {
+                restoreUserAnswer(question, index);
+            }
+            
+            // Update navigation buttons
+            updateNavButtons();
+            
+            // Update progress
+            updateProgress();
+            
+            // Initialize drag and drop if needed
+            if (question.type === 'drag-drop') {
+                initDragDrop(question, index);
+            }
+        }
+
+        function getTypeIcon(type) {
+            const icons = {
+                'multiple-choice': 'fa-list-ul',
+                'fill-blank': 'fa-pencil-alt',
+                'drag-drop': 'fa-arrows-alt'
+            };
+            return icons[type] || 'fa-question';
+        }
+
+        function getTypeName(type) {
+            const names = {
+                'multiple-choice': '選擇題',
+                'fill-blank': '填空題',
+                'drag-drop': '排序題'
+            };
+            return names[type] || type;
+        }
+
+        function renderMultipleChoice(question, index) {
+            let html = '<div class="options-grid">';
+            question.options.forEach((option, optIndex) => {
+                const letters = ['A', 'B', 'C', 'D', 'E', 'F'];
+                html += `
+                    <div class="option-btn ${userAnswers[index] === optIndex ? 'selected' : ''}" 
+                         onclick="window.handleMultipleChoice(${index}, ${optIndex})">
+                        <span class="option-prefix">${letters[optIndex]}</span>
+                        ${option}
+                    </div>
+                `;
+            });
+            html += '</div>';
+            return html;
+        }
+
+        function renderFillBlank(question, index) {
+            let html = '<div class="fill-blank-container">';
+            
+            if (question.correctAnswer.length > 1) {
+                // Multiple blanks
+                html += '<p style="color:#4f6f8f; margin-bottom:0.5rem;">請用逗號分隔多個答案 (例如: 答案1,答案2,答案3)</p>';
+                html += `<input type="text" class="fill-input" id="fill-input-${index}" 
+                         placeholder="輸入答案，多個答案用逗號分隔"
+                         value="${userAnswers[index] || ''}"
+                         onchange="window.handleFillBlank(${index}, this.value)">`;
+            } else {
+                // Single blank
+                html += `<input type="text" class="fill-input" id="fill-input-${index}" 
+                         placeholder="請輸入答案"
+                         value="${userAnswers[index] || ''}"
+                         onchange="window.handleFillBlank(${index}, this.value)">`;
+            }
+            
+            html += '</div>';
+            return html;
+        }
+
+        function renderDragDrop(question, index) {
+            let html = '<div class="drag-drop-container">';
+            
+            // Items pool
+            html += '<div class="items-pool" id="items-pool">';
+            
+            // Get current order from userAnswers or default to shuffled
+            let currentOrder = userAnswers[index] || shuffleArray([...question.items]);
+            
+            html += currentOrder.map((item, i) => `
+                <div class="drag-item" draggable="true" data-item="${item}" data-index="${i}">
+                    <i class="fas fa-grip-vertical"></i> ${item}
+                </div>
+            `).join('');
+            
+            html += '</div>';
+            
+            // Drop zones
+            html += '<div class="drop-zone"><div class="drop-slots" id="drop-slots">';
+            
+            for (let i = 0; i < question.items.length; i++) {
+                html += `
+                    <div class="drop-slot" data-slot="${i}">
+                        <span class="slot-number">${i + 1}</span>
+                        <span class="slot-content"></span>
+                        <span class="remove-item" onclick="window.removeFromSlot(${index}, ${i})">✕</span>
+                    </div>
+                `;
+            }
+            
+            html += '</div></div></div>';
+            return html;
+        }
+
+        function shuffleArray(array) {
+            const arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function restoreUserAnswer(question, index) {
+            if (!userAnswers[index]) return;
+            
+            if (question.type === 'multiple-choice') {
+                const selectedOpt = userAnswers[index];
+                const options = document.querySelectorAll('.option-btn');
+                options.forEach((opt, i) => {
+                    if (i === selectedOpt) {
+                        opt.classList.add('selected');
+                    }
+                });
+            } else if (question.type === 'fill-blank') {
+                const input = document.getElementById(`fill-input-${index}`);
+                if (input) {
+                    input.value = userAnswers[index];
+                }
+            }
+        }
+
+        // Handle multiple choice selection
+        window.handleMultipleChoice = function(questionIndex, optionIndex) {
+            const question = testData.questions[questionIndex];
+            
+            // Remove selected class from all options
+            document.querySelectorAll('.option-btn').forEach(btn => {
+                btn.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            // Add selected class to clicked option
+            event.currentTarget.classList.add('selected');
+            
+            // Save answer
+            userAnswers[questionIndex] = optionIndex;
+            
+            // Check if correct
+            const isCorrect = (optionIndex === question.correctAnswer);
+            questionStatus[questionIndex] = isCorrect ? 'correct' : 'incorrect';
+            
+            // Update points
+            updatePoints();
+            
+            // Show explanation
+            const explanationBox = document.getElementById(`explanation-${questionIndex}`);
+            if (explanationBox) {
+                explanationBox.innerHTML = `<i class="fas fa-info-circle"></i> ${question.explanation}`;
+                explanationBox.classList.add('show');
+            }
+            
+            // Visual feedback
+            if (isCorrect) {
+                event.currentTarget.classList.add('correct');
+            } else {
+                event.currentTarget.classList.add('incorrect');
+                // Highlight correct answer
+                document.querySelectorAll('.option-btn')[question.correctAnswer].classList.add('correct');
+            }
+        };
+
+        // Handle fill in the blank
+        window.handleFillBlank = function(questionIndex, value) {
+            const question = testData.questions[questionIndex];
+            const input = document.getElementById(`fill-input-${questionIndex}`);
+            
+            // Save answer
+            userAnswers[questionIndex] = value;
+            
+            // Check if correct
+            let isCorrect = false;
+            const normalizedAnswer = value.toLowerCase().trim().replace(/\s+/g, '');
+            
+            if (question.acceptedAnswers) {
+                isCorrect = question.acceptedAnswers.some(ans => 
+                    normalizedAnswer.includes(ans.toLowerCase().replace(/\s+/g, ''))
+                );
+            } else if (question.correctAnswer) {
+                if (Array.isArray(question.correctAnswer)) {
+                    // Multiple answers expected
+                    const answers = value.split(',').map(v => v.trim().toLowerCase());
+                    isCorrect = answers.every(ans => 
+                        question.correctAnswer.some(corr => 
+                            corr.toLowerCase().includes(ans) || ans.includes(corr.toLowerCase())
+                        )
+                    );
+                } else {
+                    isCorrect = normalizedAnswer.includes(question.correctAnswer.toLowerCase().replace(/\s+/g, ''));
+                }
+            }
+            
+            questionStatus[questionIndex] = isCorrect ? 'correct' : 'incorrect';
+            
+            // Update visual
+            input.classList.remove('correct', 'incorrect');
+            if (isCorrect) {
+                input.classList.add('correct');
+            } else {
+                input.classList.add('incorrect');
+            }
+            
+            // Update points
+            updatePoints();
+            
+            // Show explanation
+            const explanationBox = document.getElementById(`explanation-${questionIndex}`);
+            if (explanationBox) {
+                explanationBox.innerHTML = `<i class="fas fa-info-circle"></i> ${question.explanation}`;
+                explanationBox.classList.add('show');
+            }
+        };
+
+        // Initialize drag and drop
+        function initDragDrop(question, index) {
+            const items = document.querySelectorAll('.drag-item');
+            const dropSlots = document.querySelectorAll('.drop-slot');
+            
+            items.forEach(item => {
+                item.addEventListener('dragstart', handleDragStart);
+                item.addEventListener('dragend', handleDragEnd);
+            });
+            
+            dropSlots.forEach(slot => {
+                slot.addEventListener('dragover', handleDragOver);
+                slot.addEventListener('drop', (e) => handleDrop(e, question, index));
+            });
+        }
+
+        function handleDragStart(e) {
+            dragState.draggedItem = e.target;
+            dragState.draggedIndex = parseInt(e.target.dataset.index);
+            e.target.classList.add('dragging');
+        }
+
+        function handleDragEnd(e) {
+            e.target.classList.remove('dragging');
+            dragState.draggedItem = null;
+            dragState.draggedIndex = null;
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+        }
+
+        function handleDrop(e, question, index) {
+            e.preventDefault();
+            
+            if (!dragState.draggedItem) return;
+            
+            const slot = e.currentTarget;
+            const slotIndex = parseInt(slot.dataset.slot);
+            const slotContent = slot.querySelector('.slot-content');
+            
+            // Move item to slot
+            const itemText = dragState.draggedItem.textContent.trim();
+            slotContent.textContent = itemText;
+            slot.classList.add('filled');
+            
+            // Remove from pool
+            dragState.draggedItem.remove();
+            
+            // Update user answer
+            updateDragDropAnswer(question, index);
+        }
+
+        window.removeFromSlot = function(questionIndex, slotIndex) {
+            const slot = document.querySelector(`.drop-slot[data-slot="${slotIndex}"]`);
+            const slotContent = slot.querySelector('.slot-content');
+            const itemText = slotContent.textContent;
+            
+            if (!itemText) return;
+            
+            // Add back to pool
+            const pool = document.getElementById('items-pool');
+            const dragItem = document.createElement('div');
+            dragItem.className = 'drag-item';
+            dragItem.draggable = true;
+            dragItem.innerHTML = `<i class="fas fa-grip-vertical"></i> ${itemText}`;
+            
+            // Reattach drag events
+            dragItem.addEventListener('dragstart', handleDragStart);
+            dragItem.addEventListener('dragend', handleDragEnd);
+            
+            pool.appendChild(dragItem);
+            
+            // Clear slot
+            slotContent.textContent = '';
+            slot.classList.remove('filled');
+            
+            // Update user answer
+            updateDragDropAnswer(testData.questions[questionIndex], questionIndex);
+        };
+
+        function updateDragDropAnswer(question, index) {
+            const slots = document.querySelectorAll('.drop-slot .slot-content');
+            const order = [];
+            
+            slots.forEach(slot => {
+                if (slot.textContent) {
+                    order.push(slot.textContent.trim());
+                }
+            });
+            
+            // If all items are placed, check correctness
+            if (order.length === question.items.length) {
+                userAnswers[index] = order;
+                
+                // Check if order matches correct order
+                const correctOrder = question.correctOrder.map(i => question.items[i]);
+                const isCorrect = order.every((item, i) => item === correctOrder[i]);
+                
+                questionStatus[index] = isCorrect ? 'correct' : 'incorrect';
+                
+                // Update points
+                updatePoints();
+                
+                // Show explanation
+                const explanationBox = document.getElementById(`explanation-${index}`);
+                if (explanationBox) {
+                    explanationBox.innerHTML = `<i class="fas fa-info-circle"></i> ${question.explanation}`;
+                    explanationBox.classList.add('show');
+                }
+            } else {
+                userAnswers[index] = null;
+                questionStatus[index] = 'unanswered';
+            }
+        }
+
+        // Update points
+        function updatePoints() {
+            let points = 0;
+            questionStatus.forEach(status => {
+                if (status === 'correct') points += 5;
+            });
+            earnedPoints = points;
+            document.getElementById('earnedPoints').textContent = earnedPoints;
+            
+            // Update progress
+            updateProgress();
+        }
+
+        // Update progress bar
+        function updateProgress() {
+            const total = testData.questions.length;
+            const answered = questionStatus.filter(s => s !== 'unanswered').length;
+            const percent = Math.round((answered / total) * 100);
+            
+            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+            document.getElementById('progressFill').style.width = percent + '%';
+            document.getElementById('completionPercent').textContent = percent + '%';
+        }
+
+        // Update navigation buttons
+        function updateNavButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const submitBtn = document.getElementById('submitBtn');
+            const showResultsBtn = document.getElementById('showResultsBtn');
+            
+            prevBtn.disabled = (currentQuestionIndex === 0);
+            
+            if (currentQuestionIndex === testData.questions.length - 1) {
+                nextBtn.classList.add('hidden');
+                submitBtn.classList.remove('hidden');
+            } else {
+                nextBtn.classList.remove('hidden');
+                submitBtn.classList.add('hidden');
+            }
+            
+            // Check if all questions answered
+            const allAnswered = questionStatus.every(s => s !== 'unanswered');
+            if (allAnswered && currentQuestionIndex === testData.questions.length - 1) {
+                submitBtn.classList.add('hidden');
+                showResultsBtn.classList.remove('hidden');
+            }
+        }
+
+        // Navigation
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            if (currentQuestionIndex > 0) {
+                loadQuestion(currentQuestionIndex - 1);
+            }
+        });
+
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            if (currentQuestionIndex < testData.questions.length - 1) {
+                loadQuestion(currentQuestionIndex + 1);
+            }
+        });
+
+        document.getElementById('submitBtn').addEventListener('click', () => {
+            // Check if current question is answered
+            if (questionStatus[currentQuestionIndex] === 'unanswered') {
+                alert('請先回答此題再繼續');
+                return;
+            }
+            
+            if (currentQuestionIndex < testData.questions.length - 1) {
+                loadQuestion(currentQuestionIndex + 1);
+            }
+        });
+
+        document.getElementById('showResultsBtn').addEventListener('click', () => {
+            showResults();
+        });
+
+        // Show results screen
+        function showResults() {
+            document.getElementById('questionsArea').innerHTML = '';
+            document.getElementById('resultsScreen').classList.remove('hidden');
+            document.getElementById('navButtons').classList.add('hidden');
+            
+            const percent = Math.round((earnedPoints / testData.totalPoints) * 100);
+            document.getElementById('finalScore').textContent = `${earnedPoints}/${testData.totalPoints}`;
+            
+            let message = '';
+            if (percent >= 90) message = '🎉 太棒了！你是安全小專家！';
+            else if (percent >= 70) message = '👍 不錯喔！再複習一下會更熟練！';
+            else if (percent >= 50) message = '📚 加油！多練習幾次就能掌握！';
+            else message = '💪 別氣餒！再試一次會更好！';
+            
+            document.getElementById('finalMessage').textContent = message;
+        }
+
+        // Restart test
+        document.getElementById('restartTest').addEventListener('click', () => {
+            // Reset everything
+            userAnswers = [];
+            questionStatus = [];
+            testData.questions.forEach((q, index) => {
+                userAnswers[index] = null;
+                questionStatus[index] = 'unanswered';
+            });
+            earnedPoints = 0;
+            document.getElementById('earnedPoints').textContent = '0';
+            
+            // Hide results, show questions
+            document.getElementById('resultsScreen').classList.add('hidden');
+            document.getElementById('navButtons').classList.remove('hidden');
+            
+            // Load first question
+            currentQuestionIndex = 0;
+            loadQuestion(0);
+        });
+
+        // Back to index
+        document.getElementById('backToIndexBtn').addEventListener('click', () => {
+            window.location.href = 'index.html';
+        });
+
+        // Initialize
+        loadTestData();
+    })();
+</script>
+
+<style>
+    /* Additional styles for drag and drop */
+    .drag-item {
+        transition: all 0.2s;
+    }
+    .drag-item.dragging {
+        opacity: 0.5;
+        transform: scale(0.95);
+    }
+    .drop-slot {
+        transition: all 0.2s;
+    }
+    .drop-slot:hover {
+        background: #f0f9ff;
+    }
+    .remove-item {
+        opacity: 0.5;
+        transition: opacity 0.2s;
+    }
+    .remove-item:hover {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+</style>
+</body>
+</html>
