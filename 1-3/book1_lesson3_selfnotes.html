@@ -24,7 +24,7 @@
         }
 
         .notes-container {
-            max-width: 900px;
+            max-width: 1000px;
             width: 100%;
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(4px);
@@ -101,7 +101,7 @@
             color: #ffd966;
         }
 
-        /* Main content - Notebook style with blue theme */
+        /* Main content - Clean notebook style */
         .notebook {
             background: #f5faff;
             border-radius: 40px;
@@ -109,10 +109,6 @@
             margin-bottom: 2rem;
             box-shadow: 0 12px 0 #9bb7d1, 0 10px 25px rgba(0,40,60,0.15);
             border: 3px solid #c1d9f0;
-            position: relative;
-            background-image: linear-gradient(#e1edff 1px, transparent 1px);
-            background-size: 100% 2rem;
-            min-height: 500px;
         }
 
         .notebook-header {
@@ -121,7 +117,7 @@
             gap: 1rem;
             margin-bottom: 2rem;
             padding-bottom: 1rem;
-            border-bottom: 3px dashed #9bb7d1;
+            border-bottom: 3px solid #9bb7d1;
         }
 
         .notebook-icon {
@@ -150,126 +146,197 @@
             background: #e1edff;
             padding: 0.4rem 1.2rem;
             border-radius: 40px;
+            font-size: 0.95rem;
         }
 
-        /* Notes area */
-        .notes-area {
-            padding: 1rem 0;
+        /* Section styling - Clean and attractive */
+        .section-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
         }
 
-        .topic-section {
-            margin-bottom: 2rem;
+        .lesson-section {
+            background: white;
+            border-radius: 30px;
+            padding: 1.8rem;
+            border-left: 8px solid #3498db;
+            box-shadow: 0 6px 0 #bed0e3;
+            transition: transform 0.2s;
         }
 
-        .topic-label {
-            font-weight: 800;
-            color: #2980b9;
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
+        .lesson-section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 0 #9bb7d1;
+        }
+
+        .section-header {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 12px;
+            margin-bottom: 1.2rem;
         }
 
-        .topic-label i {
-            color: #3498db;
-        }
-
-        .notes-textarea {
-            width: 100%;
-            min-height: 100px;
-            padding: 1.2rem;
-            border: 2px solid #c1d9f0;
-            border-radius: 30px;
-            font-size: 1rem;
-            line-height: 1.6;
-            background: rgba(255, 255, 255, 0.9);
-            resize: vertical;
-            font-family: 'Courier New', monospace;
-            margin-bottom: 1rem;
-            transition: all 0.2s;
-            color: #1f3a4b;
-        }
-
-        .notes-textarea:focus {
-            outline: none;
-            border-color: #3498db;
-            box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.2);
-            background: white;
-        }
-
-        /* Sticky notes - blue theme */
-        .sticky-notes-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-
-        .sticky-note {
-            background: #e1f0fa;
-            border-radius: 20px;
-            padding: 1.5rem;
-            box-shadow: 0 8px 0 #7fa3c2, 5px 5px 15px rgba(0,0,0,0.1);
-            transform: rotate(0deg);
-            transition: all 0.2s;
-            border: 2px solid #9bb7d1;
-        }
-
-        .sticky-note:hover {
-            transform: rotate(1deg) scale(1.02);
-            box-shadow: 0 10px 0 #6b8baa;
-        }
-
-        .sticky-note:nth-child(odd) {
-            background: #d4e6f5;
-        }
-
-        .sticky-note i {
-            color: #3498db;
-            margin-bottom: 0.8rem;
+        .section-icon {
+            width: 48px;
+            height: 48px;
+            background: #3498db;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
             font-size: 1.5rem;
         }
 
-        .sticky-note h4 {
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 800;
             color: #1a4972;
+        }
+
+        .section-page {
+            background: #f0f7ff;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            color: #2980b9;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-left: auto;
+        }
+
+        .section-content {
+            color: #1f3a4b;
+            line-height: 1.7;
+            font-size: 1.05rem;
+        }
+
+        .bullet-list {
+            list-style: none;
+            margin-top: 0.8rem;
+        }
+
+        .bullet-list li {
+            padding: 0.4rem 0 0.4rem 1.8rem;
+            position: relative;
+        }
+
+        .bullet-list li:before {
+            content: "•";
+            color: #3498db;
+            font-weight: bold;
+            font-size: 1.5rem;
+            position: absolute;
+            left: 0;
+            top: -2px;
+        }
+
+        .highlight-box {
+            background: #e1f0fa;
+            border-radius: 20px;
+            padding: 1.2rem 1.5rem;
+            margin: 1rem 0;
+            border: 2px dashed #9bb7d1;
+        }
+
+        .highlight-box p {
             margin-bottom: 0.5rem;
         }
 
-        .sticky-note p {
-            color: #2c5a7a;
-            font-size: 0.9rem;
+        .highlight-box p:last-child {
+            margin-bottom: 0;
         }
 
-        /* Action buttons - blue theme */
+        .badge {
+            display: inline-block;
+            background: #f4d03f;
+            color: #1f3a4b;
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            border: 1px solid #e67e22;
+        }
+
+        .badge-blue {
+            background: #d4e6f5;
+            color: #1a4972;
+            border: 1px solid #3498db;
+        }
+
+        .divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #9bb7d1, transparent);
+            margin: 1.5rem 0;
+        }
+
+        /* Summary section */
+        .summary-section {
+            background: #fff9e6;
+            border-radius: 30px;
+            padding: 1.8rem;
+            border-left: 8px solid #f3b33d;
+            margin-top: 1rem;
+        }
+
+        .summary-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #b85e0f;
+            font-weight: 800;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .summary-content {
+            color: #5d4a27;
+            line-height: 1.8;
+        }
+
+        /* Image placeholders */
+        .image-placeholder {
+            background: #e9eef3;
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            text-align: center;
+            border: 3px dashed #9bb7d1;
+            color: #4f6f8f;
+            font-style: italic;
+        }
+
+        .image-placeholder i {
+            font-size: 2.5rem;
+            color: #7f8c8d;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Action buttons - only save and export */
         .notes-actions {
             display: flex;
             gap: 1rem;
             flex-wrap: wrap;
-            margin: 2rem 0;
+            margin: 2rem 0 1rem;
+            justify-content: flex-end;
         }
 
         .action-btn {
             background: #3498db;
             border: none;
             color: white;
-            padding: 1rem 2rem;
+            padding: 0.8rem 2rem;
             border-radius: 50px;
             font-weight: 700;
-            font-size: 1.1rem;
+            font-size: 1rem;
             box-shadow: 0 5px 0 #1f5b8a;
             cursor: pointer;
             transition: 0.06s linear;
             display: flex;
             align-items: center;
-            gap: 10px;
-            flex: 1 1 auto;
-            justify-content: center;
-        }
-
-        .action-btn.secondary {
-            background: #7f8c8d;
-            box-shadow: 0 5px 0 #5a6263;
+            gap: 8px;
         }
 
         .action-btn:active {
@@ -277,14 +344,15 @@
             box-shadow: 0 1px 0 #1f5b8a;
         }
 
-        .action-btn.secondary:active {
-            box-shadow: 0 1px 0 #5a6263;
+        .action-btn.secondary {
+            background: #7f8c8d;
+            box-shadow: 0 5px 0 #5a6263;
         }
 
         /* Footer */
         .footer-note {
             text-align: center;
-            margin-top: 2rem;
+            margin-top: 1.5rem;
             color: #6b8baa;
             font-weight: 600;
             display: flex;
@@ -303,73 +371,9 @@
             border: 1px solid #9bb7d1;
         }
 
-        /* Modal for image notes */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,40,60,0.9);
-            backdrop-filter: blur(5px);
-        }
-
-        .modal-content {
-            margin: auto;
-            display: block;
-            max-width: 80%;
-            max-height: 80%;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            padding: 2rem;
-            border-radius: 40px;
-            text-align: center;
-            border: 4px solid #3498db;
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 10px;
-            right: 25px;
-            color: white;
-            font-size: 40px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .close-modal:hover {
-            color: #f3b33d;
-            transform: scale(1.2);
-        }
-
-        /* Progress indicator */
-        .notes-progress {
-            height: 6px;
-            background: #e1edff;
-            border-radius: 10px;
-            margin: 1rem 0;
-            overflow: hidden;
-        }
-
-        .notes-progress-fill {
-            height: 100%;
-            background: #3498db;
-            width: 0%;
-            transition: width 0.3s;
-        }
-
-        /* Word count badge */
-        .word-count {
-            font-size: 0.8rem;
-            color: #6b8baa;
-            text-align: right;
-            margin-top: 0.3rem;
+        /* No scrollbars needed - content flows naturally */
+        .lesson-section, .summary-section {
+            overflow: visible;
         }
     </style>
 </head>
@@ -386,128 +390,207 @@
         </div>
     </div>
 
-    <!-- Main Notebook -->
+    <!-- Main Notebook - Clean sections without scrollbars -->
     <div class="notebook">
         <div class="notebook-header">
             <div class="notebook-icon">
                 <i class="fas fa-book-open"></i>
             </div>
-            <div class="notebook-title">兩性關係學習筆記</div>
+            <div class="notebook-title">兩性關係：友情、愛情與性</div>
             <div class="notebook-date">
                 <i class="far fa-calendar-alt"></i> <span id="currentDate">2026-03-03</span>
             </div>
         </div>
 
-        <!-- Progress bar -->
-        <div class="notes-progress">
-            <div class="notes-progress-fill" id="progressFill" style="width: 0%;"></div>
+        <!-- All content in clean, divided sections -->
+        <div class="section-container">
+            
+            <!-- [P22] Section 1: 是友情還是愛情？ -->
+            <div class="lesson-section">
+                <div class="section-header">
+                    <div class="section-icon"><i class="fas fa-handshake"></i></div>
+                    <div class="section-title">1. 是友情還是愛情？</div>
+                    <div class="section-page">[P22]</div>
+                </div>
+                <div class="section-content">
+                    <ul class="bullet-list">
+                        <li><strong>學會分辨：</strong> 與異性交往並不一定就是談戀愛，必須學會分辨兩者的差別。</li>
+                        <li><strong>常見困惑：</strong> 青少年常會因為對方的優秀外表或優異表現而感到心跳加速（如個案一的詠琪），或是因為頻繁的學業指導與聊天而懷疑是否在談戀愛（如個案二的俊文），這需要正確的認知來釐清。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- [P23] Section 2: 甚麼是戀愛？ -->
+            <div class="lesson-section">
+                <div class="section-header">
+                    <div class="section-icon"><i class="fas fa-heart"></i></div>
+                    <div class="section-title">2. 甚麼是戀愛？</div>
+                    <div class="section-page">[P23]</div>
+                </div>
+                <div class="section-content">
+                    <ul class="bullet-list">
+                        <li><strong>正確的戀愛觀：</strong> 健康的戀愛關係應建立在 <span class="badge">友誼</span> <span class="badge">互相瞭解</span> <span class="badge">尊重</span> <span class="badge">欣賞</span> 的基礎上。</li>
+                        <li><strong>多元看法：</strong>
+                            <ul class="bullet-list" style="margin-left:1.5rem;">
+                                <li>戀愛包含共同參與活動（如逛街、吃飯）。</li>
+                                <li><strong>真正的愛</strong>需要雙方互相瞭解、關懷，處處為對方著想。</li>
+                                <li>成熟的戀愛是認真交往，彼此負有責任與承諾，甚至視對方為終身伴侶。</li>
+                            </ul>
+                        </li>
+                        <li><strong>迷思：</strong> 應避免認為「禮物越貴代表越愛」的錯誤價值觀。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Section 3: 青少年怎樣面對性誘惑？ -->
+            <div class="lesson-section">
+                <div class="section-header">
+                    <div class="section-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                    <div class="section-title">3. 青少年怎樣面對性誘惑？</div>
+                </div>
+                <div class="section-content">
+                    <ul class="bullet-list">
+                        <li><strong>理智態度：</strong> 成長階段對性產生興趣和渴求身體接觸是正常現象，但應以 <span class="badge badge-blue">理智</span> 的態度面對，並從正確途徑獲取性知識。</li>
+                        <li><strong>性行為的責任：</strong> 性行為必須建基於 <strong>成熟的愛情和負責任的態度</strong> 上。</li>
+                        <li><strong>嚴重後果：</strong> 一時衝動的性行為可能導致 <strong>意外懷孕</strong>，讓雙方承受家庭與社會壓力，甚至影響學業。</li>
+                        <li><strong>法律風險：</strong> 男性與未成年少女發生性行為屬刑事罪行，定罪後可被判監禁。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Section 4: 怎樣保護自己，免受性侵犯？ -->
+            <div class="lesson-section">
+                <div class="section-header">
+                    <div class="section-icon"><i class="fas fa-shield-alt"></i></div>
+                    <div class="section-title">4. 怎樣保護自己，免受性侵犯？</div>
+                </div>
+                <div class="section-content">
+                    <ul class="bullet-list">
+                        <li><strong>定義性侵犯：</strong> 任何人利用威嚇、誘騙、暴力或其他不正當手段，進行觸摸私隱部位（如性器官）、強迫暴露身體、觀看色情物品、拍攝裸照或進行性行為，皆屬性侵犯。</li>
+                        <li><strong>即時應對：</strong> 遇到性侵犯時要保持鎮定，勇敢說 <span class="badge" style="background:#e74c3c; color:white;">「不」</span>，盡快離開現場並向 <strong>信任的成年人（如父母）求助</strong>。</li>
+                        <li><strong>日常預防措施：</strong>
+                            <ul class="bullet-list" style="margin-left:1.5rem;">
+                                <li><strong>審慎交友：</strong> 對網友保持警惕，不隨意答應對方的無理要求（如拍裸照）。</li>
+                                <li><strong>注意自身安全：</strong> 避免走偏僻捷徑、晚上避免單獨外出，並讓家人清楚自己的行蹤。</li>
+                                <li><strong>小心陌生人：</strong> 對陌生人保持警覺，懂得保護自己。</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 本課小總結 -->
+            <div class="summary-section">
+                <div class="summary-title">
+                    <i class="fas fa-star"></i> 本課小總結
+                </div>
+                <div class="summary-content">
+                    <p>無論男女都應該懂得 <strong>保護自己</strong>。面對兩性關係應以尊重為本，面對誘惑則需理智思考後果，並在遇到問題時主動尋求信任成人的協助。</p>
+                </div>
+            </div>
+
+            <!-- 判斷標準：友情 vs 愛情 -->
+            <div class="lesson-section">
+                <div class="section-header">
+                    <div class="section-icon"><i class="fas fa-balance-scale"></i></div>
+                    <div class="section-title">青少年該如何判斷對異性是純友誼還是愛情？</div>
+                </div>
+                <div class="section-content">
+                    <p>根據來源文件，青少年可以透過以下幾個面向來判斷：</p>
+                    <ul class="bullet-list">
+                        <li><strong>分辨「欣賞」與「戀愛」：</strong> 青少年常會因為對方的外表俊朗、成績優異產生心跳加速，但這可能只是單純的崇拜或好感。</li>
+                        <li><strong>檢視關係的基礎：</strong> 健康的戀愛關係應該建立在友誼、互相瞭解、尊重和欣賞的基礎上。</li>
+                        <li><strong>觀察是否具備「關懷」與「利他」精神：</strong> 真正的戀愛需要雙方深層的互相瞭解與關懷，處處為對方著想。</li>
+                        <li><strong>評估是否有「責任」與「承諾」：</strong> 成熟的戀愛與普通友誼最大的不同在於責任與承諾，甚至會將對方視為終身伴侶。</li>
+                    </ul>
+                    <div class="highlight-box">
+                        <p><strong>總結判斷標準：</strong> 與異性交往並不等於談戀愛。如果一段關係中包含了互相尊重、深層關懷、負責任的態度以及對未來的承諾，則較符合「愛情」的定義；若僅是共同參與活動或單純的好感，則可能仍屬於「友誼」範疇。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- [P.24] 青少年發生性行為的後果 -->
+            <div class="lesson-section">
+                <div class="section-header">
+                    <div class="section-icon"><i class="fas fa-exclamation-circle"></i></div>
+                    <div class="section-title">青少年發生性行為的後果</div>
+                    <div class="section-page">[P.24]</div>
+                </div>
+                <div class="section-content">
+                    <ul class="bullet-list">
+                        <li><strong>法律層面：</strong> 和未滿16歲少女發生性行為屬犯法，男方可被檢控、留案底。</li>
+                        <li><strong>生理影響：</strong> 少女身體未完全成熟，懷孕和生產風險高，容易影響健康。</li>
+                        <li><strong>心理影響：</strong> 容易感到害怕、羞愧、自責、焦慮，可能出現情緒困擾或抑鬱。</li>
+                        <li><strong>學業與前途：</strong> 可能要停學或難以兼顧學業，影響將來升學、就業機會。</li>
+                        <li><strong>對孩子的影響：</strong> 父母缺乏成熟和經濟能力，較難提供穩定照顧，影響孩子身心發展。</li>
+                        <li><strong>對家庭的影響：</strong> 增加家庭經濟及照顧壓力，易產生衝突，破壞家庭關係。</li>
+                        <li><strong>正面訊息：</strong> 青少年要懂得自制，尊重自己和別人的身體，避免在未準備好和未成年時發生性行為。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Image placeholder 1 -->
+            <div class="image-placeholder">
+                <i class="fas fa-image"></i>
+                <p><strong>圖片將在此處顯示</strong> (示意圖)</p>
+                <p style="font-size:0.9rem;">[embedded image soon later]</p>
+            </div>
+
+            <!-- 校園求助指南 -->
+            <div class="lesson-section">
+                <div class="section-header">
+                    <div class="section-icon"><i class="fas fa-school"></i></div>
+                    <div class="section-title">若在校園遇到疑似性侵犯的騷擾，應該如何求助？</div>
+                </div>
+                <div class="section-content">
+                    <p>若在校園或任何地方遇到疑似性侵犯的騷擾，根據來源文件的建議，你應該採取以下步驟來保護自己並尋求協助：</p>
+                    <ul class="bullet-list">
+                        <li><strong>保持鎮定並勇敢拒絕：</strong> 首先要保持冷靜，並勇敢地向對方說 <span class="badge" style="background:#e74c3c; color:white;">「不」</span>。</li>
+                        <li><strong>立即離開現場：</strong> 尋找機會儘快離開現場，前往 <strong>安全的地方</strong>。</li>
+                        <li><strong>向信任的人求助：</strong> 主動向 <strong>父母</strong> 或 <strong>自己信任的成年人</strong>（例如老師或校方人員）尋求幫助。</li>
+                        <li><strong>不要保守秘密：</strong> 即使對方要求保守秘密，或是你感到不安與生氣，也應該尋求協助，不應獨自承擔。</li>
+                    </ul>
+                    
+                    <div class="highlight-box" style="margin-top:1.5rem;">
+                        <p><strong>什麼情況屬於性侵犯？</strong> 根據來源，若有人利用威嚇、誘騙、暴力或其他不正當手段進行以下行為，皆屬性侵犯：</p>
+                        <ul class="bullet-list">
+                            <li>觸碰或撫摸私隱部位（尤其是性器官）。</li>
+                            <li>在他人面前觸碰或撫摸自己的性器官。</li>
+                            <li>強迫他人脫掉衣服暴露身體，或向他人展示性器官。</li>
+                            <li>強迫觀看色情物品、拍攝裸照或進行性行為。</li>
+                        </ul>
+                    </div>
+                    
+                    <p style="margin-top:1rem; font-weight:600; color:#1a4972;">無論性別，每個人都應該懂得保護自己，在遇到問題時務必主動向能信任的成人求援。</p>
+                </div>
+            </div>
+
+            <!-- Image placeholder 2 -->
+            <div class="image-placeholder">
+                <i class="fas fa-image"></i>
+                <p><strong>圖片將在此處顯示</strong> (示意圖)</p>
+                <p style="font-size:0.9rem;">[embedded image soon later]</p>
+            </div>
+
+            <!-- Final divider -->
+            <div class="divider"></div>
+
+            <!-- Positive message -->
+            <div style="text-align: center; padding: 1rem; background: #e1f0fa; border-radius: 60px;">
+                <i class="fas fa-heart" style="color: #e74c3c;"></i>
+                <span style="font-weight: 700; color: #1a4972;"> 尊重自己 · 尊重他人 · 懂得保護 · 勇於求助 </span>
+                <i class="fas fa-heart" style="color: #e74c3c;"></i>
+            </div>
         </div>
 
-        <div class="notes-area">
-            <!-- Topic 1: 友情 -->
-            <div class="topic-section">
-                <div class="topic-label">
-                    <i class="fas fa-handshake"></i> 友情篇 · 互相尊重與信任
-                </div>
-                <div>
-                    <i></i></i>[P22] 1. 是友情還是愛情？
-                </div>
-                    <textarea class="notes-textarea" id="note1" placeholder="寫下你對健康友情的觀察和心得...
-- 互相尊重的界限
-- 信任的建立
-- 男女之間純友誼的可能性">- 男女之間可以有純友誼，關鍵是雙方都要尊重彼此的感受和界限
-- 健康的友情包含信任、支持和適當的距離
-- 不要因為別人的眼光而懷疑正常的友誼互動
-- <b>學會分辨：</b> 與異性交往並不一定就是談戀愛，必須學會分辨兩者的差別。
-- <b>常見困惑：</b> 青少年常會因為對方的優秀外表或優異表現而感到心跳加速（如個案一的詠琪），或是因為頻繁的學業指導與聊天而懷疑是否在談戀愛（如個案二的俊文），這需要正確的認知來釐清。
-                    </textarea>
-                <div class="word-count" id="wordCount1">0 字</div>
-            </div>
-
-            <!-- Topic 2: 愛情 -->
-            <div class="topic-section">
-                <div class="topic-label">
-                    <i class="fas fa-heart"></i> 愛情篇 · 健康關係的基礎
-                </div>
-                <textarea class="notes-textarea" id="note2" placeholder="寫下你對愛情的理解和期待...
-- 健康的愛情特質
-- 溝通的重要性
-- 愛情與友情的不同">- 愛情不是佔有，而是互相扶持和成長
-- 健康的戀愛關係需要：信任、尊重、溝通、共同目標
-- 不要用性行為來證明愛情，這是情感勒索</textarea>
-                <div class="word-count" id="wordCount2">0 字</div>
-            </div>
-
-            <!-- Topic 3: 性與法律 -->
-            <div class="topic-section">
-                <div class="topic-label">
-                    <i class="fas fa-gavel"></i> 性與法律篇 · 權益與保護
-                </div>
-                <textarea class="notes-textarea" id="note3" placeholder="記錄關於性知識和法律的要點...
-- 法律對未成年的保護
-- 自願與同意的意義
-- 性侵犯的定義">- 與未滿16歲發生性行為是刑事犯罪，無論是否自願
-- 性行為必須建立在雙方成熟、自願且能承擔後果的基礎上
-- 性侵犯包括身體接觸和非身體接觸的騷擾</textarea>
-                <div class="word-count" id="wordCount3">0 字</div>
-            </div>
-
-            <!-- Topic 4: 自我保護 -->
-            <div class="topic-section">
-                <div class="topic-label">
-                    <i class="fas fa-shield-alt"></i> 自我保護篇 · 安全守則
-                </div>
-                <textarea class="notes-textarea" id="note4" placeholder="記錄保護自己的方法...
-- 應對性誘惑的技巧
-- 遇到危險時的三部曲
-- 求助管道">- 面對性誘惑要堅定表達自己的界限
-- 遇到性侵犯三步驟：保持冷靜 → 逃離現場 → 尋求幫助
-- 不要因為害怕或羞恥而隱瞞受害經歷</textarea>
-                <div class="word-count" id="wordCount4">0 字</div>
-            </div>
-        </div>
-
-        <!-- Sticky Notes (Key Takeaways) - Blue theme -->
-        <div class="sticky-notes-grid">
-            <div class="sticky-note">
-                <i class="fas fa-lightbulb"></i>
-                <h4>核心觀念</h4>
-                <p>尊重自己與他人的界限，是健康關係的基礎</p>
-            </div>
-            <div class="sticky-note">
-                <i class="fas fa-exclamation-triangle"></i>
-                <h4>法律紅線</h4>
-                <p>未滿16歲的性行為都是犯罪，沒有例外</p>
-            </div>
-            <div class="sticky-note">
-                <i class="fas fa-heartbeat"></i>
-                <h4>情感提醒</h4>
-                <p>真正的愛情不會用性來要脅或證明</p>
-            </div>
-            <div class="sticky-note">
-                <i class="fas fa-phone-alt"></i>
-                <h4>求助管道</h4>
-                <p>113保護專線 · 學校輔導室 · 信任的師長</p>
-            </div>
-        </div>
-
-        <!-- Action Buttons -->
+        <!-- Action Buttons - only Save and Export (no Reset) -->
         <div class="notes-actions">
             <button class="action-btn" id="saveNotes">
                 <i class="fas fa-save"></i> 儲存筆記
             </button>
-            <button class="action-btn" id="exportNotes">
+            <button class="action-btn secondary" id="exportNotes">
                 <i class="fas fa-file-export"></i> 匯出筆記
             </button>
-                <button class="action-btn secondary" id="addImageNote">
-                <i class="fas fa-image"></i> 加入圖片
-            </button>
-        </div>
-
-        <!-- Quick stats -->
-        <div style="display: flex; justify-content: space-between; color: #6b8baa; font-size:0.9rem; margin-top:1rem;">
-            <span><i class="fas fa-pencil-alt"></i> 總字數: <span id="totalWords">0</span></span>
-            <span><i class="fas fa-check-circle"></i> 最後編輯: <span id="lastEdited">剛剛</span></span>
         </div>
     </div>
 
@@ -519,22 +602,6 @@
         <span class="save-status">
             <i class="fas fa-lock" style="color:#3498db;"></i> 僅限個人檢視
         </span>
-        <span class="save-status">
-            <i class="fas fa-cloud"></i> 雲端同步
-        </span>
-    </div>
-</div>
-
-<!-- Modal for image note -->
-<div id="imageModal" class="modal">
-    <span class="close-modal">&times;</span>
-    <div class="modal-content">
-        <i class="fas fa-camera" style="font-size: 4rem; color: #3498db; margin-bottom: 1rem;"></i>
-        <h3 style="margin-bottom: 1rem; color:#1a4972;">加入圖片筆記</h3>
-        <p style="margin-bottom: 2rem; color: #5a6263;">在實際應用中，這裡可以上傳圖片或手繪草稿</p>
-        <button class="action-btn" style="display: inline-block; width: auto; padding:0.8rem 2rem;" onclick="document.getElementById('imageModal').style.display='none'">
-            <i class="fas fa-check"></i> 我知道了
-        </button>
     </div>
 </div>
 
@@ -542,113 +609,42 @@
     (function() {
         // Back to index
         document.getElementById('backToIndexBtn').addEventListener('click', () => {
-            window.location.href = 'index.html';
+            window.location.href = '../index.html';
         });
 
-        // Get all textareas
-        const textareas = document.querySelectorAll('.notes-textarea');
+        // Save status element
         const saveStatus = document.getElementById('saveStatus');
-        const totalWordsSpan = document.getElementById('totalWords');
-        const lastEditedSpan = document.getElementById('lastEdited');
-        const progressFill = document.getElementById('progressFill');
 
-        // Word count elements
-        const wordCounts = [
-            document.getElementById('wordCount1'),
-            document.getElementById('wordCount2'),
-            document.getElementById('wordCount3'),
-            document.getElementById('wordCount4')
-        ];
-
-        // Calculate word count (Chinese characters count as words)
-        function getWordCount(text) {
-            // Remove extra spaces and count characters
-            const trimmed = text.trim();
-            if (trimmed.length === 0) return 0;
-            return trimmed.length;
-        }
-
-        // Update all word counts
-        function updateWordCounts() {
-            let total = 0;
-            textareas.forEach((textarea, index) => {
-                const count = getWordCount(textarea.value);
-                wordCounts[index].textContent = count + ' 字';
-                total += count;
-            });
-            totalWordsSpan.textContent = total;
-            
-            // Update progress (example: 100 words per section as target)
-            const totalPossible = 400; // 4 sections * 100 words target
-            const percent = Math.min(100, Math.round((total / totalPossible) * 100));
-            progressFill.style.width = percent + '%';
-        }
-
-        // Save notes functionality
-        function saveAllNotes() {
-            const notes = {};
-            textareas.forEach((textarea, index) => {
-                notes[`note_${index}`] = textarea.value;
-            });
-            localStorage.setItem('lesson3_notes_blue', JSON.stringify(notes));
-            
+        // Save notes to localStorage
+        function saveNotes() {
+            // This is a simplified version - in a real app you might save the entire content
+            // For this demo, we'll just show a success message
             const now = new Date();
             const timeStr = now.getHours() + ':' + now.getMinutes().toString().padStart(2,'0');
             saveStatus.innerHTML = '<i class="fas fa-check-circle" style="color:#2ecc71;"></i> 已儲存 ' + timeStr;
-            saveStatus.style.background = '#d4e6f5';
-            lastEditedSpan.textContent = timeStr;
             
             setTimeout(() => {
                 saveStatus.innerHTML = '<i class="fas fa-check-circle" style="color:#2ecc71;"></i> 已自動儲存';
             }, 3000);
-            
-            updateWordCounts();
         }
 
-        // Load saved notes
-        function loadNotes() {
-            const saved = localStorage.getItem('lesson3_notes_blue');
-            if (saved) {
-                try {
-                    const notes = JSON.parse(saved);
-                    textareas.forEach((textarea, index) => {
-                        if (notes[`note_${index}`]) {
-                            textarea.value = notes[`note_${index}`];
-                        }
-                    });
-                    saveStatus.innerHTML = '<i class="fas fa-check-circle" style="color:#2ecc71;"></i> 已載入上次筆記';
-                    updateWordCounts();
-                } catch (e) {
-                    console.error('Error loading notes:', e);
-                }
-            } else {
-                // Set default content if no saved notes
-                updateWordCounts();
-            }
-        }
-
-        // Auto-save every 30 seconds
-        setInterval(saveAllNotes, 30000);
-
-        // Save on input
-        textareas.forEach(textarea => {
-            textarea.addEventListener('input', () => {
-                saveStatus.innerHTML = '<i class="fas fa-spinner fa-pulse" style="color:#3498db;"></i> 儲存中...';
-                setTimeout(saveAllNotes, 1000);
-                updateWordCounts();
-            });
-        });
-
-        // Manual save button
-        document.getElementById('saveNotes').addEventListener('click', saveAllNotes);
+        // Save button
+        document.getElementById('saveNotes').addEventListener('click', saveNotes);
 
         // Export notes
         document.getElementById('exportNotes').addEventListener('click', () => {
-            let exportText = "=== 兩性關係學習筆記 ===\n\n";
-            const topics = ['友情篇 · 互相尊重與信任', '愛情篇 · 健康關係的基礎', '性與法律篇 · 權益與保護', '自我保護篇 · 安全守則'];
+            // Get all section titles and content
+            const sections = document.querySelectorAll('.lesson-section, .summary-section');
+            let exportText = "=== 兩性關係：友情、愛情與性 學習筆記 ===\n\n";
             
-            textareas.forEach((textarea, index) => {
-                exportText += `【${topics[index]}】\n${textarea.value}\n\n`;
+            sections.forEach(section => {
+                const title = section.querySelector('.section-title')?.innerText || '重點整理';
+                const page = section.querySelector('.section-page')?.innerText || '';
+                const content = section.innerText;
+                
+                exportText += `【${title}】 ${page}\n`;
+                exportText += `${content}\n\n`;
+                exportText += "─".repeat(40) + "\n\n";
             });
             
             const blob = new Blob([exportText], { type: 'text/plain;charset=utf-8' });
@@ -660,27 +656,13 @@
             URL.revokeObjectURL(url);
             
             saveStatus.innerHTML = '<i class="fas fa-check-circle" style="color:#2ecc71;"></i> 筆記已匯出';
+            setTimeout(() => {
+                saveStatus.innerHTML = '<i class="fas fa-check-circle" style="color:#2ecc71;"></i> 已自動儲存';
+            }, 3000);
         });
 
-        
-        // Add image note
-        document.getElementById('addImageNote').addEventListener('click', () => {
-            document.getElementById('imageModal').style.display = 'block';
-        });
-
-        // Close modal
-        document.querySelector('.close-modal').addEventListener('click', () => {
-            document.getElementById('imageModal').style.display = 'none';
-        });
-
-        window.addEventListener('click', (event) => {
-            if (event.target === document.getElementById('imageModal')) {
-                document.getElementById('imageModal').style.display = 'none';
-            }
-        });
-
-        // Load saved notes on startup
-        loadNotes();
+        // Auto-save every 60 seconds (just for demo)
+        setInterval(saveNotes, 60000);
 
         // Set today's date
         const today = new Date();
@@ -693,55 +675,52 @@
         document.addEventListener('keydown', (e) => {
             if (e.ctrlKey && e.key === 's') {
                 e.preventDefault();
-                saveAllNotes();
+                saveNotes();
             }
         });
-
-        // Initial word count
-        updateWordCounts();
     })();
 </script>
 
-<!-- Additional blue theme styles -->
+<!-- Additional subtle styling -->
 <style>
-    /* Custom scrollbar for blue theme */
-    .notes-textarea::-webkit-scrollbar {
-        width: 8px;
+    /* Clean, attractive formatting */
+    .lesson-section {
+        transition: all 0.2s ease;
     }
     
-    .notes-textarea::-webkit-scrollbar-track {
-        background: #e1edff;
-        border-radius: 10px;
+    .lesson-section:hover {
+        background: #ffffff;
     }
     
-    .notes-textarea::-webkit-scrollbar-thumb {
-        background: #9bb7d1;
-        border-radius: 10px;
+    .badge {
+        display: inline-block;
+        padding: 0.2rem 0.8rem;
+        font-size: 0.85rem;
     }
     
-    .notes-textarea::-webkit-scrollbar-thumb:hover {
-        background: #6b8baa;
+    /* No scrollbars - everything visible */
+    body {
+        overflow-y: auto;
     }
     
-    /* Focus effects */
-    .topic-label i {
+    .notes-container {
+        overflow: visible;
+    }
+    
+    /* Subtle animations */
+    .section-icon {
         transition: transform 0.2s;
     }
     
-    .topic-section:hover .topic-label i {
-        transform: scale(1.2);
-        color: #f39c12;
+    .lesson-section:hover .section-icon {
+        transform: scale(1.05);
     }
     
-    /* Save status animation */
-    @keyframes pulse-blue {
-        0% { opacity: 0.7; }
-        50% { opacity: 1; }
-        100% { opacity: 0.7; }
-    }
-    
-    .fa-spinner {
-        animation: pulse-blue 1.5s infinite;
+    /* Print-friendly */
+    @media print {
+        .back-home, .xp-mini, .notes-actions, .footer-note {
+            display: none;
+        }
     }
 </style>
 </body>
