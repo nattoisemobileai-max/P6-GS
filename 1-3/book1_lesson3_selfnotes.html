@@ -21,6 +21,7 @@
             justify-content: center;
             align-items: flex-start;
             padding: 0.8rem;
+            font-size: 18px; /* enlarged base font */
         }
 
         .notes-container {
@@ -30,7 +31,7 @@
             backdrop-filter: blur(4px);
             border-radius: 32px 32px 24px 24px;
             box-shadow: 0 20px 30px -10px rgba(26, 55, 80, 0.3);
-            padding: 1.2rem;
+            padding: 1.5rem 1.2rem;
             border: 2px solid rgba(255, 255, 255, 0.8);
         }
 
@@ -40,242 +41,222 @@
             align-items: center;
             justify-content: space-between;
             background: white;
-            padding: 0.5rem 1rem;
-            border-radius: 40px;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 4px 0 #bed0e3;
+            padding: 0.7rem 1.2rem;
+            border-radius: 50px;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 0 #bed0e3;
             flex-wrap: wrap;
-            gap: 0.5rem;
+            gap: 0.8rem;
         }
 
         .back-home {
             background: #f4d03f;
             border-radius: 40px;
-            padding: 0.3rem 1rem;
+            padding: 0.5rem 1.2rem;
             font-weight: 700;
-            font-size: 0.95rem;
+            font-size: 1.2rem; /* enlarged */
             color: #1f3a4b;
             border: none;
-            box-shadow: 0 3px 0 #b38f1c;
+            box-shadow: 0 4px 0 #b38f1c;
             cursor: pointer;
             transition: 0.06s linear;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 8px;
+            text-decoration: none;
             white-space: nowrap;
         }
 
         .back-home:active {
-            transform: translateY(3px);
+            transform: translateY(4px);
             box-shadow: 0 1px 0 #b38f1c;
         }
 
         .notes-title {
-            font-size: 1.2rem;
+            font-size: 1.6rem; /* enlarged */
             font-weight: 900;
             background: #eef5ff;
-            padding: 0.2rem 1.2rem;
+            padding: 0.4rem 1.5rem;
             border-radius: 40px;
             color: #1a4972;
             border: 2px solid #c1d9f0;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             white-space: nowrap;
         }
 
         .notes-title i {
             color: #3498db;
-            font-size: 1rem;
+            font-size: 1.4rem;
         }
 
-        .xp-mini {
-            background: #2b3c4e;
-            color: white;
-            border-radius: 40px;
-            padding: 0.2rem 1rem;
-            font-weight: 600;
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            white-space: nowrap;
-        }
-
-        .xp-mini i {
-            color: #ffd966;
-            font-size: 0.9rem;
-        }
+        /* XP and date removed */
 
         /* Main content - Clean notebook style */
         .notebook {
             background: #f5faff;
-            border-radius: 30px;
-            padding: 1.2rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 8px 0 #9bb7d1, 0 8px 20px rgba(0,40,60,0.1);
+            border-radius: 35px;
+            padding: 1.8rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 0 #9bb7d1, 0 10px 25px rgba(0,40,60,0.15);
             border: 2px solid #c1d9f0;
         }
 
         .notebook-header {
             display: flex;
             align-items: center;
-            gap: 0.8rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.8rem;
-            border-bottom: 2px solid #9bb7d1;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid #9bb7d1;
             flex-wrap: wrap;
         }
 
         .notebook-icon {
-            width: 45px;
-            height: 45px;
+            width: 60px;
+            height: 60px;
             background: #3498db;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 1.5rem;
-            box-shadow: 0 3px 0 #1f5b8a;
+            font-size: 2rem; /* enlarged */
+            box-shadow: 0 4px 0 #1f5b8a;
             flex-shrink: 0;
         }
 
         .notebook-title {
-            font-size: 1.3rem;
+            font-size: 1.8rem; /* enlarged */
             font-weight: 800;
             color: #1a4972;
-            line-height: 1.2;
+            line-height: 1.3;
             flex: 1;
-        }
-
-        .notebook-date {
-            color: #6b8baa;
-            font-weight: 600;
-            background: #e1edff;
-            padding: 0.3rem 0.8rem;
-            border-radius: 40px;
-            font-size: 0.8rem;
-            white-space: nowrap;
         }
 
         /* Section container */
         .section-container {
             display: flex;
             flex-direction: column;
-            gap: 1.2rem;
+            gap: 2rem;
         }
 
         .lesson-section {
             background: white;
-            border-radius: 24px;
-            padding: 1.2rem;
-            border-left: 6px solid #3498db;
-            box-shadow: 0 4px 0 #bed0e3;
+            border-radius: 28px;
+            padding: 1.8rem;
+            border-left: 8px solid #3498db;
+            box-shadow: 0 6px 0 #bed0e3;
             transition: transform 0.2s;
         }
 
         .lesson-section:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 0 #9bb7d1;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 0 #9bb7d1;
         }
 
         .section-header {
             display: flex;
             align-items: center;
-            gap: 8px;
-            margin-bottom: 0.8rem;
+            gap: 12px;
+            margin-bottom: 1.2rem;
             flex-wrap: wrap;
         }
 
         .section-icon {
-            width: 36px;
-            height: 36px;
+            width: 52px;
+            height: 52px;
             background: #3498db;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 1.2rem;
+            font-size: 1.7rem; /* enlarged */
             flex-shrink: 0;
         }
 
         .section-title {
-            font-size: 1.2rem;
+            font-size: 1.7rem; /* enlarged */
             font-weight: 800;
             color: #1a4972;
-            line-height: 1.2;
+            line-height: 1.3;
         }
 
         .section-page {
             background: #f0f7ff;
-            padding: 0.2rem 0.8rem;
+            padding: 0.3rem 1rem;
             border-radius: 40px;
             color: #2980b9;
             font-weight: 600;
-            font-size: 0.75rem;
+            font-size: 1rem; /* enlarged */
             margin-left: auto;
             white-space: nowrap;
         }
 
         .section-content {
             color: #1f3a4b;
-            line-height: 1.6;
-            font-size: 0.95rem;
+            line-height: 1.9; /* increased for readability */
+            font-size: 1.2rem; /* enlarged */
+            margin-bottom: 1.2rem;
         }
 
         .bullet-list {
             list-style: none;
-            margin-top: 0.5rem;
+            margin-top: 0.8rem;
         }
 
         .bullet-list li {
-            padding: 0.3rem 0 0.3rem 1.5rem;
+            padding: 0.5rem 0 0.5rem 2.2rem;
             position: relative;
-            font-size: 0.95rem;
+            font-size: 1.2rem; /* enlarged */
         }
 
         .bullet-list li:before {
             content: "•";
             color: #3498db;
             font-weight: bold;
-            font-size: 1.3rem;
+            font-size: 1.8rem;
             position: absolute;
             left: 0;
             top: -2px;
         }
 
         .bullet-list ul {
-            margin-left: 1rem;
+            margin-left: 1.8rem;
             list-style: none;
         }
 
         .bullet-list ul li:before {
             content: "◦";
             color: #5a9ec2;
-            font-size: 1.1rem;
+            font-size: 1.6rem;
         }
 
-        .highlight-box {
-            background: #e1f0fa;
-            border-radius: 16px;
-            padding: 1rem;
-            margin: 1rem 0;
-            border: 1.5px dashed #9bb7d1;
-            font-size: 0.95rem;
+        /* Highlight for important keywords */
+        .highlight {
+            background: #fffacd;
+            padding: 0.1rem 0.4rem;
+            border-radius: 12px;
+            font-weight: 700;
+            color: #1e3f5a;
+            border: 1px solid #f3b33d;
+            display: inline-block;
+            margin: 0 0.1rem;
+            font-size: 1.2rem; /* match surrounding */
         }
 
         .badge {
             display: inline-block;
             background: #f4d03f;
             color: #1f3a4b;
-            padding: 0.2rem 0.7rem;
+            padding: 0.3rem 1rem;
             border-radius: 40px;
             font-weight: 700;
-            font-size: 0.8rem;
-            margin-right: 0.3rem;
-            margin-bottom: 0.3rem;
+            font-size: 1rem; /* enlarged */
+            margin-right: 0.4rem;
+            margin-bottom: 0.4rem;
             border: 1px solid #e67e22;
             white-space: nowrap;
         }
@@ -286,49 +267,80 @@
             border: 1px solid #3498db;
         }
 
+        .highlight-box {
+            background: #e1f0fa;
+            border-radius: 20px;
+            padding: 1.2rem;
+            margin: 1.2rem 0;
+            border: 2px dashed #9bb7d1;
+            font-size: 1.2rem;
+        }
+
+        /* Illustration placeholder */
+        .illustration-placeholder {
+            background: #f0f4fa;
+            border-radius: 20px;
+            padding: 1rem;
+            margin: 1.5rem 0 0.5rem;
+            text-align: center;
+            border: 2px dashed #7fa3c2;
+            color: #2c5a7a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            font-size: 1.2rem; /* enlarged */
+            font-weight: 600;
+        }
+
+        .illustration-placeholder i {
+            font-size: 2.5rem; /* enlarged */
+            color: #5a9ec2;
+        }
+
         /* Summary section */
         .summary-section {
             background: #fff9e6;
-            border-radius: 24px;
-            padding: 1.2rem;
-            border-left: 6px solid #f3b33d;
+            border-radius: 28px;
+            padding: 1.8rem;
+            border-left: 8px solid #f3b33d;
             margin-top: 0.5rem;
         }
 
         .summary-title {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 12px;
             color: #b85e0f;
             font-weight: 800;
-            font-size: 1.1rem;
-            margin-bottom: 0.8rem;
+            font-size: 1.6rem; /* enlarged */
+            margin-bottom: 1rem;
         }
 
         .summary-content {
             color: #5d4a27;
-            line-height: 1.7;
-            font-size: 0.95rem;
+            line-height: 2;
+            font-size: 1.2rem;
         }
 
-        /* Image placeholders */
+        /* Image placeholders (for external images) */
         .image-placeholder {
             background: #e9eef3;
-            border-radius: 16px;
-            padding: 0.8rem;
-            margin: 1rem 0;
+            border-radius: 18px;
+            padding: 1rem;
+            margin: 1.5rem 0;
             text-align: center;
             border: 2px dashed #9bb7d1;
             color: #4f6f8f;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            font-size: 0.9rem;
+            gap: 12px;
+            font-size: 1.2rem;
         }
 
         .image-placeholder i {
-            font-size: 1.5rem;
+            font-size: 2.2rem;
             color: #7f8c8d;
         }
 
@@ -337,21 +349,22 @@
             font-family: 'Courier New', monospace;
             font-weight: 600;
             color: #2c5a7a;
+            font-size: 1.2rem;
         }
 
         /* Divider */
         .divider {
             height: 2px;
             background: linear-gradient(90deg, transparent, #9bb7d1, transparent);
-            margin: 1rem 0;
+            margin: 1.8rem 0;
         }
 
         /* Action buttons */
         .notes-actions {
             display: flex;
-            gap: 0.8rem;
+            gap: 1rem;
             flex-wrap: wrap;
-            margin: 1.5rem 0 1rem;
+            margin: 2rem 0 1.5rem;
             justify-content: center;
         }
 
@@ -359,179 +372,102 @@
             background: #3498db;
             border: none;
             color: white;
-            padding: 0.7rem 1.2rem;
-            border-radius: 40px;
+            padding: 1rem 2rem;
+            border-radius: 50px;
             font-weight: 700;
-            font-size: 0.9rem;
-            box-shadow: 0 4px 0 #1f5b8a;
+            font-size: 1.2rem; /* enlarged */
+            box-shadow: 0 5px 0 #1f5b8a;
             cursor: pointer;
             transition: 0.06s linear;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 10px;
             flex: 1 1 auto;
             justify-content: center;
-            min-width: 120px;
+            min-width: 160px;
         }
 
         .action-btn:active {
-            transform: translateY(3px);
+            transform: translateY(4px);
             box-shadow: 0 1px 0 #1f5b8a;
         }
 
         .action-btn.secondary {
             background: #7f8c8d;
-            box-shadow: 0 4px 0 #5a6263;
+            box-shadow: 0 5px 0 #5a6263;
         }
 
         /* Footer */
         .footer-note {
             text-align: center;
-            margin-top: 1rem;
+            margin-top: 1.5rem;
             color: #6b8baa;
             font-weight: 600;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 0.8rem;
+            gap: 1rem;
             flex-wrap: wrap;
-            font-size: 0.8rem;
+            font-size: 1.1rem; /* enlarged */
         }
 
         .save-status {
             background: #d4e6f5;
             color: #1a4972;
-            padding: 0.2rem 0.8rem;
+            padding: 0.4rem 1rem;
             border-radius: 40px;
             border: 1px solid #9bb7d1;
             display: inline-flex;
             align-items: center;
-            gap: 4px;
+            gap: 6px;
+            font-size: 1.1rem;
         }
 
-        /* Mobile-specific adjustments */
-        @media (max-width: 480px) {
+        /* Mobile adjustments: keep text large but reduce padding slightly */
+        @media (max-width: 600px) {
             body {
                 padding: 0.5rem;
+                font-size: 17px; /* still enlarged */
             }
-            
             .notes-container {
-                padding: 0.8rem;
-                border-radius: 24px;
-            }
-            
-            .notes-header {
-                padding: 0.4rem 0.8rem;
-            }
-            
-            .back-home {
-                padding: 0.2rem 0.8rem;
-                font-size: 0.85rem;
-            }
-            
-            .notes-title {
-                font-size: 1rem;
-                padding: 0.2rem 0.8rem;
-            }
-            
-            .xp-mini {
-                padding: 0.2rem 0.6rem;
-                font-size: 0.75rem;
-            }
-            
-            .notebook {
-                padding: 0.8rem;
-            }
-            
-            .notebook-header {
-                gap: 0.5rem;
-            }
-            
-            .notebook-icon {
-                width: 35px;
-                height: 35px;
-                font-size: 1.2rem;
-            }
-            
-            .notebook-title {
-                font-size: 1.1rem;
-            }
-            
-            .notebook-date {
-                font-size: 0.7rem;
-                padding: 0.2rem 0.5rem;
-            }
-            
-            .lesson-section {
                 padding: 1rem;
-                border-left-width: 4px;
             }
-            
+            .notebook {
+                padding: 1.2rem;
+            }
             .section-title {
+                font-size: 1.5rem;
+            }
+            .section-content {
                 font-size: 1.1rem;
             }
-            
-            .section-page {
-                font-size: 0.7rem;
-                padding: 0.1rem 0.6rem;
-            }
-            
             .bullet-list li {
-                font-size: 0.9rem;
-                padding-left: 1.2rem;
+                font-size: 1.1rem;
             }
-            
-            .highlight-box {
-                padding: 0.8rem;
-                font-size: 0.9rem;
+            .notes-title {
+                font-size: 1.4rem;
+                padding: 0.3rem 1rem;
             }
-            
+            .back-home {
+                font-size: 1.1rem;
+                padding: 0.4rem 1rem;
+            }
             .action-btn {
-                padding: 0.6rem 0.8rem;
-                font-size: 0.85rem;
-                min-width: 100px;
-            }
-            
-            .footer-note {
-                flex-direction: column;
-                gap: 0.3rem;
-            }
-        }
-
-        /* Very small screens */
-        @media (max-width: 360px) {
-            .notes-header {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            
-            .back-home, .notes-title, .xp-mini {
-                width: 100%;
-                justify-content: center;
-            }
-            
-            .section-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .section-page {
-                margin-left: 0;
+                font-size: 1.1rem;
+                padding: 0.8rem 1.5rem;
             }
         }
     </style>
 </head>
 <body>
 <div class="notes-container">
-    <!-- Header -->
+    <!-- Header with direct link to ../index.html (XP removed) -->
     <div class="notes-header">
-        <button class="back-home" id="backToIndexBtn"><i class="fas fa-arrow-left"></i> 返回</button>
+        <a href="../index.html" class="back-home"><i class="fas fa-arrow-left"></i> 返回</a>
         <span class="notes-title">
             <i class="fas fa-pen-fancy"></i> 個人筆記 · 第3課
         </span>
-        <div class="xp-mini">
-            <i class="fas fa-star"></i> 1,280 XP
-        </div>
+        <!-- XP badge removed -->
     </div>
 
     <!-- Main Notebook -->
@@ -541,9 +477,7 @@
                 <i class="fas fa-book-open"></i>
             </div>
             <div class="notebook-title">兩性關係：友情、愛情與性</div>
-            <div class="notebook-date">
-                <i class="far fa-calendar-alt"></i> <span id="currentDate">2026-03-03</span>
-            </div>
+            <!-- Date removed -->
         </div>
 
         <!-- All content sections -->
@@ -558,9 +492,13 @@
                 </div>
                 <div class="section-content">
                     <ul class="bullet-list">
-                        <li><strong>學會分辨：</strong> 與異性交往並不一定就是談戀愛，必須學會分辨兩者的差別。</li>
-                        <li><strong>常見困惑：</strong> 青少年常會因為對方的優秀外表或優異表現而感到心跳加速（如個案一的詠琪），或是因為頻繁的學業指導與聊天而懷疑是否在談戀愛（如個案二的俊文），這需要正確的認知來釐清。</li>
+                        <li><span class="highlight">學會分辨：</span> 與異性交往並不一定就是談戀愛，必須學會分辨兩者的差別。</li>
+                        <li><span class="highlight">常見困惑：</span> 青少年常會因為對方的優秀外表或優異表現而感到心跳加速（如個案一的詠琪），或是因為頻繁的學業指導與聊天而懷疑是否在談戀愛（如個案二的俊文），這需要正確的認知來釐清。</li>
                     </ul>
+                </div>
+                <!-- Illustration placeholder -->
+                <div class="illustration-placeholder">
+                    <i class="fas fa-draw-polygon"></i> 友情 vs 愛情 插圖
                 </div>
             </div>
 
@@ -573,16 +511,19 @@
                 </div>
                 <div class="section-content">
                     <ul class="bullet-list">
-                        <li><strong>正確的戀愛觀：</strong> 健康的戀愛關係應建立在 <span class="badge">友誼</span> <span class="badge">互相瞭解</span> <span class="badge">尊重</span> <span class="badge">欣賞</span> 的基礎上。</li>
-                        <li><strong>多元看法：</strong>
+                        <li><span class="highlight">正確的戀愛觀：</span> 健康的戀愛關係應建立在 <span class="badge">友誼</span> <span class="badge">互相瞭解</span> <span class="badge">尊重</span> <span class="badge">欣賞</span> 的基礎上。</li>
+                        <li><span class="highlight">多元看法：</span>
                             <ul class="bullet-list">
                                 <li>戀愛包含共同參與活動（如逛街、吃飯）。</li>
-                                <li><strong>真正的愛</strong>需要雙方互相瞭解、關懷，處處為對方著想。</li>
-                                <li>成熟的戀愛是認真交往，彼此負有責任與承諾，甚至視對方為終身伴侶。</li>
+                                <li><span class="highlight">真正的愛</span>需要雙方互相瞭解、關懷，處處為對方著想。</li>
+                                <li>成熟的戀愛是認真交往，彼此負有<span class="highlight">責任與承諾</span>，甚至視對方為終身伴侶。</li>
                             </ul>
                         </li>
-                        <li><strong>迷思：</strong> 應避免認為「禮物越貴代表越愛」的錯誤價值觀。</li>
+                        <li><span class="highlight">迷思：</span> 應避免認為「禮物越貴代表越愛」的錯誤價值觀。</li>
                     </ul>
+                </div>
+                <div class="illustration-placeholder">
+                    <i class="fas fa-heartbeat"></i> 戀愛關係插圖
                 </div>
             </div>
 
@@ -594,11 +535,14 @@
                 </div>
                 <div class="section-content">
                     <ul class="bullet-list">
-                        <li><strong>理智態度：</strong> 成長階段對性產生興趣和渴求身體接觸是正常現象，但應以 <span class="badge badge-blue">理智</span> 的態度面對，並從正確途徑獲取性知識。</li>
-                        <li><strong>性行為的責任：</strong> 性行為必須建基於 <strong>成熟的愛情和負責任的態度</strong> 上。</li>
-                        <li><strong>嚴重後果：</strong> 一時衝動的性行為可能導致 <strong>意外懷孕</strong>，讓雙方承受家庭與社會壓力，甚至影響學業。</li>
-                        <li><strong>法律風險：</strong> 男性與未成年少女發生性行為屬刑事罪行，定罪後可被判監禁。</li>
+                        <li><span class="highlight">理智態度：</span> 成長階段對性產生興趣和渴求身體接觸是正常現象，但應以 <span class="badge badge-blue">理智</span> 的態度面對，並從正確途徑獲取性知識。</li>
+                        <li><span class="highlight">性行為的責任：</span> 性行為必須建基於 <span class="highlight">成熟的愛情和負責任的態度</span> 上。</li>
+                        <li><span class="highlight">嚴重後果：</span> 一時衝動的性行為可能導致 <span class="highlight">意外懷孕</span>，讓雙方承受家庭與社會壓力，甚至影響學業。</li>
+                        <li><span class="highlight">法律風險：</span> 男性與未成年少女發生性行為屬刑事罪行，定罪後可被判監禁。</li>
                     </ul>
+                </div>
+                <div class="illustration-placeholder">
+                    <i class="fas fa-balance-scale"></i> 性誘惑與後果插圖
                 </div>
             </div>
 
@@ -610,16 +554,19 @@
                 </div>
                 <div class="section-content">
                     <ul class="bullet-list">
-                        <li><strong>定義性侵犯：</strong> 任何人利用威嚇、誘騙、暴力或其他不正當手段，進行觸摸私隱部位（如性器官）、強迫暴露身體、觀看色情物品、拍攝裸照或進行性行為，皆屬性侵犯。</li>
-                        <li><strong>即時應對：</strong> 遇到性侵犯時要保持鎮定，勇敢說 <span class="badge" style="background:#e74c3c; color:white;">「不」</span>，盡快離開現場並向 <strong>信任的成年人（如父母）求助</strong>。</li>
-                        <li><strong>日常預防措施：</strong>
+                        <li><span class="highlight">定義性侵犯：</span> 任何人利用威嚇、誘騙、暴力或其他不正當手段，進行觸摸私隱部位（如性器官）、強迫暴露身體、觀看色情物品、拍攝裸照或進行性行為，皆屬性侵犯。</li>
+                        <li><span class="highlight">即時應對：</span> 遇到性侵犯時要保持鎮定，勇敢說 <span class="badge" style="background:#e74c3c; color:white;">「不」</span>，盡快離開現場並向 <span class="highlight">信任的成年人（如父母）求助</span>。</li>
+                        <li><span class="highlight">日常預防措施：</span>
                             <ul class="bullet-list">
-                                <li><strong>審慎交友：</strong> 對網友保持警惕，不隨意答應對方的無理要求（如拍裸照）。</li>
-                                <li><strong>注意自身安全：</strong> 避免走偏僻捷徑、晚上避免單獨外出，並讓家人清楚自己的行蹤。</li>
-                                <li><strong>小心陌生人：</strong> 對陌生人保持警覺，懂得保護自己。</li>
+                                <li><span class="highlight">審慎交友：</span> 對網友保持警惕，不隨意答應對方的無理要求（如拍裸照）。</li>
+                                <li><span class="highlight">注意自身安全：</span> 避免走偏僻捷徑、晚上避免單獨外出，並讓家人清楚自己的行蹤。</li>
+                                <li><span class="highlight">小心陌生人：</span> 對陌生人保持警覺，懂得保護自己。</li>
                             </ul>
                         </li>
                     </ul>
+                </div>
+                <div class="illustration-placeholder">
+                    <i class="fas fa-user-shield"></i> 自我保護插圖
                 </div>
             </div>
 
@@ -629,7 +576,10 @@
                     <i class="fas fa-star"></i> 本課小總結
                 </div>
                 <div class="summary-content">
-                    <p>無論男女都應該懂得 <strong>保護自己</strong>。面對兩性關係應以尊重為本，面對誘惑則需理智思考後果，並在遇到問題時主動尋求信任成人的協助。</p>
+                    <p>無論男女都應該懂得 <span class="highlight">保護自己</span>。面對兩性關係應以<span class="highlight">尊重</span>為本，面對誘惑則需<span class="highlight">理智</span>思考後果，並在遇到問題時主動尋求信任成人的協助。</p>
+                </div>
+                <div class="illustration-placeholder">
+                    <i class="fas fa-gem"></i> 核心觀念插圖
                 </div>
             </div>
 
@@ -642,14 +592,17 @@
                 <div class="section-content">
                     <p>根據來源文件，青少年可以透過以下幾個面向來判斷：</p>
                     <ul class="bullet-list">
-                        <li><strong>分辨「欣賞」與「戀愛」：</strong> 青少年常會因為對方的外表俊朗、成績優異產生心跳加速，但這可能只是單純的崇拜或好感。</li>
-                        <li><strong>檢視關係的基礎：</strong> 健康的戀愛關係應該建立在友誼、互相瞭解、尊重和欣賞的基礎上。</li>
-                        <li><strong>觀察是否具備「關懷」與「利他」精神：</strong> 真正的戀愛需要雙方深層的互相瞭解與關懷，處處為對方著想。</li>
-                        <li><strong>評估是否有「責任」與「承諾」：</strong> 成熟的戀愛與普通友誼最大的不同在於責任與承諾，甚至會將對方視為終身伴侶。</li>
+                        <li><span class="highlight">分辨「欣賞」與「戀愛」：</span> 青少年常會因為對方的外表俊朗、成績優異產生心跳加速，但這可能只是單純的崇拜或好感。</li>
+                        <li><span class="highlight">檢視關係的基礎：</span> 健康的戀愛關係應該建立在友誼、互相瞭解、尊重和欣賞的基礎上。</li>
+                        <li><span class="highlight">觀察是否具備「關懷」與「利他」精神：</span> 真正的戀愛需要雙方深層的互相瞭解與關懷，處處為對方著想。</li>
+                        <li><span class="highlight">評估是否有「責任」與「承諾」：</span> 成熟的戀愛與普通友誼最大的不同在於責任與承諾，甚至會將對方視為終身伴侶。</li>
                     </ul>
                     <div class="highlight-box">
-                        <p><strong>總結判斷標準：</strong> 與異性交往並不等於談戀愛。如果一段關係中包含了互相尊重、深層關懷、負責任的態度以及對未來的承諾，則較符合「愛情」的定義；若僅是共同參與活動或單純的好感，則可能仍屬於「友誼」範疇。</p>
+                        <p><span class="highlight">總結判斷標準：</span> 與異性交往並不等於談戀愛。如果一段關係中包含了互相尊重、深層關懷、負責任的態度以及對未來的承諾，則較符合「愛情」的定義；若僅是共同參與活動或單純的好感，則可能仍屬於「友誼」範疇。</p>
                     </div>
+                </div>
+                <div class="illustration-placeholder">
+                    <i class="fas fa-question-circle"></i> 判斷標準插圖
                 </div>
             </div>
 
@@ -662,18 +615,21 @@
                 </div>
                 <div class="section-content">
                     <ul class="bullet-list">
-                        <li><strong>法律層面：</strong> 和未滿16歲少女發生性行為屬犯法，男方可被檢控、留案底。</li>
-                        <li><strong>生理影響：</strong> 少女身體未完全成熟，懷孕和生產風險高，容易影響健康。</li>
-                        <li><strong>心理影響：</strong> 容易感到害怕、羞愧、自責、焦慮，可能出現情緒困擾或抑鬱。</li>
-                        <li><strong>學業與前途：</strong> 可能要停學或難以兼顧學業，影響將來升學、就業機會。</li>
-                        <li><strong>對孩子的影響：</strong> 父母缺乏成熟和經濟能力，較難提供穩定照顧，影響孩子身心發展。</li>
-                        <li><strong>對家庭的影響：</strong> 增加家庭經濟及照顧壓力，易產生衝突，破壞家庭關係。</li>
-                        <li><strong>正面訊息：</strong> 青少年要懂得自制，尊重自己和別人的身體，避免在未準備好和未成年時發生性行為。</li>
+                        <li><span class="highlight">法律層面：</span> 和未滿16歲少女發生性行為屬犯法，男方可被檢控、留案底。</li>
+                        <li><span class="highlight">生理影響：</span> 少女身體未完全成熟，懷孕和生產風險高，容易影響健康。</li>
+                        <li><span class="highlight">心理影響：</span> 容易感到害怕、羞愧、自責、焦慮，可能出現情緒困擾或抑鬱。</li>
+                        <li><span class="highlight">學業與前途：</span> 可能要停學或難以兼顧學業，影響將來升學、就業機會。</li>
+                        <li><span class="highlight">對孩子的影響：</span> 父母缺乏成熟和經濟能力，較難提供穩定照顧，影響孩子身心發展。</li>
+                        <li><span class="highlight">對家庭的影響：</span> 增加家庭經濟及照顧壓力，易產生衝突，破壞家庭關係。</li>
+                        <li><span class="highlight">正面訊息：</span> 青少年要懂得自制，尊重自己和別人的身體，避免在未準備好和未成年時發生性行為。</li>
                     </ul>
+                </div>
+                <div class="illustration-placeholder">
+                    <i class="fas fa-fetus"></i> 後果示意插圖
                 </div>
             </div>
 
-            <!-- Image placeholder 1 -->
+            <!-- Image placeholder 1 (external image) -->
             <div class="image-placeholder">
                 <i class="fas fa-image"></i>
                 <p>image1.png</p>
@@ -688,14 +644,14 @@
                 <div class="section-content">
                     <p>若在校園或任何地方遇到疑似性侵犯的騷擾，根據來源文件的建議，你應該採取以下步驟來保護自己並尋求協助：</p>
                     <ul class="bullet-list">
-                        <li><strong>保持鎮定並勇敢拒絕：</strong> 首先要保持冷靜，並勇敢地向對方說 <span class="badge" style="background:#e74c3c; color:white;">「不」</span>。</li>
-                        <li><strong>立即離開現場：</strong> 尋找機會儘快離開現場，前往 <strong>安全的地方</strong>。</li>
-                        <li><strong>向信任的人求助：</strong> 主動向 <strong>父母</strong> 或 <strong>自己信任的成年人</strong>（例如老師或校方人員）尋求幫助。</li>
-                        <li><strong>不要保守秘密：</strong> 即使對方要求保守秘密，或是你感到不安與生氣，也應該尋求協助，不應獨自承擔。</li>
+                        <li><span class="highlight">保持鎮定並勇敢拒絕：</span> 首先要保持冷靜，並勇敢地向對方說 <span class="badge" style="background:#e74c3c; color:white;">「不」</span>。</li>
+                        <li><span class="highlight">立即離開現場：</span> 尋找機會儘快離開現場，前往 <span class="highlight">安全的地方</span>。</li>
+                        <li><span class="highlight">向信任的人求助：</span> 主動向 <span class="highlight">父母</span> 或 <span class="highlight">自己信任的成年人</span>（例如老師或校方人員）尋求幫助。</li>
+                        <li><span class="highlight">不要保守秘密：</span> 即使對方要求保守秘密，或是你感到不安與生氣，也應該尋求協助，不應獨自承擔。</li>
                     </ul>
                     
                     <div class="highlight-box">
-                        <p><strong>什麼情況屬於性侵犯？</strong> 根據來源，若有人利用威嚇、誘騙、暴力或其他不正當手段進行以下行為，皆屬性侵犯：</p>
+                        <p><span class="highlight">什麼情況屬於性侵犯？</span> 根據來源，若有人利用威嚇、誘騙、暴力或其他不正當手段進行以下行為，皆屬性侵犯：</p>
                         <ul class="bullet-list">
                             <li>觸碰或撫摸私隱部位（尤其是性器官）。</li>
                             <li>在他人面前觸碰或撫摸自己的性器官。</li>
@@ -704,11 +660,14 @@
                         </ul>
                     </div>
                     
-                    <p style="margin-top:0.8rem; font-weight:600; color:#1a4972;">無論性別，每個人都應該懂得保護自己，在遇到問題時務必主動向能信任的成人求援。</p>
+                    <p style="margin-top:1rem; font-weight:600; color:#1a4972;">無論性別，每個人都應該懂得<span class="highlight">保護自己</span>，在遇到問題時務必主動向能信任的成人求援。</p>
+                </div>
+                <div class="illustration-placeholder">
+                    <i class="fas fa-phone-alt"></i> 求助管道插圖
                 </div>
             </div>
 
-            <!-- Image placeholder 2 -->
+            <!-- Image placeholder 2 (external image) -->
             <div class="image-placeholder">
                 <i class="fas fa-image"></i>
                 <p>image2.png</p>
@@ -718,7 +677,7 @@
             <div class="divider"></div>
 
             <!-- Positive message -->
-            <div style="text-align: center; padding: 0.8rem; background: #e1f0fa; border-radius: 60px; font-size:0.9rem;">
+            <div style="text-align: center; padding: 1rem; background: #e1f0fa; border-radius: 60px; font-size:1.3rem;">
                 <i class="fas fa-heart" style="color: #e74c3c;"></i>
                 <span style="font-weight: 700; color: #1a4972;"> 尊重自己 · 尊重他人 · 懂得保護 · 勇於求助 </span>
                 <i class="fas fa-heart" style="color: #e74c3c;"></i>
@@ -749,15 +708,10 @@
 
 <script>
     (function() {
-        // Back to index
-        document.getElementById('backToIndexBtn').addEventListener('click', function() {
-            window.location.href = 'index.html';
-        });
-
         // Save status element
         const saveStatus = document.getElementById('saveStatus');
 
-        // Save notes to localStorage
+        // Save notes to localStorage (simulated)
         function saveNotes() {
             const now = new Date();
             const timeStr = now.getHours() + ':' + now.getMinutes().toString().padStart(2,'0');
@@ -775,29 +729,14 @@
         document.getElementById('exportNotes').addEventListener('click', function() {
             const sections = document.querySelectorAll('.lesson-section, .summary-section');
             let exportText = "=== 兩性關係：友情、愛情與性 學習筆記 ===\n\n";
-            const topics = [
-                '1. 是友情還是愛情？ [P22]',
-                '2. 甚麼是戀愛？ [P23]',
-                '3. 青少年怎樣面對性誘惑？',
-                '4. 怎樣保護自己，免受性侵犯？',
-                '本課小總結',
-                '青少年該如何判斷對異性是純友誼還是愛情？',
-                '青少年發生性行為的後果 [P.24]',
-                '校園求助指南'
-            ];
             
-            let i = 0;
-            sections.forEach(function(section) {
-                if (i < topics.length) {
-                    exportText += '【' + topics[i] + '】\n';
-                } else {
-                    exportText += '【補充】\n';
-                }
-                
-                // Get all text content (simplified)
+            sections.forEach(function(section, index) {
+                const title = section.querySelector('.section-title')?.innerText || '重點';
+                const page = section.querySelector('.section-page')?.innerText || '';
                 const content = section.innerText.replace(/[🔍]/g, '').trim();
+                
+                exportText += '【' + title + '】 ' + page + '\n';
                 exportText += content + '\n\n────────────────────\n\n';
-                i++;
             });
             
             const blob = new Blob([exportText], { type: 'text/plain;charset=utf-8' });
@@ -816,13 +755,6 @@
 
         // Auto-save every 60 seconds
         setInterval(saveNotes, 60000);
-
-        // Set today's date
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = (today.getMonth() + 1).toString().padStart(2, '0');
-        const day = today.getDate().toString().padStart(2, '0');
-        document.getElementById('currentDate').textContent = year + '-' + month + '-' + day;
 
         // Keyboard shortcut: Ctrl+S to save
         document.addEventListener('keydown', function(e) {
