@@ -23,7 +23,6 @@
             font-size: 16px;
         }
 
-        /* 主容器佔滿視窗，無需頁面捲動 */
         .test-container {
             max-width: 500px;
             width: 100%;
@@ -36,7 +35,7 @@
             border: 2px solid rgba(255,255,255,0.8);
             display: flex;
             flex-direction: column;
-            overflow: hidden;           /* 禁止整個容器捲動 */
+            overflow: hidden;
         }
 
         /* 固定頂部 */
@@ -91,7 +90,7 @@
             align-items: center;
         }
 
-        /* 進度條 – 顯示正確題數 */
+        /* 進度條 – 雙色顯示正確/錯誤 */
         .progress-section {
             margin-bottom: 0.5rem;
             flex-shrink: 0;
@@ -104,21 +103,26 @@
             color: #2c5a7a;
             font-size: 0.9rem;
         }
-        .progress-bar-bg {
-            height: 12px;
+        .progress-bar-dual {
+            height: 16px;
             background: #e2eaf3;
             border-radius: 30px;
             overflow: hidden;
+            display: flex;
+            width: 100%;
         }
-        .progress-fill {
+        .progress-correct {
             height: 100%;
-            background: linear-gradient(90deg, #58cc71, #2e9b5c);
-            width: 0%;
-            border-radius: 30px;
+            background: #58cc71;
+            transition: width 0.3s;
+        }
+        .progress-wrong {
+            height: 100%;
+            background: #e74c3c;
             transition: width 0.3s;
         }
 
-        /* 可捲動的內容區 (題目卡) – 當內容太多時內部捲動，不影響整體頁面 */
+        /* 可捲動內容區 */
         .scrollable-content {
             flex: 1;
             overflow-y: auto;
@@ -213,7 +217,6 @@
             font-size: 0.9rem;
         }
 
-        /* 即時回饋訊息 */
         .feedback-pop {
             background: #333;
             color: white;
@@ -226,7 +229,7 @@
         }
         @keyframes fadeInOut { 0%{opacity:0} 20%{opacity:1} 80%{opacity:1} 100%{opacity:0} }
 
-        /* 底部固定導航列 */
+        /* 底部導航 */
         .nav-buttons {
             display: flex;
             justify-content: space-between;
@@ -288,53 +291,100 @@
         }
         .start-btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #3e7a00; }
 
-        /* 總結頁面 */
+        /* 總結頁面 – 全新風格 */
         .summary-screen {
-            height: 100%;
-            overflow-y: auto;
             padding: 0.5rem;
         }
         .summary-title {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             font-weight: 900;
             color: #1a4972;
             text-align: center;
             margin-bottom: 1rem;
         }
-        .subtopic-summary {
+        .overall-stats {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .stat-box {
+            flex: 1;
+            background: white;
+            border-radius: 24px;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 5px 0 #a0b9cf;
+            border: 2px solid #fff6cf;
+        }
+        .stat-correct { border-left: 8px solid #58cc71; }
+        .stat-wrong { border-left: 8px solid #e74c3c; }
+        .stat-number {
+            font-size: 2.2rem;
+            font-weight: 900;
+        }
+        .stat-label {
+            font-size: 1rem;
+            color: #4f6f8f;
+            font-weight: 600;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #1e3f5a;
+            margin: 1rem 0 0.5rem;
+        }
+        .section-box {
             background: white;
             border-radius: 20px;
             padding: 0.8rem;
             margin-bottom: 0.8rem;
             border-left: 6px solid #3498db;
         }
-        .subtopic-name {
-            font-weight: 800;
-            color: #1e3f5a;
-        }
-        .subtopic-stats {
+        .section-header {
             display: flex;
             justify-content: space-between;
-            color: #2c5a7a;
-            margin: 0.3rem 0;
+            align-items: center;
+            margin-bottom: 0.3rem;
         }
-        .question-detail {
-            background: #f5f9ff;
-            border-radius: 16px;
-            padding: 0.8rem;
-            margin: 0.5rem 0;
+        .section-name {
+            font-weight: 800;
+            color: #1a4972;
+        }
+        .section-percent {
+            background: #3498db;
+            color: white;
+            padding: 0.2rem 0.8rem;
+            border-radius: 40px;
+            font-weight: 700;
             font-size: 0.9rem;
-            border: 1px solid #cad9eb;
         }
-        .correct-badge { color: #2e7d32; font-weight: 700; }
-        .incorrect-badge { color: #c62828; font-weight: 700; }
+        .section-detail {
+            display: flex;
+            gap: 1rem;
+            color: #2c5a7a;
+            font-size: 0.9rem;
+        }
+        .restart-btn {
+            background: #48b5a5;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 700;
+            padding: 0.8rem 2rem;
+            border-radius: 60px;
+            box-shadow: 0 5px 0 #1c6b5e;
+            cursor: pointer;
+            display: block;
+            width: fit-content;
+            margin: 1.5rem auto 0;
+        }
 
         .hidden { display: none; }
     </style>
 </head>
 <body>
 <div class="test-container" id="app">
-    <!-- 固定標題列 -->
     <div class="test-header">
         <a href="../index.html" class="back-home"><i class="fas fa-arrow-left"></i> 返回</a>
         <span class="test-title">第3課 · 測驗</span>
@@ -343,33 +393,33 @@
         </div>
     </div>
 
-    <!-- 進度條 (顯示正確題數) -->
+    <!-- 雙色進度條 -->
     <div class="progress-section" id="progressSection">
         <div class="progress-info">
-            <span>✅ 正確 <span id="correctCount">0</span>/<span id="totalQuestions">0</span></span>
+            <span><span id="correctCount">0</span> 正確 · <span id="wrongCount">0</span> 錯誤</span>
             <span id="completionPercent">0%</span>
         </div>
-        <div class="progress-bar-bg">
-            <div class="progress-fill" id="progressFill" style="width:0%"></div>
+        <div class="progress-bar-dual">
+            <div class="progress-correct" id="progressCorrect" style="width:0%"></div>
+            <div class="progress-wrong" id="progressWrong" style="width:0%"></div>
         </div>
     </div>
 
-    <!-- 可捲動內容區 (放置題目 或 開始畫面 或 總結) -->
     <div class="scrollable-content" id="contentArea">
-        <!-- 開始畫面 (預設顯示) -->
+        <!-- 開始畫面 -->
         <div id="startScreen" class="start-screen">
             <div class="start-btn" id="btnRandom20">隨機20題</div>
             <div class="start-btn" id="btnAll">全部題目</div>
         </div>
 
-        <!-- 題目將動態插入此處 (隱藏) -->
+        <!-- 題目區 -->
         <div id="questionArea" class="hidden"></div>
 
-        <!-- 總結畫面 (隱藏) -->
+        <!-- 總結區 (全新設計) -->
         <div id="summaryArea" class="hidden summary-screen"></div>
     </div>
 
-    <!-- 底部導航列 (初始隱藏) -->
+    <!-- 底部導航 -->
     <div class="nav-buttons hidden" id="navButtons">
         <button class="nav-btn" id="prevBtn" disabled><i class="fas fa-chevron-left"></i> 上一題</button>
         <span class="question-indicator" id="questionIndicator">1/0</span>
@@ -381,17 +431,14 @@
 
 <script>
 (function() {
-    // ---------- 全域變數 ----------
-    let fullTestData = null;           // 完整題庫
-    let currentSet = [];               // 目前使用的題目索引陣列 (指向 fullTestData.questions 的索引)
-    let userAnswers = [];              // 每個題目 (依 currentSet 順序) 的使用者答案索引
-    let questionStatus = [];            // 每個題目的狀態: 'unanswered','correct','incorrect'
+    let fullTestData = null;
+    let currentSet = [];               // indices into fullTestData.questions
+    let userAnswers = [];              // per currentSet index
+    let questionStatus = [];            // 'unanswered','correct','incorrect'
     let earnedPoints = 0;
     const pointsPerQuestion = 5;
+    let currentIndex = 0;
 
-    let currentIndex = 0;               // 目前在第幾題 (相對於 currentSet)
-
-    // DOM 元素
     const startScreen = document.getElementById('startScreen');
     const questionArea = document.getElementById('questionArea');
     const summaryArea = document.getElementById('summaryArea');
@@ -404,19 +451,18 @@
     const earnedPointsSpan = document.getElementById('earnedPoints');
     const totalPointsSpan = document.getElementById('totalPoints');
     const correctCountSpan = document.getElementById('correctCount');
-    const totalQuestionsSpan = document.getElementById('totalQuestions');
-    const progressFill = document.getElementById('progressFill');
+    const wrongCountSpan = document.getElementById('wrongCount');
+    const progressCorrect = document.getElementById('progressCorrect');
+    const progressWrong = document.getElementById('progressWrong');
     const completionPercent = document.getElementById('completionPercent');
     const btnRandom20 = document.getElementById('btnRandom20');
     const btnAll = document.getElementById('btnAll');
 
-    // ---------- 載入完整 JSON ----------
     async function loadFullData() {
         try {
             const res = await fetch('source_data_test.json');
             if (!res.ok) throw new Error('無法載入題庫');
             const data = await res.json();
-            // 確保每題都有 type (強制為 multiple-choice)
             data.questions = data.questions.map(q => ({ type: 'multiple-choice', ...q }));
             fullTestData = data;
         } catch (e) {
@@ -424,35 +470,28 @@
         }
     }
 
-    // ---------- 開始測驗 (根據模式) ----------
     async function startTest(mode) {
         if (!fullTestData) await loadFullData();
         if (!fullTestData) return;
 
-        let totalQuestions = fullTestData.questions.length;
+        const total = fullTestData.questions.length;
         if (mode === 'random') {
-            // 隨機選20題 (若不夠20則全取)
-            const n = Math.min(20, totalQuestions);
+            const n = Math.min(20, total);
             const indices = new Set();
-            while (indices.size < n) {
-                indices.add(Math.floor(Math.random() * totalQuestions));
-            }
+            while (indices.size < n) indices.add(Math.floor(Math.random() * total));
             currentSet = Array.from(indices);
-        } else { // 'all'
-            currentSet = Array.from({ length: totalQuestions }, (_, i) => i);
+        } else {
+            currentSet = Array.from({ length: total }, (_, i) => i);
         }
 
-        // 重置狀態
         userAnswers = new Array(currentSet.length).fill(null);
         questionStatus = new Array(currentSet.length).fill('unanswered');
         earnedPoints = 0;
         currentIndex = 0;
 
-        // 更新UI
         earnedPointsSpan.textContent = earnedPoints;
         totalPointsSpan.textContent = currentSet.length * pointsPerQuestion;
-        totalQuestionsSpan.textContent = currentSet.length;
-        correctCountSpan.textContent = '0';
+        updateProgressBar();
 
         startScreen.classList.add('hidden');
         questionArea.classList.remove('hidden');
@@ -461,7 +500,6 @@
         loadQuestion(0);
     }
 
-    // 載入指定索引的題目 (依照 currentSet)
     function loadQuestion(index) {
         if (!fullTestData) return;
         currentIndex = index;
@@ -494,7 +532,6 @@
                 <div class="options-grid">${optionsHtml}</div>
         `;
 
-        // 如果已經回答，顯示簡短說明（可選）
         if (questionStatus[index] !== 'unanswered') {
             html += `<div class="explanation-box" style="background:#fff9e6; border-left:6px solid #f3b33d; border-radius:12px; padding:0.6rem; margin-top:0.8rem;">
                 <i class="fas fa-info-circle"></i> ${q.explanation || ''}
@@ -504,13 +541,10 @@
         html += `</div>`;
         questionArea.innerHTML = html;
 
-        // 更新導航按鈕
         questionIndicator.textContent = `${index+1}/${currentSet.length}`;
         updateNavButtons();
-        updateProgress();
     }
 
-    // 全域選擇答案
     window.selectAnswer = function(setIdx, optIdx) {
         if (questionStatus[setIdx] !== 'unanswered') return;
         const qIdx = currentSet[setIdx];
@@ -520,25 +554,19 @@
         userAnswers[setIdx] = optIdx;
         questionStatus[setIdx] = correct ? 'correct' : 'incorrect';
 
-        // 更新分數
         if (correct) {
             earnedPoints += pointsPerQuestion;
-            // 顯示正確 +5 XP 浮動訊息
             showFeedback('✅ 正確！ +5 XP', '#2e7d32');
         } else {
-            // 顯示錯誤，並提示正確答案
             const correctLetter = String.fromCharCode(65 + q.correctAnswer);
             showFeedback(`❌ 錯誤！ 正確答案是 ${correctLetter}`, '#c62828');
         }
 
         earnedPointsSpan.textContent = earnedPoints;
-        updateProgress();
-
-        // 重新載入題目以顯示正確/錯誤樣式
+        updateProgressBar();
         loadQuestion(setIdx);
     };
 
-    // 顯示短暫回饋訊息
     function showFeedback(msg, color) {
         const fb = document.createElement('div');
         fb.className = 'feedback-pop';
@@ -551,17 +579,25 @@
         setTimeout(() => fb.remove(), 2000);
     }
 
-    // 更新進度條 (正確題數)
-    function updateProgress() {
+    function updateProgressBar() {
         const total = currentSet.length;
         const correct = questionStatus.filter(s => s === 'correct').length;
+        const wrong = questionStatus.filter(s => s === 'incorrect').length;
+        const unanswered = total - correct - wrong;
+
         correctCountSpan.textContent = correct;
-        const percent = total ? Math.round((correct / total) * 100) : 0;
-        progressFill.style.width = percent + '%';
-        completionPercent.textContent = percent + '%';
+        wrongCountSpan.textContent = wrong;
+
+        const correctPercent = total ? (correct / total) * 100 : 0;
+        const wrongPercent = total ? (wrong / total) * 100 : 0;
+
+        progressCorrect.style.width = correctPercent + '%';
+        progressWrong.style.width = wrongPercent + '%';
+
+        const percentComplete = total ? Math.round(((correct + wrong) / total) * 100) : 0;
+        completionPercent.textContent = percentComplete + '%';
     }
 
-    // 更新導航按鈕狀態
     function updateNavButtons() {
         prevBtn.disabled = (currentIndex === 0);
         const last = (currentIndex === currentSet.length - 1);
@@ -584,11 +620,13 @@
         }
     }
 
-    // 顯示總結頁面
     function showSummary() {
         questionArea.classList.add('hidden');
         navButtons.classList.add('hidden');
         summaryArea.classList.remove('hidden');
+
+        const totalCorrect = questionStatus.filter(s => s === 'correct').length;
+        const totalWrong = questionStatus.filter(s => s === 'incorrect').length;
 
         // 依 subtopic 統計
         const subtopicMap = new Map();
@@ -597,48 +635,49 @@
             const q = fullTestData.questions[qIdx];
             const sub = q.subtopic || '一般';
             if (!subtopicMap.has(sub)) {
-                subtopicMap.set(sub, { total: 0, correct: 0, questions: [] });
+                subtopicMap.set(sub, { total: 0, correct: 0, wrong: 0 });
             }
             const rec = subtopicMap.get(sub);
             rec.total++;
             if (questionStatus[i] === 'correct') rec.correct++;
-            rec.questions.push({
-                text: q.question,
-                userAns: userAnswers[i] !== null ? String.fromCharCode(65 + userAnswers[i]) : '未答',
-                correctAns: String.fromCharCode(65 + q.correctAnswer),
-                isCorrect: questionStatus[i] === 'correct',
-                options: q.options
-            });
+            else if (questionStatus[i] === 'incorrect') rec.wrong++;
         }
 
-        let html = '<div class="summary-title">📊 測驗總結</div>';
+        let html = `
+            <div class="summary-title">📊 測驗總結</div>
+            <div class="overall-stats">
+                <div class="stat-box stat-correct">
+                    <div class="stat-number">${totalCorrect}</div>
+                    <div class="stat-label">正確</div>
+                </div>
+                <div class="stat-box stat-wrong">
+                    <div class="stat-number">${totalWrong}</div>
+                    <div class="stat-label">錯誤</div>
+                </div>
+            </div>
+        `;
+
         for (let [sub, rec] of subtopicMap.entries()) {
             const percent = Math.round((rec.correct / rec.total) * 100);
             html += `
-                <div class="subtopic-summary">
-                    <div class="subtopic-name">${sub}</div>
-                    <div class="subtopic-stats">
-                        <span>✅ 正確 ${rec.correct}/${rec.total}</span>
-                        <span>${percent}%</span>
+                <div class="section-box">
+                    <div class="section-header">
+                        <span class="section-name">${sub}</span>
+                        <span class="section-percent">${percent}%</span>
                     </div>
+                    <div class="section-detail">
+                        <span>✅ ${rec.correct}</span>
+                        <span>❌ ${rec.wrong}</span>
+                        <span>📋 ${rec.total} 題</span>
+                    </div>
+                </div>
             `;
-            rec.questions.forEach((q, idx) => {
-                html += `
-                    <div class="question-detail">
-                        <div><strong>題目:</strong> ${q.text}</div>
-                        <div><strong>你的答案:</strong> ${q.userAns} ${q.isCorrect ? '✓' : '✗'}</div>
-                        <div><strong>正確答案:</strong> ${q.correctAns}</div>
-                    </div>
-                `;
-            });
-            html += '</div>';
         }
-        html += `<div style="text-align:center; margin:1rem 0;">
-            <button class="nav-btn primary" id="restartFromSummary">重新測驗</button>
-        </div>`;
+
+        html += `<button class="restart-btn" id="restartFromSummary"><i class="fas fa-redo-alt"></i> 重新測驗</button>`;
         summaryArea.innerHTML = html;
 
-        document.getElementById('restartFromSummary')?.addEventListener('click', () => {
+        document.getElementById('restartFromSummary').addEventListener('click', () => {
             summaryArea.classList.add('hidden');
             startScreen.classList.remove('hidden');
         });
@@ -666,7 +705,6 @@
 
     showResultsBtn.addEventListener('click', showSummary);
 
-    // 預載資料 (以便快速開始)
     loadFullData();
 })();
 </script>
