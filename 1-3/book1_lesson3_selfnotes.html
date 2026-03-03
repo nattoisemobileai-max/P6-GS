@@ -20,8 +20,8 @@
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            padding: 0.8rem;
-            font-size: 18px; /* enlarged base font */
+            padding: 0;                 /* 移除外邊距，充分利用螢幕 */
+            font-size: 18px;
         }
 
         .notes-container {
@@ -29,10 +29,10 @@
             width: 100%;
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(4px);
-            border-radius: 32px 32px 24px 24px;
-            box-shadow: 0 20px 30px -10px rgba(26, 55, 80, 0.3);
-            padding: 1.5rem 1.2rem;
-            border: 2px solid rgba(255, 255, 255, 0.8);
+            border-radius: 0;            /* 手機上直角更省空間，可選，保留也可 */
+            box-shadow: none;             /* 手機上可省略陰影 */
+            padding: 0.8rem 0.5rem;       /* 僅保留極小內邊距，消除左側空白 */
+            border: none;
         }
 
         /* Header */
@@ -41,94 +41,91 @@
             align-items: center;
             justify-content: space-between;
             background: white;
-            padding: 0.7rem 1.2rem;
-            border-radius: 50px;
-            margin-bottom: 2rem;
-            box-shadow: 0 5px 0 #bed0e3;
+            padding: 0.6rem 0.8rem;
+            border-radius: 40px;
+            margin-bottom: 1.2rem;
+            box-shadow: 0 4px 0 #bed0e3;
             flex-wrap: wrap;
-            gap: 0.8rem;
+            gap: 0.5rem;
         }
 
         .back-home {
             background: #f4d03f;
             border-radius: 40px;
-            padding: 0.5rem 1.2rem;
+            padding: 0.5rem 1rem;
             font-weight: 700;
-            font-size: 1.2rem; /* enlarged */
+            font-size: 1.2rem;
             color: #1f3a4b;
             border: none;
-            box-shadow: 0 4px 0 #b38f1c;
+            box-shadow: 0 3px 0 #b38f1c;
             cursor: pointer;
-            transition: 0.06s linear;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             text-decoration: none;
             white-space: nowrap;
         }
 
         .back-home:active {
-            transform: translateY(4px);
+            transform: translateY(3px);
             box-shadow: 0 1px 0 #b38f1c;
         }
 
         .notes-title {
-            font-size: 1.6rem; /* enlarged */
+            font-size: 1.5rem;
             font-weight: 900;
             background: #eef5ff;
-            padding: 0.4rem 1.5rem;
+            padding: 0.3rem 1.2rem;
             border-radius: 40px;
             color: #1a4972;
             border: 2px solid #c1d9f0;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             white-space: nowrap;
         }
 
         .notes-title i {
             color: #3498db;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
         }
 
-        /* XP and date removed */
-
-        /* Main content - Clean notebook style */
+        /* Main content */
         .notebook {
             background: #f5faff;
-            border-radius: 35px;
-            padding: 1.8rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 10px 0 #9bb7d1, 0 10px 25px rgba(0,40,60,0.15);
+            border-radius: 30px;
+            padding: 1.2rem 1rem;       /* 減少左右內距 */
+            margin-bottom: 1.5rem;
+            box-shadow: 0 8px 0 #9bb7d1, 0 8px 20px rgba(0,40,60,0.1);
             border: 2px solid #c1d9f0;
         }
 
         .notebook-header {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.8rem;
             border-bottom: 3px solid #9bb7d1;
             flex-wrap: wrap;
         }
 
         .notebook-icon {
-            width: 60px;
-            height: 60px;
+            width: 55px;
+            height: 55px;
             background: #3498db;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 2rem; /* enlarged */
+            font-size: 1.9rem;
             box-shadow: 0 4px 0 #1f5b8a;
             flex-shrink: 0;
         }
 
         .notebook-title {
-            font-size: 1.8rem; /* enlarged */
+            font-size: 1.7rem;
             font-weight: 800;
             color: #1a4972;
             line-height: 1.3;
@@ -139,78 +136,72 @@
         .section-container {
             display: flex;
             flex-direction: column;
-            gap: 2rem;
+            gap: 1.5rem;
         }
 
         .lesson-section {
             background: white;
-            border-radius: 28px;
-            padding: 1.8rem;
-            border-left: 8px solid #3498db;
-            box-shadow: 0 6px 0 #bed0e3;
-            transition: transform 0.2s;
-        }
-
-        .lesson-section:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 0 #9bb7d1;
+            border-radius: 24px;
+            padding: 1.5rem 1.2rem;
+            border-left: 6px solid #3498db;
+            box-shadow: 0 5px 0 #bed0e3;
         }
 
         .section-header {
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 1.2rem;
+            gap: 10px;
+            margin-bottom: 1rem;
             flex-wrap: wrap;
         }
 
         .section-icon {
-            width: 52px;
-            height: 52px;
+            width: 48px;
+            height: 48px;
             background: #3498db;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 1.7rem; /* enlarged */
+            font-size: 1.6rem;
             flex-shrink: 0;
         }
 
         .section-title {
-            font-size: 1.7rem; /* enlarged */
+            font-size: 1.6rem;
             font-weight: 800;
             color: #1a4972;
-            line-height: 1.3;
+            line-height: 1.2;
         }
 
         .section-page {
             background: #f0f7ff;
-            padding: 0.3rem 1rem;
+            padding: 0.2rem 0.8rem;
             border-radius: 40px;
             color: #2980b9;
             font-weight: 600;
-            font-size: 1rem; /* enlarged */
+            font-size: 0.95rem;
             margin-left: auto;
             white-space: nowrap;
         }
 
         .section-content {
             color: #1f3a4b;
-            line-height: 1.9; /* increased for readability */
-            font-size: 1.2rem; /* enlarged */
-            margin-bottom: 1.2rem;
+            line-height: 1.8;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
         }
 
         .bullet-list {
             list-style: none;
-            margin-top: 0.8rem;
+            margin-top: 0.5rem;
         }
 
         .bullet-list li {
-            padding: 0.5rem 0 0.5rem 2.2rem;
+            padding: 0.4rem 0 0.4rem 2rem;
             position: relative;
-            font-size: 1.2rem; /* enlarged */
+            font-size: 1.2rem;
         }
 
         .bullet-list li:before {
@@ -224,39 +215,38 @@
         }
 
         .bullet-list ul {
-            margin-left: 1.8rem;
+            margin-left: 1.5rem;
             list-style: none;
         }
 
         .bullet-list ul li:before {
             content: "◦";
             color: #5a9ec2;
-            font-size: 1.6rem;
+            font-size: 1.5rem;
         }
 
-        /* Highlight for important keywords */
         .highlight {
             background: #fffacd;
-            padding: 0.1rem 0.4rem;
-            border-radius: 12px;
+            padding: 0.1rem 0.3rem;
+            border-radius: 10px;
             font-weight: 700;
             color: #1e3f5a;
             border: 1px solid #f3b33d;
             display: inline-block;
             margin: 0 0.1rem;
-            font-size: 1.2rem; /* match surrounding */
+            font-size: 1.2rem;
         }
 
         .badge {
             display: inline-block;
             background: #f4d03f;
             color: #1f3a4b;
-            padding: 0.3rem 1rem;
+            padding: 0.2rem 0.9rem;
             border-radius: 40px;
             font-weight: 700;
-            font-size: 1rem; /* enlarged */
-            margin-right: 0.4rem;
-            margin-bottom: 0.4rem;
+            font-size: 1rem;
+            margin-right: 0.3rem;
+            margin-bottom: 0.3rem;
             border: 1px solid #e67e22;
             white-space: nowrap;
         }
@@ -269,78 +259,74 @@
 
         .highlight-box {
             background: #e1f0fa;
-            border-radius: 20px;
-            padding: 1.2rem;
-            margin: 1.2rem 0;
+            border-radius: 18px;
+            padding: 1rem;
+            margin: 1rem 0;
             border: 2px dashed #9bb7d1;
             font-size: 1.2rem;
         }
 
-        /* Illustration placeholder */
         .illustration-placeholder {
             background: #f0f4fa;
-            border-radius: 20px;
-            padding: 1rem;
-            margin: 1.5rem 0 0.5rem;
+            border-radius: 18px;
+            padding: 0.8rem;
+            margin: 1.2rem 0 0.2rem;
             text-align: center;
             border: 2px dashed #7fa3c2;
             color: #2c5a7a;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            font-size: 1.2rem; /* enlarged */
+            gap: 10px;
+            font-size: 1.2rem;
             font-weight: 600;
         }
 
         .illustration-placeholder i {
-            font-size: 2.5rem; /* enlarged */
+            font-size: 2.3rem;
             color: #5a9ec2;
         }
 
-        /* Summary section */
         .summary-section {
             background: #fff9e6;
-            border-radius: 28px;
-            padding: 1.8rem;
-            border-left: 8px solid #f3b33d;
-            margin-top: 0.5rem;
+            border-radius: 24px;
+            padding: 1.5rem 1.2rem;
+            border-left: 6px solid #f3b33d;
         }
 
         .summary-title {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             color: #b85e0f;
             font-weight: 800;
-            font-size: 1.6rem; /* enlarged */
-            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            margin-bottom: 0.8rem;
         }
 
         .summary-content {
             color: #5d4a27;
-            line-height: 2;
+            line-height: 1.9;
             font-size: 1.2rem;
         }
 
-        /* Image placeholders (for external images) */
         .image-placeholder {
             background: #e9eef3;
-            border-radius: 18px;
-            padding: 1rem;
-            margin: 1.5rem 0;
+            border-radius: 16px;
+            padding: 0.8rem;
+            margin: 1.2rem 0;
             text-align: center;
             border: 2px dashed #9bb7d1;
             color: #4f6f8f;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
+            gap: 10px;
             font-size: 1.2rem;
         }
 
         .image-placeholder i {
-            font-size: 2.2rem;
+            font-size: 2rem;
             color: #7f8c8d;
         }
 
@@ -352,19 +338,17 @@
             font-size: 1.2rem;
         }
 
-        /* Divider */
         .divider {
             height: 2px;
             background: linear-gradient(90deg, transparent, #9bb7d1, transparent);
-            margin: 1.8rem 0;
+            margin: 1.2rem 0;
         }
 
-        /* Action buttons */
         .notes-actions {
             display: flex;
-            gap: 1rem;
+            gap: 0.8rem;
             flex-wrap: wrap;
-            margin: 2rem 0 1.5rem;
+            margin: 1.5rem 0 1rem;
             justify-content: center;
         }
 
@@ -372,19 +356,18 @@
             background: #3498db;
             border: none;
             color: white;
-            padding: 1rem 2rem;
+            padding: 0.9rem 1.5rem;
             border-radius: 50px;
             font-weight: 700;
-            font-size: 1.2rem; /* enlarged */
+            font-size: 1.2rem;
             box-shadow: 0 5px 0 #1f5b8a;
             cursor: pointer;
-            transition: 0.06s linear;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             flex: 1 1 auto;
             justify-content: center;
-            min-width: 160px;
+            min-width: 140px;
         }
 
         .action-btn:active {
@@ -397,46 +380,44 @@
             box-shadow: 0 5px 0 #5a6263;
         }
 
-        /* Footer */
         .footer-note {
             text-align: center;
-            margin-top: 1.5rem;
+            margin-top: 1rem;
             color: #6b8baa;
             font-weight: 600;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 1rem;
+            gap: 0.8rem;
             flex-wrap: wrap;
-            font-size: 1.1rem; /* enlarged */
+            font-size: 1.1rem;
         }
 
         .save-status {
             background: #d4e6f5;
             color: #1a4972;
-            padding: 0.4rem 1rem;
+            padding: 0.3rem 0.9rem;
             border-radius: 40px;
             border: 1px solid #9bb7d1;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
             font-size: 1.1rem;
         }
 
-        /* Mobile adjustments: keep text large but reduce padding slightly */
+        /* 手機專用調整：進一步減少留白 */
         @media (max-width: 600px) {
-            body {
-                padding: 0.5rem;
-                font-size: 17px; /* still enlarged */
-            }
             .notes-container {
-                padding: 1rem;
+                padding: 0.3rem 0.2rem;
             }
             .notebook {
-                padding: 1.2rem;
+                padding: 1rem 0.8rem;
+            }
+            .lesson-section {
+                padding: 1.2rem 0.8rem;
             }
             .section-title {
-                font-size: 1.5rem;
+                font-size: 1.4rem;
             }
             .section-content {
                 font-size: 1.1rem;
@@ -444,46 +425,26 @@
             .bullet-list li {
                 font-size: 1.1rem;
             }
-            .notes-title {
-                font-size: 1.4rem;
-                padding: 0.3rem 1rem;
-            }
-            .back-home {
-                font-size: 1.1rem;
-                padding: 0.4rem 1rem;
-            }
-            .action-btn {
-                font-size: 1.1rem;
-                padding: 0.8rem 1.5rem;
-            }
         }
     </style>
 </head>
 <body>
 <div class="notes-container">
-    <!-- Header with direct link to ../index.html (XP removed) -->
     <div class="notes-header">
         <a href="../index.html" class="back-home"><i class="fas fa-arrow-left"></i> 返回</a>
         <span class="notes-title">
             <i class="fas fa-pen-fancy"></i> 個人筆記 · 第3課
         </span>
-        <!-- XP badge removed -->
     </div>
 
-    <!-- Main Notebook -->
     <div class="notebook">
         <div class="notebook-header">
-            <div class="notebook-icon">
-                <i class="fas fa-book-open"></i>
-            </div>
+            <div class="notebook-icon"><i class="fas fa-book-open"></i></div>
             <div class="notebook-title">兩性關係：友情、愛情與性</div>
-            <!-- Date removed -->
         </div>
 
-        <!-- All content sections -->
         <div class="section-container">
-            
-            <!-- [P22] Section 1: 是友情還是愛情？ -->
+            <!-- [P22] 是友情還是愛情？ -->
             <div class="lesson-section">
                 <div class="section-header">
                     <div class="section-icon"><i class="fas fa-handshake"></i></div>
@@ -496,13 +457,10 @@
                         <li><span class="highlight">常見困惑：</span> 青少年常會因為對方的優秀外表或優異表現而感到心跳加速（如個案一的詠琪），或是因為頻繁的學業指導與聊天而懷疑是否在談戀愛（如個案二的俊文），這需要正確的認知來釐清。</li>
                     </ul>
                 </div>
-                <!-- Illustration placeholder -->
-                <div class="illustration-placeholder">
-                    <i class="fas fa-draw-polygon"></i> 友情 vs 愛情 插圖
-                </div>
+                <div class="illustration-placeholder"><i class="fas fa-draw-polygon"></i> 友情 vs 愛情 插圖</div>
             </div>
 
-            <!-- [P23] Section 2: 甚麼是戀愛？ -->
+            <!-- [P23] 甚麼是戀愛？ -->
             <div class="lesson-section">
                 <div class="section-header">
                     <div class="section-icon"><i class="fas fa-heart"></i></div>
@@ -522,12 +480,10 @@
                         <li><span class="highlight">迷思：</span> 應避免認為「禮物越貴代表越愛」的錯誤價值觀。</li>
                     </ul>
                 </div>
-                <div class="illustration-placeholder">
-                    <i class="fas fa-heartbeat"></i> 戀愛關係插圖
-                </div>
+                <div class="illustration-placeholder"><i class="fas fa-heartbeat"></i> 戀愛關係插圖</div>
             </div>
 
-            <!-- Section 3: 青少年怎樣面對性誘惑？ -->
+            <!-- 3. 青少年怎樣面對性誘惑？ -->
             <div class="lesson-section">
                 <div class="section-header">
                     <div class="section-icon"><i class="fas fa-exclamation-triangle"></i></div>
@@ -541,12 +497,10 @@
                         <li><span class="highlight">法律風險：</span> 男性與未成年少女發生性行為屬刑事罪行，定罪後可被判監禁。</li>
                     </ul>
                 </div>
-                <div class="illustration-placeholder">
-                    <i class="fas fa-balance-scale"></i> 性誘惑與後果插圖
-                </div>
+                <div class="illustration-placeholder"><i class="fas fa-balance-scale"></i> 性誘惑與後果插圖</div>
             </div>
 
-            <!-- Section 4: 怎樣保護自己，免受性侵犯？ -->
+            <!-- 4. 怎樣保護自己，免受性侵犯？ -->
             <div class="lesson-section">
                 <div class="section-header">
                     <div class="section-icon"><i class="fas fa-shield-alt"></i></div>
@@ -565,22 +519,16 @@
                         </li>
                     </ul>
                 </div>
-                <div class="illustration-placeholder">
-                    <i class="fas fa-user-shield"></i> 自我保護插圖
-                </div>
+                <div class="illustration-placeholder"><i class="fas fa-user-shield"></i> 自我保護插圖</div>
             </div>
 
             <!-- 本課小總結 -->
             <div class="summary-section">
-                <div class="summary-title">
-                    <i class="fas fa-star"></i> 本課小總結
-                </div>
+                <div class="summary-title"><i class="fas fa-star"></i> 本課小總結</div>
                 <div class="summary-content">
                     <p>無論男女都應該懂得 <span class="highlight">保護自己</span>。面對兩性關係應以<span class="highlight">尊重</span>為本，面對誘惑則需<span class="highlight">理智</span>思考後果，並在遇到問題時主動尋求信任成人的協助。</p>
                 </div>
-                <div class="illustration-placeholder">
-                    <i class="fas fa-gem"></i> 核心觀念插圖
-                </div>
+                <div class="illustration-placeholder"><i class="fas fa-gem"></i> 核心觀念插圖</div>
             </div>
 
             <!-- 判斷標準：友情 vs 愛情 -->
@@ -601,9 +549,7 @@
                         <p><span class="highlight">總結判斷標準：</span> 與異性交往並不等於談戀愛。如果一段關係中包含了互相尊重、深層關懷、負責任的態度以及對未來的承諾，則較符合「愛情」的定義；若僅是共同參與活動或單純的好感，則可能仍屬於「友誼」範疇。</p>
                     </div>
                 </div>
-                <div class="illustration-placeholder">
-                    <i class="fas fa-question-circle"></i> 判斷標準插圖
-                </div>
+                <div class="illustration-placeholder"><i class="fas fa-question-circle"></i> 判斷標準插圖</div>
             </div>
 
             <!-- [P.24] 青少年發生性行為的後果 -->
@@ -624,16 +570,10 @@
                         <li><span class="highlight">正面訊息：</span> 青少年要懂得自制，尊重自己和別人的身體，避免在未準備好和未成年時發生性行為。</li>
                     </ul>
                 </div>
-                <div class="illustration-placeholder">
-                    <i class="fas fa-fetus"></i> 後果示意插圖
-                </div>
+                <div class="illustration-placeholder"><i class="fas fa-fetus"></i> 後果示意插圖</div>
             </div>
 
-            <!-- Image placeholder 1 (external image) -->
-            <div class="image-placeholder">
-                <i class="fas fa-image"></i>
-                <p>image1.png</p>
-            </div>
+            <div class="image-placeholder"><i class="fas fa-image"></i><p>image1.png</p></div>
 
             <!-- 校園求助指南 -->
             <div class="lesson-section">
@@ -649,7 +589,6 @@
                         <li><span class="highlight">向信任的人求助：</span> 主動向 <span class="highlight">父母</span> 或 <span class="highlight">自己信任的成年人</span>（例如老師或校方人員）尋求幫助。</li>
                         <li><span class="highlight">不要保守秘密：</span> 即使對方要求保守秘密，或是你感到不安與生氣，也應該尋求協助，不應獨自承擔。</li>
                     </ul>
-                    
                     <div class="highlight-box">
                         <p><span class="highlight">什麼情況屬於性侵犯？</span> 根據來源，若有人利用威嚇、誘騙、暴力或其他不正當手段進行以下行為，皆屬性侵犯：</p>
                         <ul class="bullet-list">
@@ -659,24 +598,13 @@
                             <li>強迫觀看色情物品、拍攝裸照或進行性行為。</li>
                         </ul>
                     </div>
-                    
                     <p style="margin-top:1rem; font-weight:600; color:#1a4972;">無論性別，每個人都應該懂得<span class="highlight">保護自己</span>，在遇到問題時務必主動向能信任的成人求援。</p>
                 </div>
-                <div class="illustration-placeholder">
-                    <i class="fas fa-phone-alt"></i> 求助管道插圖
-                </div>
+                <div class="illustration-placeholder"><i class="fas fa-phone-alt"></i> 求助管道插圖</div>
             </div>
 
-            <!-- Image placeholder 2 (external image) -->
-            <div class="image-placeholder">
-                <i class="fas fa-image"></i>
-                <p>image2.png</p>
-            </div>
-
-            <!-- Final divider -->
+            <div class="image-placeholder"><i class="fas fa-image"></i><p>image2.png</p></div>
             <div class="divider"></div>
-
-            <!-- Positive message -->
             <div style="text-align: center; padding: 1rem; background: #e1f0fa; border-radius: 60px; font-size:1.3rem;">
                 <i class="fas fa-heart" style="color: #e74c3c;"></i>
                 <span style="font-weight: 700; color: #1a4972;"> 尊重自己 · 尊重他人 · 懂得保護 · 勇於求助 </span>
@@ -684,61 +612,38 @@
             </div>
         </div>
 
-        <!-- Action Buttons - only Save and Export -->
         <div class="notes-actions">
-            <button class="action-btn" id="saveNotes">
-                <i class="fas fa-save"></i> 儲存筆記
-            </button>
-            <button class="action-btn secondary" id="exportNotes">
-                <i class="fas fa-file-export"></i> 匯出筆記
-            </button>
+            <button class="action-btn" id="saveNotes"><i class="fas fa-save"></i> 儲存筆記</button>
+            <button class="action-btn secondary" id="exportNotes"><i class="fas fa-file-export"></i> 匯出筆記</button>
         </div>
     </div>
 
-    <!-- Footer with save status -->
     <div class="footer-note">
-        <span class="save-status" id="saveStatus">
-            <i class="fas fa-check-circle" style="color:#2ecc71;"></i> 已自動儲存
-        </span>
-        <span class="save-status">
-            <i class="fas fa-lock" style="color:#3498db;"></i> 僅限個人檢視
-        </span>
+        <span class="save-status" id="saveStatus"><i class="fas fa-check-circle" style="color:#2ecc71;"></i> 已自動儲存</span>
+        <span class="save-status"><i class="fas fa-lock" style="color:#3498db;"></i> 僅限個人檢視</span>
     </div>
 </div>
 
 <script>
     (function() {
-        // Save status element
         const saveStatus = document.getElementById('saveStatus');
-
-        // Save notes to localStorage (simulated)
         function saveNotes() {
             const now = new Date();
             const timeStr = now.getHours() + ':' + now.getMinutes().toString().padStart(2,'0');
             saveStatus.innerHTML = '<i class="fas fa-check-circle" style="color:#2ecc71;"></i> 已儲存 ' + timeStr;
-            
-            setTimeout(function() {
+            setTimeout(() => {
                 saveStatus.innerHTML = '<i class="fas fa-check-circle" style="color:#2ecc71;"></i> 已自動儲存';
             }, 3000);
         }
-
-        // Save button
         document.getElementById('saveNotes').addEventListener('click', saveNotes);
-
-        // Export notes
         document.getElementById('exportNotes').addEventListener('click', function() {
             const sections = document.querySelectorAll('.lesson-section, .summary-section');
             let exportText = "=== 兩性關係：友情、愛情與性 學習筆記 ===\n\n";
-            
-            sections.forEach(function(section, index) {
-                const title = section.querySelector('.section-title')?.innerText || '重點';
-                const page = section.querySelector('.section-page')?.innerText || '';
-                const content = section.innerText.replace(/[🔍]/g, '').trim();
-                
-                exportText += '【' + title + '】 ' + page + '\n';
-                exportText += content + '\n\n────────────────────\n\n';
+            sections.forEach((s, i) => {
+                const title = s.querySelector('.section-title')?.innerText || '重點';
+                const page = s.querySelector('.section-page')?.innerText || '';
+                exportText += '【' + title + '】 ' + page + '\n' + s.innerText.replace(/[🔍]/g,'').trim() + '\n\n────────────────────\n\n';
             });
-            
             const blob = new Blob([exportText], { type: 'text/plain;charset=utf-8' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -746,23 +651,11 @@
             a.download = '兩性關係筆記_' + new Date().toISOString().slice(0,10) + '.txt';
             a.click();
             URL.revokeObjectURL(url);
-            
             saveStatus.innerHTML = '<i class="fas fa-check-circle" style="color:#2ecc71;"></i> 筆記已匯出';
-            setTimeout(function() {
-                saveStatus.innerHTML = '<i class="fas fa-check-circle" style="color:#2ecc71;"></i> 已自動儲存';
-            }, 3000);
+            setTimeout(() => saveStatus.innerHTML = '<i class="fas fa-check-circle" style="color:#2ecc71;"></i> 已自動儲存', 3000);
         });
-
-        // Auto-save every 60 seconds
         setInterval(saveNotes, 60000);
-
-        // Keyboard shortcut: Ctrl+S to save
-        document.addEventListener('keydown', function(e) {
-            if (e.ctrlKey && e.key === 's') {
-                e.preventDefault();
-                saveNotes();
-            }
-        });
+        document.addEventListener('keydown', (e) => { if (e.ctrlKey && e.key === 's') { e.preventDefault(); saveNotes(); } });
     })();
 </script>
 </body>
