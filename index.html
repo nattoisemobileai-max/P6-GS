@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>小常識 · 常識學院</title>
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -20,40 +20,42 @@
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            padding: 1.5rem 1.2rem;
+            padding: 0;                 /* 移除外邊距，充分利用螢幕 */
+            font-size: 18px;             /* 基礎字體放大 */
         }
 
         .app-container {
-            max-width: 1100px;
+            max-width: 100%;
             width: 100%;
             background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(2px);
-            border-radius: 48px 48px 32px 32px;
-            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.2), 0 8px 20px rgba(0, 0, 0, 0.06);
-            padding: 1.8rem 2rem;
-            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 0;             /* 手機上直角更省空間 */
+            box-shadow: none;
+            padding: 1rem 0.8rem;          /* 僅保留必要內距，減少留白 */
+            border: none;
         }
 
+        /* ========== TOP MENU BAR ========= */
         .top-bar {
             display: flex;
             align-items: center;
             justify-content: space-between;
             background: white;
-            padding: 0.7rem 1.8rem;
-            border-radius: 60px;
-            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.03), inset 0 2px 4px rgba(255,255,255,0.8);
+            padding: 0.6rem 1rem;
+            border-radius: 50px;
+            box-shadow: 0 4px 0 #bed0e3;
             border: 1px solid rgba(175, 200, 220, 0.3);
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             flex-wrap: wrap;
-            gap: 0.8rem 1.5rem;
+            gap: 0.5rem;
         }
 
         .user-greeting {
             display: flex;
             align-items: center;
-            gap: 0.6rem;
+            gap: 0.5rem;
             background: #eef5ff;
-            padding: 0.3rem 1.2rem 0.3rem 0.8rem;
+            padding: 0.3rem 1rem 0.3rem 0.6rem;
             border-radius: 40px;
             border: 1px solid #c1d9f0;
         }
@@ -62,28 +64,29 @@
             color: #1c8d7c;
             background: white;
             border-radius: 50%;
-            padding: 0.3rem;
+            padding: 0.2rem;
             box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
         .user-greeting span {
             font-weight: 800;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             color: #1f2d3d;
-            letter-spacing: -0.5px;
+            letter-spacing: -0.3px;
         }
         .user-greeting .sub {
             font-size: 1rem;
             font-weight: 500;
             color: #4f6f8f;
-            margin-left: 4px;
+            margin-left: 2px;
         }
 
+        /* quote marquee */
         .quote-ticker {
             flex: 1;
-            min-width: 240px;
+            min-width: 200px;
             background: #fff9e0;
             border-radius: 50px;
-            padding: 0.5rem 1.2rem;
+            padding: 0.4rem 1rem;
             border: 1px dashed #f3b33d;
             box-shadow: 0 2px 10px rgba(250, 190, 60, 0.2);
             overflow: hidden;
@@ -109,9 +112,9 @@
         .stats {
             display: flex;
             align-items: center;
-            gap: 1.2rem;
+            gap: 0.8rem;
             background: #2b3c4e;
-            padding: 0.4rem 1.5rem 0.4rem 1.2rem;
+            padding: 0.3rem 1rem;
             border-radius: 40px;
             color: white;
             box-shadow: 0 4px 0 #0f1a24;
@@ -122,7 +125,7 @@
             gap: 0.3rem;
             background: #ffd966;
             color: #2f2f2f;
-            padding: 0.3rem 0.9rem;
+            padding: 0.2rem 0.8rem;
             border-radius: 30px;
             font-weight: 800;
             font-size: 1.1rem;
@@ -134,38 +137,38 @@
             background: white;
             color: #1f3a4b;
             font-weight: 800;
-            padding: 0.3rem 1rem;
+            padding: 0.2rem 0.9rem;
             border-radius: 30px;
             font-size: 1.1rem;
-            letter-spacing: -0.3px;
         }
 
+        /* ====== BOOK SECTIONS ===== */
         .books-grid {
             display: flex;
-            flex-wrap: wrap;
-            gap: 2rem;
-            margin-top: 2rem;
-            justify-content: center;
+            flex-direction: column;       /* 手機上改為縱向堆疊 */
+            gap: 1.2rem;
+            margin-top: 1.5rem;
         }
+
         .book-card {
-            flex: 1 1 300px;
+            width: 100%;                  /* 滿寬 */
             background: white;
-            border-radius: 32px;
-            padding: 1.8rem 1.5rem 1.5rem 1.5rem;
-            box-shadow: 0 14px 0 #b3c9da, 0 20px 30px -8px rgba(60, 80, 100, 0.3);
+            border-radius: 30px;
+            padding: 1.5rem 1.2rem;
+            box-shadow: 0 8px 0 #b3c9da, 0 15px 25px -8px rgba(60, 80, 100, 0.3);
             border: 2px solid rgba(255, 255, 255, 0.9);
             transition: all 0.1s ease;
         }
-        .book-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 16px 0 #a0b9cf, 0 24px 34px -6px #2f4b6e;
+        .book-card:active {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 0 #a0b9cf;
         }
+
         .book-title {
             font-size: 2rem;
             font-weight: 900;
             color: #2f5575;
-            margin-bottom: 0.25rem;
-            letter-spacing: -0.5px;
+            margin-bottom: 0.2rem;
             display: flex;
             align-items: center;
             gap: 0.4rem;
@@ -175,9 +178,9 @@
             color: #58a700;
         }
         .book-sub {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             color: #4b6d8c;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
             border-bottom: 2px dotted #c6d9eb;
             padding-bottom: 0.5rem;
             font-weight: 600;
@@ -185,22 +188,25 @@
         .lesson-grid {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.8rem;
+            gap: 0.7rem;
         }
         .lesson-btn {
             background: #f0f6ff;
             border: 2px solid #c4d5e8;
-            border-radius: 28px;
-            padding: 0.7rem 1.4rem;
+            border-radius: 40px;
+            padding: 0.8rem 1.2rem;
             font-weight: 700;
             font-size: 1.3rem;
             color: #1f4973;
-            box-shadow: 0 5px 0 #9fbad0;
+            box-shadow: 0 4px 0 #9fbad0;
             cursor: pointer;
             transition: all 0.06s linear;
             display: inline-flex;
             align-items: center;
             gap: 0.3rem;
+            flex: 1 1 auto;               /* 讓按鈕自適應寬度 */
+            justify-content: center;
+            min-width: 100px;
         }
         .lesson-btn i {
             font-size: 1.2rem;
@@ -211,41 +217,41 @@
             box-shadow: 0 1px 0 #9fbad0;
         }
 
+        /* detail panel */
         .detail-panel {
-            margin-top: 2.5rem;
+            margin-top: 2rem;
             background: rgba(255, 255, 255, 0.9);
-            border-radius: 42px;
-            padding: 1.8rem 2rem;
+            border-radius: 30px;
+            padding: 1.5rem 1.2rem;
             border: 3px solid white;
-            box-shadow: 0 12px 0 #9bb7d1, inset 0 0 0 3px #ecf3fa;
+            box-shadow: 0 8px 0 #9bb7d1, inset 0 0 0 3px #ecf3fa;
         }
         .detail-header {
             display: flex;
             align-items: center;
             gap: 1rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
         }
         .detail-header h2 {
             background: #f4d03f;
             border-radius: 50px;
-            padding: 0.4rem 1.6rem;
-            font-size: 2rem;
+            padding: 0.3rem 1.2rem;
+            font-size: 1.8rem;
             font-weight: 900;
             color: #1a2e3f;
-            box-shadow: 0 6px 0 #b38f1c;
+            box-shadow: 0 4px 0 #b38f1c;
         }
         .close-detail {
             margin-left: auto;
             background: #d9e5f2;
             border: none;
             border-radius: 50%;
-            width: 46px;
-            height: 46px;
+            width: 48px;
+            height: 48px;
             font-size: 2rem;
             font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 5px 0 #97b5cf;
-            transition: 0.05s linear;
+            box-shadow: 0 4px 0 #97b5cf;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -257,20 +263,20 @@
         .mode-cards {
             display: flex;
             flex-wrap: wrap;
-            gap: 1.2rem;
-            justify-content: space-around;
+            gap: 1rem;
+            justify-content: center;
         }
         .mode-card {
             background: #ffffff;
-            border-radius: 28px;
+            border-radius: 30px;
             flex: 1 1 140px;
-            padding: 1.6rem 0.5rem;
+            padding: 1.2rem 0.3rem;
             text-align: center;
             font-weight: 800;
             font-size: 1.3rem;
             color: #183b56;
             border: 3px solid #fff6cf;
-            box-shadow: 0 9px 0 #cad9eb, 0 10px 20px rgba(0,0,0,0.05);
+            box-shadow: 0 6px 0 #cad9eb, 0 8px 15px rgba(0,0,0,0.05);
             transition: 0.08s;
             cursor: pointer;
             text-decoration: none;
@@ -278,13 +284,13 @@
         }
         .mode-card i {
             display: block;
-            font-size: 2.4rem;
-            margin-bottom: 0.5rem;
+            font-size: 2.2rem;
+            margin-bottom: 0.3rem;
             color: #3c9b8f;
         }
         .mode-card:active {
-            transform: translateY(7px);
-            box-shadow: 0 3px 0 #aebfcf;
+            transform: translateY(5px);
+            box-shadow: 0 2px 0 #aebfcf;
         }
 
         .hidden {
@@ -296,6 +302,27 @@
             text-align: center;
             color: #6b8baa;
             font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        /* 手機微調 */
+        @media (max-width: 480px) {
+            .top-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .user-greeting, .quote-ticker, .stats {
+                width: 100%;
+                justify-content: center;
+            }
+            .lesson-btn {
+                font-size: 1.2rem;
+                padding: 0.7rem 0.8rem;
+            }
+            .mode-card {
+                flex-basis: 120px;
+                font-size: 1.1rem;
+            }
         }
     </style>
 </head>
@@ -321,24 +348,24 @@
         </div>
     </div>
 
-    <!-- BOOKS (rect frames) with updated titles -->
+    <!-- BOOKS (rect frames) 處變不驚 5課 & 中國的變遷 4課 -->
     <div class="books-grid">
-        <!-- 第一冊：處變不驚 - only 3 lessons (第3課 & 第4課 & 第5課) -->
+        <!-- 第一冊：處變不驚 -->
         <div class="book-card" id="book1">
             <div class="book-title"><i class="fas fa-shield-alt"></i> 第一冊::處變不驚</div>
             <div class="book-sub">共 3 課</div>
             <div class="lesson-grid">
-                <div class="lesson-btn" data-book="1" data-lesson="3"><i class="fas fa-moon"></i> 第3課</div>
-                <div class="lesson-btn" data-book="1" data-lesson="4"><i class="fas fa-moon"></i> 第4課</div>
-                <div class="lesson-btn" data-book="1" data-lesson="5"><i class="fas fa-star"></i> 第5課</div>
+                <div class="lesson-btn" data-book="1" data-lesson="3"><i class="fas fa-moon"></i> 第3課-兩性關係</div>
+                <div class="lesson-btn" data-book="1" data-lesson="4"><i class="fas fa-moon"></i> 第4課-情緒</div>
+                <div class="lesson-btn" data-book="1" data-lesson="5"><i class="fas fa-star"></i> 第5課- 活出彩虹</div>
             </div>
         </div>
-        <!-- 第三冊：中國的變遷 - 4 lessons -->
+        <!-- 第三冊：中國的變遷 -->
         <div class="book-card" id="book3">
             <div class="book-title"><i class="fas fa-dragon"></i> 第三冊::中國的變遷</div>
             <div class="book-sub">共 4 課</div>
             <div class="lesson-grid">
-                <div class="lesson-btn" data-book="3" data-lesson="1"><i class="fas fa-globe"></i> 第1課</div>
+                <div class="lesson-btn" data-book="3" data-lesson="1"><i class="fas fa-globe"></i> 第1課-最後的皇朝</div>
                 <div class="lesson-btn" data-book="3" data-lesson="2"><i class="fas fa-flask"></i> 第2課</div>
                 <div class="lesson-btn" data-book="3" data-lesson="3"><i class="fas fa-music"></i> 第3課</div>
                 <div class="lesson-btn" data-book="3" data-lesson="4"><i class="fas fa-puzzle-piece"></i> 第4課</div>
@@ -355,7 +382,9 @@
         <div class="mode-cards" id="modeCardsContainer">
             <!-- mode cards will be generated with links here -->
         </div>
-        <p style="text-align: center; margin-top: 1.2rem; color: #506e8c; font-weight: 500;"><i class="fas fa-hand-point-right"></i> 點擊卡片進入該模式頁面</p>
+        <p style="text-align: center; margin-top: 1.2rem; color: #506e8c; font-weight: 500; font-size:1.1rem;">
+            <i class="fas fa-hand-point-right"></i> 點擊卡片進入該模式頁面
+        </p>
     </div>
 
     <div class="footer-credit">
@@ -365,7 +394,7 @@
 
 <script>
     (function() {
-        // ---------- 名人金句 scroll twice then stop ----------
+        // 名人金句 scroll twice then stop
         const quoteSpan = document.getElementById('quoteSpan');
         let animCount = 0;
 
@@ -384,7 +413,7 @@
             quoteSpan.style.transform = 'translateX(0%)';
         }, 18000);
 
-        // ---------- Lesson click: show detail panel ----------
+        // Lesson click: show detail panel
         const lessonBtns = document.querySelectorAll('.lesson-btn');
         const detailPanel = document.getElementById('detailPanel');
         const selectedLessonLabel = document.getElementById('selectedLessonLabel');
@@ -414,10 +443,8 @@
                 // Determine folder path based on book and lesson
                 let folderPath = '';
                 if (book === '1') {
-                    // Book 1 lessons: 4 and 5 only
                     folderPath = `1-${lesson}`;
                 } else {
-                    // Book 3 lessons: 1,2,3,4
                     folderPath = `3-${lesson}`;
                 }
                 
@@ -430,18 +457,14 @@
                     'Self-Notes': `book${book}_lesson${lesson}_selfnotes.html`
                 };
                 
-                // Construct full path
                 const fileName = modeFileMap[mode.name];
                 link.href = `${folderPath}/${fileName}`;
                 
-                // Add click handler to handle potential 404s gracefully (optional)
+                // For demo, add alert for non-existent pages (optional)
                 link.onclick = function(e) {
-                    // Uncomment the line below to enable the demo alert
+                    // Uncomment to simulate alerts
                     // e.preventDefault();
                     // alert(`🚀 導向至: ${folderPath}/${fileName}`);
-                    
-                    // For actual navigation, we don't prevent default
-                    // The browser will try to navigate to the actual file
                 };
                 
                 link.innerHTML = `<i class="fas ${mode.icon}"></i>${mode.name}`;
