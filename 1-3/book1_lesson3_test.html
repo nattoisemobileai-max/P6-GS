@@ -288,91 +288,134 @@
         }
         .start-btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #3e7a00; }
 
-        /* 總結頁面 – 新增橫條圖 */
+        /* 全新靚靚總結樣式 */
         .summary-screen {
             padding: 0.5rem;
         }
         .summary-title {
-            font-size: 1.6rem;
+            font-size: 1.8rem;
             font-weight: 900;
             color: #1a4972;
             text-align: center;
             margin-bottom: 1rem;
+            text-shadow: 2px 2px 0 #c1d9f0;
         }
         .overall-stats {
+            background: white;
+            border-radius: 24px;
+            padding: 1rem;
             margin-bottom: 1.5rem;
-        }
-        .overall-bars {
-            display: flex;
-            height: 40px;
-            border-radius: 30px;
-            overflow: hidden;
-            margin-top: 0.5rem;
-            box-shadow: 0 3px 0 #a0b9cf;
-        }
-        .bar-correct {
-            background: #58cc71;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 800;
-            font-size: 1rem;
-            transition: width 0.3s;
-            white-space: nowrap;
-            padding: 0 0.3rem;
-        }
-        .bar-wrong {
-            background: #e74c3c;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 800;
-            font-size: 1rem;
-            transition: width 0.3s;
-            white-space: nowrap;
-            padding: 0 0.3rem;
+            box-shadow: 0 5px 0 #a0b9cf;
+            border: 2px solid #fff6cf;
         }
         .overall-labels {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 0.2rem;
-            font-weight: 600;
+            font-weight: 700;
             color: #2c5a7a;
+            margin-bottom: 0.5rem;
         }
-
-        .section-box {
+        .overall-bars {
+            display: flex;
+            height: 36px;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+        }
+        .bar-correct {
+            background: linear-gradient(145deg, #58cc71, #2e9b5c);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 800;
+            font-size: 1.1rem;
+            transition: width 0.3s;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        .bar-wrong {
+            background: linear-gradient(145deg, #e74c3c, #c0392b);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 800;
+            font-size: 1.1rem;
+            transition: width 0.3s;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        .section-card {
             background: white;
-            border-radius: 20px;
-            padding: 0.8rem;
-            margin-bottom: 0.8rem;
-            border-left: 6px solid #3498db;
+            border-radius: 24px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 5px 0 #a0b9cf;
+            border: 2px solid #fff6cf;
+            transition: transform 0.1s;
+        }
+        .section-card:hover {
+            transform: translateY(-2px);
         }
         .section-header {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 0.3rem;
+            gap: 0.5rem;
+            margin-bottom: 0.8rem;
+        }
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            background: #3498db;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
         }
         .section-name {
+            font-size: 1.2rem;
             font-weight: 800;
             color: #1a4972;
+            flex: 1;
         }
         .section-percent {
-            background: #3498db;
-            color: white;
-            padding: 0.2rem 0.8rem;
-            border-radius: 40px;
-            font-weight: 700;
-            font-size: 0.9rem;
-        }
-        .section-detail {
-            display: flex;
-            gap: 1rem;
+            font-size: 1.5rem;
+            font-weight: 900;
             color: #2c5a7a;
-            font-size: 0.9rem;
         }
+        .progress-bg {
+            height: 16px;
+            background: #e2eaf3;
+            border-radius: 30px;
+            margin: 0.5rem 0;
+            overflow: hidden;
+        }
+        .progress-fill-section {
+            height: 100%;
+            background: linear-gradient(90deg, #f4d03f, #f39c12);
+            border-radius: 30px;
+            width: 0%;
+            transition: width 0.3s;
+        }
+        .section-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 0.5rem;
+            color: #4f6f8f;
+            font-weight: 600;
+        }
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .stat-item i {
+            font-size: 1.2rem;
+        }
+        .fa-check-circle { color: #58cc71; }
+        .fa-times-circle { color: #e74c3c; }
+        .fa-file-alt { color: #3498db; }
         .restart-btn {
             background: #48b5a5;
             border: none;
@@ -386,6 +429,11 @@
             display: block;
             width: fit-content;
             margin: 1.5rem auto 0;
+            transition: 0.1s;
+        }
+        .restart-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 1px 0 #1c6b5e;
         }
 
         .hidden { display: none; }
@@ -617,7 +665,6 @@
         }
     }
 
-    // 顯示總結 – 包含橫條圖與四個指定小節
     function showSummary() {
         questionArea.classList.add('hidden');
         navButtons.classList.add('hidden');
@@ -627,11 +674,10 @@
         const totalWrong = questionStatus.filter(s => s === 'incorrect').length;
         const totalQuestions = currentSet.length;
 
-        // 計算百分比 (用於橫條寬度)
         const correctPercent = totalQuestions ? (totalCorrect / totalQuestions) * 100 : 0;
         const wrongPercent = totalQuestions ? (totalWrong / totalQuestions) * 100 : 0;
 
-        // 四個指定小節 (假設 JSON 中的 subtopic 完全匹配這些字串)
+        // 四個指定小節
         const sectionNames = [
             '是友情還是愛情？',
             '甚麼是戀愛？',
@@ -639,7 +685,6 @@
             '怎樣保護自己，免受性侵犯？'
         ];
 
-        // 統計每個小節的數據
         const sectionStats = {};
         sectionNames.forEach(name => { sectionStats[name] = { total: 0, correct: 0, wrong: 0 }; });
 
@@ -651,18 +696,16 @@
                 sectionStats[sub].total++;
                 if (questionStatus[i] === 'correct') sectionStats[sub].correct++;
                 else if (questionStatus[i] === 'incorrect') sectionStats[sub].wrong++;
-            } else {
-                // 若出現未定義的小節，可忽略或歸入「其他」
-                // 此處簡單略過
             }
         }
 
+        // 建立總結 HTML
         let html = `
             <div class="summary-title">📊 測驗總結</div>
             <div class="overall-stats">
                 <div class="overall-labels">
-                    <span>✅ 正確 ${totalCorrect}</span>
-                    <span>❌ 錯誤 ${totalWrong}</span>
+                    <span><i class="fas fa-check-circle" style="color:#58cc71;"></i> 正確 ${totalCorrect}</span>
+                    <span><i class="fas fa-times-circle" style="color:#e74c3c;"></i> 錯誤 ${totalWrong}</span>
                 </div>
                 <div class="overall-bars">
                     <div class="bar-correct" style="width: ${correctPercent}%;">${totalCorrect}</div>
@@ -671,24 +714,30 @@
             </div>
         `;
 
-        // 輸出四個小節的統計
-        for (let name of sectionNames) {
+        // 每個小節的圖示 (可依喜好調整)
+        const icons = ['fas fa-handshake', 'fas fa-heart', 'fas fa-exclamation-triangle', 'fas fa-shield-alt'];
+
+        sectionNames.forEach((name, idx) => {
             const stat = sectionStats[name] || { total: 0, correct: 0, wrong: 0 };
             const percent = stat.total ? Math.round((stat.correct / stat.total) * 100) : 0;
             html += `
-                <div class="section-box">
+                <div class="section-card">
                     <div class="section-header">
-                        <span class="section-name">${name}</span>
-                        <span class="section-percent">${percent}%</span>
+                        <div class="section-icon"><i class="${icons[idx]}"></i></div>
+                        <div class="section-name">${name}</div>
+                        <div class="section-percent">${percent}%</div>
                     </div>
-                    <div class="section-detail">
-                        <span>✅ ${stat.correct}</span>
-                        <span>❌ ${stat.wrong}</span>
-                        <span>📋 ${stat.total} 題</span>
+                    <div class="progress-bg">
+                        <div class="progress-fill-section" style="width: ${percent}%;"></div>
+                    </div>
+                    <div class="section-stats">
+                        <span class="stat-item"><i class="fas fa-check-circle"></i> ${stat.correct}</span>
+                        <span class="stat-item"><i class="fas fa-times-circle"></i> ${stat.wrong}</span>
+                        <span class="stat-item"><i class="fas fa-file-alt"></i> ${stat.total}</span>
                     </div>
                 </div>
             `;
-        }
+        });
 
         html += `<button class="restart-btn" id="restartFromSummary"><i class="fas fa-redo-alt"></i> 重新測驗</button>`;
         summaryArea.innerHTML = html;
