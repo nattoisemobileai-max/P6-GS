@@ -6,6 +6,7 @@
     <title>小常識 · 測驗 · 第一冊::處變不驚 第3課</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* 全域樣式 */
         * {
             margin: 0;
             padding: 0;
@@ -23,6 +24,7 @@
             font-size: 16px;
         }
 
+        /* 主容器 – 固定高度，無頁面捲動 */
         .test-container {
             max-width: 500px;
             width: 100%;
@@ -38,7 +40,7 @@
             overflow: hidden;
         }
 
-        /* 固定頂部 */
+        /* 頂部列 */
         .test-header {
             display: flex;
             align-items: center;
@@ -90,7 +92,7 @@
             align-items: center;
         }
 
-        /* 進度條 – 雙色顯示正確/錯誤 */
+        /* 雙色進度條 */
         .progress-section {
             margin-bottom: 0.5rem;
             flex-shrink: 0;
@@ -122,7 +124,7 @@
             transition: width 0.3s;
         }
 
-        /* 可捲動內容區 */
+        /* 可捲動內容區 (只有這裡會捲動) */
         .scrollable-content {
             flex: 1;
             overflow-y: auto;
@@ -217,6 +219,7 @@
             font-size: 0.9rem;
         }
 
+        /* 即時回饋浮層 */
         .feedback-pop {
             background: #333;
             color: white;
@@ -226,10 +229,13 @@
             margin-top: 0.8rem;
             text-align: center;
             animation: fadeInOut 2s;
+            position: sticky;
+            bottom: 10px;
+            z-index: 10;
         }
         @keyframes fadeInOut { 0%{opacity:0} 20%{opacity:1} 80%{opacity:1} 100%{opacity:0} }
 
-        /* 底部導航 */
+        /* 導航列 */
         .nav-buttons {
             display: flex;
             justify-content: space-between;
@@ -291,7 +297,7 @@
         }
         .start-btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #3e7a00; }
 
-        /* 總結頁面 – 全新風格 */
+        /* 總結頁面 */
         .summary-screen {
             padding: 0.5rem;
         }
@@ -326,13 +332,6 @@
             font-size: 1rem;
             color: #4f6f8f;
             font-weight: 600;
-        }
-
-        .section-title {
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: #1e3f5a;
-            margin: 1rem 0 0.5rem;
         }
         .section-box {
             background: white;
@@ -384,7 +383,8 @@
     </style>
 </head>
 <body>
-<div class="test-container" id="app">
+<div class="test-container">
+    <!-- 固定頂部 -->
     <div class="test-header">
         <a href="../index.html" class="back-home"><i class="fas fa-arrow-left"></i> 返回</a>
         <span class="test-title">第3課 · 測驗</span>
@@ -394,7 +394,7 @@
     </div>
 
     <!-- 雙色進度條 -->
-    <div class="progress-section" id="progressSection">
+    <div class="progress-section">
         <div class="progress-info">
             <span><span id="correctCount">0</span> 正確 · <span id="wrongCount">0</span> 錯誤</span>
             <span id="completionPercent">0%</span>
@@ -405,21 +405,22 @@
         </div>
     </div>
 
+    <!-- 可捲動內容區 -->
     <div class="scrollable-content" id="contentArea">
-        <!-- 開始畫面 -->
+        <!-- 開始畫面 (預設顯示) -->
         <div id="startScreen" class="start-screen">
             <div class="start-btn" id="btnRandom20">隨機20題</div>
             <div class="start-btn" id="btnAll">全部題目</div>
         </div>
 
-        <!-- 題目區 -->
+        <!-- 題目區 (隱藏) -->
         <div id="questionArea" class="hidden"></div>
 
-        <!-- 總結區 (全新設計) -->
+        <!-- 總結區 (隱藏) -->
         <div id="summaryArea" class="hidden summary-screen"></div>
     </div>
 
-    <!-- 底部導航 -->
+    <!-- 底部導航列 (隱藏) -->
     <div class="nav-buttons hidden" id="navButtons">
         <button class="nav-btn" id="prevBtn" disabled><i class="fas fa-chevron-left"></i> 上一題</button>
         <span class="question-indicator" id="questionIndicator">1/0</span>
@@ -431,14 +432,16 @@
 
 <script>
 (function() {
-    let fullTestData = null;
-    let currentSet = [];               // indices into fullTestData.questions
-    let userAnswers = [];              // per currentSet index
-    let questionStatus = [];            // 'unanswered','correct','incorrect'
+    // ---------- 狀態 ----------
+    let fullTestData = null;                // 完整題庫
+    let currentSet = [];                    // 目前測驗使用的題目索引 (指向 fullTestData.questions)
+    let userAnswers = [];                   // 每題使用者選的選項索引 (null 表示未答)
+    let questionStatus = [];                 // 'unanswered', 'correct', 'incorrect'
     let earnedPoints = 0;
     const pointsPerQuestion = 5;
     let currentIndex = 0;
 
+    // DOM 元素
     const startScreen = document.getElementById('startScreen');
     const questionArea = document.getElementById('questionArea');
     const summaryArea = document.getElementById('summaryArea');
@@ -458,11 +461,13 @@
     const btnRandom20 = document.getElementById('btnRandom20');
     const btnAll = document.getElementById('btnAll');
 
+    // ---------- 載入 JSON ----------
     async function loadFullData() {
         try {
             const res = await fetch('source_data_test.json');
             if (!res.ok) throw new Error('無法載入題庫');
             const data = await res.json();
+            // 確保每題有 type (強制為 multiple-choice)
             data.questions = data.questions.map(q => ({ type: 'multiple-choice', ...q }));
             fullTestData = data;
         } catch (e) {
@@ -470,6 +475,7 @@
         }
     }
 
+    // ---------- 開始測驗 ----------
     async function startTest(mode) {
         if (!fullTestData) await loadFullData();
         if (!fullTestData) return;
@@ -500,13 +506,14 @@
         loadQuestion(0);
     }
 
+    // ---------- 載入題目 ----------
     function loadQuestion(index) {
         if (!fullTestData) return;
         currentIndex = index;
         const qIdx = currentSet[index];
         const q = fullTestData.questions[qIdx];
 
-        const letters = ['A','B','C','D'];
+        const letters = ['A', 'B', 'C', 'D'];
         let optionsHtml = '';
         q.options.forEach((opt, optIdx) => {
             let cls = '';
@@ -516,7 +523,7 @@
             } else if (userAnswers[index] === optIdx) cls = 'selected';
 
             optionsHtml += `
-                <button class="option-btn ${cls}" onclick="selectAnswer(${index}, ${optIdx})" ${questionStatus[index] !== 'unanswered' ? 'disabled' : ''}>
+                <button class="option-btn ${cls}" onclick="window.selectAnswer(${index}, ${optIdx})" ${questionStatus[index] !== 'unanswered' ? 'disabled' : ''}>
                     <span class="option-prefix">${letters[optIdx]}</span> ${opt}
                 </button>
             `;
@@ -545,6 +552,7 @@
         updateNavButtons();
     }
 
+    // ---------- 選擇答案 (全域) ----------
     window.selectAnswer = function(setIdx, optIdx) {
         if (questionStatus[setIdx] !== 'unanswered') return;
         const qIdx = currentSet[setIdx];
@@ -564,26 +572,26 @@
 
         earnedPointsSpan.textContent = earnedPoints;
         updateProgressBar();
+
+        // 重新載入題目以顯示正確/錯誤樣式
         loadQuestion(setIdx);
     };
 
+    // 顯示短暫回饋
     function showFeedback(msg, color) {
         const fb = document.createElement('div');
         fb.className = 'feedback-pop';
         fb.textContent = msg;
         fb.style.backgroundColor = color;
-        fb.style.position = 'sticky';
-        fb.style.bottom = '10px';
-        fb.style.zIndex = '10';
         questionArea.appendChild(fb);
         setTimeout(() => fb.remove(), 2000);
     }
 
+    // 更新雙色進度條
     function updateProgressBar() {
         const total = currentSet.length;
         const correct = questionStatus.filter(s => s === 'correct').length;
         const wrong = questionStatus.filter(s => s === 'incorrect').length;
-        const unanswered = total - correct - wrong;
 
         correctCountSpan.textContent = correct;
         wrongCountSpan.textContent = wrong;
@@ -598,6 +606,7 @@
         completionPercent.textContent = percentComplete + '%';
     }
 
+    // 更新導航按鈕狀態
     function updateNavButtons() {
         prevBtn.disabled = (currentIndex === 0);
         const last = (currentIndex === currentSet.length - 1);
@@ -620,6 +629,7 @@
         }
     }
 
+    // ---------- 顯示總結 ----------
     function showSummary() {
         questionArea.classList.add('hidden');
         navButtons.classList.add('hidden');
@@ -658,7 +668,7 @@
         `;
 
         for (let [sub, rec] of subtopicMap.entries()) {
-            const percent = Math.round((rec.correct / rec.total) * 100);
+            const percent = rec.total ? Math.round((rec.correct / rec.total) * 100) : 0;
             html += `
                 <div class="section-box">
                     <div class="section-header">
@@ -683,7 +693,7 @@
         });
     }
 
-    // 事件監聽
+    // ---------- 事件綁定 ----------
     btnRandom20.addEventListener('click', () => startTest('random'));
     btnAll.addEventListener('click', () => startTest('all'));
 
@@ -700,11 +710,17 @@
             alert('請先回答此題');
             return;
         }
-        if (currentIndex < currentSet.length - 1) loadQuestion(currentIndex + 1);
+        // 若已是最後一題且全部答完，應顯示結果 (但此時 submit 按鈕應已被 results 取代，此處為安全)
+        if (currentIndex === currentSet.length - 1 && questionStatus.every(s => s !== 'unanswered')) {
+            showSummary();
+        } else if (currentIndex < currentSet.length - 1) {
+            loadQuestion(currentIndex + 1);
+        }
     });
 
     showResultsBtn.addEventListener('click', showSummary);
 
+    // 預先載入資料
     loadFullData();
 })();
 </script>
