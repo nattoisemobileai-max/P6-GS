@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>小常識 · 科目首頁</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Nunito', 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #f7f9fc 0%, #eef2f7 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 0;                 /* 移除外邊距 */
+            font-size: 18px;
+        }
+
+        .app-container {
+            max-width: 500px;            /* 手機寬度 */
+            width: 100%;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(2px);
+            border-radius: 0;             /* 直角更省空間 */
+            box-shadow: none;
+            padding: 1rem 0.8rem;
+            border: none;
+        }
+
+        /* ========== TOP MENU BAR ========= */
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            padding: 0.6rem 1rem;
+            border-radius: 50px;
+            box-shadow: 0 4px 0 #bed0e3;
+            border: 1px solid rgba(175, 200, 220, 0.3);
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .user-greeting {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #eef5ff;
+            padding: 0.3rem 1rem 0.3rem 0.6rem;
+            border-radius: 40px;
+            border: 1px solid #c1d9f0;
+        }
+        .user-greeting i {
+            font-size: 1.8rem;
+            color: #1c8d7c;
+            background: white;
+            border-radius: 50%;
+            padding: 0.2rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        .user-greeting span {
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: #1f2d3d;
+            letter-spacing: -0.3px;
+        }
+        .user-greeting .sub {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #4f6f8f;
+            margin-left: 2px;
+        }
+
+        /* 名人金句 */
+        .quote-ticker {
+            flex: 1;
+            min-width: 200px;
+            background: #fff9e0;
+            border-radius: 50px;
+            padding: 0.4rem 1rem;
+            border: 1px dashed #f3b33d;
+            box-shadow: 0 2px 10px rgba(250, 190, 60, 0.2);
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .quote-scroll {
+            display: inline-block;
+            white-space: nowrap;
+            font-style: italic;
+            font-weight: 500;
+            color: #9b6b00;
+            font-size: 1.1rem;
+            animation: scrollRightLeft 14s cubic-bezier(0.2, 0.9, 0.3, 1) 2 forwards;
+        }
+        @keyframes scrollRightLeft {
+            0% { transform: translateX(100%); }
+            25% { transform: translateX(20%); }
+            50% { transform: translateX(-20%); }
+            75% { transform: translateX(-80%); }
+            100% { transform: translateX(-150%); }
+        }
+
+        .stats {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            background: #2b3c4e;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            color: white;
+            box-shadow: 0 4px 0 #0f1a24;
+        }
+        .xp-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: #ffd966;
+            color: #2f2f2f;
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 1.1rem;
+        }
+        .xp-badge i {
+            color: #f09b22;
+        }
+        .level-badge {
+            background: white;
+            color: #1f3a4b;
+            font-weight: 800;
+            padding: 0.2rem 0.9rem;
+            border-radius: 30px;
+            font-size: 1.1rem;
+        }
+
+        /* ====== 科目網格 ===== */
+        .subjects-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            margin-top: 1.5rem;
+        }
+
+        .subject-card {
+            width: 100%;
+            background: white;
+            border-radius: 30px;
+            padding: 1.5rem 1.2rem;
+            box-shadow: 0 8px 0 #b3c9da, 0 15px 25px -8px rgba(60, 80, 100, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            transition: all 0.1s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .subject-card:active {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 0 #a0b9cf;
+        }
+
+        .subject-title {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #2f5575;
+            margin-bottom: 0.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        .subject-title i {
+            font-size: 2.2rem;
+            color: #58a700;
+        }
+        .subject-sub {
+            font-size: 1.1rem;
+            color: #4b6d8c;
+            margin-top: 0.3rem;
+            border-bottom: 2px dotted #c6d9eb;
+            padding-bottom: 0.3rem;
+            font-weight: 600;
+        }
+
+        /* 裝飾性標籤 (可選) */
+        .badge-lesson {
+            background: #e1f0fa;
+            color: #1a4972;
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 0.5rem;
+        }
+
+        .footer-credit {
+            margin-top: 2rem;
+            text-align: center;
+            color: #6b8baa;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        /* 手機微調 */
+        @media (max-width: 480px) {
+            .top-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .user-greeting, .quote-ticker, .stats {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="app-container">
+    <!-- TOP MENU BAR (完全沿用之前的風格) -->
+    <div class="top-bar">
+        <div class="user-greeting">
+            <i class="fas fa-user-astronaut"></i>
+            <span>Hi, Jayden!</span>
+            <span class="sub">🌟 小常識</span>
+        </div>
+
+        <div class="quote-ticker" id="quoteTicker">
+            <span class="quote-scroll" id="quoteSpan">
+                <i class="fas fa-quote-left"></i> 知識就是力量 · 培根  <i class="fas fa-quote-right"></i>  學而不思則罔 · 孔子   ❝ 想像力比知識更重要 ❞ —— 愛因斯坦
+            </span>
+        </div>
+
+        <div class="stats">
+            <div class="xp-badge"><i class="fas fa-star"></i> 1,280 XP</div>
+            <div class="level-badge">Lv. 9</div>
+        </div>
+    </div>
+
+    <!-- 科目卡片網格 (依要求列出六科) -->
+    <div class="subjects-grid">
+        <!-- 中文科 -->
+        <a href="chinese.html" class="subject-card">
+            <div class="subject-title">
+                <i class="fas fa-language"></i> 中文科
+            </div>
+            <div class="subject-sub">國語 · 文學 · 文化</div>
+            <span class="badge-lesson"><i class="far fa-bookmark"></i> 8 單元</span>
+        </a>
+
+        <!-- 英文科 -->
+        <a href="english.html" class="subject-card">
+            <div class="subject-title">
+                <i class="fas fa-globe-asia"></i> 英文科
+            </div>
+            <div class="subject-sub">English · 文法 · 會話</div>
+            <span class="badge-lesson"><i class="far fa-bookmark"></i> 10 單元</span>
+        </a>
+
+        <!-- 數學科 (第一個) -->
+        <a href="math1.html" class="subject-card">
+            <div class="subject-title">
+                <i class="fas fa-calculator"></i> 數學科
+            </div>
+            <div class="subject-sub">代數 · 幾何 · 統計</div>
+            <span class="badge-lesson"><i class="far fa-bookmark"></i> 12 單元</span>
+        </a>
+
+        <!-- 數學科 (第二個，可視為進階數學) -->
+        <a href="math2.html" class="subject-card">
+            <div class="subject-title">
+                <i class="fas fa-square-root-alt"></i> 數學科
+            </div>
+            <div class="subject-sub">微積分 · 向量 · 複數</div>
+            <span class="badge-lesson"><i class="far fa-bookmark"></i> 6 單元</span>
+        </a>
+
+        <!-- 體育科 -->
+        <a href="pe.html" class="subject-card">
+            <div class="subject-title">
+                <i class="fas fa-bicycle"></i> 體育科
+            </div>
+            <div class="subject-sub">運動 · 健康 · 團隊</div>
+            <span class="badge-lesson"><i class="far fa-bookmark"></i> 5 單元</span>
+        </a>
+
+        <!-- 音樂科 -->
+        <a href="music.html" class="subject-card">
+            <div class="subject-title">
+                <i class="fas fa-music"></i> 音樂科
+            </div>
+            <div class="subject-sub">樂理 · 賞析 · 演奏</div>
+            <span class="badge-lesson"><i class="far fa-bookmark"></i> 7 單元</span>
+        </a>
+    </div>
+
+    <div class="footer-credit">
+        ⚡ 每天學習 · 多元發展
+    </div>
+</div>
+
+<script>
+    (function() {
+        // 名人金句 scroll twice then stop (同之前寫法)
+        const quoteSpan = document.getElementById('quoteSpan');
+        let animCount = 0;
+
+        function handleAnimationIteration(e) {
+            animCount++;
+            if (animCount === 2) {
+                quoteSpan.style.animation = 'none';
+                quoteSpan.style.transform = 'translateX(0%)';
+            }
+        }
+
+        quoteSpan.addEventListener('animationiteration', handleAnimationIteration);
+
+        setTimeout(() => {
+            quoteSpan.style.animation = 'none';
+            quoteSpan.style.transform = 'translateX(0%)';
+        }, 18000);
+    })();
+</script>
+
+<style>
+    /* 確保連結無底線 */
+    .subject-card {
+        text-decoration: none;
+        color: inherit;
+    }
+    .badge-lesson i {
+        margin-right: 4px;
+        color: #3498db;
+    }
+</style>
+</body>
+</html>
