@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>小常識 · 英文科</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #f7f9fc 0%, #eef2f7 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 0;
+            font-size: 18px;
+        }
+
+        .app-container {
+            max-width: 500px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(2px);
+            padding: 1rem 0.8rem;
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            padding: 0.6rem 1rem;
+            border-radius: 50px;
+            box-shadow: 0 4px 0 #bed0e3;
+            border: 1px solid rgba(175, 200, 220, 0.3);
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .user-greeting {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #eef5ff;
+            padding: 0.3rem 1rem 0.3rem 0.6rem;
+            border-radius: 40px;
+            border: 1px solid #c1d9f0;
+        }
+        .user-greeting i {
+            font-size: 1.8rem;
+            color: #1c8d7c;
+            background: white;
+            border-radius: 50%;
+            padding: 0.2rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        .user-greeting span {
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: #1f2d3d;
+        }
+        .user-greeting .sub {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #4f6f8f;
+        }
+
+        .quote-ticker {
+            flex: 1;
+            min-width: 200px;
+            background: #fff9e0;
+            border-radius: 50px;
+            padding: 0.4rem 1rem;
+            border: 1px dashed #f3b33d;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .quote-scroll {
+            display: inline-block;
+            white-space: nowrap;
+            font-style: italic;
+            font-weight: 500;
+            color: #9b6b00;
+            font-size: 1.1rem;
+            animation: scrollRightLeft 14s cubic-bezier(0.2, 0.9, 0.3, 1) 2 forwards;
+        }
+        @keyframes scrollRightLeft {
+            0% { transform: translateX(100%); }
+            25% { transform: translateX(20%); }
+            50% { transform: translateX(-20%); }
+            75% { transform: translateX(-80%); }
+            100% { transform: translateX(-150%); }
+        }
+
+        .stats {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            background: #2b3c4e;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            color: white;
+            box-shadow: 0 4px 0 #0f1a24;
+        }
+        .xp-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: #ffd966;
+            color: #2f2f2f;
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 1.1rem;
+        }
+        .xp-badge i {
+            color: #f09b22;
+        }
+        .level-badge {
+            background: white;
+            color: #1f3a4b;
+            font-weight: 800;
+            padding: 0.2rem 0.9rem;
+            border-radius: 30px;
+            font-size: 1.1rem;
+        }
+
+        /* 科目內部網格 (兩欄) */
+        .subjects-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .subject-card {
+            background: white;
+            border-radius: 28px;
+            padding: 1rem 0.5rem 0.8rem;
+            box-shadow: 0 6px 0 #b3c9da, 0 10px 20px -5px rgba(60, 80, 100, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            transition: all 0.15s ease;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .subject-card:active {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 0 #a0b9cf, 0 15px 25px -5px rgba(0,0,0,0.2);
+        }
+
+        .subject-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: var(--accent, #58a700);
+            border-radius: 28px 28px 0 0;
+        }
+
+        .subject-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--accent-light, #e1f0fa);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0.3rem 0 0.5rem;
+            font-size: 2rem;
+            color: var(--accent, #58a700);
+            transition: transform 0.2s;
+        }
+        .subject-card:active .subject-icon {
+            transform: scale(1.05);
+        }
+
+        .subject-name {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #1f3a4b;
+            margin-bottom: 0.2rem;
+        }
+
+        .subject-desc {
+            font-size: 0.8rem;
+            color: #4f6f8f;
+            line-height: 1.3;
+            padding: 0 0.3rem;
+            max-height: 4em;
+            overflow-y: auto;
+            margin-bottom: 0.3rem;
+            width: 100%;
+        }
+
+        .subject-progress {
+            width: 90%;
+            height: 5px;
+            background: #e2eaf3;
+            border-radius: 10px;
+            margin: 0.2rem 0;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            width: 50%;
+            background: linear-gradient(90deg, var(--accent, #58a700), #8bc34a);
+            border-radius: 10px;
+        }
+
+        .unit-count {
+            font-size: 0.8rem;
+            color: #4f6f8f;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 0.2rem;
+        }
+        .unit-count i {
+            color: #f3b33d;
+        }
+
+        /* 為英文各單元設定不同的色彩 */
+        .subject-card[data-section="words"] { --accent: #3498db; --accent-light: #d4e6f5; }
+        .subject-card[data-section="grammar"] { --accent: #9b59b6; --accent-light: #ebdef0; }
+        .subject-card[data-section="reading"] { --accent: #2ecc71; --accent-light: #d5f5e3; }
+        .subject-card[data-section="listening"] { --accent: #e67e22; --accent-light: #fae5d3; }
+        .subject-card[data-section="writing"] { --accent: #e74c3c; --accent-light: #fadbd8; }
+
+        .footer-credit {
+            margin-top: 2rem;
+            text-align: center;
+            color: #6b8baa;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        @media (max-width: 480px) {
+            .top-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .user-greeting, .quote-ticker, .stats {
+                width: 100%;
+                justify-content: center;
+            }
+            .subject-name {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="app-container">
+    <div class="top-bar">
+        <div class="user-greeting">
+            <i class="fas fa-user-astronaut"></i>
+            <span>Hi, Jayden!</span>
+            <span class="sub">🌟 英文科</span>
+        </div>
+        <div class="quote-ticker" id="quoteTicker">
+            <span class="quote-scroll" id="quoteSpan">
+                <i class="fas fa-quote-left"></i> 知識就是力量 · 培根  <i class="fas fa-quote-right"></i>  學而不思則罔 · 孔子   ❝ 想像力比知識更重要 ❞ —— 愛因斯坦
+            </span>
+        </div>
+        <div class="stats">
+            <div class="xp-badge"><i class="fas fa-star"></i> 1,280 XP</div>
+            <div class="level-badge">Lv. 9</div>
+        </div>
+    </div>
+
+    <!-- 英文科五大範疇 -->
+    <div class="subjects-grid">
+        <!-- Words -->
+        <a href="words.html" class="subject-card" data-section="words">
+            <div class="subject-icon"><i class="fas fa-book-open"></i></div>
+            <div class="subject-name">Words</div>
+            <div class="subject-desc">詞彙 · 搭配 · 慣用語</div>
+            <div class="subject-progress"><div class="progress-fill" style="width: 45%;"></div></div>
+            <div class="unit-count"><i class="far fa-bookmark"></i> 12 單元</div>
+        </a>
+
+        <!-- Grammar -->
+        <a href="grammar.html" class="subject-card" data-section="grammar">
+            <div class="subject-icon"><i class="fas fa-spell-check"></i></div>
+            <div class="subject-name">Grammar</div>
+            <div class="subject-desc">時態 · 句式 · 詞性</div>
+            <div class="subject-progress"><div class="progress-fill" style="width: 60%;"></div></div>
+            <div class="unit-count"><i class="far fa-bookmark"></i> 10 單元</div>
+        </a>
+
+        <!-- Reading -->
+        <a href="reading.html" class="subject-card" data-section="reading">
+            <div class="subject-icon"><i class="fas fa-book-reader"></i></div>
+            <div class="subject-name">Reading</div>
+            <div class="subject-desc">文章 · 理解 · 技巧</div>
+            <div class="subject-progress"><div class="progress-fill" style="width: 30%;"></div></div>
+            <div class="unit-count"><i class="far fa-bookmark"></i> 8 單元</div>
+        </a>
+
+        <!-- Listening -->
+        <a href="listening.html" class="subject-card" data-section="listening">
+            <div class="subject-icon"><i class="fas fa-headphones"></i></div>
+            <div class="subject-name">Listening</div>
+            <div class="subject-desc">對話 · 演講 · 聽力策略</div>
+            <div class="subject-progress"><div class="progress-fill" style="width: 25%;"></div></div>
+            <div class="unit-count"><i class="far fa-bookmark"></i> 6 單元</div>
+        </a>
+
+        <!-- Writing -->
+        <a href="writing.html" class="subject-card" data-section="writing">
+            <div class="subject-icon"><i class="fas fa-pen"></i></div>
+            <div class="subject-name">Writing</div>
+            <div class="subject-desc">記敘 · 議論 · 創意寫作</div>
+            <div class="subject-progress"><div class="progress-fill" style="width: 20%;"></div></div>
+            <div class="unit-count"><i class="far fa-bookmark"></i> 5 單元</div>
+        </a>
+    </div>
+
+    <div class="footer-credit">
+        ⚡ 每天學習 · 英文專修
+    </div>
+</div>
+
+<script>
+    (function() {
+        const quoteSpan = document.getElementById('quoteSpan');
+        let animCount = 0;
+
+        function handleAnimationIteration(e) {
+            animCount++;
+            if (animCount === 2) {
+                quoteSpan.style.animation = 'none';
+                quoteSpan.style.transform = 'translateX(0%)';
+            }
+        }
+        quoteSpan.addEventListener('animationiteration', handleAnimationIteration);
+        setTimeout(() => {
+            quoteSpan.style.animation = 'none';
+            quoteSpan.style.transform = 'translateX(0%)';
+        }, 18000);
+    })();
+</script>
+</body>
+</html>
