@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>小常識 · 科目首頁</title>
-    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Nunito', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
         }
 
         body {
@@ -32,7 +31,6 @@
             padding: 1rem 0.8rem;
         }
 
-        /* ========== TOP MENU BAR (unchanged) ========= */
         .top-bar {
             display: flex;
             align-items: center;
@@ -68,13 +66,11 @@
             font-weight: 800;
             font-size: 1.3rem;
             color: #1f2d3d;
-            letter-spacing: -0.3px;
         }
         .user-greeting .sub {
             font-size: 1rem;
             font-weight: 500;
             color: #4f6f8f;
-            margin-left: 2px;
         }
 
         .quote-ticker {
@@ -84,7 +80,6 @@
             border-radius: 50px;
             padding: 0.4rem 1rem;
             border: 1px dashed #f3b33d;
-            box-shadow: 0 2px 10px rgba(250, 190, 60, 0.2);
             overflow: hidden;
             white-space: nowrap;
         }
@@ -138,7 +133,7 @@
             font-size: 1.1rem;
         }
 
-        /* ====== 新嘅靚靚科目網格 (兩欄) ===== */
+        /* 科目網格 (兩欄) */
         .subjects-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -149,7 +144,7 @@
         .subject-card {
             background: white;
             border-radius: 28px;
-            padding: 1.2rem 0.8rem;
+            padding: 1rem 0.5rem 0.8rem;
             box-shadow: 0 6px 0 #b3c9da, 0 10px 20px -5px rgba(60, 80, 100, 0.2);
             border: 2px solid rgba(255, 255, 255, 0.9);
             transition: all 0.15s ease;
@@ -167,7 +162,6 @@
             box-shadow: 0 10px 0 #a0b9cf, 0 15px 25px -5px rgba(0,0,0,0.2);
         }
 
-        /* 彩色頂邊 */
         .subject-card::before {
             content: '';
             position: absolute;
@@ -180,15 +174,15 @@
         }
 
         .subject-icon {
-            width: 70px;
-            height: 70px;
+            width: 60px;
+            height: 60px;
             background: var(--accent-light, #e1f0fa);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0.5rem 0 0.8rem;
-            font-size: 2.2rem;
+            margin: 0.3rem 0 0.5rem;
+            font-size: 2rem;
             color: var(--accent, #58a700);
             transition: transform 0.2s;
         }
@@ -197,61 +191,58 @@
         }
 
         .subject-name {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: 800;
             color: #1f3a4b;
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.2rem;
         }
 
         .subject-desc {
-            font-size: 0.9rem;
-            color: #6b8baa;
-            margin-bottom: 0.8rem;
+            font-size: 0.8rem;
+            color: #4f6f8f;
             line-height: 1.3;
-            padding: 0 0.2rem;
+            padding: 0 0.3rem;
+            max-height: 4.5em;
+            overflow-y: auto;
+            margin-bottom: 0.3rem;
+            width: 100%;
         }
 
         .subject-progress {
-            width: 100%;
-            height: 6px;
+            width: 90%;
+            height: 5px;
             background: #e2eaf3;
             border-radius: 10px;
-            margin: 0.5rem 0 0.3rem;
+            margin: 0.2rem 0;
             overflow: hidden;
         }
         .progress-fill {
             height: 100%;
-            width: 60%; /* 模擬進度，可後續動態修改 */
+            width: 50%;
             background: linear-gradient(90deg, var(--accent, #58a700), #8bc34a);
             border-radius: 10px;
         }
 
         .unit-count {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: #4f6f8f;
             font-weight: 600;
             display: flex;
             align-items: center;
             gap: 4px;
-            margin-top: 0.3rem;
+            margin-top: 0.2rem;
         }
         .unit-count i {
             color: #f3b33d;
         }
 
-        /* 每個科目嘅自訂顏色 (accent) */
+        /* 每個科目嘅自訂顏色 */
         .subject-card[data-subject="chinese"] { --accent: #e67e22; --accent-light: #fae5d3; }
         .subject-card[data-subject="english"] { --accent: #3498db; --accent-light: #d4e6f5; }
-        .subject-card[data-subject="math1"] { --accent: #2ecc71; --accent-light: #d5f5e3; }
-        .subject-card[data-subject="math2"] { --accent: #9b59b6; --accent-light: #ebdef0; }
+        .subject-card[data-subject="math"] { --accent: #2ecc71; --accent-light: #d5f5e3; }
+        .subject-card[data-subject="gs"] { --accent: #1abc9c; --accent-light: #d1f2eb; }
         .subject-card[data-subject="pe"] { --accent: #e74c3c; --accent-light: #fadbd8; }
         .subject-card[data-subject="music"] { --accent: #f1c40f; --accent-light: #fcf3cf; }
-        .subject-card[data-subject="gs"] { --accent: #1abc9c; --accent-light: #d1f2eb; }
-
-        .subject-card .subject-icon {
-            background: var(--accent-light);
-            color: var(--accent);
-        }
 
         .footer-credit {
             margin-top: 2rem;
@@ -261,7 +252,6 @@
             font-size: 1rem;
         }
 
-        /* 手機微調 */
         @media (max-width: 480px) {
             .top-bar {
                 flex-direction: column;
@@ -271,9 +261,6 @@
                 width: 100%;
                 justify-content: center;
             }
-            .subjects-grid {
-                gap: 0.8rem;
-            }
             .subject-name {
                 font-size: 1.2rem;
             }
@@ -282,69 +269,75 @@
 </head>
 <body>
 <div class="app-container">
-    <!-- TOP MENU BAR (完全一致) -->
     <div class="top-bar">
         <div class="user-greeting">
             <i class="fas fa-user-astronaut"></i>
             <span>Hi, Jayden!</span>
             <span class="sub">🌟 小常識</span>
         </div>
-
         <div class="quote-ticker" id="quoteTicker">
             <span class="quote-scroll" id="quoteSpan">
                 <i class="fas fa-quote-left"></i> 知識就是力量 · 培根  <i class="fas fa-quote-right"></i>  學而不思則罔 · 孔子   ❝ 想像力比知識更重要 ❞ —— 愛因斯坦
             </span>
         </div>
-
         <div class="stats">
             <div class="xp-badge"><i class="fas fa-star"></i> 1,280 XP</div>
             <div class="level-badge">Lv. 9</div>
         </div>
     </div>
 
-    <!-- 科目卡片網格 (七科) -->
     <div class="subjects-grid">
-        <!-- 中文科 -->
+        <!-- 中文科 (根據 IMG_0555) -->
         <a href="chinese.html" class="subject-card" data-subject="chinese">
             <div class="subject-icon"><i class="fas fa-language"></i></div>
             <div class="subject-name">中文科</div>
-            <div class="subject-desc">文學 · 語文 · 文化</div>
-            <div class="subject-progress"><div class="progress-fill" style="width: 55%;"></div></div>
-            <div class="unit-count"><i class="far fa-bookmark"></i> 8 單元</div>
+            <div class="subject-desc">
+                課文溫習 (6下第1-7課) · 閱讀理解 · 寫作技巧 · 詞語運用 · 文言文入門
+            </div>
+            <div class="subject-progress"><div class="progress-fill" style="width: 60%;"></div></div>
+            <div class="unit-count"><i class="far fa-bookmark"></i> 7 單元</div>
         </a>
 
-        <!-- 英文科 -->
+        <!-- 英文科 (根據 IMG_0556) -->
         <a href="english.html" class="subject-card" data-subject="english">
             <div class="subject-icon"><i class="fas fa-globe-asia"></i></div>
             <div class="subject-name">英文科</div>
-            <div class="subject-desc">文法 · 會話 · 閱讀</div>
-            <div class="subject-progress"><div class="progress-fill" style="width: 40%;"></div></div>
-            <div class="unit-count"><i class="far fa-bookmark"></i> 10 單元</div>
+            <div class="subject-desc">
+                6B Unit1-3 · Grammar · Reading (leaflet, memo, email, stories…) · Speaking · Writing
+            </div>
+            <div class="subject-progress"><div class="progress-fill" style="width: 45%;"></div></div>
+            <div class="unit-count"><i class="far fa-bookmark"></i> 8 單元</div>
         </a>
 
-        <!-- 數學科 (基礎) -->
-        <a href="math1.html" class="subject-card" data-subject="math1">
+        <!-- 數學科 (根據 IMG_0557, 只有一個) -->
+        <a href="math.html" class="subject-card" data-subject="math">
             <div class="subject-icon"><i class="fas fa-calculator"></i></div>
             <div class="subject-name">數學科</div>
-            <div class="subject-desc">代數 · 幾何 · 統計</div>
-            <div class="subject-progress"><div class="progress-fill" style="width: 70%;"></div></div>
-            <div class="unit-count"><i class="far fa-bookmark"></i> 12 單元</div>
+            <div class="subject-desc">
+                速率(A8) · 時間(A7) · 圓周(A5&6) · 角(A3&4) · 百分數(A1&2) · 四則運算
+            </div>
+            <div class="subject-progress"><div class="progress-fill" style="width: 35%;"></div></div>
+            <div class="unit-count"><i class="far fa-bookmark"></i> 6 單元</div>
         </a>
 
-        <!-- 數學科 (進階) -->
-        <a href="math2.html" class="subject-card" data-subject="math2">
-            <div class="subject-icon"><i class="fas fa-square-root-alt"></i></div>
-            <div class="subject-name">數學科</div>
-            <div class="subject-desc">微積分 · 向量 · 複數</div>
-            <div class="subject-progress"><div class="progress-fill" style="width: 25%;"></div></div>
-            <div class="unit-count"><i class="far fa-bookmark"></i> 6 單元</div>
+        <!-- 常識科 (放在數學後面) -->
+        <a href="index-GS.html" class="subject-card" data-subject="gs">
+            <div class="subject-icon"><i class="fas fa-brain"></i></div>
+            <div class="subject-name">常識科</div>
+            <div class="subject-desc">
+                社會 · 科學 · 公民 · 時事 · 生活知識
+            </div>
+            <div class="subject-progress"><div class="progress-fill" style="width: 50%;"></div></div>
+            <div class="unit-count"><i class="far fa-bookmark"></i> 9 單元</div>
         </a>
 
         <!-- 體育科 -->
         <a href="pe.html" class="subject-card" data-subject="pe">
             <div class="subject-icon"><i class="fas fa-bicycle"></i></div>
             <div class="subject-name">體育科</div>
-            <div class="subject-desc">運動 · 健康 · 團隊</div>
+            <div class="subject-desc">
+                運動技能 · 健康知識 · 團隊合作
+            </div>
             <div class="subject-progress"><div class="progress-fill" style="width: 30%;"></div></div>
             <div class="unit-count"><i class="far fa-bookmark"></i> 5 單元</div>
         </a>
@@ -353,18 +346,11 @@
         <a href="music.html" class="subject-card" data-subject="music">
             <div class="subject-icon"><i class="fas fa-music"></i></div>
             <div class="subject-name">音樂科</div>
-            <div class="subject-desc">樂理 · 賞析 · 演奏</div>
-            <div class="subject-progress"><div class="progress-fill" style="width: 45%;"></div></div>
+            <div class="subject-desc">
+                樂理 · 賞析 · 演奏 · 音樂史
+            </div>
+            <div class="subject-progress"><div class="progress-fill" style="width: 40%;"></div></div>
             <div class="unit-count"><i class="far fa-bookmark"></i> 7 單元</div>
-        </a>
-
-        <!-- 常識科 (新增，連結到 index-GS.html) -->
-        <a href="index-GS.html" class="subject-card" data-subject="gs">
-            <div class="subject-icon"><i class="fas fa-brain"></i></div>
-            <div class="subject-name">常識科</div>
-            <div class="subject-desc">社會 · 科學 · 公民</div>
-            <div class="subject-progress"><div class="progress-fill" style="width: 50%;"></div></div>
-            <div class="unit-count"><i class="far fa-bookmark"></i> 9 單元</div>
         </a>
     </div>
 
@@ -375,7 +361,6 @@
 
 <script>
     (function() {
-        // 名人金句動畫 (兩次後停止)
         const quoteSpan = document.getElementById('quoteSpan');
         let animCount = 0;
 
@@ -386,9 +371,7 @@
                 quoteSpan.style.transform = 'translateX(0%)';
             }
         }
-
         quoteSpan.addEventListener('animationiteration', handleAnimationIteration);
-
         setTimeout(() => {
             quoteSpan.style.animation = 'none';
             quoteSpan.style.transform = 'translateX(0%)';
