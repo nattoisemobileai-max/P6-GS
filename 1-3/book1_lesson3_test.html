@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>小常識 · 測驗 · 第一冊::處變不驚 第3課</title>
-    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -13,7 +12,6 @@
             box-sizing: border-box;
             font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
         }
-
         body {
             background: linear-gradient(145deg, #d4e0ec 0%, #eaf0f6 100%);
             min-height: 100vh;
@@ -23,19 +21,16 @@
             padding: 1rem 0.8rem;
             font-size: 18px;
         }
-
         .test-container {
             max-width: 900px;
             width: 100%;
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(4px);
             border-radius: 32px;
-            box-shadow: 0 20px 30px -10px rgba(0, 40, 60, 0.4);
+            box-shadow: 0 20px 30px -10px rgba(0,40,60,0.4);
             padding: 1.5rem 1.2rem;
-            border: 2px solid rgba(255, 255, 255, 0.8);
+            border: 2px solid rgba(255,255,255,0.8);
         }
-
-        /* Header */
         .test-header {
             display: flex;
             align-items: center;
@@ -48,7 +43,6 @@
             flex-wrap: wrap;
             gap: 0.5rem;
         }
-
         .back-home {
             background: #f4d03f;
             border-radius: 40px;
@@ -68,7 +62,6 @@
             transform: translateY(3px);
             box-shadow: 0 1px 0 #b38f1c;
         }
-
         .test-title {
             font-size: 1.4rem;
             font-weight: 900;
@@ -78,7 +71,6 @@
             color: #1a4972;
             border: 2px solid #c1d9f0;
         }
-
         .test-stats {
             display: flex;
             gap: 0.8rem;
@@ -93,8 +85,6 @@
             color: #ffd966;
             margin-right: 4px;
         }
-
-        /* Progress bar */
         .progress-section {
             margin-bottom: 1.5rem;
         }
@@ -119,8 +109,6 @@
             border-radius: 30px;
             transition: width 0.3s;
         }
-
-        /* Question card */
         .question-card {
             background: white;
             border-radius: 30px;
@@ -129,7 +117,6 @@
             box-shadow: 0 8px 0 #a0b9cf, 0 8px 20px rgba(0,0,0,0.1);
             border: 2px solid #fff6cf;
         }
-
         .question-header {
             display: flex;
             align-items: center;
@@ -156,7 +143,6 @@
             align-items: center;
             gap: 5px;
         }
-
         .question-text {
             font-size: 1.4rem;
             font-weight: 700;
@@ -166,8 +152,6 @@
             padding-left: 0.5rem;
             border-left: 4px solid #f3b33d;
         }
-
-        /* Options */
         .options-grid {
             display: flex;
             flex-direction: column;
@@ -225,8 +209,6 @@
             font-weight: 800;
             flex-shrink: 0;
         }
-
-        /* Explanation */
         .explanation-box {
             background: #fff9e6;
             border-left: 6px solid #f3b33d;
@@ -240,8 +222,6 @@
         .explanation-box.show {
             display: block;
         }
-
-        /* Navigation */
         .nav-buttons {
             display: flex;
             justify-content: space-between;
@@ -284,8 +264,6 @@
             font-weight: 600;
             color: #1a4972;
         }
-
-        /* Results screen */
         .results-screen {
             text-align: center;
             padding: 1.5rem;
@@ -364,7 +342,6 @@
 </head>
 <body>
 <div class="test-container">
-    <!-- Header -->
     <div class="test-header">
         <a href="../index.html" class="back-home"><i class="fas fa-arrow-left"></i> 返回</a>
         <span class="test-title" id="lessonTitle">第3課 · 處變不驚</span>
@@ -374,7 +351,6 @@
         </div>
     </div>
 
-    <!-- Loading / Error Area -->
     <div id="loadingArea">
         <div class="loading-spinner">
             <div class="spinner"></div>
@@ -382,7 +358,6 @@
         </div>
     </div>
 
-    <!-- Main content (hidden until loaded) -->
     <div id="contentArea" class="hidden">
         <div class="progress-section">
             <div class="progress-info">
@@ -393,9 +368,7 @@
                 <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
             </div>
         </div>
-
         <div id="questionsArea"></div>
-
         <div class="nav-buttons">
             <button class="nav-btn" id="prevBtn" disabled><i class="fas fa-chevron-left"></i> 上一題</button>
             <span class="question-indicator" id="questionIndicator">1 / 0</span>
@@ -405,7 +378,6 @@
         </div>
     </div>
 
-    <!-- Results screen -->
     <div id="resultsScreen" class="results-screen hidden">
         <div class="results-icon"><i class="fas fa-trophy"></i></div>
         <div class="results-score" id="finalScore">0/0</div>
@@ -420,15 +392,13 @@
 
 <script>
 (function() {
-    // State variables
     let testData = null;
     let currentQuestionIndex = 0;
     let userAnswers = [];
-    let questionStatus = []; // 'unanswered', 'correct', 'incorrect'
+    let questionStatus = [];
     let earnedPoints = 0;
     const pointsPerQuestion = 5;
 
-    // DOM elements
     const loadingArea = document.getElementById('loadingArea');
     const contentArea = document.getElementById('contentArea');
     const resultsScreen = document.getElementById('resultsScreen');
@@ -450,33 +420,33 @@
     const finalScore = document.getElementById('finalScore');
     const finalMessage = document.getElementById('finalMessage');
 
-    // Load test data from JSON
     function loadTestData() {
         fetch('source_data_test.json')
             .then(response => {
-                if (!response.ok) throw new Error('無法載入題目，請確認檔案是否存在');
+                if (!response.ok) throw new Error('無法載入題目，請確認 source_data_test.json 是否存在');
                 return response.json();
             })
             .then(data => {
                 testData = data;
-                // Initialize arrays
+                // 確保每一題都有 type 欄位，若無則預設為 multiple-choice
+                testData.questions = testData.questions.map(q => ({
+                    type: 'multiple-choice',   // 強制設為選擇題（因為我們的 JSON 都是此類型）
+                    ...q
+                }));
+
                 testData.questions.forEach((_, i) => {
                     userAnswers[i] = null;
                     questionStatus[i] = 'unanswered';
                 });
 
-                // Update metadata
                 lessonTitle.textContent = testData.lesson || '第一冊::處變不驚 · 第3課';
                 totalPointsSpan.textContent = testData.totalPoints || (testData.questions.length * pointsPerQuestion);
                 timeEstimateSpan.textContent = testData.timeEstimate || '15分鐘';
                 totalQNum.textContent = testData.questions.length;
                 questionIndicator.textContent = `1 / ${testData.questions.length}`;
 
-                // Hide loading, show content
                 loadingArea.classList.add('hidden');
                 contentArea.classList.remove('hidden');
-
-                // Load first question
                 loadQuestion(0);
             })
             .catch(error => {
@@ -491,27 +461,16 @@
             });
     }
 
-    // Load question by index
     function loadQuestion(index) {
         if (!testData) return;
 
         const question = testData.questions[index];
         currentQuestionIndex = index;
 
-        // Build HTML
-        let html = `
-            <div class="question-card">
-                <div class="question-header">
-                    <span class="question-number">第 ${index+1} 題</span>
-                    <span class="subtopic-badge"><i class="fas fa-tag"></i> ${question.subtopic || '一般'}</span>
-                </div>
-                <div class="question-text">${question.question}</div>
-                <div class="options-grid" id="options-container">
-        `;
-
-        // Render options based on type (only multiple-choice for this dataset)
-        if (question.type === 'multiple-choice') {
-            const letters = ['A', 'B', 'C', 'D'];
+        // 無論 question.type 是什麼，都當作選擇題處理（因為我們的資料只有選擇題）
+        const letters = ['A', 'B', 'C', 'D'];
+        let optionsHtml = '';
+        if (question.options && Array.isArray(question.options)) {
             question.options.forEach((opt, optIndex) => {
                 const isSelected = (userAnswers[index] === optIndex);
                 let statusClass = '';
@@ -521,20 +480,26 @@
                 } else if (isSelected) {
                     statusClass = 'selected';
                 }
-                html += `
+                optionsHtml += `
                     <button class="option-btn ${statusClass}" onclick="selectOption(${index}, ${optIndex})" ${questionStatus[index] !== 'unanswered' ? 'disabled' : ''}>
                         <span class="option-prefix">${letters[optIndex]}</span> ${opt}
                     </button>
                 `;
             });
         } else {
-            // For other types (not used in current JSON) we could add fallback
-            html += `<p>不支援的題型</p>`;
+            optionsHtml = '<p>題目格式錯誤</p>';
         }
 
-        html += `</div>`;
+        let html = `
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">第 ${index+1} 題</span>
+                    <span class="subtopic-badge"><i class="fas fa-tag"></i> ${question.subtopic || '一般'}</span>
+                </div>
+                <div class="question-text">${question.question}</div>
+                <div class="options-grid">${optionsHtml}</div>
+        `;
 
-        // Explanation
         if (questionStatus[index] !== 'unanswered') {
             html += `<div class="explanation-box show"><i class="fas fa-info-circle"></i> ${question.explanation || ''}</div>`;
         } else {
@@ -543,15 +508,12 @@
         html += `</div>`;
 
         questionsArea.innerHTML = html;
-
-        // Update UI elements
         currentQNum.textContent = index + 1;
         questionIndicator.textContent = `${index+1} / ${testData.questions.length}`;
         updateNavButtons();
         updateProgress();
     }
 
-    // Global function for selecting option
     window.selectOption = function(qIndex, optIndex) {
         if (questionStatus[qIndex] !== 'unanswered') return;
         const question = testData.questions[qIndex];
@@ -559,17 +521,13 @@
         const isCorrect = (optIndex === question.correctAnswer);
         questionStatus[qIndex] = isCorrect ? 'correct' : 'incorrect';
 
-        // Update points
         let points = 0;
         questionStatus.forEach(s => { if (s === 'correct') points += pointsPerQuestion; });
         earnedPoints = points;
         earnedPointsSpan.textContent = earnedPoints;
-
-        // Reload question to show feedback
         loadQuestion(qIndex);
     };
 
-    // Update progress bar
     function updateProgress() {
         const total = testData.questions.length;
         const answered = questionStatus.filter(s => s !== 'unanswered').length;
@@ -578,10 +536,8 @@
         completionPercent.textContent = percent + '%';
     }
 
-    // Update navigation buttons
     function updateNavButtons() {
         prevBtn.disabled = (currentQuestionIndex === 0);
-
         const isLast = (currentQuestionIndex === testData.questions.length - 1);
         const allAnswered = questionStatus.every(s => s !== 'unanswered');
 
@@ -602,7 +558,6 @@
         }
     }
 
-    // Show results
     function showResults() {
         contentArea.classList.add('hidden');
         resultsScreen.classList.remove('hidden');
@@ -615,7 +570,6 @@
         else finalMessage.textContent = '💪 別氣餒！再試一次會更好！';
     }
 
-    // Restart test
     function restartTest() {
         testData.questions.forEach((_, i) => {
             userAnswers[i] = null;
@@ -629,7 +583,6 @@
         loadQuestion(0);
     }
 
-    // Event listeners
     prevBtn.addEventListener('click', () => {
         if (currentQuestionIndex > 0) loadQuestion(currentQuestionIndex - 1);
     });
@@ -646,7 +599,6 @@
     showResultsBtn.addEventListener('click', showResults);
     restartBtn.addEventListener('click', restartTest);
 
-    // Start
     loadTestData();
 })();
 </script>
