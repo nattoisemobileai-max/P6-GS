@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小常識 · 資訊圖表</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* 與之前完全一致的風格 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #f7f9fc 0%, #eef2f7 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 1rem;
+        }
+
+        .infographic-container {
+            max-width: 1200px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(2px);
+            border-radius: 40px;
+            padding: 1.5rem;
+            box-shadow: 0 20px 40px -15px rgba(0,20,40,0.2);
+        }
+
+        /* 頂部列 – 完全一致 */
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 60px;
+            box-shadow: 0 4px 0 #bed0e3;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .back-home {
+            background: #f4d03f;
+            border-radius: 40px;
+            padding: 0.4rem 1.3rem;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #1f3a4b;
+            border: none;
+            box-shadow: 0 4px 0 #b38f1c;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+        .back-home:active {
+            transform: translateY(4px);
+            box-shadow: 0 1px 0 #b38f1c;
+        }
+
+        .user-greeting {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #eef5ff;
+            padding: 0.3rem 1rem 0.3rem 0.6rem;
+            border-radius: 40px;
+            border: 1px solid #c1d9f0;
+        }
+        .user-greeting i {
+            font-size: 1.8rem;
+            color: #1c8d7c;
+            background: white;
+            border-radius: 50%;
+            padding: 0.2rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        .user-greeting span {
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: #1f2d3d;
+        }
+        .user-greeting .sub {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #4f6f8f;
+        }
+
+        .quote-ticker {
+            flex: 1;
+            min-width: 250px;
+            background: #fff9e0;
+            border-radius: 50px;
+            padding: 0.4rem 1.2rem;
+            border: 1px dashed #f3b33d;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .quote-scroll {
+            display: inline-block;
+            white-space: nowrap;
+            font-style: italic;
+            font-weight: 500;
+            color: #9b6b00;
+            font-size: 1.1rem;
+            animation: scrollRightLeft 14s cubic-bezier(0.2, 0.9, 0.3, 1) 2 forwards;
+        }
+        @keyframes scrollRightLeft {
+            0% { transform: translateX(100%); }
+            25% { transform: translateX(20%); }
+            50% { transform: translateX(-20%); }
+            75% { transform: translateX(-80%); }
+            100% { transform: translateX(-150%); }
+        }
+
+        .stats {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: #2b3c4e;
+            padding: 0.3rem 1.2rem;
+            border-radius: 40px;
+            color: white;
+            box-shadow: 0 4px 0 #0f1a24;
+        }
+        .xp-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: #ffd966;
+            color: #2f2f2f;
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 1.1rem;
+        }
+        .xp-badge i { color: #f09b22; }
+        .level-badge {
+            background: white;
+            color: #1f3a4b;
+            font-weight: 800;
+            padding: 0.2rem 0.9rem;
+            border-radius: 30px;
+            font-size: 1.1rem;
+        }
+
+        /* 標題區域 – 提示目前頁面為資訊圖表 */
+        .page-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            background: white;
+            padding: 1rem 2rem;
+            border-radius: 60px;
+            box-shadow: 0 4px 0 #bed0e3;
+        }
+        .page-header i {
+            font-size: 2.5rem;
+            color: #1abc9c;
+        }
+        .page-header h1 {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #1f3a4b;
+        }
+
+        /* 卡片區域 – 用來展示圖片 */
+        .infographic-card {
+            background: white;
+            border-radius: 30px;
+            padding: 2rem;
+            box-shadow: 0 6px 0 #b3c9da;
+            border: 2px solid rgba(255,255,255,0.9);
+            text-align: center;
+        }
+
+        /* 響應式圖片 – 針對各種裝置最佳顯示 */
+        .infographic-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 24px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            transition: transform 0.2s;
+        }
+        .infographic-image:hover {
+            transform: scale(1.01);
+        }
+
+        .image-caption {
+            margin-top: 1.5rem;
+            color: #4f6f8f;
+            font-weight: 600;
+            font-size: 1.1rem;
+            border-top: 2px dotted #c6d9eb;
+            padding-top: 1rem;
+        }
+
+        /* 頁尾 */
+        .footer-note {
+            margin-top: 2rem;
+            text-align: center;
+            color: #6b8baa;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        /* 手機微調 */
+        @media (max-width: 480px) {
+            .infographic-container { padding: 1rem; }
+            .top-bar { flex-direction: column; align-items: stretch; }
+            .user-greeting, .quote-ticker, .stats { width: 100%; justify-content: center; }
+            .page-header h1 { font-size: 1.4rem; }
+            .page-header i { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="infographic-container">
+    <!-- 頂部列 (與之前完全相同) -->
+    <div class="top-bar">
+        <a href="../index.html" class="back-home"><i class="fas fa-arrow-left"></i> 返回</a>
+        <div class="user-greeting">
+            <i class="fas fa-user-astronaut"></i>
+            <span>Hi, Jayden!</span>
+            <span class="sub">🌟 呈三</span>
+        </div>
+        <div class="quote-ticker" id="quoteTicker">
+            <span class="quote-scroll" id="quoteSpan">
+                <i class="fas fa-quote-left"></i> 知識就是力量 · 培根  <i class="fas fa-quote-right"></i>  學而不思則罔 · 孔子   ❝ 想像力比知識更重要 ❞ —— 愛因斯坦
+            </span>
+        </div>
+        <div class="stats">
+            <div class="xp-badge"><i class="fas fa-star"></i> 000 XP</div>
+            <div class="level-badge">Lv. 3</div>
+        </div>
+    </div>
+
+    <!-- 頁面標題：資訊圖表 -->
+    <div class="page-header">
+        <i class="fas fa-chart-pie"></i>
+        <h1>課文資訊圖表</h1>
+    </div>
+
+    <!-- 主要圖片卡片 -->
+    <div class="infographic-card">
+        <!-- 
+            請將此處的圖片連結換成您實際的圖檔路徑。
+            例如： src="images/lesson2-infographic.png" 
+            或使用線上圖片網址。
+        -->
+        <img src="https://via.placeholder.com/1200x800/3498db/ffffff?text=課堂+資訊圖表+請放上您的圖片" 
+             alt="課文資訊圖表" 
+             class="infographic-image"
+             loading="lazy">
+        
+        <div class="image-caption">
+            <i class="fas fa-image"></i> 第三冊·第2課 · 重點資訊圖表
+        </div>
+    </div>
+
+    <!-- 頁尾 -->
+    <div class="footer-note">
+        ⚡ 點擊圖片可放大檢視 (依裝置自動縮放)
+    </div>
+</div>
+
+<script>
+    // 金句滾動 (兩次後停止)
+    const quoteSpan = document.getElementById('quoteSpan');
+    let animCount = 0;
+    quoteSpan.addEventListener('animationiteration', () => {
+        animCount++;
+        if (animCount === 2) {
+            quoteSpan.style.animation = 'none';
+            quoteSpan.style.transform = 'translateX(0%)';
+        }
+    });
+    setTimeout(() => {
+        quoteSpan.style.animation = 'none';
+        quoteSpan.style.transform = 'translateX(0%)';
+    }, 18000);
+</script>
+</body>
+</html>
