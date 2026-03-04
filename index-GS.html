@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>常識學堂</title>
+    <title>常識學堂 · 學習模式</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* 樣式與原頁面保持一致，並微調以適應新內容 */
+        /* 樣式與原頁面保持一致，並新增 detail panel 樣式 */
         * {
             margin: 0;
             padding: 0;
@@ -89,7 +89,7 @@
             background: white; color: #1f3a4b; font-weight: 800; padding: 0.2rem 0.9rem; border-radius: 30px; font-size: 1.1rem;
         }
 
-        /* 科目/書籍網格 */
+        /* 書籍/主題網格 */
         .books-grid {
             display: flex; flex-direction: column; gap: 1.2rem; margin-top: 1.5rem;
         }
@@ -115,10 +115,77 @@
             padding: 0.8rem 1.2rem; font-weight: 700; font-size: 1.2rem; color: #1f4973;
             box-shadow: 0 4px 0 #9fbad0; cursor: pointer; transition: all 0.06s linear;
             display: inline-flex; align-items: center; gap: 0.5rem; flex: 1 1 auto; justify-content: center;
-            min-width: 110px; text-decoration: none;
+            min-width: 110px; text-decoration: none; border: none;
         }
         .lesson-btn i { font-size: 1.2rem; color: #ffa41b; }
         .lesson-btn:active { transform: translateY(4px); box-shadow: 0 1px 0 #9fbad0; }
+
+        /* 新增：學習模式面板 (點擊課堂後顯示) */
+        .mode-panel {
+            background: white;
+            border-radius: 30px;
+            padding: 1.5rem 1rem;
+            margin: 1.5rem 0 1rem;
+            box-shadow: 0 6px 0 #b3c9da;
+            border: 2px solid #fff6cf;
+            display: none; /* 預設隱藏 */
+        }
+        .mode-panel.active {
+            display: block;
+        }
+        .panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px dashed #9bb7d1;
+        }
+        .panel-header h3 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #1a4972;
+        }
+        .close-panel {
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: #e74c3c;
+            padding: 0 0.5rem;
+        }
+        .mode-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .mode-card {
+            background: #f5f9ff;
+            border: 2px solid #cad9eb;
+            border-radius: 24px;
+            padding: 1rem 0.5rem;
+            text-align: center;
+            text-decoration: none;
+            color: #1f4973;
+            transition: all 0.1s;
+            box-shadow: 0 4px 0 #9fbad0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .mode-card:active {
+            transform: translateY(4px);
+            box-shadow: 0 1px 0 #9fbad0;
+        }
+        .mode-card i {
+            font-size: 2rem;
+            color: #3498db;
+        }
+        .mode-card span {
+            font-weight: 700;
+            font-size: 1rem;
+        }
 
         .footer-credit {
             margin-top: 2rem; text-align: center; color: #6b8baa; font-weight: 600; font-size: 1rem;
@@ -150,40 +217,51 @@
         </div>
     </div>
 
-    <!-- 書籍/主題網格 (新增第三部分：時事題) -->
+    <!-- 書籍/主題網格 (包含所有課堂) -->
     <div class="books-grid">
-        <!-- 第一部分：第一冊::處變不驚 (共3課，更換每課圖示) -->
+        <!-- 第一冊::處變不驚 -->
         <div class="book-card" id="book1">
             <div class="book-title"><i class="fas fa-shield-alt"></i> 第一冊::處變不驚</div>
             <div class="book-sub">共 3 課</div>
             <div class="lesson-grid">
-                <a href="book1-lesson3.html" class="lesson-btn"><i class="fas fa-heart-broken"></i> 第3課-兩性關係</a>
-                <a href="book1-lesson4.html" class="lesson-btn"><i class="fas fa-smile"></i> 第4課-情緒和壓力</a>
-                <a href="book1-lesson5.html" class="lesson-btn"><i class="fas fa-rainbow"></i> 第5課-活出彩虹</a>
+                <button class="lesson-btn" data-book="第一冊" data-lesson="第3課-兩性關係"><i class="fas fa-heart-broken"></i> 第3課-兩性關係</button>
+                <button class="lesson-btn" data-book="第一冊" data-lesson="第4課-情緒和壓力"><i class="fas fa-smile"></i> 第4課-情緒和壓力</button>
+                <button class="lesson-btn" data-book="第一冊" data-lesson="第5課-活出彩虹"><i class="fas fa-rainbow"></i> 第5課-活出彩虹</button>
             </div>
         </div>
 
-        <!-- 第二部分：第三冊::中國的變遷 (共4課，更換每課圖示) -->
+        <!-- 第三冊::中國的變遷 -->
         <div class="book-card" id="book3">
             <div class="book-title"><i class="fas fa-dragon"></i> 第三冊::中國的變遷</div>
             <div class="book-sub">共 4 課</div>
             <div class="lesson-grid">
-                <a href="3-1/selfnotes_book3-lesson1.html" class="lesson-btn"><i class="fas fa-crown"></i> 第1課-最後的皇朝</a>
-                <a href="book3-lesson2.html" class="lesson-btn"><i class="fas fa-fist-raised"></i> 第2課-內外交困的時期</a>
-                <a href="book3-lesson3.html" class="lesson-btn"><i class="fas fa-chart-line"></i> 第3課-改革開放前後</a>
-                <a href="book3-lesson4.html" class="lesson-btn"><i class="fas fa-city"></i> 第4課-中國近年發展</a>
+                <button class="lesson-btn" data-book="第三冊" data-lesson="第1課-最後的皇朝"><i class="fas fa-crown"></i> 第1課-最後的皇朝</button>
+                <button class="lesson-btn" data-book="第三冊" data-lesson="第2課-內外交困的時期"><i class="fas fa-fist-raised"></i> 第2課-內外交困的時期</button>
+                <button class="lesson-btn" data-book="第三冊" data-lesson="第3課-改革開放前後"><i class="fas fa-chart-line"></i> 第3課-改革開放前後</button>
+                <button class="lesson-btn" data-book="第三冊" data-lesson="第4課-中國近年發展"><i class="fas fa-city"></i> 第4課-中國近年發展</button>
             </div>
         </div>
 
-        <!-- 第三部分 (新增)：時事題 -->
+        <!-- 時事新聞 -->
         <div class="book-card" id="currentAffairs">
             <div class="book-title"><i class="fas fa-newspaper"></i> 時事新聞</div>
             <div class="book-sub">共 3 個主題</div>
             <div class="lesson-grid">
-                <a href="news-world.html" class="lesson-btn"><i class="fas fa-globe-asia"></i> 國際時事</a>
-                <a href="news-local.html" class="lesson-btn"><i class="fas fa-home"></i> 本地要聞</a>
-                <a href="news-science.html" class="lesson-btn"><i class="fas fa-flask"></i> 科技新知</a>
+                <button class="lesson-btn" data-book="時事" data-lesson="國際時事"><i class="fas fa-globe-asia"></i> 國際時事</button>
+                <button class="lesson-btn" data-book="時事" data-lesson="本地要聞"><i class="fas fa-home"></i> 本地要聞</button>
+                <button class="lesson-btn" data-book="時事" data-lesson="科技新知"><i class="fas fa-flask"></i> 科技新知</button>
             </div>
+        </div>
+    </div>
+
+    <!-- 學習模式面板 (點擊課堂後顯示) -->
+    <div id="modePanel" class="mode-panel">
+        <div class="panel-header">
+            <h3 id="selectedLessonTitle">第3課-兩性關係</h3>
+            <button class="close-panel" id="closePanelBtn"><i class="fas fa-times-circle"></i></button>
+        </div>
+        <div class="mode-grid" id="modeLinks">
+            <!-- 模式連結會由 JavaScript 動態產生 -->
         </div>
     </div>
 
@@ -209,6 +287,75 @@
             quoteSpan.style.animation = 'none';
             quoteSpan.style.transform = 'translateX(0%)';
         }, 18000);
+
+        // 取得所有課堂按鈕、面板與相關元素
+        const lessonBtns = document.querySelectorAll('.lesson-btn');
+        const modePanel = document.getElementById('modePanel');
+        const selectedLessonTitle = document.getElementById('selectedLessonTitle');
+        const modeLinksContainer = document.getElementById('modeLinks');
+        const closePanelBtn = document.getElementById('closePanelBtn');
+
+        // 定義四種學習模式及其圖示與基礎檔案名稱
+        const modes = [
+            { name: 'Test', icon: 'fas fa-pencil-alt', file: 'test.html' },
+            { name: 'Cheatsheet', icon: 'fas fa-list-alt', file: 'cheatsheet.html' },
+            { name: 'Summary', icon: 'fas fa-compress-alt', file: 'summary.html' },
+            { name: 'Selfnotes', icon: 'fas fa-pen-fancy', file: 'selfnotes.html' }
+        ];
+
+        // 為每個課堂按鈕添加點擊事件
+        lessonBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const book = this.dataset.book;       // 所屬書冊 (第一冊/第三冊/時事)
+                const lesson = this.dataset.lesson;   // 課堂名稱 (例如 "第3課-兩性關係")
+                
+                // 更新面板標題
+                selectedLessonTitle.textContent = `${book} · ${lesson}`;
+
+                // 根據書冊與課堂名稱產生對應的資料夾名稱 (用於連結)
+                // 範例：第一冊/第3課-兩性關係 → 資料夾 "1-3"
+                let folder = '';
+                if (book === '第一冊') {
+                    const lessonNumber = lesson.match(/第(\d+)課/);
+                    if (lessonNumber) folder = `1-${lessonNumber[1]}`;
+                } else if (book === '第三冊') {
+                    const lessonNumber = lesson.match(/第(\d+)課/);
+                    if (lessonNumber) folder = `3-${lessonNumber[1]}`;
+                } else if (book === '時事') {
+                    // 時事主題可自訂資料夾，這裡簡單用 "news"
+                    folder = 'news';
+                }
+
+                // 產生四個模式卡片的 HTML
+                let modesHtml = '';
+                modes.forEach(mode => {
+                    // 建構完整連結，例如 "1-3/test.html"
+                    const link = folder ? `${folder}/${mode.file}` : mode.file;
+                    modesHtml += `
+                        <a href="${link}" class="mode-card">
+                            <i class="${mode.icon}"></i>
+                            <span>${mode.name}</span>
+                        </a>
+                    `;
+                });
+                modeLinksContainer.innerHTML = modesHtml;
+
+                // 顯示面板
+                modePanel.classList.add('active');
+            });
+        });
+
+        // 關閉面板
+        closePanelBtn.addEventListener('click', function() {
+            modePanel.classList.remove('active');
+        });
+
+        // 點擊面板外部也可以關閉 (可選)
+        window.addEventListener('click', function(e) {
+            if (!modePanel.contains(e.target) && !e.target.classList.contains('lesson-btn')) {
+                modePanel.classList.remove('active');
+            }
+        });
     })();
 </script>
 </body>
