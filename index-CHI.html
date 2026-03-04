@@ -237,7 +237,6 @@
         }
 
         /* 為中文各單元設定不同的色彩 */
-        .subject-card[data-section="topic"] { --accent: #e67e22; --accent-light: #fae5d3; }
         .subject-card[data-section="vocab"] { --accent: #3498db; --accent-light: #d4e6f5; }
         .subject-card[data-section="knowledge"] { --accent: #9b59b6; --accent-light: #ebdef0; }
         .subject-card[data-section="writing"] { --accent: #2ecc71; --accent-light: #d5f5e3; }
@@ -286,20 +285,11 @@
         </div>
     </div>
 
-    <!-- 中文科六大範疇 -->
+    <!-- 中文科五大範疇 (分Topic已移除) -->
     <div class="subjects-grid">
-        <!-- 分Topic -->
-        <a href="chinese-topic.html" class="subject-card" data-section="topic">
-            <div class="subject-icon"><i class="fas fa-folder-open"></i></div>
-            <div class="subject-name">分Topic</div>
-            <div class="subject-desc">閱讀 · 文言 · 實用文</div>
-            <div class="subject-progress"><div class="progress-fill" style="width: 40%;"></div></div>
-            <div class="unit-count"><i class="far fa-bookmark"></i> 8 單元</div>
-        </a>
-
-        <!-- 課文詞語 -->
+        <!-- 課文詞語 (圖示改為 fa-book-open) -->
         <a href="chinese-vocab.html" class="subject-card" data-section="vocab">
-            <div class="subject-icon"><i class="fas fa-font"></i></div>
+            <div class="subject-icon"><i class="fas fa-book-open"></i></div>
             <div class="subject-name">課文詞語</div>
             <div class="subject-desc">解釋 · 例句 · 近反義詞</div>
             <div class="subject-progress"><div class="progress-fill" style="width: 55%;"></div></div>
