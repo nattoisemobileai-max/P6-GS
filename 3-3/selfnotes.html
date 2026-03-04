@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>小常識 · 自學筆記 · 第三冊第3課</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #d4e0ec 0%, #eaf0f6 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 0;
+            font-size: 18px;
+        }
+
+        .notes-container {
+            max-width: 100%;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(4px);
+            border-radius: 0;
+            box-shadow: none;
+            padding: 0.5rem 0.3rem;
+            border: none;
+        }
+
+        /* 標題列 */
+        .notes-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            padding: 0.5rem 0.8rem;
+            border-radius: 40px;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 0 #bed0e3;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .back-home {
+            background: #f4d03f;
+            border-radius: 40px;
+            padding: 0.4rem 1rem;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #1f3a4b;
+            border: none;
+            box-shadow: 0 3px 0 #b38f1c;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+        .back-home:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #b38f1c;
+        }
+
+        .notes-title {
+            font-size: 1.4rem;
+            font-weight: 900;
+            background: #eef5ff;
+            padding: 0.3rem 1.2rem;
+            border-radius: 40px;
+            color: #1a4972;
+            border: 2px solid #c1d9f0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .notes-title i {
+            color: #3498db;
+            font-size: 1.2rem;
+        }
+
+        /* 筆記本主體 */
+        .notebook {
+            background: #f5faff;
+            border-radius: 25px;
+            padding: 1rem 0.8rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 6px 0 #9bb7d1, 0 8px 20px rgba(0,40,60,0.1);
+            border: 2px solid #c1d9f0;
+        }
+
+        .notebook-header {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 3px solid #9bb7d1;
+            flex-wrap: wrap;
+        }
+        .notebook-icon {
+            width: 50px;
+            height: 50px;
+            background: #3498db;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+            box-shadow: 0 3px 0 #1f5b8a;
+            flex-shrink: 0;
+        }
+        .notebook-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #1a4972;
+            line-height: 1.3;
+            flex: 1;
+        }
+
+        /* 章節卡片 */
+        .section-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .lesson-section {
+            background: white;
+            border-radius: 22px;
+            padding: 1.2rem 1rem;
+            border-left: 6px solid #3498db;
+            box-shadow: 0 4px 0 #bed0e3;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        .section-icon {
+            width: 44px;
+            height: 44px;
+            background: #3498db;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #1a4972;
+            line-height: 1.3;
+        }
+        .section-content {
+            color: #1f3a4b;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        /* 表格 */
+        .table-wrap {
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 3px 0 #bed0e3;
+            font-size: 1rem;
+        }
+        th {
+            background: #3498db;
+            color: white;
+            font-weight: 700;
+            padding: 0.6rem;
+            text-align: left;
+        }
+        td {
+            padding: 0.6rem;
+            border-bottom: 1px solid #e1edff;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* 清單 */
+        .bullet-list {
+            list-style: none;
+            margin-top: 0.5rem;
+        }
+        .bullet-list li {
+            padding: 0.4rem 0 0.4rem 1.8rem;
+            position: relative;
+            font-size: 1.1rem;
+        }
+        .bullet-list li:before {
+            content: "•";
+            color: #3498db;
+            font-weight: bold;
+            font-size: 1.6rem;
+            position: absolute;
+            left: 0;
+            top: -2px;
+        }
+
+        /* 高亮 */
+        .highlight {
+            background: #fffacd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 10px;
+            font-weight: 700;
+            color: #1e3f5a;
+            border: 1px solid #f3b33d;
+            display: inline-block;
+            margin: 0 0.1rem;
+            font-size: 1.1rem;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #f4d03f;
+            color: #1f3a4b;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-right: 0.3rem;
+            margin-bottom: 0.3rem;
+            border: 1px solid #e67e22;
+        }
+
+        .highlight-box {
+            background: #e1f0fa;
+            border-radius: 16px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border: 2px dashed #9bb7d1;
+            font-size: 1.1rem;
+        }
+
+        /* 插圖佔位符 */
+        .illustration-placeholder {
+            background: #f0f4fa;
+            border-radius: 16px;
+            padding: 0.8rem;
+            margin: 1.2rem 0 0.2rem;
+            text-align: center;
+            border: 2px dashed #7fa3c2;
+            color: #2c5a7a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        .illustration-placeholder i {
+            font-size: 2rem;
+            color: #5a9ec2;
+        }
+
+        /* 頁尾 */
+        .footer-note {
+            text-align: center;
+            margin-top: 1rem;
+            color: #6b8baa;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            font-size: 1rem;
+        }
+        .save-status {
+            background: #d4e6f5;
+            color: #1a4972;
+            padding: 0.3rem 0.8rem;
+            border-radius: 40px;
+            border: 1px solid #9bb7d1;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 1rem;
+        }
+
+        @media (max-width: 380px) {
+            .notes-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .back-home, .notes-title {
+                justify-content: center;
+            }
+            .section-title {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="notes-container">
+    <!-- 標題列 (返回按鈕指向上一層) -->
+    <div class="notes-header">
+        <a href="../index.html" class="back-home"><i class="fas fa-arrow-left"></i> 返回</a>
+        <span class="notes-title">
+            <i class="fas fa-history"></i> 第三冊·第3課
+        </span>
+    </div>
+
+    <!-- 主要筆記本 -->
+    <div class="notebook">
+        <div class="notebook-header">
+            <div class="notebook-icon"><i class="fas fa-clock"></i></div>
+            <div class="notebook-title">📚 文化大革命的影響與改革開放前的中國問題</div>
+        </div>
+
+        <div class="section-container">
+            <!-- 文化大革命主要影響 -->
+            <div class="lesson-section">
+                <div class="section-header">
+                    <div class="section-icon"><i class="fas fa-bolt"></i></div>
+                    <div class="section-title">文化大革命（1966-1976年）</div>
+                </div>
+                <div class="section-content">
+                    <p><span class="highlight">文化大革命</span>是中國近代史上一段政治與社會動盪的時期，對中國社會、教育、文化和經濟發展帶來嚴重阻礙與負面影響。</p>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr><th>影響範疇</th><th>具體表現</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>教育與學校</td><td>許多學生發動罷課，學校被迫停課；公開批判和侮辱官員、學者、商人，甚至包括父母和師長。</td></tr>
+                                <tr><td>社會秩序</td><td>農民、工人罷工，生產陷入停頓；社會秩序混亂。</td></tr>
+                                <tr><td>文化遺產</td><td>學生破壞古蹟和文物，文化財產遭受嚴重損害。</td></tr>
+                                <tr><td>經濟發展</td><td>經濟停滯不前，糧食和物資嚴重短缺。</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="highlight-box">
+                        <p><span class="badge">小總結</span> 文化大革命持續十年，阻礙了中國內地的社會和經濟發展。</p>
+                    </div>
+                </div>
+                <div class="illustration-placeholder"><i class="fas fa-image"></i> 文革歷史圖片示意</div>
+            </div>
+
+            <!-- 改革開放前的中國問題 -->
+            <div class="lesson-section">
+                <div class="section-header">
+                    <div class="section-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                    <div class="section-title">改革開放前的中國問題</div>
+                </div>
+                <div class="section-content">
+                    <ul class="bullet-list">
+                        <li><span class="highlight">經濟停滯</span>：長期的政治運動導致生產效率低下，物資匱乏。</li>
+                        <li><span class="highlight">教育中斷</span>：學校關閉，一代人失去正常受教育機會。</li>
+                        <li><span class="highlight">文化破壞</span>：大量歷史古蹟、文物、書籍被毀。</li>
+                        <li><span class="highlight">社會對立</span>：階級鬥爭擴大化造成人際關係緊張，社會信任缺失。</li>
+                        <li><span class="highlight">國際孤立</span>：與西方國家交流極少，科技發展落後。</li>
+                    </ul>
+                </div>
+                <div class="illustration-placeholder"><i class="fas fa-image"></i> 改革開放前社會狀況插圖</div>
+            </div>
+        </div> <!-- section-container -->
+    </div> <!-- notebook -->
+
+    <!-- 頁尾 (可選) -->
+    <div class="footer-note">
+        <span class="save-status"><i class="fas fa-check-circle" style="color:#2ecc71;"></i> 已自動儲存</span>
+        <span class="save-status"><i class="fas fa-lock" style="color:#3498db;"></i> 僅限個人檢視</span>
+    </div>
+</div> <!-- notes-container -->
+</body>
+</html>
