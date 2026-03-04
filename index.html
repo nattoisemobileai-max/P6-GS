@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>小常識 · 科目首頁</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>呈分過三關主頁</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -19,30 +19,31 @@
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            padding: 0;
-            font-size: 18px;
+            padding: 1rem;
         }
 
         .app-container {
-            max-width: 500px;
+            max-width: 1200px;
             width: 100%;
             background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(2px);
-            padding: 1rem 0.8rem;
+            border-radius: 40px;
+            padding: 1.5rem;
+            box-shadow: 0 20px 40px -15px rgba(0,20,40,0.2);
         }
 
+        /* ========== 頂部列 ========= */
         .top-bar {
             display: flex;
             align-items: center;
             justify-content: space-between;
             background: white;
-            padding: 0.6rem 1rem;
-            border-radius: 50px;
+            padding: 0.6rem 1.5rem;
+            border-radius: 60px;
             box-shadow: 0 4px 0 #bed0e3;
-            border: 1px solid rgba(175, 200, 220, 0.3);
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             flex-wrap: wrap;
-            gap: 0.5rem;
+            gap: 1rem;
         }
 
         .user-greeting {
@@ -75,10 +76,10 @@
 
         .quote-ticker {
             flex: 1;
-            min-width: 200px;
+            min-width: 250px;
             background: #fff9e0;
             border-radius: 50px;
-            padding: 0.4rem 1rem;
+            padding: 0.4rem 1.2rem;
             border: 1px dashed #f3b33d;
             overflow: hidden;
             white-space: nowrap;
@@ -103,9 +104,9 @@
         .stats {
             display: flex;
             align-items: center;
-            gap: 0.8rem;
+            gap: 1rem;
             background: #2b3c4e;
-            padding: 0.3rem 1rem;
+            padding: 0.3rem 1.2rem;
             border-radius: 40px;
             color: white;
             box-shadow: 0 4px 0 #0f1a24;
@@ -121,9 +122,7 @@
             font-weight: 800;
             font-size: 1.1rem;
         }
-        .xp-badge i {
-            color: #f09b22;
-        }
+        .xp-badge i { color: #f09b22; }
         .level-badge {
             background: white;
             color: #1f3a4b;
@@ -133,33 +132,45 @@
             font-size: 1.1rem;
         }
 
-        /* 科目網格 (兩欄) */
+        /* ====== 響應式科目網格 ===== */
         .subjects-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin-top: 1.5rem;
+            grid-template-columns: 1fr;          /* 手機預設一欄 */
+            gap: 1.2rem;
+            margin-top: 2rem;
+        }
+
+        /* 平板 (≥600px) 兩欄 */
+        @media (min-width: 600px) {
+            .subjects-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* 筆電/桌機 (≥900px) 三欄 */
+        @media (min-width: 900px) {
+            .subjects-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
         }
 
         .subject-card {
             background: white;
             border-radius: 28px;
-            padding: 1rem 0.5rem 0.8rem;
-            box-shadow: 0 6px 0 #b3c9da, 0 10px 20px -5px rgba(60, 80, 100, 0.2);
-            border: 2px solid rgba(255, 255, 255, 0.9);
+            padding: 1.5rem 1.2rem;
+            box-shadow: 0 6px 0 #b3c9da, 0 10px 20px -5px rgba(60,80,100,0.2);
+            border: 2px solid rgba(255,255,255,0.9);
             transition: all 0.15s ease;
             text-decoration: none;
             color: inherit;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            text-align: center;
             position: relative;
             overflow: hidden;
         }
         .subject-card:active {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 0 #a0b9cf, 0 15px 25px -5px rgba(0,0,0,0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 0 #a0b9cf;
         }
 
         .subject-card::before {
@@ -170,8 +181,15 @@
             right: 0;
             height: 8px;
             background: var(--accent, #58a700);
-            border-radius: 28px 28px 0 0;
         }
+
+        /* 科目色彩 */
+        .subject-card[data-subject="chinese"] { --accent: #e67e22; }
+        .subject-card[data-subject="english"] { --accent: #3498db; }
+        .subject-card[data-subject="math"] { --accent: #2ecc71; }
+        .subject-card[data-subject="gs"] { --accent: #1abc9c; }
+        .subject-card[data-subject="pe"] { --accent: #e74c3c; }
+        .subject-card[data-subject="music"] { --accent: #f1c40f; }
 
         .subject-icon {
             width: 60px;
@@ -181,94 +199,66 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0.3rem 0 0.5rem;
+            margin-bottom: 1rem;
             font-size: 2rem;
             color: var(--accent, #58a700);
-            transition: transform 0.2s;
         }
-        .subject-card:active .subject-icon {
-            transform: scale(1.05);
-        }
+        /* 動態產生淺色背景 */
+        .subject-card[data-subject="chinese"] .subject-icon { background: #fae5d3; }
+        .subject-card[data-subject="english"] .subject-icon { background: #d4e6f5; }
+        .subject-card[data-subject="math"] .subject-icon { background: #d5f5e3; }
+        .subject-card[data-subject="gs"] .subject-icon { background: #d1f2eb; }
+        .subject-card[data-subject="pe"] .subject-icon { background: #fadbd8; }
+        .subject-card[data-subject="music"] .subject-icon { background: #fcf3cf; }
 
         .subject-name {
-            font-size: 1.3rem;
+            font-size: 1.6rem;
             font-weight: 800;
             color: #1f3a4b;
-            margin-bottom: 0.2rem;
+            margin-bottom: 0.3rem;
         }
 
         .subject-desc {
-            font-size: 0.8rem;
+            font-size: 0.95rem;
             color: #4f6f8f;
-            line-height: 1.3;
-            padding: 0 0.3rem;
-            max-height: 5em;
-            overflow-y: auto;
-            margin-bottom: 0.3rem;
-            width: 100%;
-        }
-
-        .subject-progress {
-            width: 90%;
-            height: 5px;
-            background: #e2eaf3;
-            border-radius: 10px;
-            margin: 0.2rem 0;
-            overflow: hidden;
-        }
-        .progress-fill {
-            height: 100%;
-            width: 50%;
-            background: linear-gradient(90deg, var(--accent, #58a700), #8bc34a);
-            border-radius: 10px;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+            flex: 1;
         }
 
         .unit-count {
-            font-size: 0.8rem;
+            font-size: 0.9rem;
             color: #4f6f8f;
             font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 4px;
-            margin-top: 0.2rem;
+            gap: 5px;
+            margin-top: 0.5rem;
         }
         .unit-count i {
             color: #f3b33d;
         }
 
-        /* 每個科目嘅自訂顏色 */
-        .subject-card[data-subject="chinese"] { --accent: #e67e22; --accent-light: #fae5d3; }
-        .subject-card[data-subject="english"] { --accent: #3498db; --accent-light: #d4e6f5; }
-        .subject-card[data-subject="math"] { --accent: #2ecc71; --accent-light: #d5f5e3; }
-        .subject-card[data-subject="gs"] { --accent: #1abc9c; --accent-light: #d1f2eb; }
-        .subject-card[data-subject="pe"] { --accent: #e74c3c; --accent-light: #fadbd8; }
-        .subject-card[data-subject="music"] { --accent: #f1c40f; --accent-light: #fcf3cf; }
-
         .footer-credit {
-            margin-top: 2rem;
+            margin-top: 3rem;
             text-align: center;
             color: #6b8baa;
             font-weight: 600;
             font-size: 1rem;
         }
 
+        /* 手機微調 */
         @media (max-width: 480px) {
-            .top-bar {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .user-greeting, .quote-ticker, .stats {
-                width: 100%;
-                justify-content: center;
-            }
-            .subject-name {
-                font-size: 1.2rem;
-            }
+            .app-container { padding: 1rem; }
+            .top-bar { flex-direction: column; align-items: stretch; }
+            .user-greeting, .quote-ticker, .stats { width: 100%; justify-content: center; }
+            .subject-name { font-size: 1.4rem; }
         }
     </style>
 </head>
 <body>
 <div class="app-container">
+    <!-- 頂部列 (與原頁面完全相同) -->
     <div class="top-bar">
         <div class="user-greeting">
             <i class="fas fa-user-astronaut"></i>
@@ -286,71 +276,54 @@
         </div>
     </div>
 
+    <!-- 科目網格 (內容取自您的網站) -->
     <div class="subjects-grid">
         <!-- 中文科 -->
-        <a href="index-CHI.html" class="subject-card" data-subject="chinese">
+        <a href="chinese.html" class="subject-card" data-subject="chinese">
             <div class="subject-icon"><i class="fas fa-language"></i></div>
             <div class="subject-name">中文科</div>
-            <div class="subject-desc">
-                課文溫習 (6下第1-7課) · 閱讀理解 · 寫作技巧 · 詞語運用
-            </div>
-            <div class="subject-progress"><div class="progress-fill" style="width: 60%;"></div></div>
+            <div class="subject-desc">課文溫習 (6下第1-7課) · 閱讀理解 · 寫作技巧 · 詞語運用</div>
             <div class="unit-count"><i class="far fa-bookmark"></i> 7 單元</div>
         </a>
 
         <!-- 英文科 -->
-        <a href="index-EN.html" class="subject-card" data-subject="english">
+        <a href="english.html" class="subject-card" data-subject="english">
             <div class="subject-icon"><i class="fas fa-globe-asia"></i></div>
             <div class="subject-name">英文科</div>
-            <div class="subject-desc">
-                6B Unit1-3 · Grammar · Reading · Speaking · Writing
-            </div>
-            <div class="subject-progress"><div class="progress-fill" style="width: 45%;"></div></div>
+            <div class="subject-desc">6B Unit1-3 · Grammar · Reading · Speaking · Writing</div>
             <div class="unit-count"><i class="far fa-bookmark"></i> 8 單元</div>
         </a>
 
-        <!-- 數學科 (只有一個) -->
-        <a href="index-MATH.html" class="subject-card" data-subject="math">
+        <!-- 數學科 -->
+        <a href="math.html" class="subject-card" data-subject="math">
             <div class="subject-icon"><i class="fas fa-calculator"></i></div>
             <div class="subject-name">數學科</div>
-            <div class="subject-desc">
-                速率(A8) · 時間(A7) · 圓周(A5&6) · 角(A3&4) · 百分數(A1&2) · 四則運算
-            </div>
-            <div class="subject-progress"><div class="progress-fill" style="width: 35%;"></div></div>
+            <div class="subject-desc">速率(A8) · 時間(A7) · 圓周(A5&6) · 角(A3&4) · 百分數(A1&2) · 四則運算</div>
             <div class="unit-count"><i class="far fa-bookmark"></i> 6 單元</div>
         </a>
 
-        <!-- 常識科 (根據 IMG_0558 補充) -->
+        <!-- 常識科 -->
         <a href="index-GS.html" class="subject-card" data-subject="gs">
             <div class="subject-icon"><i class="fas fa-brain"></i></div>
             <div class="subject-name">常識科</div>
-            <div class="subject-desc">
-                兩性關係·情緒和壓力·活出彩虹 | 最後的皇朝·內外交困·改革開放·近年發展
-            </div>
-            <div class="subject-progress"><div class="progress-fill" style="width: 50%;"></div></div>
+            <div class="subject-desc">兩性關係·情緒和壓力·活出彩虹 | 最後的皇朝·內外交困·改革開放·近年發展</div>
             <div class="unit-count"><i class="far fa-bookmark"></i> 7 單元</div>
         </a>
 
         <!-- 體育科 -->
-        <a href="index-PE.html" class="subject-card" data-subject="pe">
+        <a href="pe.html" class="subject-card" data-subject="pe">
             <div class="subject-icon"><i class="fas fa-bicycle"></i></div>
             <div class="subject-name">體育科</div>
-            <div class="subject-desc">
-                運動技能 · 健康知識 · 團隊合作
-            </div>
-            <div class="subject-progress"><div class="progress-fill" style="width: 30%;"></div></div>
-            <div class="unit-count"><i class="far fa-bookmark"></i> 5 單元</div>
+            <div class="subject-desc">乒乓球 · 木箱 · 體能 · 筆試練習</div>
+            <div class="unit-count"><i class="far fa-bookmark"></i> 4 單元</div>
         </a>
 
         <!-- 音樂科 -->
-        <a href="index-MUSICS.html" class="subject-card" data-subject="music">
+        <a href="music.html" class="subject-card" data-subject="music">
             <div class="subject-icon"><i class="fas fa-music"></i></div>
             <div class="subject-name">音樂科</div>
-            <div class="subject-desc">
-                樂理 · 賞析 · 演奏 · 音樂史
-            </div>
-            <div class="subject-progress"><div class="progress-fill" style="width: 40%;"></div></div>
-            <div class="unit-count"><i class="far fa-bookmark"></i> 7 單元</div>
+            <div class="subject-desc">唱歌 · 彈玲 · 作曲 · 筆試練習</div>
+            <div class="unit-count"><i class="far fa-bookmark"></i> 4 單元</div>
         </a>
     </div>
 
@@ -361,17 +334,16 @@
 
 <script>
     (function() {
+        // 金句滾動 (兩次後停止)
         const quoteSpan = document.getElementById('quoteSpan');
         let animCount = 0;
-
-        function handleAnimationIteration(e) {
+        quoteSpan.addEventListener('animationiteration', () => {
             animCount++;
             if (animCount === 2) {
                 quoteSpan.style.animation = 'none';
                 quoteSpan.style.transform = 'translateX(0%)';
             }
-        }
-        quoteSpan.addEventListener('animationiteration', handleAnimationIteration);
+        });
         setTimeout(() => {
             quoteSpan.style.animation = 'none';
             quoteSpan.style.transform = 'translateX(0%)';
