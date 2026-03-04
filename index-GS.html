@@ -4,38 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>小常識 · 常識學院</title>
-    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* 樣式與原頁面保持一致，並微調以適應新內容 */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Nunito', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
         }
-
         body {
             background: linear-gradient(145deg, #f7f9fc 0%, #eef2f7 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            padding: 0;                 /* 移除外邊距，充分利用螢幕 */
-            font-size: 18px;             /* 基礎字體放大 */
+            padding: 0;
+            font-size: 18px;
         }
-
         .app-container {
-            max-width: 100%;
+            max-width: 500px;
             width: 100%;
             background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(2px);
-            border-radius: 0;             /* 手機上直角更省空間 */
-            box-shadow: none;
-            padding: 1rem 0.8rem;          /* 僅保留必要內距，減少留白 */
-            border: none;
+            padding: 1rem 0.8rem;
         }
-
-        /* ========== TOP MENU BAR ========= */
         .top-bar {
             display: flex;
             align-items: center;
@@ -44,12 +37,10 @@
             padding: 0.6rem 1rem;
             border-radius: 50px;
             box-shadow: 0 4px 0 #bed0e3;
-            border: 1px solid rgba(175, 200, 220, 0.3);
             margin-bottom: 1.5rem;
             flex-wrap: wrap;
             gap: 0.5rem;
         }
-
         .user-greeting {
             display: flex;
             align-items: center;
@@ -67,38 +58,15 @@
             padding: 0.2rem;
             box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
-        .user-greeting span {
-            font-weight: 800;
-            font-size: 1.3rem;
-            color: #1f2d3d;
-            letter-spacing: -0.3px;
-        }
-        .user-greeting .sub {
-            font-size: 1rem;
-            font-weight: 500;
-            color: #4f6f8f;
-            margin-left: 2px;
-        }
-
-        /* quote marquee */
+        .user-greeting span { font-weight: 800; font-size: 1.3rem; color: #1f2d3d; }
+        .user-greeting .sub { font-size: 1rem; font-weight: 500; color: #4f6f8f; }
         .quote-ticker {
-            flex: 1;
-            min-width: 200px;
-            background: #fff9e0;
-            border-radius: 50px;
-            padding: 0.4rem 1rem;
-            border: 1px dashed #f3b33d;
-            box-shadow: 0 2px 10px rgba(250, 190, 60, 0.2);
-            overflow: hidden;
-            white-space: nowrap;
+            flex: 1; min-width: 200px; background: #fff9e0; border-radius: 50px;
+            padding: 0.4rem 1rem; border: 1px dashed #f3b33d; overflow: hidden; white-space: nowrap;
         }
         .quote-scroll {
-            display: inline-block;
-            white-space: nowrap;
-            font-style: italic;
-            font-weight: 500;
-            color: #9b6b00;
-            font-size: 1.1rem;
+            display: inline-block; white-space: nowrap; font-style: italic; font-weight: 500;
+            color: #9b6b00; font-size: 1.1rem;
             animation: scrollRightLeft 14s cubic-bezier(0.2, 0.9, 0.3, 1) 2 forwards;
         }
         @keyframes scrollRightLeft {
@@ -108,283 +76,115 @@
             75% { transform: translateX(-80%); }
             100% { transform: translateX(-150%); }
         }
-
         .stats {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            background: #2b3c4e;
-            padding: 0.3rem 1rem;
-            border-radius: 40px;
-            color: white;
-            box-shadow: 0 4px 0 #0f1a24;
+            display: flex; align-items: center; gap: 0.8rem; background: #2b3c4e;
+            padding: 0.3rem 1rem; border-radius: 40px; color: white; box-shadow: 0 4px 0 #0f1a24;
         }
         .xp-badge {
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-            background: #ffd966;
-            color: #2f2f2f;
-            padding: 0.2rem 0.8rem;
-            border-radius: 30px;
-            font-weight: 800;
-            font-size: 1.1rem;
+            display: flex; align-items: center; gap: 0.3rem; background: #ffd966;
+            color: #2f2f2f; padding: 0.2rem 0.8rem; border-radius: 30px; font-weight: 800; font-size: 1.1rem;
         }
-        .xp-badge i {
-            color: #f09b22;
-        }
+        .xp-badge i { color: #f09b22; }
         .level-badge {
-            background: white;
-            color: #1f3a4b;
-            font-weight: 800;
-            padding: 0.2rem 0.9rem;
-            border-radius: 30px;
-            font-size: 1.1rem;
+            background: white; color: #1f3a4b; font-weight: 800; padding: 0.2rem 0.9rem; border-radius: 30px; font-size: 1.1rem;
         }
 
-        /* ====== BOOK SECTIONS ===== */
+        /* 科目/書籍網格 */
         .books-grid {
-            display: flex;
-            flex-direction: column;       /* 手機上改為縱向堆疊 */
-            gap: 1.2rem;
-            margin-top: 1.5rem;
+            display: flex; flex-direction: column; gap: 1.2rem; margin-top: 1.5rem;
         }
-
         .book-card {
-            width: 100%;                  /* 滿寬 */
-            background: white;
-            border-radius: 30px;
-            padding: 1.5rem 1.2rem;
+            width: 100%; background: white; border-radius: 30px; padding: 1.5rem 1.2rem;
             box-shadow: 0 8px 0 #b3c9da, 0 15px 25px -8px rgba(60, 80, 100, 0.3);
             border: 2px solid rgba(255, 255, 255, 0.9);
-            transition: all 0.1s ease;
         }
-        .book-card:active {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 0 #a0b9cf;
-        }
-
         .book-title {
-            font-size: 2rem;
-            font-weight: 900;
-            color: #2f5575;
-            margin-bottom: 0.2rem;
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
+            font-size: 2rem; font-weight: 900; color: #2f5575; margin-bottom: 0.2rem;
+            display: flex; align-items: center; gap: 0.4rem;
         }
-        .book-title i {
-            font-size: 2rem;
-            color: #58a700;
-        }
+        .book-title i { font-size: 2rem; color: #58a700; }
         .book-sub {
-            font-size: 1.2rem;
-            color: #4b6d8c;
-            margin-bottom: 1.2rem;
-            border-bottom: 2px dotted #c6d9eb;
-            padding-bottom: 0.5rem;
-            font-weight: 600;
+            font-size: 1.1rem; color: #4b6d8c; margin-bottom: 1.2rem;
+            border-bottom: 2px dotted #c6d9eb; padding-bottom: 0.5rem; font-weight: 600;
         }
         .lesson-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.7rem;
+            display: flex; flex-wrap: wrap; gap: 0.7rem;
         }
         .lesson-btn {
-            background: #f0f6ff;
-            border: 2px solid #c4d5e8;
-            border-radius: 40px;
-            padding: 0.8rem 1.2rem;
-            font-weight: 700;
-            font-size: 1.3rem;
-            color: #1f4973;
-            box-shadow: 0 4px 0 #9fbad0;
-            cursor: pointer;
-            transition: all 0.06s linear;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.3rem;
-            flex: 1 1 auto;               /* 讓按鈕自適應。寬度 */
-            justify-content: center;
-            min-width: 100px;
+            background: #f0f6ff; border: 2px solid #c4d5e8; border-radius: 40px;
+            padding: 0.8rem 1.2rem; font-weight: 700; font-size: 1.2rem; color: #1f4973;
+            box-shadow: 0 4px 0 #9fbad0; cursor: pointer; transition: all 0.06s linear;
+            display: inline-flex; align-items: center; gap: 0.5rem; flex: 1 1 auto; justify-content: center;
+            min-width: 110px; text-decoration: none;
         }
-        .lesson-btn i {
-            font-size: 1.2rem;
-            color: #ffa41b;
-        }
-        .lesson-btn:active {
-            transform: translateY(4px);
-            box-shadow: 0 1px 0 #9fbad0;
-        }
-
-        /* detail panel */
-        .detail-panel {
-            margin-top: 2rem;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 30px;
-            padding: 1.5rem 1.2rem;
-            border: 3px solid white;
-            box-shadow: 0 8px 0 #9bb7d1, inset 0 0 0 3px #ecf3fa;
-        }
-        .detail-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.2rem;
-        }
-        .detail-header h2 {
-            background: #f4d03f;
-            border-radius: 50px;
-            padding: 0.3rem 1.2rem;
-            font-size: 1.8rem;
-            font-weight: 900;
-            color: #1a2e3f;
-            box-shadow: 0 4px 0 #b38f1c;
-        }
-        .close-detail {
-            margin-left: auto;
-            background: #d9e5f2;
-            border: none;
-            border-radius: 50%;
-            width: 48px;
-            height: 48px;
-            font-size: 2rem;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 4px 0 #97b5cf;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .close-detail:active {
-            transform: translateY(4px);
-            box-shadow: 0 1px 0 #97b5cf;
-        }
-        .mode-cards {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            justify-content: center;
-        }
-        .mode-card {
-            background: #ffffff;
-            border-radius: 30px;
-            flex: 1 1 140px;
-            padding: 1.2rem 0.3rem;
-            text-align: center;
-            font-weight: 800;
-            font-size: 1.3rem;
-            color: #183b56;
-            border: 3px solid #fff6cf;
-            box-shadow: 0 6px 0 #cad9eb, 0 8px 15px rgba(0,0,0,0.05);
-            transition: 0.08s;
-            cursor: pointer;
-            text-decoration: none;
-            display: block;
-        }
-        .mode-card i {
-            display: block;
-            font-size: 2.2rem;
-            margin-bottom: 0.3rem;
-            color: #3c9b8f;
-        }
-        .mode-card:active {
-            transform: translateY(5px);
-            box-shadow: 0 2px 0 #aebfcf;
-        }
-
-        .hidden {
-            display: none;
-        }
+        .lesson-btn i { font-size: 1.2rem; color: #ffa41b; }
+        .lesson-btn:active { transform: translateY(4px); box-shadow: 0 1px 0 #9fbad0; }
 
         .footer-credit {
-            margin-top: 2rem;
-            text-align: center;
-            color: #6b8baa;
-            font-weight: 600;
-            font-size: 1.1rem;
+            margin-top: 2rem; text-align: center; color: #6b8baa; font-weight: 600; font-size: 1rem;
         }
-
-        /* 手機微調 */
         @media (max-width: 480px) {
-            .top-bar {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .user-greeting, .quote-ticker, .stats {
-                width: 100%;
-                justify-content: center;
-            }
-            .lesson-btn {
-                font-size: 1.2rem;
-                padding: 0.7rem 0.8rem;
-            }
-            .mode-card {
-                flex-basis: 120px;
-                font-size: 1.1rem;
-            }
+            .top-bar { flex-direction: column; align-items: stretch; }
+            .user-greeting, .quote-ticker, .stats { width: 100%; justify-content: center; }
+            .lesson-btn { font-size: 1.1rem; padding: 0.7rem 0.8rem; }
         }
     </style>
 </head>
 <body>
 <div class="app-container">
-    <!-- TOP MENU BAR -->
+    <!-- 頂部選單列 (與原頁面一致) -->
     <div class="top-bar">
         <div class="user-greeting">
             <i class="fas fa-user-astronaut"></i>
             <span>Hi, 小子!</span>
             <span class="sub">🌟 小常識</span>
         </div>
-
         <div class="quote-ticker" id="quoteTicker">
             <span class="quote-scroll" id="quoteSpan">
                 <i class="fas fa-quote-left"></i> 知識就是力量 · 培根  <i class="fas fa-quote-right"></i>  學而不思則罔 · 孔子   ❝ 想像力比知識更重要 ❞ —— 愛因斯坦
             </span>
         </div>
-
         <div class="stats">
             <div class="xp-badge"><i class="fas fa-star"></i> 1,280 XP</div>
             <div class="level-badge">Lv. 9</div>
         </div>
     </div>
 
-    <!-- BOOKS (rect frames) 處變不驚 5課 & 中國的變遷 4課 -->
+    <!-- 書籍/主題網格 (新增第三部分：時事題) -->
     <div class="books-grid">
-        <!-- 第一冊：處變不驚 -->
+        <!-- 第一部分：第一冊::處變不驚 (共3課，更換每課圖示) -->
         <div class="book-card" id="book1">
             <div class="book-title"><i class="fas fa-shield-alt"></i> 第一冊::處變不驚</div>
             <div class="book-sub">共 3 課</div>
             <div class="lesson-grid">
-                <div class="lesson-btn" data-book="1" data-lesson="3"><i class="fas fa-moon"></i> 第3課-兩性關係</div>
-                <div class="lesson-btn" data-book="1" data-lesson="4"><i class="fas fa-moon"></i> 第4課-情緒和壓力</div>
-                <div class="lesson-btn" data-book="1" data-lesson="5"><i class="fas fa-star"></i> 第5課- 活出彩虹</div>
+                <a href="book1-lesson3.html" class="lesson-btn"><i class="fas fa-heart-broken"></i> 第3課-兩性關係</a>
+                <a href="book1-lesson4.html" class="lesson-btn"><i class="fas fa-smile"></i> 第4課-情緒和壓力</a>
+                <a href="book1-lesson5.html" class="lesson-btn"><i class="fas fa-rainbow"></i> 第5課-活出彩虹</a>
             </div>
         </div>
-        <!-- 第三冊：中國的變遷 -->
+
+        <!-- 第二部分：第三冊::中國的變遷 (共4課，更換每課圖示) -->
         <div class="book-card" id="book3">
             <div class="book-title"><i class="fas fa-dragon"></i> 第三冊::中國的變遷</div>
             <div class="book-sub">共 4 課</div>
             <div class="lesson-grid">
-                <div class="lesson-btn" data-book="3" data-lesson="1"><i class="fas fa-globe"></i> 第1課-最後的皇朝</div>
-                <div class="lesson-btn" data-book="3" data-lesson="2"><i class="fas fa-flask"></i> 第2課-內外交困的時期</div>
-                <div class="lesson-btn" data-book="3" data-lesson="3"><i class="fas fa-music"></i> 第3課-改革開放前後</div>
-                <div class="lesson-btn" data-book="3" data-lesson="4"><i class="fas fa-puzzle-piece"></i> 第4課-中國近年發展</div>
+                <a href="book3-lesson1.html" class="lesson-btn"><i class="fas fa-crown"></i> 第1課-最後的皇朝</a>
+                <a href="book3-lesson2.html" class="lesson-btn"><i class="fas fa-fist-raised"></i> 第2課-內外交困的時期</a>
+                <a href="book3-lesson3.html" class="lesson-btn"><i class="fas fa-chart-line"></i> 第3課-改革開放前後</a>
+                <a href="book3-lesson4.html" class="lesson-btn"><i class="fas fa-city"></i> 第4課-中國近年發展</a>
             </div>
         </div>
-    </div>
 
-    <!-- Lesson detail panel (hidden initially) -->
-    <div id="detailPanel" class="detail-panel hidden">
-        <div class="detail-header">
-            <h2 id="selectedLessonLabel">第一冊::處變不驚 · 第4課</h2>
-            <button class="close-detail" id="closeDetailBtn"><i class="fas fa-times"></i></button>
+        <!-- 第三部分 (新增)：時事題 -->
+        <div class="book-card" id="currentAffairs">
+            <div class="book-title"><i class="fas fa-newspaper"></i> 時事新聞</div>
+            <div class="book-sub">共 3 個主題</div>
+            <div class="lesson-grid">
+                <a href="news-world.html" class="lesson-btn"><i class="fas fa-globe-asia"></i> 國際時事</a>
+                <a href="news-local.html" class="lesson-btn"><i class="fas fa-home"></i> 本地要聞</a>
+                <a href="news-science.html" class="lesson-btn"><i class="fas fa-flask"></i> 科技新知</a>
+            </div>
         </div>
-        <div class="mode-cards" id="modeCardsContainer">
-            <!-- mode cards will be generated with links here -->
-        </div>
-        <p style="text-align: center; margin-top: 1.2rem; color: #506e8c; font-weight: 500; font-size:1.1rem;">
-            <i class="fas fa-hand-point-right"></i> 點擊卡片進入該模式頁面
-        </p>
     </div>
 
     <div class="footer-credit">
@@ -394,10 +194,9 @@
 
 <script>
     (function() {
-        // 名人金句 scroll twice then stop
+        // 金句滾動兩次後停止 (與原頁面相同)
         const quoteSpan = document.getElementById('quoteSpan');
         let animCount = 0;
-
         function handleAnimationIteration(e) {
             animCount++;
             if (animCount === 2) {
@@ -405,100 +204,12 @@
                 quoteSpan.style.transform = 'translateX(0%)';
             }
         }
-
         quoteSpan.addEventListener('animationiteration', handleAnimationIteration);
-        
         setTimeout(() => {
             quoteSpan.style.animation = 'none';
             quoteSpan.style.transform = 'translateX(0%)';
         }, 18000);
-
-        // Lesson click: show detail panel
-        const lessonBtns = document.querySelectorAll('.lesson-btn');
-        const detailPanel = document.getElementById('detailPanel');
-        const selectedLessonLabel = document.getElementById('selectedLessonLabel');
-        const closeBtn = document.getElementById('closeDetailBtn');
-        const modeCardsContainer = document.getElementById('modeCardsContainer');
-
-        // Mode definitions - including Self-Notes button
-        const modes = [
-            { name: 'Flashcard', icon: 'fa-layer-group' },
-            { name: 'Test', icon: 'fa-pencil-alt' },
-            { name: 'MindMap', icon: 'fa-brain' },
-            { name: 'Video', icon: 'fa-video' },
-            { name: 'Self-Notes', icon: 'fa-book-open' }
-        ];
-
-        function updateDetailPanel(book, lesson) {
-            let bookDisplayName = (book === '1') ? '第一冊::處變不驚' : '第三冊::中國的變遷';
-            selectedLessonLabel.innerText = `${bookDisplayName} · 第${lesson}課`;
-            
-            // Generate mode cards with appropriate links for ALL lessons
-            modeCardsContainer.innerHTML = '';
-            
-            modes.forEach(mode => {
-                const link = document.createElement('a');
-                link.className = 'mode-card';
-                
-                // Determine folder path based on book and lesson
-                let folderPath = '';
-                if (book === '1') {
-                    folderPath = `1-${lesson}`;
-                } else {
-                    folderPath = `3-${lesson}`;
-                }
-                
-                // Map mode names to file names
-                const modeFileMap = {
-                    'Flashcard': `book${book}_lesson${lesson}_flashcard.html`,
-                    'Test': `book${book}_lesson${lesson}_test.html`,
-                    'MindMap': `book${book}_lesson${lesson}_mindmap.html`,
-                    'Video': `book${book}_lesson${lesson}_video.html`,
-                    'Self-Notes': `selfnotes_GS-book`${book}_lesson${lesson}`.html};
-                
-                const fileName = modeFileMap[mode.name];
-                link.href = `${folderPath}/${fileName}`;
-                
-                // For demo, add alert for non-existent pages (optional)
-                link.onclick = function(e) {
-                    // Uncomment to simulate alerts
-                    // e.preventDefault();
-                    // alert(`🚀 導向至: ${folderPath}/${fileName}`);
-                };
-                
-                link.innerHTML = `<i class="fas ${mode.icon}"></i>${mode.name}`;
-                modeCardsContainer.appendChild(link);
-            });
-        }
-
-        lessonBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const book = btn.getAttribute('data-book');
-                const lesson = btn.getAttribute('data-lesson');
-                updateDetailPanel(book, lesson);
-                detailPanel.classList.remove('hidden');
-                detailPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            });
-        });
-
-        // Close detail panel
-        closeBtn.addEventListener('click', () => {
-            detailPanel.classList.add('hidden');
-        });
     })();
 </script>
-
-<style>
-    .close-detail {
-        line-height: 1;
-    }
-    .fa-times:before {
-        content: "\f00d";
-    }
-    .mode-card {
-        color: inherit;
-        text-decoration: none;
-    }
-</style>
 </body>
 </html>
