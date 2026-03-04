@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>小常識 · 測驗 · 第三冊-第2課::內外交困</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { 
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #d4e0ec 0%, #eaf0f6 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0.3rem;
+            font-size: 16px;
+        }
+
+        .test-container {
+            max-width: 500px;
+            width: 100%;
+            height: 98vh;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(4px);
+            border-radius: 32px;
+            box-shadow: 0 20px 30px -10px rgba(0,40,60,0.4);
+            padding: 0.8rem;
+            border: 2px solid rgba(255,255,255,0.8);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .test-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 40px;
+            margin-bottom: 0.5rem;
+            box-shadow: 0 3px 0 #bed0e3;
+            flex-shrink: 0;
+        }
+
+        .back-home {
+            background: #f4d03f;
+            border-radius: 40px;
+            padding: 0.3rem 0.8rem;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #1f3a4b;
+            border: none;
+            box-shadow: 0 3px 0 #b38f1c;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            text-decoration: none;
+        }
+        .back-home:active { transform: translateY(3px); box-shadow: 0 1px 0 #b38f1c; }
+
+        .test-title {
+            font-size: 1.2rem;
+            font-weight: 900;
+            background: #eef5ff;
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+            color: #1a4972;
+            border: 2px solid #c1d9f0;
+        }
+
+        .test-stats {
+            display: flex;
+            gap: 0.5rem;
+            background: #2b3c4e;
+            padding: 0.2rem 0.8rem;
+            border-radius: 40px;
+            color: white;
+            font-weight: 600;
+            font-size: 0.8rem;
+            align-items: center;
+        }
+
+        .progress-section {
+            margin-bottom: 0.5rem;
+            flex-shrink: 0;
+        }
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.2rem;
+            font-weight: 600;
+            color: #2c5a7a;
+            font-size: 0.9rem;
+        }
+        .progress-bar-dual {
+            height: 16px;
+            background: #e2eaf3;
+            border-radius: 30px;
+            overflow: hidden;
+            display: flex;
+            width: 100%;
+        }
+        .progress-correct {
+            height: 100%;
+            background: #58cc71;
+            transition: width 0.3s;
+        }
+        .progress-wrong {
+            height: 100%;
+            background: #e74c3c;
+            transition: width 0.3s;
+        }
+
+        .scrollable-content {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 2px;
+            margin-bottom: 0.3rem;
+        }
+
+        .question-card {
+            background: white;
+            border-radius: 24px;
+            padding: 1rem;
+            box-shadow: 0 5px 0 #a0b9cf, 0 5px 15px rgba(0,0,0,0.1);
+            border: 2px solid #fff6cf;
+        }
+
+        .question-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .question-number {
+            background: #3498db;
+            color: white;
+            padding: 0.1rem 0.8rem;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 0.8rem;
+        }
+        .subtopic-badge {
+            background: #f4d03f;
+            color: #1f3a4b;
+            padding: 0.1rem 0.8rem;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #1e3f5a;
+            margin-bottom: 1rem;
+            line-height: 1.3;
+            padding-left: 0.3rem;
+            border-left: 4px solid #f3b33d;
+        }
+
+        .options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .option-btn {
+            background: #f5f9ff;
+            border: 2px solid #cad9eb;
+            border-radius: 40px;
+            padding: 0.7rem 1rem;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1f4973;
+            text-align: left;
+            cursor: pointer;
+            box-shadow: 0 3px 0 #9fbad0;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            width: 100%;
+            transition: all 0.1s;
+        }
+        .option-btn:active:not(:disabled) { transform: translateY(3px); box-shadow: 0 1px 0 #9fbad0; }
+        .option-btn.selected { background: #c1e5c0; border-color: #58a700; box-shadow: 0 3px 0 #3e7a00; }
+        .option-btn.correct { background: #a5d6a5; border-color: #2e7d32; box-shadow: 0 3px 0 #1b5e20; }
+        .option-btn.incorrect { background: #ffcdd2; border-color: #c62828; box-shadow: 0 3px 0 #8b0000; }
+        .option-btn:disabled { opacity: 0.8; cursor: default; }
+        .option-prefix {
+            background: #2b5f8a;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            flex-shrink: 0;
+            font-size: 0.9rem;
+        }
+
+        .feedback-pop {
+            background: #333;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 40px;
+            font-weight: 600;
+            margin-top: 0.8rem;
+            text-align: center;
+            animation: fadeInOut 2s;
+            position: sticky;
+            bottom: 10px;
+            z-index: 10;
+        }
+        @keyframes fadeInOut { 0%{opacity:0} 20%{opacity:1} 80%{opacity:1} 100%{opacity:0} }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.3rem;
+            flex-shrink: 0;
+        }
+        .nav-btn {
+            background: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #1f4973;
+            box-shadow: 0 3px 0 #9fbad0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            flex: 1;
+            justify-content: center;
+        }
+        .nav-btn:active:not(:disabled) { transform: translateY(3px); box-shadow: 0 1px 0 #9fbad0; }
+        .nav-btn.primary { background: #58a700; color: white; box-shadow: 0 3px 0 #3e7a00; }
+        .nav-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .question-indicator {
+            background: #e1edff;
+            padding: 0.2rem 0.8rem;
+            border-radius: 40px;
+            font-weight: 600;
+            color: #1a4972;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        .start-screen {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            gap: 1.5rem;
+        }
+        .start-btn {
+            background: #58a700;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 800;
+            padding: 1rem 2rem;
+            border-radius: 60px;
+            box-shadow: 0 6px 0 #3e7a00;
+            cursor: pointer;
+            width: 80%;
+            text-align: center;
+        }
+        .start-btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #3e7a00; }
+
+        /* 全新靚靚總結樣式 */
+        .summary-screen {
+            padding: 0.5rem;
+        }
+        .summary-title {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #1a4972;
+            text-align: center;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 0 #c1d9f0;
+        }
+        .overall-stats {
+            background: white;
+            border-radius: 24px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 5px 0 #a0b9cf;
+            border: 2px solid #fff6cf;
+        }
+        .overall-labels {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            color: #2c5a7a;
+            margin-bottom: 0.5rem;
+        }
+        .overall-bars {
+            display: flex;
+            height: 36px;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+        }
+        .bar-correct {
+            background: linear-gradient(145deg, #58cc71, #2e9b5c);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 800;
+            font-size: 1.1rem;
+            transition: width 0.3s;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        .bar-wrong {
+            background: linear-gradient(145deg, #e74c3c, #c0392b);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 800;
+            font-size: 1.1rem;
+            transition: width 0.3s;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        .section-card {
+            background: white;
+            border-radius: 24px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 5px 0 #a0b9cf;
+            border: 2px solid #fff6cf;
+            transition: transform 0.1s;
+        }
+        .section-card:hover {
+            transform: translateY(-2px);
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.8rem;
+        }
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            background: #3498db;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+        .section-name {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #1a4972;
+            flex: 1;
+        }
+        .section-percent {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #2c5a7a;
+        }
+        .progress-bg {
+            height: 16px;
+            background: #e2eaf3;
+            border-radius: 30px;
+            margin: 0.5rem 0;
+            overflow: hidden;
+        }
+        .progress-fill-section {
+            height: 100%;
+            background: linear-gradient(90deg, #f4d03f, #f39c12);
+            border-radius: 30px;
+            width: 0%;
+            transition: width 0.3s;
+        }
+        .section-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 0.5rem;
+            color: #4f6f8f;
+            font-weight: 600;
+        }
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .stat-item i {
+            font-size: 1.2rem;
+        }
+        .fa-check-circle { color: #58cc71; }
+        .fa-times-circle { color: #e74c3c; }
+        .fa-file-alt { color: #3498db; }
+        .restart-btn {
+            background: #48b5a5;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 700;
+            padding: 0.8rem 2rem;
+            border-radius: 60px;
+            box-shadow: 0 5px 0 #1c6b5e;
+            cursor: pointer;
+            display: block;
+            width: fit-content;
+            margin: 1.5rem auto 0;
+            transition: 0.1s;
+        }
+        .restart-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 1px 0 #1c6b5e;
+        }
+
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+<div class="test-container">
+    <div class="test-header">
+        <a href="../index.html" class="back-home"><i class="fas fa-arrow-left"></i> 返回</a>
+        <span class="test-title">第三冊第2課·測驗</span>
+        <div class="test-stats">
+            <span><i class="fas fa-star"></i> <span id="earnedPoints">0</span>/<span id="totalPoints">0</span></span>
+        </div>
+    </div>
+
+    <div class="progress-section">
+        <div class="progress-info">
+            <span><span id="correctCount">0</span> 正確 · <span id="wrongCount">0</span> 錯誤</span>
+            <span id="completionPercent">0%</span>
+        </div>
+        <div class="progress-bar-dual">
+            <div class="progress-correct" id="progressCorrect" style="width:0%"></div>
+            <div class="progress-wrong" id="progressWrong" style="width:0%"></div>
+        </div>
+    </div>
+
+    <div class="scrollable-content" id="contentArea">
+        <div id="startScreen" class="start-screen">
+            <div class="start-btn" id="btnRandom20">隨機20題</div>
+            <div class="start-btn" id="btnAll">全部題目</div>
+        </div>
+        <div id="questionArea" class="hidden"></div>
+        <div id="summaryArea" class="hidden summary-screen"></div>
+    </div>
+
+    <div class="nav-buttons hidden" id="navButtons">
+        <button class="nav-btn" id="prevBtn" disabled><i class="fas fa-chevron-left"></i> 上一題</button>
+        <span class="question-indicator" id="questionIndicator">1/0</span>
+        <button class="nav-btn primary" id="nextBtn">下一題 <i class="fas fa-chevron-right"></i></button>
+        <button class="nav-btn primary hidden" id="submitBtn">提交</button>
+        <button class="nav-btn primary hidden" id="showResultsBtn">結果</button>
+    </div>
+</div>
+
+<script>
+(function() {
+    let fullTestData = null;
+    let currentSet = [];
+    let userAnswers = [];
+    let questionStatus = [];
+    let earnedPoints = 0;
+    const pointsPerQuestion = 5;
+    let currentIndex = 0;
+
+    const startScreen = document.getElementById('startScreen');
+    const questionArea = document.getElementById('questionArea');
+    const summaryArea = document.getElementById('summaryArea');
+    const navButtons = document.getElementById('navButtons');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const submitBtn = document.getElementById('submitBtn');
+    const showResultsBtn = document.getElementById('showResultsBtn');
+    const questionIndicator = document.getElementById('questionIndicator');
+    const earnedPointsSpan = document.getElementById('earnedPoints');
+    const totalPointsSpan = document.getElementById('totalPoints');
+    const correctCountSpan = document.getElementById('correctCount');
+    const wrongCountSpan = document.getElementById('wrongCount');
+    const progressCorrect = document.getElementById('progressCorrect');
+    const progressWrong = document.getElementById('progressWrong');
+    const completionPercent = document.getElementById('completionPercent');
+    const btnRandom20 = document.getElementById('btnRandom20');
+    const btnAll = document.getElementById('btnAll');
+
+    async function loadFullData() {
+        try {
+            const res = await fetch('source_data_test.json');
+            if (!res.ok) throw new Error('無法載入題庫');
+            const data = await res.json();
+            data.questions = data.questions.map(q => ({ type: 'multiple-choice', ...q }));
+            fullTestData = data;
+        } catch (e) {
+            alert('載入失敗：' + e.message);
+        }
+    }
+
+    async function startTest(mode) {
+        if (!fullTestData) await loadFullData();
+        if (!fullTestData) return;
+
+        const total = fullTestData.questions.length;
+        if (mode === 'random') {
+            const n = Math.min(20, total);
+            const indices = new Set();
+            while (indices.size < n) indices.add(Math.floor(Math.random() * total));
+            currentSet = Array.from(indices);
+        } else {
+            currentSet = Array.from({ length: total }, (_, i) => i);
+        }
+
+        userAnswers = new Array(currentSet.length).fill(null);
+        questionStatus = new Array(currentSet.length).fill('unanswered');
+        earnedPoints = 0;
+        currentIndex = 0;
+
+        earnedPointsSpan.textContent = earnedPoints;
+        totalPointsSpan.textContent = currentSet.length * pointsPerQuestion;
+        updateProgressBar();
+
+        startScreen.classList.add('hidden');
+        questionArea.classList.remove('hidden');
+        navButtons.classList.remove('hidden');
+
+        loadQuestion(0);
+    }
+
+    function loadQuestion(index) {
+        if (!fullTestData) return;
+        currentIndex = index;
+        const qIdx = currentSet[index];
+        const q = fullTestData.questions[qIdx];
+
+        const letters = ['A', 'B', 'C', 'D'];
+        let optionsHtml = '';
+        q.options.forEach((opt, optIdx) => {
+            let cls = '';
+            if (questionStatus[index] !== 'unanswered') {
+                if (optIdx === q.correctAnswer) cls = 'correct';
+                else if (optIdx === userAnswers[index]) cls = 'incorrect';
+            } else if (userAnswers[index] === optIdx) cls = 'selected';
+
+            optionsHtml += `
+                <button class="option-btn ${cls}" onclick="window.selectAnswer(${index}, ${optIdx})" ${questionStatus[index] !== 'unanswered' ? 'disabled' : ''}>
+                    <span class="option-prefix">${letters[optIdx]}</span> ${opt}
+                </button>
+            `;
+        });
+
+        let html = `
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">第 ${index+1}/${currentSet.length} 題</span>
+                    <span class="subtopic-badge"><i class="fas fa-tag"></i> ${q.subtopic || '一般'}</span>
+                </div>
+                <div class="question-text">${q.question}</div>
+                <div class="options-grid">${optionsHtml}</div>
+        `;
+
+        if (questionStatus[index] !== 'unanswered') {
+            html += `<div class="explanation-box" style="background:#fff9e6; border-left:6px solid #f3b33d; border-radius:12px; padding:0.6rem; margin-top:0.8rem;">
+                <i class="fas fa-info-circle"></i> ${q.explanation || ''}
+            </div>`;
+        }
+
+        html += `</div>`;
+        questionArea.innerHTML = html;
+
+        questionIndicator.textContent = `${index+1}/${currentSet.length}`;
+        updateNavButtons();
+    }
+
+    window.selectAnswer = function(setIdx, optIdx) {
+        if (questionStatus[setIdx] !== 'unanswered') return;
+        const qIdx = currentSet[setIdx];
+        const q = fullTestData.questions[qIdx];
+        const correct = (optIdx === q.correctAnswer);
+
+        userAnswers[setIdx] = optIdx;
+        questionStatus[setIdx] = correct ? 'correct' : 'incorrect';
+
+        if (correct) {
+            earnedPoints += pointsPerQuestion;
+            showFeedback('✅ 正確！ +5 XP', '#2e7d32');
+        } else {
+            const correctLetter = String.fromCharCode(65 + q.correctAnswer);
+            showFeedback(`❌ 錯誤！ 正確答案是 ${correctLetter}`, '#c62828');
+        }
+
+        earnedPointsSpan.textContent = earnedPoints;
+        updateProgressBar();
+        loadQuestion(setIdx);
+    };
+
+    function showFeedback(msg, color) {
+        const fb = document.createElement('div');
+        fb.className = 'feedback-pop';
+        fb.textContent = msg;
+        fb.style.backgroundColor = color;
+        questionArea.appendChild(fb);
+        setTimeout(() => fb.remove(), 2000);
+    }
+
+    function updateProgressBar() {
+        const total = currentSet.length;
+        const correct = questionStatus.filter(s => s === 'correct').length;
+        const wrong = questionStatus.filter(s => s === 'incorrect').length;
+
+        correctCountSpan.textContent = correct;
+        wrongCountSpan.textContent = wrong;
+
+        const correctPercent = total ? (correct / total) * 100 : 0;
+        const wrongPercent = total ? (wrong / total) * 100 : 0;
+
+        progressCorrect.style.width = correctPercent + '%';
+        progressWrong.style.width = wrongPercent + '%';
+
+        const percentComplete = total ? Math.round(((correct + wrong) / total) * 100) : 0;
+        completionPercent.textContent = percentComplete + '%';
+    }
+
+    function updateNavButtons() {
+        prevBtn.disabled = (currentIndex === 0);
+        const last = (currentIndex === currentSet.length - 1);
+        const allAnswered = questionStatus.every(s => s !== 'unanswered');
+
+        if (last) {
+            if (allAnswered) {
+                nextBtn.classList.add('hidden');
+                submitBtn.classList.add('hidden');
+                showResultsBtn.classList.remove('hidden');
+            } else {
+                nextBtn.classList.add('hidden');
+                submitBtn.classList.remove('hidden');
+                showResultsBtn.classList.add('hidden');
+            }
+        } else {
+            nextBtn.classList.remove('hidden');
+            submitBtn.classList.add('hidden');
+            showResultsBtn.classList.add('hidden');
+        }
+    }
+
+    function showSummary() {
+        questionArea.classList.add('hidden');
+        navButtons.classList.add('hidden');
+        summaryArea.classList.remove('hidden');
+
+        const totalCorrect = questionStatus.filter(s => s === 'correct').length;
+        const totalWrong = questionStatus.filter(s => s === 'incorrect').length;
+        const totalQuestions = currentSet.length;
+
+        const correctPercent = totalQuestions ? (totalCorrect / totalQuestions) * 100 : 0;
+        const wrongPercent = totalQuestions ? (totalWrong / totalQuestions) * 100 : 0;
+
+        // 四個指定小節
+        const sectionNames = [
+            '文化大革命的影響與改革開放前的中國問題?',
+            '改革開放政策',
+            '經濟特區的地理與經濟意義',
+            '香港與中國內地的經濟聯繫 '
+        ];
+
+        const sectionStats = {};
+        sectionNames.forEach(name => { sectionStats[name] = { total: 0, correct: 0, wrong: 0 }; });
+
+        for (let i = 0; i < currentSet.length; i++) {
+            const qIdx = currentSet[i];
+            const q = fullTestData.questions[qIdx];
+            const sub = q.subtopic || '一般';
+            if (sectionStats.hasOwnProperty(sub)) {
+                sectionStats[sub].total++;
+                if (questionStatus[i] === 'correct') sectionStats[sub].correct++;
+                else if (questionStatus[i] === 'incorrect') sectionStats[sub].wrong++;
+            }
+        }
+
+        // 建立總結 HTML
+        let html = `
+            <div class="summary-title">📊 測驗總結</div>
+            <div class="overall-stats">
+                <div class="overall-labels">
+                    <span><i class="fas fa-check-circle" style="color:#58cc71;"></i> 正確 ${totalCorrect}</span>
+                    <span><i class="fas fa-times-circle" style="color:#e74c3c;"></i> 錯誤 ${totalWrong}</span>
+                </div>
+                <div class="overall-bars">
+                    <div class="bar-correct" style="width: ${correctPercent}%;">${totalCorrect}</div>
+                    <div class="bar-wrong" style="width: ${wrongPercent}%;">${totalWrong}</div>
+                </div>
+            </div>
+        `;
+
+        // 每個小節的圖示 (可依喜好調整)
+        const icons = ['fas fa-handshake', 'fas fa-heart', 'fas fa-exclamation-triangle', 'fas fa-shield-alt'];
+
+        sectionNames.forEach((name, idx) => {
+            const stat = sectionStats[name] || { total: 0, correct: 0, wrong: 0 };
+            const percent = stat.total ? Math.round((stat.correct / stat.total) * 100) : 0;
+            html += `
+                <div class="section-card">
+                    <div class="section-header">
+                        <div class="section-icon"><i class="${icons[idx]}"></i></div>
+                        <div class="section-name">${name}</div>
+                        <div class="section-percent">${percent}%</div>
+                    </div>
+                    <div class="progress-bg">
+                        <div class="progress-fill-section" style="width: ${percent}%;"></div>
+                    </div>
+                    <div class="section-stats">
+                        <span class="stat-item"><i class="fas fa-check-circle"></i> ${stat.correct}</span>
+                        <span class="stat-item"><i class="fas fa-times-circle"></i> ${stat.wrong}</span>
+                        <span class="stat-item"><i class="fas fa-file-alt"></i> ${stat.total}</span>
+                    </div>
+                </div>
+            `;
+        });
+
+        html += `<button class="restart-btn" id="restartFromSummary"><i class="fas fa-redo-alt"></i> 重新測驗</button>`;
+        summaryArea.innerHTML = html;
+
+        document.getElementById('restartFromSummary').addEventListener('click', () => {
+            summaryArea.classList.add('hidden');
+            startScreen.classList.remove('hidden');
+        });
+    }
+
+    btnRandom20.addEventListener('click', () => startTest('random'));
+    btnAll.addEventListener('click', () => startTest('all'));
+
+    prevBtn.addEventListener('click', () => {
+        if (currentIndex > 0) loadQuestion(currentIndex - 1);
+    });
+
+    nextBtn.addEventListener('click', () => {
+        if (currentIndex < currentSet.length - 1) loadQuestion(currentIndex + 1);
+    });
+
+    submitBtn.addEventListener('click', () => {
+        if (questionStatus[currentIndex] === 'unanswered') {
+            alert('請先回答此題');
+            return;
+        }
+        if (currentIndex === currentSet.length - 1 && questionStatus.every(s => s !== 'unanswered')) {
+            showSummary();
+        } else if (currentIndex < currentSet.length - 1) {
+            loadQuestion(currentIndex + 1);
+        }
+    });
+
+    showResultsBtn.addEventListener('click', showSummary);
+
+    loadFullData();
+})();
+</script>
+</body>
+</html>
