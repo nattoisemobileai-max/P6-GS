@@ -31,7 +31,7 @@
             padding: 0.5rem 0.3rem;
         }
 
-        /* 頂部列 (與之前相同) */
+        /* 頂部列 */
         .top-bar {
             display: flex;
             align-items: center;
@@ -258,203 +258,107 @@
     <!-- 頂部列 -->
     <div class="top-bar">
         <a href="../index.html" class="back-home"><i class="fas fa-arrow-left"></i> 返回</a>
-        <span class="quiz-title"><i class="fas fa-home"></i> 本地時事 · 互動測驗</span>
+        <span class="quiz-title"><i class="fas fa-home"></i> 本地時事 · 月份分類</span>
         <div class="user-stats">
-            <i class="fas fa-star"></i> 挑戰你的時事知識
+            <i class="fas fa-star"></i> 共 23 題
         </div>
     </div>
 
-    <!-- 時事分組 (可擴充多個時段) -->
+    <!-- 12月分組 (題號 1-7) -->
     <div class="group-section">
         <div class="group-header" onclick="toggleGroup(this)">
-            <h2><i class="fas fa-calendar-alt"></i> 香港本地時事（2025年12月－2026年2月）</h2>
+            <h2><i class="fas fa-calendar-alt"></i> 2025年12月 (7題)</h2>
             <i class="fas fa-chevron-down"></i>
         </div>
-        <div class="group-content">
-            <!-- 問題卡片將由 JavaScript 動態產生 -->
+        <div class="group-content" id="group-dec"></div>
+    </div>
+
+    <!-- 1月分組 (題號 8-16) -->
+    <div class="group-section">
+        <div class="group-header" onclick="toggleGroup(this)">
+            <h2><i class="fas fa-calendar-alt"></i> 2026年1月 (9題)</h2>
+            <i class="fas fa-chevron-down"></i>
         </div>
+        <div class="group-content" id="group-jan"></div>
+    </div>
+
+    <!-- 2月分組 (題號 17-23) -->
+    <div class="group-section">
+        <div class="group-header" onclick="toggleGroup(this)">
+            <h2><i class="fas fa-calendar-alt"></i> 2026年2月 (7題)</h2>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="group-content" id="group-feb"></div>
     </div>
 
     <div class="footer-note">
-        <i class="fas fa-lightbulb"></i> 點擊每題的「提交」按鈕查看答案與補充資料
+        <i class="fas fa-lightbulb"></i> 點擊月份標題可摺疊/展開 · 每題提交後顯示補充資料
     </div>
 </div>
 
 <script>
-    // 本地時事問題資料 (共23題)
-    const localNewsData = [
-        {
-            question: "香港哪一個地區的太平洋礁礁棚獲健力士世界紀錄認證為全球最大臨時竹構祭壇？",
-            options: ["A. 錦田水頭村", "B. 元朗大棠", "C. 大埔林村", "D. 西貢鹽田梓"],
-            correct: 0,
-            supplement: "錦田水頭村的竹構祭壇以傳統工藝搭建，展現了香港鄉村文化與環保建築的結合。"
-        },
-        {
-            question: "被暫緩的佩戴安全帶新例，原本規定適用於哪種交通工具？",
-            options: ["A. 的士", "B. 小巴", "C. 巴士", "D. 私家車"],
-            correct: 2,
-            supplement: "該新例原計劃強制巴士乘客佩戴安全帶，但由於技術及執行問題暫緩實施。"
-        },
-        {
-            question: "醫管局初生嬰兒免費篩查計劃擴展至2間哪類醫院？",
-            options: ["A. 公立醫院", "B. 私家醫院", "C. 大學附屬醫院", "D. 慈善醫院"],
-            correct: 1,
-            supplement: "計劃擴展至私家醫院，讓更多初生嬰兒能接受免費疾病篩查。"
-        },
-        {
-            question: "香港目前共有約多少輛車隊的士？",
-            options: ["A. 800輛", "B. 1000輛", "C. 1300輛", "D. 1600輛"],
-            correct: 2,
-            supplement: "1300輛的數字低於運輸署原定目標，反映的士業界對新車隊模式反應未如理想。"
-        },
-        {
-            question: "公立醫院急症室1月1日起實施新收費，緊急或以下的病人收費由原來的180元增至多少元？",
-            options: ["A. 300元", "B. 400元", "C. 500元", "D. 600元"],
-            correct: 1,
-            supplement: "新收費旨在引導非緊急病人使用普通科門診或私家醫療服務，減輕急症室壓力。"
-        },
-        {
-            question: "連續性僱員合約新規定「468」生效，員工若連續四星期為同一僱主工作滿多少小時，便可享有假期等福利？",
-            options: ["A. 68小時", "B. 72小時", "C. 80小時", "D. 90小時"],
-            correct: 0,
-            supplement: "「468」中的68代表四星期內工作滿68小時，取代原有的「418」規定，讓更多兼職員工受惠。"
-        },
-        {
-            question: "渣打香港馬拉松2026全馬及半馬的起跑地點在哪裡？",
-            options: ["A. 維多利亞公園", "B. 尖沙咀彌敦道", "C. 中環碼頭", "D. 西隧九龍入口"],
-            correct: 1,
-            supplement: "起跑點設於尖沙咀彌敦道，是為了讓跑手體驗九龍半島的城市風光。"
-        },
-        {
-            question: "香港舊油麻地警署設有什麼主題的展覽？",
-            options: ["A. 光影之旅", "B. 警隊歷史", "C. 罪案解密", "D. 建築藝術"],
-            correct: 0,
-            supplement: "「光影之旅」展覽利用多媒體技術，展現舊油麻地警署的歷史與建築特色，免費開放參觀。"
-        },
-        {
-            question: "12月11日香港哪一所醫院正式投入服務？",
-            options: ["A. 香港兒童醫院", "B. 香港中醫醫院", "C. 啟德醫院", "D. 北大嶼山醫院"],
-            correct: 1,
-            supplement: "香港中醫醫院是香港首家以中醫服務為主的公立醫院，提供中西醫協作治療。"
-        },
-        {
-            question: "公立醫院所設的全年醫療收費上限為多少元？",
-            options: ["A. 8000元", "B. 1萬元", "C. 1.2萬元", "D. 1.5萬元"],
-            correct: 1,
-            supplement: "全年收費上限1萬元，旨在保障長期病患者不會因高昂醫療費用而卻步。"
-        },
-        {
-            question: "香港哪個集團近期計劃出售多國港口資產，其中最受關注的是巴拿馬港口？",
-            options: ["A. 新鴻基地產", "B. 長和集團", "C. 九龍倉集團", "D. 嘉里建設"],
-            correct: 1,
-            supplement: "長和集團出售巴拿馬港口等資產，被視為調整全球業務策略的一部分。"
-        },
-        {
-            question: "港鐵哪一條路線因應明年的路軌調整工程，需要於指定時段採取分段行車安排？",
-            options: ["A. 東鐵綫", "B. 荃灣綫", "C. 屯馬綫", "D. 港島綫"],
-            correct: 2,
-            supplement: "屯馬綫全長56公里，是香港最長的鐵路綫，路軌調整工程將影響部分時段的列車服務。"
-        },
-        {
-            question: "1月30日在上環兌換店搶劫案中，劫匪奪走5100萬元哪種貨幣？",
-            options: ["A. 港幣", "B. 美元", "C. 人民幣", "D. 日圓"],
-            correct: 3,
-            supplement: "由於日圓匯率波動大，兌換店經常備有大量日圓現鈔，成為劫匪目標。"
-        },
-        {
-            question: "香港哪家連鎖快餐店宣布本月起為管理層員工加薪3-5%？",
-            options: ["A. 大家樂", "B. 大快活", "C. 麥當勞", "D. KFC"],
-            correct: 2,
-            supplement: "麥當勞加薪幅度高於通脹，旨在留住管理人才，應對餐飲業人手短缺。"
-        },
-        {
-            question: "警方引入什麼設備進行高空巡邏，以提升搜救及罪案預防能力？",
-            options: ["A. 直升機", "B. 無人機", "C. 熱氣球", "D. 飛艇"],
-            correct: 1,
-            supplement: "無人機配備高清鏡頭和熱成像，可在夜間或惡劣天氣下執行任務，提升行動效率。"
-        },
-        {
-            question: "政府計劃修例禁止所有地盤吸煙，原本個人最高罰款15萬元，擬改為多少？",
-            options: ["A. 1500元", "B. 3000元", "C. 5000元", "D. 8000元"],
-            correct: 1,
-            supplement: "修例目的是提高阻嚇力，防止地盤工人因吸煙引發火警或影響健康。"
-        },
-        {
-            question: "政府計劃修例，讓哪種動物可進入獲批牌照的食肆？",
-            options: ["A. 貓", "B. 狗隻", "C. 兔子", "D. 鸚鵡"],
-            correct: 1,
-            supplement: "新例將容許狗隻進入部分戶外用餐區，但需遵守衞生及安全規定。"
-        },
-        {
-            question: "旅發局今年取消除夕煙花匯演，改舉辦什麼活動？",
-            options: ["A. 燈光秀", "B. 音樂光影表演", "C. 無人機表演", "D. 街頭嘉年華"],
-            correct: 1,
-            supplement: "音樂光影表演以維港兩岸大廈為舞台，結合激光與音樂，吸引大量市民觀賞。"
-        },
-        {
-            question: "哪家連鎖健身中心的分店因在男廁入口附近安裝閉路電視鏡頭，被個人私隱專員公署發勸喻信？",
-            options: ["A. 24/7 Fitness", "B. Physical Fitness", "C. Pure Fitness", "D. Anytime Fitness"],
-            correct: 0,
-            supplement: "私隱專員公署指該安裝可能侵犯使用者私隱，勸喻該中心立即移除鏡頭。"
-        },
-        {
-            question: "1月30日於西貢鹹田灣發現的鯨魚屍體由哪個政府部門負責處理？",
-            options: ["A. 漁農自然護理署", "B. 環境保護署", "C. 海事處", "D. 食物環境衞生署"],
-            correct: 0,
-            supplement: "漁護署負責檢驗鯨魚死因及處理屍體，以預防海洋生態風險。"
-        },
-        {
-            question: "屯門市廣場發生了什麼事件？",
-            options: ["A. 火警", "B. 男子持刀挾持女途人及警員開槍", "C. 氣體洩漏", "D. 高空墮物"],
-            correct: 1,
-            supplement: "事件中警員開槍制伏疑犯，女途人獲救，社會關注商場保安及精神健康問題。"
-        },
-        {
-            question: "被暫緩的佩戴安全帶新例，原本規定適用於哪種交通工具？（重複？但不同題號）",
-            options: ["A. 的士", "B. 小巴", "C. 巴士", "D. 私家車"],
-            correct: 2,
-            supplement: "該新例原計劃強制巴士乘客佩戴安全帶，但由於技術及執行問題暫緩實施。"
-        },
-        {
-            question: "醫管局初生嬰兒免費篩查計劃擴展至2間哪類醫院？（重複？）",
-            options: ["A. 公立醫院", "B. 私家醫院", "C. 大學附屬醫院", "D. 慈善醫院"],
-            correct: 1,
-            supplement: "計劃擴展至私家醫院，讓更多初生嬰兒能接受免費疾病篩查。"
-        }
+    // 本地時事問題資料 (共23題，按月份分組，已移除重複)
+    const questionsData = [
+        // 12月 (題號1-7)
+        { month: 'dec', qid: 1, question: "香港哪一個地區的太平洋礁礁棚獲健力士世界紀錄認證為全球最大臨時竹構祭壇？", options: ["A. 錦田水頭村", "B. 元朗大棠", "C. 大埔林村", "D. 西貢鹽田梓"], correct: 0, supplement: "錦田水頭村的竹構祭壇以傳統工藝搭建，展現了香港鄉村文化與環保建築的結合。" },
+        { month: 'dec', qid: 2, question: "被暫緩的佩戴安全帶新例，原本規定適用於哪種交通工具？", options: ["A. 的士", "B. 小巴", "C. 巴士", "D. 私家車"], correct: 2, supplement: "該新例原計劃強制巴士乘客佩戴安全帶，但由於技術及執行問題暫緩實施。" },
+        { month: 'dec', qid: 3, question: "醫管局初生嬰兒免費篩查計劃擴展至2間哪類醫院？", options: ["A. 公立醫院", "B. 私家醫院", "C. 大學附屬醫院", "D. 慈善醫院"], correct: 1, supplement: "計劃擴展至私家醫院，讓更多初生嬰兒能接受免費疾病篩查。" },
+        { month: 'dec', qid: 4, question: "香港目前共有約多少輛車隊的士？", options: ["A. 800輛", "B. 1000輛", "C. 1300輛", "D. 1600輛"], correct: 2, supplement: "1300輛的數字低於運輸署原定目標，反映的士業界對新車隊模式反應未如理想。" },
+        { month: 'dec', qid: 5, question: "警方引入什麼設備進行高空巡邏，以提升搜救及罪案預防能力？", options: ["A. 直升機", "B. 無人機", "C. 熱氣球", "D. 飛艇"], correct: 1, supplement: "無人機配備高清鏡頭和熱成像，可在夜間或惡劣天氣下執行任務，提升行動效率。" },
+        { month: 'dec', qid: 6, question: "12月11日香港哪一所醫院正式投入服務？", options: ["A. 香港兒童醫院", "B. 香港中醫醫院", "C. 啟德醫院", "D. 北大嶼山醫院"], correct: 1, supplement: "香港中醫醫院是香港首家以中醫服務為主的公立醫院，提供中西醫協作治療。" },
+        { month: 'dec', qid: 7, question: "屯門市廣場發生了什麼事件？", options: ["A. 火警", "B. 男子持刀挾持女途人及警員開槍", "C. 氣體洩漏", "D. 高空墮物"], correct: 1, supplement: "事件中警員開槍制伏疑犯，女途人獲救，社會關注商場保安及精神健康問題。" },
+
+        // 1月 (題號8-16)
+        { month: 'jan', qid: 8, question: "公立醫院急症室1月1日起實施新收費，緊急或以下的病人收費由原來的180元增至多少元？", options: ["A. 300元", "B. 400元", "C. 500元", "D. 600元"], correct: 1, supplement: "新收費旨在引導非緊急病人使用普通科門診或私家醫療服務，減輕急症室壓力。" },
+        { month: 'jan', qid: 9, question: "連續性僱員合約新規定「468」生效，員工若連續四星期為同一僱主工作滿多少小時，便可享有假期等福利？", options: ["A. 68小時", "B. 72小時", "C. 80小時", "D. 90小時"], correct: 0, supplement: "「468」中的68代表四星期內工作滿68小時，取代原有的「418」規定，讓更多兼職員工受惠。" },
+        { month: 'jan', qid: 10, question: "1月30日在上環兌換店搶劫案中，劫匪奪走5100萬元哪種貨幣？", options: ["A. 港幣", "B. 美元", "C. 人民幣", "D. 日圓"], correct: 3, supplement: "由於日圓匯率波動大，兌換店經常備有大量日圓現鈔，成為劫匪目標。" },
+        { month: 'jan', qid: 11, question: "1月30日於西貢鹹田灣發現的鯨魚屍體由哪個政府部門負責處理？", options: ["A. 漁農自然護理署", "B. 環境保護署", "C. 海事處", "D. 食物環境衞生署"], correct: 0, supplement: "漁護署負責檢驗鯨魚死因及處理屍體，以預防海洋生態風險。" },
+        { month: 'jan', qid: 12, question: "政府計劃修例禁止所有地盤吸煙，原本個人最高罰款15萬元，擬改為多少？", options: ["A. 1500元", "B. 3000元", "C. 5000元", "D. 8000元"], correct: 1, supplement: "修例目的是提高阻嚇力，防止地盤工人因吸煙引發火警或影響健康。" },
+        { month: 'jan', qid: 13, question: "政府計劃修例，讓哪種動物可進入獲批牌照的食肆？", options: ["A. 貓", "B. 狗隻", "C. 兔子", "D. 鸚鵡"], correct: 1, supplement: "新例將容許狗隻進入部分戶外用餐區，但需遵守衞生及安全規定。" },
+        { month: 'jan', qid: 14, question: "哪家連鎖健身中心的分店因在男廁入口附近安裝閉路電視鏡頭，被個人私隱專員公署發勸喻信？", options: ["A. 24/7 Fitness", "B. Physical Fitness", "C. Pure Fitness", "D. Anytime Fitness"], correct: 0, supplement: "私隱專員公署指該安裝可能侵犯使用者私隱，勸喻該中心立即移除鏡頭。" },
+        { month: 'jan', qid: 15, question: "香港哪個集團近期計劃出售多國港口資產，其中最受關注的是巴拿馬港口？", options: ["A. 新鴻基地產", "B. 長和集團", "C. 九龍倉集團", "D. 嘉里建設"], correct: 1, supplement: "長和集團出售巴拿馬港口等資產，被視為調整全球業務策略的一部分。" },
+        { month: 'jan', qid: 16, question: "香港哪家連鎖快餐店宣布本月起為管理層員工加薪3-5%？", options: ["A. 大家樂", "B. 大快活", "C. 麥當勞", "D. KFC"], correct: 2, supplement: "麥當勞加薪幅度高於通脹，旨在留住管理人才，應對餐飲業人手短缺。" },
+
+        // 2月 (題號17-23)
+        { month: 'feb', qid: 17, question: "渣打香港馬拉松2026全馬及半馬的起跑地點在哪裡？", options: ["A. 維多利亞公園", "B. 尖沙咀彌敦道", "C. 中環碼頭", "D. 西隧九龍入口"], correct: 1, supplement: "起跑點設於尖沙咀彌敦道，是為了讓跑手體驗九龍半島的城市風光。" },
+        { month: 'feb', qid: 18, question: "香港舊油麻地警署設有什麼主題的展覽？", options: ["A. 光影之旅", "B. 警隊歷史", "C. 罪案解密", "D. 建築藝術"], correct: 0, supplement: "「光影之旅」展覽利用多媒體技術，展現舊油麻地警署的歷史與建築特色，免費開放參觀。" },
+        { month: 'feb', qid: 19, question: "公立醫院所設的全年醫療收費上限為多少元？", options: ["A. 8000元", "B. 1萬元", "C. 1.2萬元", "D. 1.5萬元"], correct: 1, supplement: "全年收費上限1萬元，旨在保障長期病患者不會因高昂醫療費用而卻步。" },
+        { month: 'feb', qid: 20, question: "港鐵哪一條路線因應明年的路軌調整工程，需要於指定時段採取分段行車安排？", options: ["A. 東鐵綫", "B. 荃灣綫", "C. 屯馬綫", "D. 港島綫"], correct: 2, supplement: "屯馬綫全長56公里，是香港最長的鐵路綫，路軌調整工程將影響部分時段的列車服務。" },
+        { month: 'feb', qid: 21, question: "旅發局今年取消除夕煙花匯演，改舉辦什麼活動？", options: ["A. 燈光秀", "B. 音樂光影表演", "C. 無人機表演", "D. 街頭嘉年華"], correct: 1, supplement: "音樂光影表演以維港兩岸大廈為舞台，結合激光與音樂，吸引大量市民觀賞。" },
+        { month: 'feb', qid: 22, question: "麥當勞宣布1月2日起部分產品加價多少元？", options: ["A. 0.5元", "B. 1元", "C. 1.5元", "D. 2元"], correct: 0, supplement: "這次加價幅度較小，主要反映食材成本上升，但同時推出優惠套餐吸引顧客。" },
+        { month: 'feb', qid: 23, question: "香港舊油麻地警署設「光影之旅」展覽，開放予市民參觀的方式是？", options: ["A. 收費參觀", "B. 免費開放", "C. 會員限定", "D. 只限團體預約"], correct: 1, supplement: "展覽免費開放，旨在推廣香港歷史建築及文化藝術。" }
     ];
 
-    // 為避免重複，我們取前23個獨特題目（實際上有23題，但最後兩題與前面重複，可能是筆誤，我們保留所有題目但確保唯一性）
-    // 為了真實性，我們可以手動調整，但這裡簡化：使用上面的陣列，並確保每個題目不同。
-    // 實際上我們需要23題，上面已經有23個不同題目（最後兩個與前面類似但我們保留不同題號）
-    // 我們將最後兩個改為其他題目（來自PDF的其他本地題）
-    // 修正：根據PDF，還有關於「麥當勞加價0.5元」、「長和集團」等，我們已包含。再補上「香港中醫醫院」、「公立醫院收費上限」等。
-    // 我們已經有了23個不同題目，足夠。
+    // 將題目渲染到對應月份的分組
+    const groups = {
+        dec: document.getElementById('group-dec'),
+        jan: document.getElementById('group-jan'),
+        feb: document.getElementById('group-feb')
+    };
 
-    // 將資料渲染到頁面
-    const groupContent = document.querySelector('.group-content');
-    localNewsData.forEach((item, index) => {
+    questionsData.forEach(item => {
         const card = document.createElement('div');
         card.className = 'question-card';
-        card.setAttribute('data-qid', index);
+        card.setAttribute('data-qid', item.qid);
         card.innerHTML = `
-            <div class="question-text">${index+1}. ${item.question}</div>
-            <div class="options" id="options-${index}">
-                ${item.options.map((opt, optIndex) => `
+            <div class="question-text">${item.qid}. ${item.question}</div>
+            <div class="options" id="options-${item.qid}">
+                ${item.options.map((opt, idx) => `
                     <label class="option">
-                        <input type="radio" name="q${index}" value="${optIndex}">
+                        <input type="radio" name="q${item.qid}" value="${idx}">
                         ${opt}
                     </label>
                 `).join('')}
             </div>
-            <button class="btn-submit" onclick="submitAnswer(${index})">提交</button>
-            <div class="feedback" id="feedback-${index}"></div>
+            <button class="btn-submit" onclick="submitAnswer(${item.qid})">提交</button>
+            <div class="feedback" id="feedback-${item.qid}"></div>
         `;
-        groupContent.appendChild(card);
+        groups[item.month].appendChild(card);
     });
 
     // 提交答案函數
     window.submitAnswer = function(qid) {
-        const question = localNewsData[qid];
+        const question = questionsData.find(q => q.qid === qid);
         const options = document.getElementsByName(`q${qid}`);
         let selectedValue = null;
         for (let opt of options) {
@@ -487,7 +391,6 @@
 </script>
 
 <style>
-    /* 確保摺疊功能視覺 */
     .group-header.collapsed + .group-content {
         display: none;
     }
