@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>小常識 · 費曼閃卡 · 通用模板</title>
+    <title>小常識 · Flash Cards</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -160,51 +160,17 @@
             transition: width 0.3s;
         }
 
-        .card-scene {
-            perspective: 1800px;
-            margin: 1rem 0 1.5rem;
-            cursor: pointer;
-        }
-
-        .card {
-            position: relative;
-            width: 100%;
-            min-height: 280px;
-            transition: transform 0.6s;
-            transform-style: preserve-3d;
+        /* 題目卡片區域 (取代原本的翻轉卡) */
+        .question-panel {
+            background: white;
             border-radius: 22px;
+            padding: 1.5rem;
+            margin: 1rem 0 1.5rem;
+            border-left: 8px solid #3498db;
             box-shadow: 0 8px 0 #a0b9cf, 0 10px 25px rgba(0,0,0,0.15);
         }
 
-        .card.flipped {
-            transform: rotateY(180deg);
-        }
-
-        .card-front, .card-back {
-            position: absolute;
-            width: 100%;
-            min-height: 280px;
-            backface-visibility: hidden;
-            border-radius: 22px;
-            padding: 1.8rem 1.5rem;
-            background: white;
-            border-left: 8px solid #3498db;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .card-front {
-            background: linear-gradient(145deg, #ffffff, #f5faff);
-        }
-
-        .card-back {
-            background: #eef5ff;
-            transform: rotateY(180deg);
-            border-left-color: #f3b33d;
-        }
-
-        .question-tag {
+        .type-badge {
             display: inline-block;
             background: #f4d03f;
             color: #1f3a4b;
@@ -213,38 +179,146 @@
             font-weight: 700;
             font-size: 0.9rem;
             margin-bottom: 1rem;
-            align-self: flex-start;
         }
 
-        .card-front p {
+        .question-text {
             font-size: 1.4rem;
             font-weight: 700;
             color: #1e3f5a;
+            margin-bottom: 1.5rem;
             line-height: 1.4;
         }
 
-        .card-back p {
-            font-size: 1.2rem;
-            color: #1f3a4b;
-            line-height: 1.6;
-        }
-        .hint-badge {
-            margin-top: 1rem;
-            background: #e1f0fa;
-            padding: 0.4rem 0.8rem;
-            border-radius: 30px;
-            font-size: 0.9rem;
-            color: #1a4972;
-            display: inline-block;
-            border: 1px dashed #9bb7d1;
+        /* 選項區 */
+        .options-area {
+            margin: 1.5rem 0;
         }
 
-        .flip-hint {
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #f5f9ff;
+            border: 2px solid #cad9eb;
+            border-radius: 40px;
+            padding: 0.8rem 1.2rem;
+            margin-bottom: 0.8rem;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+        .option-item.selected {
+            background: #c1e5c0;
+            border-color: #58a700;
+        }
+        .option-item input[type="radio"], 
+        .option-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #58a700;
+        }
+
+        .truefalse-buttons {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        .tf-btn {
+            flex: 1;
+            background: #f5f9ff;
+            border: 2px solid #cad9eb;
+            border-radius: 40px;
+            padding: 1rem;
+            font-weight: 700;
+            font-size: 1.2rem;
             text-align: center;
-            margin: 0.5rem 0 1rem;
-            color: #4f6f8f;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+        .tf-btn.selected {
+            background: #c1e5c0;
+            border-color: #58a700;
+        }
+
+        /* 配對題 */
+        .matching-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .matching-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .left-item {
+            background: #eef5ff;
+            border: 2px solid #3498db;
+            border-radius: 40px;
+            padding: 0.6rem 1.2rem;
+            font-weight: 600;
+            min-width: 120px;
+        }
+        .right-select {
+            flex: 1;
+            padding: 0.6rem;
+            border: 2px solid #cad9eb;
+            border-radius: 40px;
             font-size: 1rem;
-            font-style: italic;
+            background: white;
+        }
+
+        /* 填充/簡答 */
+        .answer-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #cad9eb;
+            border-radius: 40px;
+            font-size: 1rem;
+            margin: 1rem 0;
+        }
+        textarea.answer-input {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .btn-submit {
+            background: #58a700;
+            border: none;
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 0 #3e7a00;
+            cursor: pointer;
+            display: inline-block;
+            margin-top: 0.5rem;
+        }
+        .btn-submit:active {
+            transform: translateY(4px);
+            box-shadow: 0 1px 0 #3e7a00;
+        }
+
+        .result-area {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-radius: 16px;
+            background: #e1f0fa;
+            border-left: 6px solid #f3b33d;
+            display: none;
+        }
+        .result-area.show {
+            display: block;
+        }
+
+        .correct-msg {
+            color: #2e7d32;
+            font-weight: 700;
+        }
+        .incorrect-msg {
+            color: #c62828;
+            font-weight: 700;
         }
 
         .navigation {
@@ -269,7 +343,6 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            transition: 0.06s linear;
         }
         .nav-btn:active {
             transform: translateY(3px);
@@ -283,8 +356,6 @@
         .nav-btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
-            transform: none;
-            box-shadow: 0 3px 0 #9fbad0;
         }
 
         .card-counter {
@@ -324,9 +395,8 @@
         }
 
         @media (max-width: 480px) {
-            .flashcard-header { flex-direction: column; align-items: stretch; }
-            .card-front p { font-size: 1.2rem; }
-            .card-back p { font-size: 1rem; }
+            .flashcard-header { flex-direction: column; }
+            .question-text { font-size: 1.2rem; }
         }
     </style>
 </head>
@@ -335,7 +405,7 @@
     <div class="flashcard-header">
         <a href="../index.html" class="back-home"><i class="fas fa-arrow-left"></i> 返回</a>
         <span class="flashcard-title" id="page-title">
-            <i class="fas fa-layer-group"></i> 費曼閃卡
+            <i class="fas fa-layer-group"></i>  Flash Cards
         </span>
         <div class="progress-stats" id="lesson-subtitle">
             <i class="fas fa-book-open"></i> 載入中...
@@ -345,7 +415,7 @@
     <div class="flashcard-wrapper">
         <div class="deck-header">
             <div class="deck-icon" id="deck-icon"><i class="fas fa-heart"></i></div>
-            <div class="deck-title" id="deck-title">💡 兩性關係·閃卡</div>
+            <div class="deck-title" id="deck-title">💡 Flash Cards</div>
         </div>
 
         <div class="progress-section">
@@ -358,21 +428,13 @@
             </div>
         </div>
 
-        <div class="card-scene" onclick="flipCard()">
-            <div class="card" id="flashcard">
-                <div class="card-front">
-                    <span class="question-tag"><i class="fas fa-question-circle"></i> 問題</span>
-                    <p id="question-text">載入中...</p>
-                </div>
-                <div class="card-back">
-                    <span class="question-tag"><i class="fas fa-lightbulb"></i> 費曼解答</span>
-                    <p id="answer-text">請稍候</p>
-                    <div class="hint-badge" id="hint-text"></div>
-                </div>
-            </div>
-        </div>
-        <div class="flip-hint">
-            <i class="fas fa-hand-pointer"></i> 點擊卡片翻轉看答案
+        <!-- 動態題目區 -->
+        <div id="questionPanel" class="question-panel">
+            <div class="type-badge" id="type-badge">載入中...</div>
+            <div class="question-text" id="question-text">載入中...</div>
+            <div id="interactive-area"></div>
+            <div id="result-area" class="result-area"></div>
+            <button class="btn-submit" id="submit-btn" onclick="checkAnswer()">提交答案</button>
         </div>
 
         <div class="navigation">
@@ -382,20 +444,21 @@
         </div>
 
         <div class="method-badge">
-            <i class="fas fa-chalkboard-teacher"></i> 費曼學習法：用自己的話簡單解釋，才是真正理解
+            <i class="fas fa-chalkboard-teacher"></i> 費曼學習法：用自己的話解釋，才是真正理解
         </div>
     </div>
 
     <div class="footer-note">
-        <i class="fas fa-check-circle" style="color:#2ecc71;"></i> 點擊卡片 · 主動回憶
+        <i class="fas fa-check-circle" style="color:#2ecc71;"></i> 回答後點擊提交，查看解析
     </div>
 </div>
 
 <script>
     let flashcards = [];
     let currentIndex = 0;
+    let userAnswers = {}; // 儲存當前題目的作答
 
-    // 載入 JSON 資料
+    // 載入 JSON
     async function loadFlashcards() {
         try {
             const response = await fetch('flashcards-data.json');
@@ -403,10 +466,9 @@
             const data = await response.json();
             flashcards = data.cards || [];
             
-            // 更新頁面標題與裝飾
             document.getElementById('page-title').innerHTML = `<i class="fas fa-layer-group"></i> ${data.lessonTitle || '費曼閃卡'}`;
             document.getElementById('deck-title').textContent = `💡 ${data.lessonTitle || '學習閃卡'}`;
-            document.getElementById('lesson-subtitle').innerHTML = `<i class="fas fa-book-open"></i> ${data.lessonTitle || '兩性關係'}`;
+            document.getElementById('lesson-subtitle').innerHTML = `<i class="fas fa-book-open"></i> ${data.lessonTitle || '多元題型'}`;
             if (data.lessonIcon) {
                 document.getElementById('deck-icon').innerHTML = `<i class="fas ${data.lessonIcon}"></i>`;
             }
@@ -420,43 +482,184 @@
             }
         } catch (error) {
             console.error('載入失敗:', error);
-            document.getElementById('question-text').textContent = '⚠️ 無法載入閃卡，請確認 JSON 檔案存在';
-            document.getElementById('answer-text').textContent = '請檢查 flashcards-data.json 是否在正確位置';
+            document.getElementById('question-text').textContent = '⚠️ 無法載入閃卡';
         }
     }
 
+    // 更新目前卡片
     function updateCard() {
         if (flashcards.length === 0) return;
         
         const card = flashcards[currentIndex];
+        document.getElementById('type-badge').innerHTML = getTypeBadge(card.type);
         document.getElementById('question-text').textContent = card.question;
-        document.getElementById('answer-text').textContent = card.answer;
         
-        const hintEl = document.getElementById('hint-text');
-        if (card.hint) {
-            hintEl.innerHTML = `<i class="fas fa-lightbulb"></i> 提示：${card.hint}`;
-            hintEl.style.display = 'inline-block';
-        } else {
-            hintEl.style.display = 'none';
-        }
-
+        // 根據題型產生互動區域
+        renderQuestion(card);
+        
         document.getElementById('current-card-num').textContent = currentIndex + 1;
         document.getElementById('card-counter').textContent = `${currentIndex + 1}/${flashcards.length}`;
-
+        
         const percent = Math.round(((currentIndex + 1) / flashcards.length) * 100);
         document.getElementById('progress-fill').style.width = percent + '%';
         document.getElementById('completion-percent').textContent = percent + '%';
-
-        // 確保卡片恢復正面
-        document.getElementById('flashcard').classList.remove('flipped');
-
+        
+        // 隱藏結果區
+        document.getElementById('result-area').classList.remove('show');
+        document.getElementById('result-area').innerHTML = '';
+        
         // 更新按鈕狀態
         document.getElementById('prev-btn').disabled = (currentIndex === 0);
         document.getElementById('next-btn').disabled = (currentIndex === flashcards.length - 1);
     }
 
-    window.flipCard = function() {
-        document.getElementById('flashcard').classList.toggle('flipped');
+    function getTypeBadge(type) {
+        const badges = {
+            'mc': '<i class="fas fa-list-ul"></i> 選擇題',
+            'truefalse': '<i class="fas fa-check-circle"></i> 是非題',
+            'matching': '<i class="fas fa-handshake"></i> 配對題',
+            'fill': '<i class="fas fa-pencil-alt"></i> 填充題',
+            'shortanswer': '<i class="fas fa-paragraph"></i> 簡答題'
+        };
+        return badges[type] || '<i class="fas fa-question"></i> 其他題型';
+    }
+
+    // 根據題型渲染互動區
+    function renderQuestion(card) {
+        const area = document.getElementById('interactive-area');
+        let html = '';
+        
+        switch(card.type) {
+            case 'mc':
+                const isMulti = Array.isArray(card.correctAnswer);
+                html = '<div class="options-area">';
+                card.options.forEach((opt, idx) => {
+                    html += `
+                        <label class="option-item">
+                            <input type="${isMulti ? 'checkbox' : 'radio'}" name="mc" value="${idx}">
+                            ${opt}
+                        </label>
+                    `;
+                });
+                html += '</div>';
+                break;
+                
+            case 'truefalse':
+                html = `
+                    <div class="truefalse-buttons">
+                        <div class="tf-btn" onclick="selectTF(true)">✅ 正確</div>
+                        <div class="tf-btn" onclick="selectTF(false)">❌ 錯誤</div>
+                    </div>
+                    <input type="hidden" id="tf-value" value="">
+                `;
+                break;
+                
+            case 'matching':
+                html = '<div class="matching-container">';
+                card.leftItems.forEach((left, idx) => {
+                    html += `
+                        <div class="matching-row">
+                            <span class="left-item">${left}</span>
+                            <select class="right-select" data-left="${left}" id="match-${idx}">
+                                <option value="">請選擇配對項目</option>
+                                ${card.rightItems.map(r => `<option value="${r}">${r}</option>`).join('')}
+                            </select>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+                break;
+                
+            case 'fill':
+                html = `<input type="text" class="answer-input" id="fill-answer" placeholder="請輸入答案">`;
+                break;
+                
+            case 'shortanswer':
+                html = `<textarea class="answer-input" id="short-answer" placeholder="請輸入你的答案..."></textarea>`;
+                break;
+        }
+        
+        area.innerHTML = html;
+        userAnswers = {}; // 重置答案
+    }
+
+    // 是非題專用選擇
+    window.selectTF = function(value) {
+        document.querySelectorAll('.tf-btn').forEach(btn => btn.classList.remove('selected'));
+        event.currentTarget.classList.add('selected');
+        document.getElementById('tf-value').value = value;
+    };
+
+    // 檢查答案
+    window.checkAnswer = function() {
+        const card = flashcards[currentIndex];
+        const resultArea = document.getElementById('result-area');
+        let isCorrect = false;
+        let message = '';
+        
+        switch(card.type) {
+            case 'mc': {
+                const inputs = document.querySelectorAll('input[name="mc"]');
+                const selected = [];
+                inputs.forEach((input, idx) => {
+                    if (input.checked) selected.push(idx);
+                });
+                const correct = card.correctAnswer;
+                if (Array.isArray(correct)) {
+                    isCorrect = selected.length === correct.length && selected.every(v => correct.includes(v));
+                } else {
+                    isCorrect = selected.length === 1 && selected[0] === correct;
+                }
+                message = isCorrect ? '✅ 正確！' : '❌ 錯誤，再試試看。';
+                break;
+            }
+            case 'truefalse': {
+                const tfValue = document.getElementById('tf-value').value;
+                if (tfValue === '') {
+                    alert('請先選擇正確或錯誤');
+                    return;
+                }
+                isCorrect = (tfValue === 'true') === card.correctAnswer;
+                message = isCorrect ? '✅ 正確！' : '❌ 錯誤，再想想。';
+                break;
+            }
+            case 'matching': {
+                const selects = document.querySelectorAll('.right-select');
+                let correctCount = 0;
+                selects.forEach(select => {
+                    const left = select.dataset.left;
+                    const right = select.value;
+                    const correctPair = card.correctPairs.find(p => p.left === left);
+                    if (correctPair && correctPair.right === right) correctCount++;
+                });
+                isCorrect = (correctCount === card.leftItems.length);
+                message = isCorrect ? '✅ 全部配對正確！' : `❌ 只配對正確 ${correctCount}/${card.leftItems.length} 項。`;
+                break;
+            }
+            case 'fill': {
+                const answer = document.getElementById('fill-answer').value.trim();
+                const correctAnswers = card.acceptableAnswers || card.correctAnswer;
+                isCorrect = correctAnswers.some(ans => answer.includes(ans) || ans.includes(answer));
+                message = isCorrect ? '✅ 答案正確！' : '❌ 答案不正確，再試試。';
+                break;
+            }
+            case 'shortanswer': {
+                const answer = document.getElementById('short-answer').value.trim();
+                const keywords = card.keywords || [];
+                const matched = keywords.filter(k => answer.includes(k)).length;
+                isCorrect = matched >= (keywords.length * 0.5); // 至少匹配一半關鍵詞
+                message = isCorrect ? '✅ 答案包含關鍵概念！' : '❌ 答案缺少重要關鍵詞。';
+                break;
+            }
+        }
+        
+        // 顯示結果
+        resultArea.innerHTML = `
+            <p class="${isCorrect ? 'correct-msg' : 'incorrect-msg'}">${message}</p>
+            <p><strong>🔍 解說：</strong> ${card.explanation || '無提供解說'}</p>
+            ${card.hint ? `<p><i class="fas fa-lightbulb"></i> 提示：${card.hint}</p>` : ''}
+        `;
+        resultArea.classList.add('show');
     };
 
     window.prevCard = function() {
@@ -473,7 +676,6 @@
         }
     };
 
-    // 啟動
     window.onload = loadFlashcards;
 </script>
 </body>
