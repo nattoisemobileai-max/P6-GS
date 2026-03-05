@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>小常識 · 本地時事 · 互動測驗</title>
+    <title>小常識 · 時事互動測驗 · 2025-2026</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -31,7 +31,6 @@
             padding: 0.5rem 0.3rem;
         }
 
-        /* 頂部列 */
         .top-bar {
             display: flex;
             align-items: center;
@@ -97,7 +96,6 @@
             color: #ffd966;
         }
 
-        /* 可摺疊分組 */
         .group-section {
             margin-bottom: 1.5rem;
             background: white;
@@ -139,7 +137,6 @@
             display: none;
         }
 
-        /* 問題卡片 */
         .question-card {
             background: white;
             border-radius: 20px;
@@ -178,10 +175,6 @@
             font-size: 1rem;
             cursor: pointer;
             transition: 0.1s;
-        }
-        .option.selected {
-            background: #c1e5c0;
-            border-color: #58a700;
         }
         .option input[type="radio"] {
             appearance: none;
@@ -255,16 +248,15 @@
 </head>
 <body>
 <div class="quiz-container">
-    <!-- 頂部列 -->
     <div class="top-bar">
         <a href="../index.html" class="back-home"><i class="fas fa-arrow-left"></i> 返回</a>
-        <span class="quiz-title"><i class="fas fa-home"></i> 本地時事 · 月份分類</span>
+        <span class="quiz-title"><i class="fas fa-calendar-alt"></i> 時事常識 · 2025-2026</span>
         <div class="user-stats">
-            <i class="fas fa-star"></i> 共 23 題
+            <i class="fas fa-star"></i> 每月一測
         </div>
     </div>
 
-    <!-- 12月分組 (題號 1-7) -->
+    <!-- 2025年12月分組 -->
     <div class="group-section">
         <div class="group-header" onclick="toggleGroup(this)">
             <h2><i class="fas fa-calendar-alt"></i> 2025年12月 (7題)</h2>
@@ -273,7 +265,7 @@
         <div class="group-content" id="group-dec"></div>
     </div>
 
-    <!-- 1月分組 (題號 8-16) -->
+    <!-- 2026年1月分組 -->
     <div class="group-section">
         <div class="group-header" onclick="toggleGroup(this)">
             <h2><i class="fas fa-calendar-alt"></i> 2026年1月 (9題)</h2>
@@ -282,51 +274,103 @@
         <div class="group-content" id="group-jan"></div>
     </div>
 
-    <!-- 2月分組 (題號 17-23) -->
+    <!-- 2026年2月分組 -->
     <div class="group-section">
         <div class="group-header" onclick="toggleGroup(this)">
-            <h2><i class="fas fa-calendar-alt"></i> 2026年2月 (7題)</h2>
+            <h2><i class="fas fa-calendar-alt"></i> 2026年2月 (9題)</h2>
             <i class="fas fa-chevron-down"></i>
         </div>
         <div class="group-content" id="group-feb"></div>
     </div>
 
     <div class="footer-note">
-        <i class="fas fa-lightbulb"></i> 點擊月份標題可摺疊/展開 · 每題提交後顯示補充資料
+        <i class="fas fa-lightbulb"></i> 每題提交後顯示正確答案與補充資料
     </div>
 </div>
 
 <script>
-    // 本地時事問題資料 (共23題，按月份分組，已移除重複)
+    // 按照最新文字資料整理的題目
     const questionsData = [
-        // 12月 (題號1-7)
-        { month: 'dec', qid: 1, question: "香港哪一個地區的太平洋礁礁棚獲健力士世界紀錄認證為全球最大臨時竹構祭壇？", options: ["A. 錦田水頭村", "B. 元朗大棠", "C. 大埔林村", "D. 西貢鹽田梓"], correct: 0, supplement: "錦田水頭村的竹構祭壇以傳統工藝搭建，展現了香港鄉村文化與環保建築的結合。" },
-        { month: 'dec', qid: 2, question: "被暫緩的佩戴安全帶新例，原本規定適用於哪種交通工具？", options: ["A. 的士", "B. 小巴", "C. 巴士", "D. 私家車"], correct: 2, supplement: "該新例原計劃強制巴士乘客佩戴安全帶，但由於技術及執行問題暫緩實施。" },
-        { month: 'dec', qid: 3, question: "醫管局初生嬰兒免費篩查計劃擴展至2間哪類醫院？", options: ["A. 公立醫院", "B. 私家醫院", "C. 大學附屬醫院", "D. 慈善醫院"], correct: 1, supplement: "計劃擴展至私家醫院，讓更多初生嬰兒能接受免費疾病篩查。" },
-        { month: 'dec', qid: 4, question: "香港目前共有約多少輛車隊的士？", options: ["A. 800輛", "B. 1000輛", "C. 1300輛", "D. 1600輛"], correct: 2, supplement: "1300輛的數字低於運輸署原定目標，反映的士業界對新車隊模式反應未如理想。" },
-        { month: 'dec', qid: 5, question: "警方引入什麼設備進行高空巡邏，以提升搜救及罪案預防能力？", options: ["A. 直升機", "B. 無人機", "C. 熱氣球", "D. 飛艇"], correct: 1, supplement: "無人機配備高清鏡頭和熱成像，可在夜間或惡劣天氣下執行任務，提升行動效率。" },
-        { month: 'dec', qid: 6, question: "12月11日香港哪一所醫院正式投入服務？", options: ["A. 香港兒童醫院", "B. 香港中醫醫院", "C. 啟德醫院", "D. 北大嶼山醫院"], correct: 1, supplement: "香港中醫醫院是香港首家以中醫服務為主的公立醫院，提供中西醫協作治療。" },
-        { month: 'dec', qid: 7, question: "屯門市廣場發生了什麼事件？", options: ["A. 火警", "B. 男子持刀挾持女途人及警員開槍", "C. 氣體洩漏", "D. 高空墮物"], correct: 1, supplement: "事件中警員開槍制伏疑犯，女途人獲救，社會關注商場保安及精神健康問題。" },
+        // ========== 2025年12月 (7題) ==========
+        { month: 'dec', qid: 1, question: "大埔浸信會公立學校因火災封閉，下學年將如何安排？", 
+          options: ["A. 學生轉往其他學校", "B. 遷往前基正小學繼續辦學", "C. 原地重建校舍", "D. 停辦並解散"], 
+          correct: 1, supplement: "教育局安排該校學生在下學年使用前基正小學校舍上課，確保學習不受影響。" },
+        { month: 'dec', qid: 2, question: "黃藻森小學學生在2025世界機械人奧林匹克比賽中取得什麼成果？", 
+          options: ["A. 獲得獎項", "B. 未獲獎", "C. 入圍決賽", "D. 打破紀錄"], 
+          correct: 0, supplement: "香港學生在國際賽事中獲獎，展現了科技創新與STEAM教育的成果。" },
+        { month: 'dec', qid: 3, question: "選管會主席陸啟康如何評價火災下的立法會選舉？", 
+          options: ["A. 選舉無法舉行", "B. 選民仍積極投票", "C. 投票率創新低", "D. 選舉結果無效"], 
+          correct: 1, supplement: "儘管發生火災，災民仍踴躍投票，展現公民責任感。" },
+        { month: 'dec', qid: 4, question: "聯合國兒童基金會報告指出加沙有多少兒童因營養不良入院？", 
+          options: ["A. 逾900名", "B. 逾9000名", "C. 逾20000名", "D. 逾500名"], 
+          correct: 1, supplement: "報告呼籲國際社會提供人道援助，關注兒童健康。" },
+        { month: 'dec', qid: 5, question: "神舟二十一號乘組完成首次出艙活動，主要任務是什麼？", 
+          options: ["A. 維修太陽能板", "B. 安裝空間站碎片防護裝置", "C. 測試新太空服", "D. 拍攝地球影像"], 
+          correct: 1, supplement: "航天員安裝了碎片防護裝置，為天宮太空站披上「鎧甲」，應對太空碎片威脅。" },
+        { month: 'dec', qid: 6, question: "立法會選舉結果公布後，曾國衞對選舉組織有何評價？", 
+          options: ["A. 受火災影響未達預期", "B. 組織達歷史最高水平", "C. 需重新投票", "D. 投票率過低"], 
+          correct: 1, supplement: "儘管發生火災，選舉組織仍創下歷史最佳表現。" },
+        { month: 'dec', qid: 7, question: "政府解散宏福苑法團校董會後，主席徐滿柑的回應涉及什麼？", 
+          options: ["A. 校舍重建", "B. 學校停辦", "C. 教師調職", "D. 學額增加"], 
+          correct: 0, supplement: "徐滿柑表示將處理學校重建事宜。" },
 
-        // 1月 (題號8-16)
-        { month: 'jan', qid: 8, question: "公立醫院急症室1月1日起實施新收費，緊急或以下的病人收費由原來的180元增至多少元？", options: ["A. 300元", "B. 400元", "C. 500元", "D. 600元"], correct: 1, supplement: "新收費旨在引導非緊急病人使用普通科門診或私家醫療服務，減輕急症室壓力。" },
-        { month: 'jan', qid: 9, question: "連續性僱員合約新規定「468」生效，員工若連續四星期為同一僱主工作滿多少小時，便可享有假期等福利？", options: ["A. 68小時", "B. 72小時", "C. 80小時", "D. 90小時"], correct: 0, supplement: "「468」中的68代表四星期內工作滿68小時，取代原有的「418」規定，讓更多兼職員工受惠。" },
-        { month: 'jan', qid: 10, question: "1月30日在上環兌換店搶劫案中，劫匪奪走5100萬元哪種貨幣？", options: ["A. 港幣", "B. 美元", "C. 人民幣", "D. 日圓"], correct: 3, supplement: "由於日圓匯率波動大，兌換店經常備有大量日圓現鈔，成為劫匪目標。" },
-        { month: 'jan', qid: 11, question: "1月30日於西貢鹹田灣發現的鯨魚屍體由哪個政府部門負責處理？", options: ["A. 漁農自然護理署", "B. 環境保護署", "C. 海事處", "D. 食物環境衞生署"], correct: 0, supplement: "漁護署負責檢驗鯨魚死因及處理屍體，以預防海洋生態風險。" },
-        { month: 'jan', qid: 12, question: "政府計劃修例禁止所有地盤吸煙，原本個人最高罰款15萬元，擬改為多少？", options: ["A. 1500元", "B. 3000元", "C. 5000元", "D. 8000元"], correct: 1, supplement: "修例目的是提高阻嚇力，防止地盤工人因吸煙引發火警或影響健康。" },
-        { month: 'jan', qid: 13, question: "政府計劃修例，讓哪種動物可進入獲批牌照的食肆？", options: ["A. 貓", "B. 狗隻", "C. 兔子", "D. 鸚鵡"], correct: 1, supplement: "新例將容許狗隻進入部分戶外用餐區，但需遵守衞生及安全規定。" },
-        { month: 'jan', qid: 14, question: "哪家連鎖健身中心的分店因在男廁入口附近安裝閉路電視鏡頭，被個人私隱專員公署發勸喻信？", options: ["A. 24/7 Fitness", "B. Physical Fitness", "C. Pure Fitness", "D. Anytime Fitness"], correct: 0, supplement: "私隱專員公署指該安裝可能侵犯使用者私隱，勸喻該中心立即移除鏡頭。" },
-        { month: 'jan', qid: 15, question: "香港哪個集團近期計劃出售多國港口資產，其中最受關注的是巴拿馬港口？", options: ["A. 新鴻基地產", "B. 長和集團", "C. 九龍倉集團", "D. 嘉里建設"], correct: 1, supplement: "長和集團出售巴拿馬港口等資產，被視為調整全球業務策略的一部分。" },
-        { month: 'jan', qid: 16, question: "香港哪家連鎖快餐店宣布本月起為管理層員工加薪3-5%？", options: ["A. 大家樂", "B. 大快活", "C. 麥當勞", "D. KFC"], correct: 2, supplement: "麥當勞加薪幅度高於通脹，旨在留住管理人才，應對餐飲業人手短缺。" },
+        // ========== 2026年1月 (9題) ==========
+        { month: 'jan', qid: 8, question: "2026年1月1日內地訪港旅客數字有何變化？", 
+          options: ["A. 與去年持平", "B. 較去年新年倍增", "C. 較去年減少一半", "D. 創十年新高"], 
+          correct: 1, supplement: "內地旅客達26.2萬人，是去年新年的兩倍，帶動旅遊及零售業復甦。" },
+        { month: 'jan', qid: 9, question: "1月3日美國突襲哪個國家並俘虜其總統？", 
+          options: ["A. 伊朗", "B. 委內瑞拉", "C. 敘利亞", "D. 古巴"], 
+          correct: 1, supplement: "美軍突襲委內瑞拉首都加拉加斯，總統馬杜羅夫婦被俘，該國宣布緊急狀態。" },
+        { month: 'jan', qid: 10, question: "柬埔寨央行關閉Prince Bank的原因與誰有關？", 
+          options: ["A. 涉嫌洗黑錢", "B. 創辦人Chen Zhi被美國控告詐騙", "C. 資本不足", "D. 違反本地法規"], 
+          correct: 1, supplement: "創辦人Chen Zhi因大規模詐騙被美國起訴後引渡中國，銀行因而被關閉。" },
+        { month: 'jan', qid: 11, question: "新加坡國會為何剝奪反對黨領袖Pritam Singh的頭銜？", 
+          options: ["A. 貪污", "B. 向委員會說謊", "C. 洩漏國家機密", "D. 勾結外國勢力"], 
+          correct: 1, supplement: "國會投票認為他向委員會說謊，不適合擔任反對黨領袖。" },
+        { month: 'jan', qid: 12, question: "1月15日香港馬拉松的主要意義是什麼？", 
+          options: ["A. 破世界紀錄", "B. 推廣健康生活和城市活力", "C. 選拔奧運選手", "D. 籌款賑災"], 
+          correct: 1, supplement: "數萬人參與，穿梭維港兩岸，展現城市活力與健康風氣。" },
+        { month: 'jan', qid: 13, question: "香港強制舉報虐兒新法規定哪些人士必須報警？", 
+          options: ["A. 社工", "B. 教師、醫生等25類專業人士", "C. 家長", "D. 鄰居"], 
+          correct: 1, supplement: "新例要求25類指定從業員發現兒童危險須立即報警，加強保護兒童。" },
+        { month: 'jan', qid: 14, question: "1月21日以色列在加沙的軍事行動造成什麼結果？", 
+          options: ["A. 達成停火協議", "B. 平民傷亡", "C. 哈馬斯投降", "D. 聯合國介入"], 
+          correct: 1, supplement: "以色列投下炸彈造成平民受傷，美國提議停火但尚未實現。" },
+        { month: 'jan', qid: 15, question: "香港北角東岸板道開放後，港島海濱全長多少公里？", 
+          options: ["A. 10公里", "B. 13公里", "C. 15公里", "D. 18公里"], 
+          correct: 1, supplement: "連同新開放的板道，港島海濱全長13公里貫通，設有玻璃觀景台和寵物區。" },
+        { month: 'jan', qid: 16, question: "1月23日新民黨議員陳家珮在灣仔逆線行車，可能面臨什麼處罰？", 
+          options: ["A. 罰款", "B. 停牌", "C. 監禁", "D. 社會服務令"], 
+          correct: 1, supplement: "專家指屬危險駕駛，可能停牌，她已報警調查並多次道歉。" },
 
-        // 2月 (題號17-23)
-        { month: 'feb', qid: 17, question: "渣打香港馬拉松2026全馬及半馬的起跑地點在哪裡？", options: ["A. 維多利亞公園", "B. 尖沙咀彌敦道", "C. 中環碼頭", "D. 西隧九龍入口"], correct: 1, supplement: "起跑點設於尖沙咀彌敦道，是為了讓跑手體驗九龍半島的城市風光。" },
-        { month: 'feb', qid: 18, question: "香港舊油麻地警署設有什麼主題的展覽？", options: ["A. 光影之旅", "B. 警隊歷史", "C. 罪案解密", "D. 建築藝術"], correct: 0, supplement: "「光影之旅」展覽利用多媒體技術，展現舊油麻地警署的歷史與建築特色，免費開放參觀。" },
-        { month: 'feb', qid: 19, question: "公立醫院所設的全年醫療收費上限為多少元？", options: ["A. 8000元", "B. 1萬元", "C. 1.2萬元", "D. 1.5萬元"], correct: 1, supplement: "全年收費上限1萬元，旨在保障長期病患者不會因高昂醫療費用而卻步。" },
-        { month: 'feb', qid: 20, question: "港鐵哪一條路線因應明年的路軌調整工程，需要於指定時段採取分段行車安排？", options: ["A. 東鐵綫", "B. 荃灣綫", "C. 屯馬綫", "D. 港島綫"], correct: 2, supplement: "屯馬綫全長56公里，是香港最長的鐵路綫，路軌調整工程將影響部分時段的列車服務。" },
-        { month: 'feb', qid: 21, question: "旅發局今年取消除夕煙花匯演，改舉辦什麼活動？", options: ["A. 燈光秀", "B. 音樂光影表演", "C. 無人機表演", "D. 街頭嘉年華"], correct: 1, supplement: "音樂光影表演以維港兩岸大廈為舞台，結合激光與音樂，吸引大量市民觀賞。" },
-        { month: 'feb', qid: 22, question: "麥當勞宣布1月2日起部分產品加價多少元？", options: ["A. 0.5元", "B. 1元", "C. 1.5元", "D. 2元"], correct: 0, supplement: "這次加價幅度較小，主要反映食材成本上升，但同時推出優惠套餐吸引顧客。" },
-        { month: 'feb', qid: 23, question: "香港舊油麻地警署設「光影之旅」展覽，開放予市民參觀的方式是？", options: ["A. 收費參觀", "B. 免費開放", "C. 會員限定", "D. 只限團體預約"], correct: 1, supplement: "展覽免費開放，旨在推廣香港歷史建築及文化藝術。" }
+        // ========== 2026年2月 (9題) ==========
+        { month: 'feb', qid: 17, question: "2026年冬季奧運在哪個國家開幕？", 
+          options: ["A. 法國", "B. 意大利", "C. 日本", "D. 加拿大"], 
+          correct: 1, supplement: "冬奧在意大利舉行，設多個雪上及冰上項目，促進體育精神。" },
+        { month: 'feb', qid: 18, question: "2月9日黎智英案被判處多少年監禁？", 
+          options: ["A. 10年", "B. 15年", "C. 20年", "D. 25年"], 
+          correct: 2, supplement: "此案是國安法實施以來刑期最重案件之一，提醒市民須遵守國家安全法律。" },
+        { month: 'feb', qid: 19, question: "英國投資機構暫停對杜拜DP World投資的原因是什麼？", 
+          options: ["A. 市場波動", "B. 負責人與不當人士有聯繫", "C. 公司業績下滑", "D. 政治壓力"], 
+          correct: 1, supplement: "提醒企業選擇合作夥伴時要重視誠信和道德。" },
+        { month: 'feb', qid: 20, question: "農曆大年初二車公誕，鄉議局主席劉業強為香港求得的中簽鼓勵什麼？", 
+          options: ["A. 加強防疫", "B. 用精準政策推動經濟", "C. 發展旅遊業", "D. 改善民生"], 
+          correct: 1, supplement: "簽文鼓勵政府用精準政策讓香港像春天一樣繁榮發展。" },
+        { month: 'feb', qid: 21, question: "2月18日高市早苗當選日本第幾任首相？", 
+          options: ["A. 103任", "B. 104任", "C. 105任", "D. 106任"], 
+          correct: 2, supplement: "她領導的新政府將推動經濟政策，讓國家更強大繁榮。" },
+        { month: 'feb', qid: 22, question: "2月22日英國影藝學院電影獎最佳影片是哪一部？", 
+          options: ["A. 《奧本海默》", "B. 《可憐的東西》", "C. 《一戰再戰》", "D. 《花月殺手》"], 
+          correct: 2, supplement: "《一戰再戰》獲得多項大獎，鼓勵觀眾欣賞優秀電影培養藝術興趣。" },
+        { month: 'feb', qid: 23, question: "香港長和集團在巴拿馬運河的港口被誰接管？", 
+          options: ["A. 巴拿馬政府", "B. 美國公司", "C. 中國企業", "D. 國際法院"], 
+          correct: 0, supplement: "長和認為接管行動不合法，將用法律保護權益，提醒尊重合約和國際合作。" },
+        { month: 'feb', qid: 24, question: "2月25日財政司司長陳茂波發表什麼文件？", 
+          options: ["A. 施政報告", "B. 財政預算案2026", "C. 經濟展望", "D. 稅務修訂"], 
+          correct: 1, supplement: "預算案強調香港經濟轉型中成長，推動科技創新和民生發展。" },
+        { month: 'feb', qid: 25, question: "2月26日巴基斯坦和阿富汗邊境發生衝突，中國的立場是什麼？", 
+          options: ["A. 支持巴基斯坦", "B. 希望兩國冷靜談判", "C. 派遣維和部隊", "D. 不表態"], 
+          correct: 1, supplement: "中國呼籲雙方用外交解決爭端，保護人民安全。" }
     ];
 
     // 將題目渲染到對應月份的分組
@@ -356,7 +400,6 @@
         groups[item.month].appendChild(card);
     });
 
-    // 提交答案函數
     window.submitAnswer = function(qid) {
         const question = questionsData.find(q => q.qid === qid);
         const options = document.getElementsByName(`q${qid}`);
@@ -382,7 +425,6 @@
             : `<strong>❌ 錯誤！ 正確答案是 ${correctLetter}.</strong><div class="supplement">📘 ${supplement}</div>`;
     };
 
-    // 摺疊分組功能
     window.toggleGroup = function(header) {
         const content = header.nextElementSibling;
         header.classList.toggle('collapsed');
