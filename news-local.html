@@ -96,7 +96,6 @@
             color: #ffd966;
         }
 
-        /* 篩選列 */
         .filter-bar {
             display: flex;
             justify-content: center;
@@ -186,12 +185,37 @@
             margin-bottom: 0;
         }
 
+        .question-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 0.8rem;
+            flex-wrap: wrap;
+        }
         .question-text {
             font-size: 1.2rem;
             font-weight: 700;
             color: #1f3a4b;
-            margin-bottom: 1rem;
             line-height: 1.4;
+            flex: 1;
+        }
+        .type-badge {
+            background: #e1f0fa;
+            padding: 0.2rem 0.8rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .type-badge.local {
+            background: #d5f5e3;
+            color: #1f5b3e;
+        }
+        .type-badge.international {
+            background: #fadbd8;
+            color: #943126;
         }
 
         .options {
@@ -419,7 +443,7 @@
           correct: 1, supplement: "中國呼籲雙方用外交解決爭端，保護人民安全。" }
     ];
 
-    // 將題目渲染到對應月份的分組，並加上 data-type 屬性
+    // 將題目渲染到對應月份的分組，並加上 data-type 屬性及類型徽章
     const groups = {
         dec: document.getElementById('group-dec'),
         jan: document.getElementById('group-jan'),
@@ -430,9 +454,14 @@
         const card = document.createElement('div');
         card.className = 'question-card';
         card.setAttribute('data-qid', item.qid);
-        card.setAttribute('data-type', item.type);  // 儲存類型
+        card.setAttribute('data-type', item.type);
+        const badgeClass = (item.type === 'local' ? 'local' : 'international');
+        const badgeText = (item.type === 'local' ? '本地' : '國際');
         card.innerHTML = `
-            <div class="question-text">${item.qid}. ${item.question}</div>
+            <div class="question-header">
+                <div class="question-text">${item.qid}. ${item.question}</div>
+                <span class="type-badge ${badgeClass}"><i class="fas ${item.type === 'local' ? 'fa-home' : 'fa-plane'}"></i> ${badgeText}</span>
+            </div>
             <div class="options" id="options-${item.qid}">
                 ${item.options.map((opt, idx) => `
                     <label class="option">
@@ -482,7 +511,6 @@
 
     // 篩選功能
     window.filterQuestions = function(type) {
-        // 更新按鈕 active 狀態
         document.getElementById('filter-all').classList.remove('active');
         document.getElementById('filter-local').classList.remove('active');
         document.getElementById('filter-intl').classList.remove('active');
@@ -494,7 +522,6 @@
             document.getElementById('filter-intl').classList.add('active');
         }
 
-        // 取得所有問題卡片
         const cards = document.querySelectorAll('.question-card');
         cards.forEach(card => {
             const cardType = card.getAttribute('data-type');
