@@ -326,28 +326,28 @@
         <button class="filter-btn" id="filter-intl" onclick="filterQuestions('international')"><i class="fas fa-plane"></i> 國際</button>
     </div>
 
-    <!-- 2025年12月分組 -->
-    <div class="group-section">
+    <!-- 2025年12月分組（題數將由JavaScript動態更新） -->
+    <div class="group-section" id="group-dec-section">
         <div class="group-header" onclick="toggleGroup(this)">
-            <h2><i class="fas fa-calendar-alt"></i> 2025年12月 (7題)</h2>
+            <h2><i class="fas fa-calendar-alt"></i> 2025年12月 <span class="question-count"></span></h2>
             <i class="fas fa-chevron-down"></i>
         </div>
         <div class="group-content" id="group-dec"></div>
     </div>
 
     <!-- 2026年1月分組 -->
-    <div class="group-section">
+    <div class="group-section" id="group-jan-section">
         <div class="group-header" onclick="toggleGroup(this)">
-            <h2><i class="fas fa-calendar-alt"></i> 2026年1月 (9題)</h2>
+            <h2><i class="fas fa-calendar-alt"></i> 2026年1月 <span class="question-count"></span></h2>
             <i class="fas fa-chevron-down"></i>
         </div>
         <div class="group-content" id="group-jan"></div>
     </div>
 
     <!-- 2026年2月分組 -->
-    <div class="group-section">
+    <div class="group-section" id="group-feb-section">
         <div class="group-header" onclick="toggleGroup(this)">
-            <h2><i class="fas fa-calendar-alt"></i> 2026年2月 (9題)</h2>
+            <h2><i class="fas fa-calendar-alt"></i> 2026年2月 <span class="question-count"></span></h2>
             <i class="fas fa-chevron-down"></i>
         </div>
         <div class="group-content" id="group-feb"></div>
@@ -443,7 +443,19 @@
           correct: 1, supplement: "中國呼籲雙方用外交解決爭端，保護人民安全。" }
     ];
 
-    // 將題目渲染到對應月份的分組，並加上 data-type 屬性及類型徽章
+    // 計算各月份題數
+    const counts = {
+        dec: questionsData.filter(q => q.month === 'dec').length,
+        jan: questionsData.filter(q => q.month === 'jan').length,
+        feb: questionsData.filter(q => q.month === 'feb').length
+    };
+
+    // 更新分組標題的題數
+    document.querySelector('#group-dec-section .question-count').textContent = `(${counts.dec}題)`;
+    document.querySelector('#group-jan-section .question-count').textContent = `(${counts.jan}題)`;
+    document.querySelector('#group-feb-section .question-count').textContent = `(${counts.feb}題)`;
+
+    // 將題目渲染到對應月份的分組
     const groups = {
         dec: document.getElementById('group-dec'),
         jan: document.getElementById('group-jan'),
