@@ -6,7 +6,6 @@
     <title>小常識 · 自學筆記 · 抗戰·內戰·建國</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* 樣式與之前的自學筆記完全一致 */
         * {
             margin: 0;
             padding: 0;
@@ -21,7 +20,7 @@
             justify-content: center;
             align-items: flex-start;
             padding: 0;
-            font-size: 18px;
+            font-size: 16px; /* 基於移動端調整 */
         }
 
         .notes-container {
@@ -29,7 +28,7 @@
             width: 100%;
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(4px);
-            padding: 0.5rem 0.3rem;
+            padding: 0.3rem 0.2rem; /* 減少留白 */
         }
 
         .notes-header {
@@ -37,179 +36,184 @@
             align-items: center;
             justify-content: space-between;
             background: white;
-            padding: 0.5rem 0.8rem;
+            padding: 0.4rem 0.8rem;
             border-radius: 40px;
-            margin-bottom: 1rem;
-            box-shadow: 0 4px 0 #bed0e3;
+            margin-bottom: 0.8rem;
+            box-shadow: 0 3px 0 #bed0e3;
             flex-wrap: wrap;
-            gap: 0.5rem;
+            gap: 0.3rem;
         }
 
         .back-home {
             background: #f4d03f;
             border-radius: 40px;
-            padding: 0.4rem 1rem;
+            padding: 0.3rem 0.8rem;
             font-weight: 700;
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: #1f3a4b;
             border: none;
-            box-shadow: 0 3px 0 #b38f1c;
+            box-shadow: 0 2px 0 #b38f1c;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
             text-decoration: none;
             white-space: nowrap;
         }
         .back-home:active {
-            transform: translateY(3px);
+            transform: translateY(2px);
             box-shadow: 0 1px 0 #b38f1c;
         }
 
         .notes-title {
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             font-weight: 900;
             background: #eef5ff;
-            padding: 0.3rem 1.2rem;
+            padding: 0.2rem 1rem;
             border-radius: 40px;
             color: #1a4972;
             border: 2px solid #c1d9f0;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
         }
         .notes-title i {
             color: #3498db;
-            font-size: 1.2rem;
+            font-size: 1rem;
         }
 
         .notebook {
             background: #f5faff;
-            border-radius: 25px;
-            padding: 1rem 0.8rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 6px 0 #9bb7d1, 0 8px 20px rgba(0,40,60,0.1);
+            border-radius: 20px;
+            padding: 0.8rem 0.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 0 #9bb7d1, 0 5px 12px rgba(0,40,60,0.1);
             border: 2px solid #c1d9f0;
         }
 
         .notebook-header {
             display: flex;
             align-items: center;
-            gap: 0.8rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.8rem;
-            border-bottom: 3px solid #9bb7d1;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #9bb7d1;
             flex-wrap: wrap;
         }
         .notebook-icon {
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             background: #3498db;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 1.8rem;
-            box-shadow: 0 3px 0 #1f5b8a;
+            font-size: 1.5rem;
+            box-shadow: 0 2px 0 #1f5b8a;
             flex-shrink: 0;
         }
         .notebook-title {
-            font-size: 1.6rem;
+            font-size: 1.3rem;
             font-weight: 800;
             color: #1a4972;
-            line-height: 1.3;
+            line-height: 1.2;
             flex: 1;
         }
 
         .section-container {
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
+            gap: 1rem;
         }
 
         .lesson-section {
             background: white;
-            border-radius: 22px;
-            padding: 1.2rem 1rem;
-            border-left: 6px solid #3498db;
-            box-shadow: 0 4px 0 #bed0e3;
+            border-radius: 18px;
+            padding: 1rem 0.8rem;
+            border-left: 5px solid #3498db;
+            box-shadow: 0 3px 0 #bed0e3;
         }
 
         .section-header {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 1rem;
+            gap: 8px;
+            margin-bottom: 0.8rem;
             flex-wrap: wrap;
         }
         .section-icon {
-            width: 44px;
-            height: 44px;
+            width: 36px;
+            height: 36px;
             background: #3498db;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             flex-shrink: 0;
         }
         .section-title {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: 800;
             color: #1a4972;
-            line-height: 1.3;
+            line-height: 1.2;
         }
 
         .section-content {
             color: #1f3a4b;
-            line-height: 1.8;
-            font-size: 1.1rem;
+            line-height: 1.7;
+            font-size: 1rem;
         }
 
+        /* 表格最佳化 - 行動裝置友善 */
         .table-wrap {
             overflow-x: auto;
-            margin: 1rem 0;
+            margin: 0.8rem 0;
+            -webkit-overflow-scrolling: touch;
         }
         table {
             width: 100%;
             border-collapse: collapse;
             background: white;
-            border-radius: 16px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 3px 0 #bed0e3;
-            font-size: 1rem;
+            box-shadow: 0 2px 0 #bed0e3;
+            font-size: 0.9rem; /* 手機上字體略小 */
+        }
+        th, td {
+            padding: 0.5rem 0.6rem; /* 減小內距 */
+            border-bottom: 1px solid #e1edff;
+            text-align: left;
+            vertical-align: top;
+            word-break: break-word; /* 允許長字換行 */
         }
         th {
             background: #3498db;
             color: white;
             font-weight: 700;
-            padding: 0.6rem;
-            text-align: left;
+            font-size: 0.9rem;
+            white-space: nowrap; /* 表頭不換行 */
         }
-        td {
-            padding: 0.6rem;
-            border-bottom: 1px solid #e1edff;
-        }
-        tr:last-child td {
-            border-bottom: none;
+        td:last-child, th:last-child {
+            padding-right: 0.8rem;
         }
 
         .bullet-list {
             list-style: none;
-            margin-top: 0.5rem;
+            margin-top: 0.3rem;
         }
         .bullet-list li {
-            padding: 0.4rem 0 0.4rem 1.8rem;
+            padding: 0.2rem 0 0.2rem 1.5rem;
             position: relative;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
         .bullet-list li:before {
             content: "•";
             color: #3498db;
             font-weight: bold;
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             position: absolute;
             left: 0;
             top: -2px;
@@ -217,48 +221,47 @@
 
         .highlight {
             background: #fffacd;
-            padding: 0.1rem 0.3rem;
-            border-radius: 10px;
+            padding: 0.1rem 0.2rem;
+            border-radius: 6px;
             font-weight: 700;
             color: #1e3f5a;
             border: 1px solid #f3b33d;
             display: inline-block;
             margin: 0 0.1rem;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
 
         .badge {
             display: inline-block;
             background: #f4d03f;
             color: #1f3a4b;
-            padding: 0.2rem 0.9rem;
-            border-radius: 40px;
+            padding: 0.15rem 0.7rem;
+            border-radius: 30px;
             font-weight: 700;
-            font-size: 0.95rem;
-            margin-right: 0.3rem;
-            margin-bottom: 0.3rem;
+            font-size: 0.8rem;
+            margin-right: 0.2rem;
+            margin-bottom: 0.2rem;
             border: 1px solid #e67e22;
         }
 
         .highlight-box {
             background: #e1f0fa;
-            border-radius: 16px;
-            padding: 1rem;
-            margin: 1rem 0;
-            border: 2px dashed #9bb7d1;
-            font-size: 1.1rem;
+            border-radius: 12px;
+            padding: 0.8rem;
+            margin: 0.8rem 0;
+            border: 1.5px dashed #9bb7d1;
+            font-size: 0.95rem;
         }
 
-        /* 新增：來源標籤樣式 */
         .source-tag {
             display: inline-block;
             background: #d4e6f5;
             color: #1a4972;
-            padding: 0.1rem 0.5rem;
+            padding: 0.1rem 0.4rem;
             border-radius: 20px;
-            font-size: 0.75rem;
+            font-size: 0.65rem;
             font-weight: 600;
-            margin-left: 8px;
+            margin-left: 5px;
             vertical-align: middle;
             border: 1px solid #9bb7d1;
         }
@@ -270,74 +273,65 @@
 
         .illustration-placeholder {
             background: #f0f4fa;
-            border-radius: 16px;
-            padding: 0.8rem;
-            margin: 1.2rem 0 0.2rem;
+            border-radius: 12px;
+            padding: 0.6rem;
+            margin: 0.8rem 0 0.2rem;
             text-align: center;
             border: 2px dashed #7fa3c2;
             color: #2c5a7a;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            font-size: 1.1rem;
+            gap: 8px;
+            font-size: 0.95rem;
             font-weight: 600;
             flex-wrap: wrap;
         }
         .illustration-placeholder i {
-            font-size: 2rem;
+            font-size: 1.6rem;
             color: #5a9ec2;
-        }
-        .illustration-placeholder img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 12px;
-            display: block;
-            margin: 0 auto;
         }
 
         .footer-note {
             text-align: center;
-            margin-top: 1rem;
+            margin-top: 0.8rem;
             color: #6b8baa;
             font-weight: 600;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 0.8rem;
+            gap: 0.5rem;
             flex-wrap: wrap;
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
         .save-status {
             background: #d4e6f5;
             color: #1a4972;
-            padding: 0.3rem 0.8rem;
-            border-radius: 40px;
+            padding: 0.2rem 0.6rem;
+            border-radius: 30px;
             border: 1px solid #9bb7d1;
             display: inline-flex;
             align-items: center;
-            gap: 5px;
-            font-size: 1rem;
+            gap: 4px;
+            font-size: 0.9rem;
         }
 
-        @media (max-width: 480px) {
+        /* 針對極小螢幕再優化 */
+        @media (max-width: 380px) {
             .notes-header { flex-direction: column; align-items: stretch; }
-            .back-home, .notes-title { justify-content: center; }
-            .section-title { font-size: 1.3rem; }
+            .section-title { font-size: 1.2rem; }
+            table { font-size: 0.85rem; }
+            th, td { padding: 0.4rem 0.5rem; }
         }
     </style>
 </head>
 <body>
 <div class="notes-container">
-    <!-- 標題列 -->
     <div class="notes-header">
         <a href="../index.html" class="back-home"><i class="fas fa-arrow-left"></i> 返回</a>
-        <span class="notes-title">
-            <i class="fas fa-history"></i> 抗戰·內戰·建國
-        </span>
+        <span class="notes-title"><i class="fas fa-history"></i> 抗戰·內戰·建國</span>
     </div>
 
-    <!-- 主要筆記本 -->
     <div class="notebook">
         <div class="notebook-header">
             <div class="notebook-icon"><i class="fas fa-timeline"></i></div>
@@ -345,78 +339,75 @@
         </div>
 
         <div class="section-container">
-            <!-- ========== 抗日戰爭初期 ========== (課文內容) -->
+            <!-- 抗日戰爭初期 -->
             <div class="lesson-section">
                 <div class="section-header">
                     <div class="section-icon"><i class="fas fa-calendar-alt"></i></div>
-                    <div class="section-title">抗日戰爭初期（1931年－1941年）<span class="source-tag">課文</span></div>
+                    <div class="section-title">抗日戰爭初期（1931－1941）<span class="source-tag">課文</span></div>
                 </div>
                 <div class="section-content">
-                    <p>抗日戰爭初期，日本軍隊於<span class="highlight">1931年侵佔中國東北</span>，<span class="highlight">1937年</span>正式全面侵略中國。此階段中國面臨嚴重的軍事壓力與國土淪陷。</p>
+                    <p>1931年日本佔東北，1937年全面侵華。中國面臨嚴重軍事壓力與國土淪陷。</p>
                     <div class="table-wrap">
                         <table>
-                            <thead><tr><th>重要事件</th><th>發生時間</th><th>內容摘要</th></tr></thead>
+                            <thead><tr><th>重要事件</th><th>時間</th><th>內容摘要</th></tr></thead>
                             <tbody>
-                                <tr><td>盧溝橋事變</td><td>1937年7月7日</td><td>日軍藉口一名士兵失蹤，與中國軍隊爆發激戰，標誌全面抗戰開始。</td></tr>
-                                <tr><td>南京大屠殺</td><td>1937年12月</td><td>日軍攻陷南京，展開大屠殺，造成超過30萬中國人死亡，是戰爭中最殘酷的事件之一。</td></tr>
-                                <tr><td>廬山聲明</td><td>1937年7月17日</td><td>蔣介石發表聲明，宣布全國人民堅決抗日，激勵國民抗戰決心。</td></tr>
-                                <tr><td>香港淪陷</td><td>1941年12月25日</td><td>駐港英軍投降，香港被日軍佔領，三年零八個月的日治時期開始。</td></tr>
+                                <tr><td>盧溝橋事變</td><td>1937.7.7</td><td>日軍藉口士兵失蹤，與中國軍隊激戰，全面抗戰開始。</td></tr>
+                                <tr><td>南京大屠殺</td><td>1937.12</td><td>日軍攻陷南京，屠殺逾30萬人。</td></tr>
+                                <tr><td>廬山聲明</td><td>1937.7.17</td><td>蔣介石宣布全國堅決抗日。</td></tr>
+                                <tr><td>香港淪陷</td><td>1941.12.25</td><td>日軍佔領香港，三年零八個月日治時期開始。</td></tr>
                             </tbody>
                         </table>
                     </div>
-                    <p>抗戰初期中國形勢非常艱難，國土不斷淪陷，人民生活舉步維艱，卻激發了全國上下的抗日決心。</p>
+                    <p>抗戰初期形勢艱難，但激發全國抗日決心。</p>
                 </div>
-                <div class="illustration-placeholder"><i class="fas fa-image"></i> 抗戰初期事件插圖</div>
+                <div class="illustration-placeholder"><i class="fas fa-image"></i> 抗戰初期插圖</div>
             </div>
 
-            <!-- ========== 抗日戰爭後期重點整理 ========== (融合課文與額外資料) -->
+            <!-- 抗日戰爭後期 + 額外重點 -->
             <div class="lesson-section">
                 <div class="section-header">
                     <div class="section-icon"><i class="fas fa-calendar-check"></i></div>
-                    <div class="section-title">抗日戰爭後期（1942年－1945年）<span class="source-tag">課文</span><span class="source-tag extra">額外</span></div>
+                    <div class="section-title">抗戰後期（1942－1945）<span class="source-tag">課文</span><span class="source-tag extra">額外</span></div>
                 </div>
                 <div class="section-content">
-                    <!-- 課文原有表格 -->
                     <div class="table-wrap">
                         <table>
-                            <thead><tr><th>重要事件</th><th>發生時間</th><th>內容摘要</th></tr></thead>
+                            <thead><tr><th>重要事件</th><th>時間</th><th>內容摘要</th></tr></thead>
                             <tbody>
-                                <tr><td>中國與同盟國合作</td><td>1942年1月1日</td><td>中國與美國、英國等組成同盟國，獲得國際支持，戰略上逐漸改變。</td></tr>
-                                <tr><td>美國投擲原子彈</td><td>1945年8月6日、9日</td><td>美國分別向日本的廣島與長崎投下原子彈，加速日本戰敗。</td></tr>
-                                <tr><td>日本無條件投降</td><td>1945年8月15日</td><td>日本宣佈戰敗，無條件投降，抗日戰爭勝利結束。</td></tr>
+                                <tr><td>中國與同盟國合作</td><td>1942.1.1</td><td>與美、英等結盟，獲國際支持。</td></tr>
+                                <tr><td>美國投擲原子彈</td><td>1945.8.6/9</td><td>廣島、長崎投彈，加速日本戰敗。</td></tr>
+                                <tr><td>日本無條件投降</td><td>1945.8.15</td><td>抗日戰爭勝利結束。</td></tr>
                             </tbody>
                         </table>
                     </div>
-                    <p>後期中國改變戰略，由拖延戰略變為主動反攻，並獲得同盟國支持，最終促成抗戰勝利。</p>
-                    
-                    <!-- 額外重點整理 -->
-                    <div class="highlight-box" style="margin-top: 1rem;">
+                    <p>戰略由拖延轉為主動反攻，獲同盟國支持而勝利。</p>
+                    <div class="highlight-box">
                         <span class="badge">額外重點</span>
                         <ul class="bullet-list">
-                            <li><span class="highlight">國際合作：</span>1942年1月1日，中國與美國、英國等國家組成同盟國，共同抗擊日軍，結束了孤立無援的局面。</li>
-                            <li><span class="highlight">戰略轉變：</span>1944年，中國改變原有的「拖延戰略」，主動向日軍發起進攻。</li>
-                            <li><span class="highlight">抗戰勝利：</span>1945年8月，美國向日本投下原子彈後，日本於8月15日宣布無條件投降，中國抗日戰爭取得最後勝利。</li>
+                            <li><span class="highlight">國際合作：</span>1942年與美英等組成同盟國，結束孤立。</li>
+                            <li><span class="highlight">戰略轉變：</span>1944年改為主動進攻。</li>
+                            <li><span class="highlight">抗戰勝利：</span>1945年8月15日日本投降。</li>
                         </ul>
                     </div>
                 </div>
                 <div class="illustration-placeholder"><i class="fas fa-image"></i> 抗戰後期插圖</div>
             </div>
 
-            <!-- ========== 戰爭初期與後期形勢對比 ========== (課文) -->
+            <!-- 形勢對比 -->
             <div class="lesson-section">
                 <div class="section-header">
                     <div class="section-icon"><i class="fas fa-chart-simple"></i></div>
-                    <div class="section-title">戰爭初期與後期形勢對比<span class="source-tag">課文</span></div>
+                    <div class="section-title">戰爭初期與後期對比<span class="source-tag">課文</span></div>
                 </div>
                 <div class="section-content">
                     <div class="table-wrap">
                         <table>
-                            <thead><tr><th>方面</th><th>戰爭初期</th><th>戰爭後期</th></tr></thead>
+                            <thead><tr><th>方面</th><th>初期</th><th>後期</th></tr></thead>
                             <tbody>
-                                <tr><td>國際支持</td><td>孤立無援</td><td>與美國、英國等組成同盟國</td></tr>
-                                <tr><td>戰略方針</td><td>拖延戰略，防守為主</td><td>主動反攻，積極配合盟軍行動</td></tr>
-                                <tr><td>主要事件</td><td>盧溝橋事變、南京大屠殺、香港淪陷</td><td>美國投擲原子彈、日本無條件投降</td></tr>
-                                <tr><td>國內形勢</td><td>國土淪陷，民眾遭受嚴重傷害</td><td>戰局逆轉，抗戰勝利，民族士氣大振</td></tr>
+                                <tr><td>國際支持</td><td>孤立無援</td><td>與美英結盟</td></tr>
+                                <tr><td>戰略方針</td><td>拖延防守</td><td>主動反攻</td></tr>
+                                <tr><td>主要事件</td><td>盧溝橋、南京大屠殺、香港淪陷</td><td>原子彈、日本投降</td></tr>
+                                <tr><td>國內形勢</td><td>國土淪陷</td><td>勝利、士氣大振</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -424,7 +415,7 @@
                 <div class="illustration-placeholder"><i class="fas fa-image"></i> 形勢對比插圖</div>
             </div>
 
-            <!-- ========== 活動時間軸 ========== (額外) -->
+            <!-- 時間軸 (額外) -->
             <div class="lesson-section">
                 <div class="section-header">
                     <div class="section-icon"><i class="fas fa-timeline"></i></div>
@@ -432,191 +423,164 @@
                 </div>
                 <div class="section-content">
                     <ul class="bullet-list">
-                        <li><strong>1931年：</strong>日軍侵佔中國東北。</li>
-                        <li><strong>1937年：</strong>日軍發動全面侵華戰爭。</li>
-                        <li><strong>1942年1月1日：</strong>中國與美、英等國組成同盟國共同抗敵。</li>
-                        <li><strong>1944年：</strong>中國將抗戰戰略由「拖延」改為主動「反攻」。</li>
-                        <li><strong>1945年8月6日及9日：</strong>美國先後於日本廣島、長崎投下原子彈。</li>
-                        <li><strong>1945年8月15日：</strong>日本宣佈無條件投降，抗日戰爭結束。</li>
-                        <li><strong>抗日戰爭結束後：</strong>國共內戰全面爆發。</li>
-                        <li><strong>1949年10月1日：</strong>中華人民共和國成立，中國國民黨遷至台灣。</li>
-                        <li><strong>1950年－1952年：</strong>中華人民共和國推行土地改革政策。</li>
-                        <li><strong>1958年－1961年：</strong>國家推行全民大煉鋼及人民公社制度。</li>
+                        <li><strong>1931年：</strong>日軍侵佔東北。</li>
+                        <li><strong>1937年：</strong>全面侵華戰爭。</li>
+                        <li><strong>1942.1.1：</strong>同盟國成立。</li>
+                        <li><strong>1944年：</strong>改為主動反攻。</li>
+                        <li><strong>1945.8.6/9：</strong>原子彈投下。</li>
+                        <li><strong>1945.8.15：</strong>日本投降。</li>
+                        <li><strong>戰後：</strong>國共內戰爆發。</li>
+                        <li><strong>1949.10.1：</strong>中華人民共和國成立，國民黨遷台。</li>
+                        <li><strong>1950-52：</strong>土地改革。</li>
+                        <li><strong>1958-61：</strong>全民煉鋼、人民公社。</li>
                     </ul>
                 </div>
                 <div class="illustration-placeholder"><i class="fas fa-image"></i> 時間軸插圖</div>
             </div>
 
-            <!-- ========== 抗戰時期人民感受與支持方式 ========== (課文) -->
+            <!-- 人民抗戰支持 -->
             <div class="lesson-section">
                 <div class="section-header">
                     <div class="section-icon"><i class="fas fa-people-group"></i></div>
-                    <div class="section-title">抗戰時期人民感受與支持方式<span class="source-tag">課文</span></div>
+                    <div class="section-title">人民抗戰支持<span class="source-tag">課文</span></div>
                 </div>
                 <div class="section-content">
-                    <p>抗戰時期人民普遍感到痛苦與壓迫，但同時激發強烈的民族自豪感與團結精神。支持國家的方式包括：</p>
                     <ul class="bullet-list">
                         <li>參與抗戰軍隊</li>
-                        <li>支持後方生產與物資供應</li>
-                        <li>宣傳與鼓舞抗日士氣</li>
+                        <li>支持後方生產與物資</li>
+                        <li>宣傳抗日士氣</li>
                     </ul>
                 </div>
-                <div class="illustration-placeholder"><i class="fas fa-image"></i> 人民支持抗戰插圖</div>
+                <div class="illustration-placeholder"><i class="fas fa-image"></i> 人民支持插圖</div>
             </div>
 
-            <!-- ========== 國共內戰的爆發與結果 ========== (融合課文與額外) -->
+            <!-- 國共內戰 -->
             <div class="lesson-section">
                 <div class="section-header">
                     <div class="section-icon"><i class="fas fa-people-arrows"></i></div>
-                    <div class="section-title">⚔️ 國共內戰的爆發與結果<span class="source-tag">課文</span><span class="source-tag extra">額外</span></div>
+                    <div class="section-title">⚔️ 國共內戰<span class="source-tag">課文+額外</span></div>
                 </div>
                 <div class="section-content">
-                    <h3 style="font-size:1.2rem; margin:0.5rem 0;">內戰爆發原因</h3>
+                    <h3 style="font-size:1.1rem; margin:0.3rem 0;">爆發原因</h3>
                     <div class="table-wrap">
                         <table>
                             <thead><tr><th>主要原因</th><th>說明</th></tr></thead>
                             <tbody>
-                                <tr><td>政治意見分歧</td><td>中國國民黨與中國共產黨在政治理念和治國路線上存在根本差異。</td></tr>
-                                <tr><td>立場不同</td><td>兩黨在權力分配及國家發展方向上無法達成共識。</td></tr>
-                                <tr><td>抗戰結束後矛盾激化</td><td>抗戰期間的合作結束，雙方矛盾暴露並迅速激化。</td></tr>
+                                <tr><td>政治意見分歧</td><td>理念、路線根本差異。</td></tr>
+                                <tr><td>立場不同</td><td>權力分配、發展方向分歧。</td></tr>
+                                <tr><td>戰後矛盾激化</td><td>抗戰合作結束，矛盾爆發。</td></tr>
                             </tbody>
                         </table>
                     </div>
-                    <!-- 額外重點整理 -->
-                    <div class="highlight-box" style="margin:1rem 0;">
+                    <div class="highlight-box">
                         <span class="badge">額外重點</span>
-                        <ul class="bullet-list">
-                            <li><span class="highlight">爆發原因：</span>抗日戰爭結束後，中國國民黨與中國共產黨因<span class="highlight">政治意見和立場不同</span>，導致武裝衝突，爆發了激烈的內戰。</li>
-                            <li><span class="highlight">內戰結果：</span>最終由毛澤東領導的中國共產黨取得勝利，蔣介石領導的中國國民黨則遷至台灣。</li>
-                        </ul>
+                        <p>戰後國民黨與共產黨因政治意見不同爆發內戰，最終共產黨勝，國民黨遷台。</p>
                     </div>
-
-                    <h3 style="font-size:1.2rem; margin:1rem 0 0.5rem;">內戰過程與結果</h3>
+                    <h3 style="font-size:1.1rem; margin:1rem 0 0.3rem;">過程與結果</h3>
                     <div class="table-wrap">
                         <table>
                             <thead><tr><th>參戰方</th><th>領導人</th><th>結果</th></tr></thead>
                             <tbody>
-                                <tr><td>中國國民黨</td><td>蔣介石</td><td>戰敗，撤退至臺灣</td></tr>
-                                <tr><td>中國共產黨</td><td>毛澤東</td><td>戰勝，於1949年10月1日成立中華人民共和國</td></tr>
+                                <tr><td>國民黨</td><td>蔣介石</td><td>戰敗，遷台</td></tr>
+                                <tr><td>共產黨</td><td>毛澤東</td><td>戰勝，1949建國</td></tr>
                             </tbody>
                         </table>
                     </div>
-                    <p>內戰結束後，中國共產黨建立新政權，國民黨政權則退守臺灣，形成兩岸分治的局面。</p>
+                    <p>形成兩岸分治局面。</p>
                 </div>
-                <div class="illustration-placeholder"><i class="fas fa-image"></i> 國共內戰插圖</div>
+                <div class="illustration-placeholder"><i class="fas fa-image"></i> 內戰插圖</div>
             </div>
 
-            <!-- ========== 中華人民共和國成立後的政策與影響 ========== (融合課文與額外) -->
+            <!-- 建國初期政策 -->
             <div class="lesson-section">
                 <div class="section-header">
                     <div class="section-icon"><i class="fas fa-building-columns"></i></div>
-                    <div class="section-title">🏛️ 中華人民共和國成立後的政策與影響<span class="source-tag">課文</span><span class="source-tag extra">額外</span></div>
+                    <div class="section-title">🏛️ 建國初期政策<span class="source-tag">課文+額外</span></div>
                 </div>
                 <div class="section-content">
-                    <!-- 土地改革 -->
-                    <h3 style="font-size:1.2rem; margin:0.5rem 0;">土地改革（1950年－1952年）</h3>
+                    <h3 style="font-size:1.1rem;">土地改革（1950-52）</h3>
                     <div class="table-wrap">
                         <table>
                             <thead><tr><th>政策內容</th><th>影響</th></tr></thead>
                             <tbody>
-                                <tr><td>沒收地主土地</td><td>打破封建地主經濟基礎，減少貧富不均</td></tr>
-                                <tr><td>分配土地給農民</td><td>農民獲得土地和農具，生活條件改善</td></tr>
-                                <tr><td>促進社會公平</td><td>激勵農民生產積極性，為經濟恢復奠定基礎</td></tr>
+                                <tr><td>沒收地主土地</td><td>打破封建經濟，減少貧富</td></tr>
+                                <tr><td>分配土地給農民</td><td>獲得土地、農具，生活改善</td></tr>
+                                <tr><td>促進社會公平</td><td>激勵生產，經濟恢復</td></tr>
                             </tbody>
                         </table>
                     </div>
-                    <!-- 額外 FAQ：土地改革如何改善生活 -->
-                    <div class="highlight-box" style="margin:1rem 0;">
+                    <div class="highlight-box">
                         <span class="badge">額外·深入理解</span>
-                        <p><span class="highlight">土地改革如何具體改善當時農民的生活？</span></p>
-                        <ul class="bullet-list">
-                            <li><strong>獲得土地與生產工具：</strong>政府沒收了地主的土地，並分配給原本沒有土地或土地很少的農民。此外，農民也從中獲得了耕作所需的農具。</li>
-                            <li><strong>改善經濟與民生：</strong>這項政策有效地促進了戰後經濟的發展，進而提升並改善了百姓的生活水平。</li>
-                        </ul>
+                        <p>農民獲得土地與農具，經濟發展，生活水平提升。</p>
                     </div>
 
-                    <!-- 全民煉鋼與人民公社 -->
-                    <h3 style="font-size:1.2rem; margin:1.5rem 0 0.5rem;">全民煉鋼與人民公社政策（1958年－1961年）</h3>
+                    <h3 style="font-size:1.1rem; margin-top:1.2rem;">全民煉鋼、人民公社（1958-61）</h3>
                     <div class="table-wrap">
                         <table>
-                            <thead><tr><th>政策名稱</th><th>目標</th><th>內容說明</th><th>結果與影響</th></tr></thead>
+                            <thead><tr><th>政策</th><th>目標</th><th>內容</th><th>結果</th></tr></thead>
                             <tbody>
-                                <tr><td>全民煉鋼</td><td>提高鋼鐵產量</td><td>收集家庭鐵鍋、農具集中熔煉鋼鐵</td><td>技術不足，產量低，浪費資源</td></tr>
-                                <tr><td>人民公社</td><td>生活與生產集體化</td><td>公社成員共同工作、生活，實行集體食堂制度</td><td>糧食不足，生活品質下降，農具與生產力下降</td></tr>
+                                <tr><td>全民煉鋼</td><td>提高鋼產量</td><td>收集鐵鍋、農具煉鋼</td><td>技術不足，浪費資源</td></tr>
+                                <tr><td>人民公社</td><td>集體化</td><td>共同工作、生活，公社食堂</td><td>糧食不足，食堂倒閉</td></tr>
                             </tbody>
                         </table>
                     </div>
-
-                    <!-- 額外 FAQ 區塊 -->
-                    <div class="highlight-box" style="margin:1rem 0;">
+                    <div class="highlight-box">
                         <span class="badge">額外·深入理解</span>
-                        <p><span class="highlight">為什麼全民煉鋼會導致糧食不足？</span></p>
-                        <ul class="bullet-list">
-                            <li><strong>生產工具被毀：</strong>鼓勵民眾將家中的鐵製農具拿去熔化煉鋼，導致農民缺乏適合的工具進行農耕作業，嚴重影響了糧食生產的效率。</li>
-                            <li><strong>生活物資匱乏：</strong>民眾連家中的鐵鍋也被拿去煉鋼，原本用於烹煮食物的基礎設備也遭到了破壞。</li>
-                            <li><strong>與人民公社制度的連帶影響：</strong>全民煉鋼與「人民公社」同時推行，公社食堂隨後出現糧食不足，導致食堂倒閉，百姓家中也沒有儲備糧食。</li>
-                        </ul>
-                        <p style="margin-top:0.8rem;"><span class="highlight">人民公社制度如何影響當時的社會生活？</span></p>
-                        <ul class="bullet-list">
-                            <li><strong>生活與生產的全面集體化：</strong>民眾共同工作，實行「生活集體化」，設立公社食堂，集體用餐。</li>
-                            <li><strong>從理想走向物資匱乏：</strong>雖然初期宣稱可以隨意用餐，但隨後出現嚴重糧食不足，公社食堂無法繼續運作而倒閉。</li>
-                            <li><strong>家庭斷糧：</strong>由於實行集體化時民眾家中已無儲備糧食，當公社食堂關門後，百姓生活陷入困境。</li>
-                        </ul>
+                        <p><span class="highlight">全民煉鋼</span>導致農具被毀、糧食不足；<span class="highlight">人民公社</span>集體化後糧食短缺，家庭斷糧。</p>
                     </div>
                 </div>
-                <div class="illustration-placeholder"><i class="fas fa-image"></i> 建國初期政策插圖</div>
+                <div class="illustration-placeholder"><i class="fas fa-image"></i> 政策插圖</div>
             </div>
 
-            <!-- ========== 本課重點整理 ========== (課文) -->
+            <!-- 重點整理 -->
             <div class="lesson-section">
                 <div class="section-header">
                     <div class="section-icon"><i class="fas fa-pen"></i></div>
-                    <div class="section-title">✍️ 本課重點整理<span class="source-tag">課文</span></div>
+                    <div class="section-title">✍️ 重點整理<span class="source-tag">課文</span></div>
                 </div>
                 <div class="section-content">
                     <div class="table-wrap">
                         <table>
                             <thead><tr><th>主題</th><th>內容概要</th></tr></thead>
                             <tbody>
-                                <tr><td>抗日戰爭</td><td>1931年日本侵佔東北，1937年全面侵略，中國遭受重大損失，後期與同盟國合作反攻，1945年日本投降結束戰爭。</td></tr>
-                                <tr><td>國共內戰</td><td>抗戰後因政治意見分歧爆發，國民黨戰敗退守臺灣，共產黨勝利成立中華人民共和國。</td></tr>
-                                <tr><td>建國初期政策</td><td>推行土地改革改善農民生活，後期全民煉鋼和人民公社政策因技術和管理問題導致糧食短缺和生活困難。</td></tr>
+                                <tr><td>抗日戰爭</td><td>1931-1945，後期同盟國合作，日本投降。</td></tr>
+                                <tr><td>國共內戰</td><td>戰後爆發，國民黨敗退台灣，共產黨建國。</td></tr>
+                                <tr><td>建國初期</td><td>土地改革成功；後期煉鋼、公社失敗。</td></tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <div class="illustration-placeholder"><i class="fas fa-image"></i> 重點整理插圖</div>
+                <div class="illustration-placeholder"><i class="fas fa-image"></i> 整理插圖</div>
             </div>
 
-            <!-- ========== 重要概念與詞彙 ========== (課文) -->
+            <!-- 重要詞彙 -->
             <div class="lesson-section">
                 <div class="section-header">
                     <div class="section-icon"><i class="fas fa-book-open"></i></div>
-                    <div class="section-title">💡 重要概念與詞彙<span class="source-tag">課文</span></div>
+                    <div class="section-title">💡 重要詞彙<span class="source-tag">課文</span></div>
                 </div>
                 <div class="section-content">
                     <div class="table-wrap">
                         <table>
                             <thead><tr><th>詞彙</th><th>解釋</th></tr></thead>
                             <tbody>
-                                <tr><td>盧溝橋事變</td><td>1937年7月7日，日本藉口士兵失蹤與中國軍隊爆發衝突，標誌全面抗戰開始。</td></tr>
-                                <tr><td>南京大屠殺</td><td>1937年日本軍攻陷南京，屠殺30萬以上中國平民和戰俘的暴行。</td></tr>
-                                <tr><td>土地改革</td><td>沒收地主土地並分配給農民的政策，旨在消除封建剝削，促進農業生產。</td></tr>
-                                <tr><td>人民公社</td><td>中國1950年代後期推行的集體化農業組織形式，強調集體生產與生活。</td></tr>
-                                <tr><td>內戰</td><td>指國共兩黨因政治分歧爆發的軍事衝突，最終共產黨勝利。</td></tr>
+                                <tr><td>盧溝橋事變</td><td>1937.7.7，全面抗戰開始。</td></tr>
+                                <tr><td>南京大屠殺</td><td>1937年日軍屠殺30萬人。</td></tr>
+                                <tr><td>土地改革</td><td>沒收地主土地分給農民。</td></tr>
+                                <tr><td>人民公社</td><td>1950年代後期集體化組織。</td></tr>
+                                <tr><td>內戰</td><td>國共武裝衝突，共產黨勝。</td></tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
                 <div class="illustration-placeholder"><i class="fas fa-image"></i> 詞彙插圖</div>
             </div>
-        </div> <!-- section-container -->
-    </div> <!-- notebook -->
-
-    <!-- 頁尾 -->
-    <div class="footer-note">
-        <span class="save-status"><i class="fas fa-check-circle"></i> 資料整合：課文 + 額外補充</span>
+        </div>
     </div>
-</div> <!-- notes-container -->
+
+    <div class="footer-note">
+        <span class="save-status"><i class="fas fa-check-circle"></i> 資料整合：課文+額外</span>
+    </div>
+</div>
 </body>
 </html>
