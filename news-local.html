@@ -367,7 +367,7 @@
 </div>
 
 <script>
-    (function() {
+    window.onload = function() {
         // 題目資料
         const questionsData = [
             // 2025年12月 (7題)
@@ -497,7 +497,7 @@
             groups[item.month].appendChild(card);
         });
 
-        // 提交答案函數 (必須掛在 window 上)
+        // 提交答案函數 (掛在 window 上)
         window.submitAnswer = function(qid) {
             const question = questionsData.find(q => q.qid === qid);
             const options = document.getElementsByName(`q${qid}`);
@@ -553,7 +553,7 @@
                 }
             });
         };
-    })();
+    };
 </script>
 
 <style>
