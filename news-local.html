@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>小常識 · 本地時事 · 2025-2026</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* 樣式與之前的自學筆記完全一致 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #d4e0ec 0%, #eaf0f6 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 0;
+            font-size: 18px;
+        }
+
+        .notes-container {
+            max-width: 100%;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(4px);
+            border-radius: 0;
+            box-shadow: none;
+            padding: 0.5rem 0.3rem;
+            border: none;
+        }
+
+        .notes-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            padding: 0.5rem 0.8rem;
+            border-radius: 40px;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 0 #bed0e3;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .back-home {
+            background: #f4d03f;
+            border-radius: 40px;
+            padding: 0.4rem 1rem;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #1f3a4b;
+            border: none;
+            box-shadow: 0 3px 0 #b38f1c;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+        .back-home:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #b38f1c;
+        }
+
+        .notes-title {
+            font-size: 1.4rem;
+            font-weight: 900;
+            background: #eef5ff;
+            padding: 0.3rem 1.2rem;
+            border-radius: 40px;
+            color: #1a4972;
+            border: 2px solid #c1d9f0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .notes-title i {
+            color: #3498db;
+            font-size: 1.2rem;
+        }
+
+        .notebook {
+            background: #f5faff;
+            border-radius: 25px;
+            padding: 1rem 0.8rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 6px 0 #9bb7d1, 0 8px 20px rgba(0,40,60,0.1);
+            border: 2px solid #c1d9f0;
+        }
+
+        .notebook-header {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 3px solid #9bb7d1;
+            flex-wrap: wrap;
+        }
+        .notebook-icon {
+            width: 50px;
+            height: 50px;
+            background: #3498db;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+            box-shadow: 0 3px 0 #1f5b8a;
+            flex-shrink: 0;
+        }
+        .notebook-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #1a4972;
+            line-height: 1.3;
+            flex: 1;
+        }
+
+        .section-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .lesson-section {
+            background: white;
+            border-radius: 22px;
+            padding: 1.2rem 1rem;
+            border-left: 6px solid #3498db;
+            box-shadow: 0 4px 0 #bed0e3;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        .section-icon {
+            width: 44px;
+            height: 44px;
+            background: #3498db;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #1a4972;
+            line-height: 1.3;
+        }
+        .section-content {
+            color: #1f3a4b;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 3px 0 #bed0e3;
+            font-size: 1rem;
+        }
+        th {
+            background: #3498db;
+            color: white;
+            font-weight: 700;
+            padding: 0.6rem;
+            text-align: left;
+        }
+        td {
+            padding: 0.6rem;
+            border-bottom: 1px solid #e1edff;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .bullet-list {
+            list-style: none;
+            margin-top: 0.5rem;
+        }
+        .bullet-list li {
+            padding: 0.5rem 0 0.5rem 2rem;
+            position: relative;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        .bullet-list li:before {
+            content: "•";
+            color: #3498db;
+            font-weight: bold;
+            font-size: 1.8rem;
+            position: absolute;
+            left: 0;
+            top: -2px;
+        }
+        .bullet-list strong {
+            color: #1a4972;
+        }
+
+        .highlight {
+            background: #fffacd;
+            padding: 0.1rem 0.3rem;
+            border-radius: 10px;
+            font-weight: 700;
+            color: #1e3f5a;
+            border: 1px solid #f3b33d;
+            display: inline-block;
+            margin: 0 0.1rem;
+            font-size: 1.1rem;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #f4d03f;
+            color: #1f3a4b;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-right: 0.3rem;
+            margin-bottom: 0.3rem;
+            border: 1px solid #e67e22;
+        }
+
+        .footer-note {
+            text-align: center;
+            margin-top: 1rem;
+            color: #6b8baa;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            font-size: 1rem;
+        }
+        .save-status {
+            background: #d4e6f5;
+            color: #1a4972;
+            padding: 0.3rem 0.8rem;
+            border-radius: 40px;
+            border: 1px solid #9bb7d1;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 1rem;
+        }
+
+        @media (max-width: 480px) {
+            .notes-header { flex-direction: column; align-items: stretch; }
+            .back-home, .notes-title { justify-content: center; }
+            .section-title { font-size: 1.3rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="notes-container">
+    <!-- 標題列 -->
+    <div class="notes-header">
+        <a href="../index.html" class="back-home"><i class="fas fa-arrow-left"></i> 返回</a>
+        <span class="notes-title">
+            <i class="fas fa-home"></i> 本地時事 · 2025-2026
+        </span>
+    </div>
+
+    <!-- 主要筆記本 -->
+    <div class="notebook">
+        <div class="notebook-header">
+            <div class="notebook-icon"><i class="fas fa-newspaper"></i></div>
+            <div class="notebook-title">📰 香港本地時事（2025年12月－2026年2月）</div>
+        </div>
+
+        <div class="section-container">
+            <!-- 本地時事列表 -->
+            <div class="lesson-section">
+                <div class="section-header">
+                    <div class="section-icon"><i class="fas fa-list-ul"></i></div>
+                    <div class="section-title">時事重點</div>
+                </div>
+                <div class="section-content">
+                    <ul class="bullet-list">
+                        <li><strong>錦田水頭村</strong> 的太平洋礁礁棚獲健力士世界紀錄認證為全球最大臨時竹構祭壇。（第1題）</li>
+                        <li><strong>屯門市廣場</strong> 發生男子持刀挾持女途人及警員開槍案。（第7題）</li>
+                        <li>被暫緩的佩戴安全帶新例，原本規定適用於<strong>巴士</strong>。（第5題）</li>
+                        <li>醫管局初生嬰兒免費篩查計劃擴展至2間<strong>私家醫院</strong>。（第8題）</li>
+                        <li>香港目前共有約<strong>1300輛</strong>車隊的士，數目較運輸署原定目標低。（第10題）</li>
+                        <li>公立醫院急症室1月1日起實施新收費：緊急或以下的病人收費由原來的180元增至<strong>400元</strong>。（第16題）</li>
+                        <li>連續性僱員合約新規定「468」生效，員工若連續四星期為同一僱主工作滿<strong>68</strong>小時，便可享有假期等福利。（第17題）</li>
+                        <li>渣打香港馬拉松2026全馬及半馬的起跑地點在<strong>尖沙咀彌敦道</strong>。（第22題）</li>
+                        <li>香港舊油麻地警署設「<strong>光影之旅</strong>」展覽，並免費開放予市民參觀。（第24題）</li>
+                        <li>12月11日香港<strong>香港中醫醫院</strong>正式投入服務。（第27題）</li>
+                        <li>公立醫院所設的全年醫療收費上限為<strong>1萬</strong>元。（第29題）</li>
+                        <li>香港<strong>長和集團</strong>近期計劃出售多國港口資產，其中最受關注的是巴拿馬港口。（第30題）</li>
+                        <li>港鐵<strong>屯馬綫</strong>路線因應明年的路軌調整工程，需要於指定時段採取分段行車安排。（第32題）</li>
+                        <li>1月30日在上環兌換店搶劫案中，劫匪奪走5100萬元<strong>日圓</strong>。（第44題）</li>
+                        <li>香港<strong>麥當勞</strong>連鎖快餐店宣布本月起為管理層員工加薪3-5%。（第47題）</li>
+                        <li>警方引入<strong>無人機</strong>進行高空巡邏，以提升搜救及罪案預防能力。（第14題）</li>
+                        <li>政府計劃修例禁止所有地盤吸煙，原本個人最高罰款15萬元，擬改為<strong>3000元</strong>。（第12題）</li>
+                        <li>政府計劃修例，讓<strong>狗隻</strong>可進入獲批牌照的食肆。（第37題）</li>
+                        <li>旅發局今年取消除夕煙花匯演，改舉辦<strong>音樂光影表演</strong>。（第40題）</li>
+                        <li><strong>24/7 Fitness</strong> 分店因在男廁入口附近安裝閉路電視鏡頭，被個人私隱專員公署發勸喻信。（第38題）</li>
+                        <li>1月30日於西貢鹹田灣發現的鯨魚屍體由<strong>漁農自然護理署</strong>負責處理。（第39題）</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 頁尾 -->
+    <div class="footer-note">
+        <span class="save-status"><i class="fas fa-check-circle" style="color:#2ecc71;"></i> 資料來源：風氣教育 2025-2026</span>
+    </div>
+</div>
+</body>
+</html>
