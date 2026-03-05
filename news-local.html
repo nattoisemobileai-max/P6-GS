@@ -154,6 +154,14 @@
             align-items: center;
             gap: 8px;
         }
+        .group-header .count-badge {
+            background: #3498db;
+            color: white;
+            padding: 0.2rem 0.8rem;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            margin-left: 8px;
+        }
         .group-header i {
             transition: transform 0.3s;
         }
@@ -326,10 +334,10 @@
         <button class="filter-btn" id="filter-intl" onclick="filterQuestions('international')"><i class="fas fa-plane"></i> 國際</button>
     </div>
 
-    <!-- 2025年12月分組（題數將由JavaScript動態更新） -->
+    <!-- 2025年12月分組 -->
     <div class="group-section" id="group-dec-section">
         <div class="group-header" onclick="toggleGroup(this)">
-            <h2><i class="fas fa-calendar-alt"></i> 2025年12月 <span class="question-count"></span></h2>
+            <h2><i class="fas fa-calendar-alt"></i> 2025年12月 <span class="count-badge" id="dec-count"></span></h2>
             <i class="fas fa-chevron-down"></i>
         </div>
         <div class="group-content" id="group-dec"></div>
@@ -338,7 +346,7 @@
     <!-- 2026年1月分組 -->
     <div class="group-section" id="group-jan-section">
         <div class="group-header" onclick="toggleGroup(this)">
-            <h2><i class="fas fa-calendar-alt"></i> 2026年1月 <span class="question-count"></span></h2>
+            <h2><i class="fas fa-calendar-alt"></i> 2026年1月 <span class="count-badge" id="jan-count"></span></h2>
             <i class="fas fa-chevron-down"></i>
         </div>
         <div class="group-content" id="group-jan"></div>
@@ -347,7 +355,7 @@
     <!-- 2026年2月分組 -->
     <div class="group-section" id="group-feb-section">
         <div class="group-header" onclick="toggleGroup(this)">
-            <h2><i class="fas fa-calendar-alt"></i> 2026年2月 <span class="question-count"></span></h2>
+            <h2><i class="fas fa-calendar-alt"></i> 2026年2月 <span class="count-badge" id="feb-count"></span></h2>
             <i class="fas fa-chevron-down"></i>
         </div>
         <div class="group-content" id="group-feb"></div>
@@ -359,191 +367,193 @@
 </div>
 
 <script>
-    // 題目資料，加入 type 欄位 (local / international)
-    const questionsData = [
-        // ========== 2025年12月 (7題) ==========
-        { month: 'dec', qid: 1, type: 'local', question: "大埔浸信會公立學校因火災封閉，下學年將如何安排？", 
-          options: ["A. 學生轉往其他學校", "B. 遷往前基正小學繼續辦學", "C. 原地重建校舍", "D. 停辦並解散"], 
-          correct: 1, supplement: "教育局安排該校學生在下學年使用前基正小學校舍上課，確保學習不受影響。" },
-        { month: 'dec', qid: 2, type: 'local', question: "黃藻森小學學生在2025世界機械人奧林匹克比賽中取得什麼成果？", 
-          options: ["A. 獲得獎項", "B. 未獲獎", "C. 入圍決賽", "D. 打破紀錄"], 
-          correct: 0, supplement: "香港學生在國際賽事中獲獎，展現了科技創新與STEAM教育的成果。" },
-        { month: 'dec', qid: 3, type: 'local', question: "選管會主席陸啟康如何評價火災下的立法會選舉？", 
-          options: ["A. 選舉無法舉行", "B. 選民仍積極投票", "C. 投票率創新低", "D. 選舉結果無效"], 
-          correct: 1, supplement: "儘管發生火災，災民仍踴躍投票，展現公民責任感。" },
-        { month: 'dec', qid: 4, type: 'international', question: "聯合國兒童基金會報告指出加沙有多少兒童因營養不良入院？", 
-          options: ["A. 逾900名", "B. 逾9000名", "C. 逾20000名", "D. 逾500名"], 
-          correct: 1, supplement: "報告呼籲國際社會提供人道援助，關注兒童健康。" },
-        { month: 'dec', qid: 5, type: 'international', question: "神舟二十一號乘組完成首次出艙活動，主要任務是什麼？", 
-          options: ["A. 維修太陽能板", "B. 安裝空間站碎片防護裝置", "C. 測試新太空服", "D. 拍攝地球影像"], 
-          correct: 1, supplement: "航天員安裝了碎片防護裝置，為天宮太空站披上「鎧甲」，應對太空碎片威脅。" },
-        { month: 'dec', qid: 6, type: 'local', question: "立法會選舉結果公布後，曾國衞對選舉組織有何評價？", 
-          options: ["A. 受火災影響未達預期", "B. 組織達歷史最高水平", "C. 需重新投票", "D. 投票率過低"], 
-          correct: 1, supplement: "儘管發生火災，選舉組織仍創下歷史最佳表現。" },
-        { month: 'dec', qid: 7, type: 'local', question: "政府解散宏福苑法團校董會後，主席徐滿柑的回應涉及什麼？", 
-          options: ["A. 校舍重建", "B. 學校停辦", "C. 教師調職", "D. 學額增加"], 
-          correct: 0, supplement: "徐滿柑表示將處理學校重建事宜。" },
+    (function() {
+        // 題目資料
+        const questionsData = [
+            // 2025年12月 (7題)
+            { month: 'dec', qid: 1, type: 'local', question: "大埔浸信會公立學校因火災封閉，下學年將如何安排？", 
+              options: ["A. 學生轉往其他學校", "B. 遷往前基正小學繼續辦學", "C. 原地重建校舍", "D. 停辦並解散"], 
+              correct: 1, supplement: "教育局安排該校學生在下學年使用前基正小學校舍上課，確保學習不受影響。" },
+            { month: 'dec', qid: 2, type: 'local', question: "黃藻森小學學生在2025世界機械人奧林匹克比賽中取得什麼成果？", 
+              options: ["A. 獲得獎項", "B. 未獲獎", "C. 入圍決賽", "D. 打破紀錄"], 
+              correct: 0, supplement: "香港學生在國際賽事中獲獎，展現了科技創新與STEAM教育的成果。" },
+            { month: 'dec', qid: 3, type: 'local', question: "選管會主席陸啟康如何評價火災下的立法會選舉？", 
+              options: ["A. 選舉無法舉行", "B. 選民仍積極投票", "C. 投票率創新低", "D. 選舉結果無效"], 
+              correct: 1, supplement: "儘管發生火災，災民仍踴躍投票，展現公民責任感。" },
+            { month: 'dec', qid: 4, type: 'international', question: "聯合國兒童基金會報告指出加沙有多少兒童因營養不良入院？", 
+              options: ["A. 逾900名", "B. 逾9000名", "C. 逾20000名", "D. 逾500名"], 
+              correct: 1, supplement: "報告呼籲國際社會提供人道援助，關注兒童健康。" },
+            { month: 'dec', qid: 5, type: 'international', question: "神舟二十一號乘組完成首次出艙活動，主要任務是什麼？", 
+              options: ["A. 維修太陽能板", "B. 安裝空間站碎片防護裝置", "C. 測試新太空服", "D. 拍攝地球影像"], 
+              correct: 1, supplement: "航天員安裝了碎片防護裝置，為天宮太空站披上「鎧甲」，應對太空碎片威脅。" },
+            { month: 'dec', qid: 6, type: 'local', question: "立法會選舉結果公布後，曾國衞對選舉組織有何評價？", 
+              options: ["A. 受火災影響未達預期", "B. 組織達歷史最高水平", "C. 需重新投票", "D. 投票率過低"], 
+              correct: 1, supplement: "儘管發生火災，選舉組織仍創下歷史最佳表現。" },
+            { month: 'dec', qid: 7, type: 'local', question: "政府解散宏福苑法團校董會後，主席徐滿柑的回應涉及什麼？", 
+              options: ["A. 校舍重建", "B. 學校停辦", "C. 教師調職", "D. 學額增加"], 
+              correct: 0, supplement: "徐滿柑表示將處理學校重建事宜。" },
 
-        // ========== 2026年1月 (9題) ==========
-        { month: 'jan', qid: 8, type: 'local', question: "2026年1月1日內地訪港旅客數字有何變化？", 
-          options: ["A. 與去年持平", "B. 較去年新年倍增", "C. 較去年減少一半", "D. 創十年新高"], 
-          correct: 1, supplement: "內地旅客達26.2萬人，是去年新年的兩倍，帶動旅遊及零售業復甦。" },
-        { month: 'jan', qid: 9, type: 'international', question: "1月3日美國突襲哪個國家並俘虜其總統？", 
-          options: ["A. 伊朗", "B. 委內瑞拉", "C. 敘利亞", "D. 古巴"], 
-          correct: 1, supplement: "美軍突襲委內瑞拉首都加拉加斯，總統馬杜羅夫婦被俘，該國宣布緊急狀態。" },
-        { month: 'jan', qid: 10, type: 'international', question: "柬埔寨央行關閉Prince Bank的原因與誰有關？", 
-          options: ["A. 涉嫌洗黑錢", "B. 創辦人Chen Zhi被美國控告詐騙", "C. 資本不足", "D. 違反本地法規"], 
-          correct: 1, supplement: "創辦人Chen Zhi因大規模詐騙被美國起訴後引渡中國，銀行因而被關閉。" },
-        { month: 'jan', qid: 11, type: 'international', question: "新加坡國會為何剝奪反對黨領袖Pritam Singh的頭銜？", 
-          options: ["A. 貪污", "B. 向委員會說謊", "C. 洩漏國家機密", "D. 勾結外國勢力"], 
-          correct: 1, supplement: "國會投票認為他向委員會說謊，不適合擔任反對黨領袖。" },
-        { month: 'jan', qid: 12, type: 'local', question: "1月15日香港馬拉松的主要意義是什麼？", 
-          options: ["A. 破世界紀錄", "B. 推廣健康生活和城市活力", "C. 選拔奧運選手", "D. 籌款賑災"], 
-          correct: 1, supplement: "數萬人參與，穿梭維港兩岸，展現城市活力與健康風氣。" },
-        { month: 'jan', qid: 13, type: 'local', question: "香港強制舉報虐兒新法規定哪些人士必須報警？", 
-          options: ["A. 社工", "B. 教師、醫生等25類專業人士", "C. 家長", "D. 鄰居"], 
-          correct: 1, supplement: "新例要求25類指定從業員發現兒童危險須立即報警，加強保護兒童。" },
-        { month: 'jan', qid: 14, type: 'international', question: "1月21日以色列在加沙的軍事行動造成什麼結果？", 
-          options: ["A. 達成停火協議", "B. 平民傷亡", "C. 哈馬斯投降", "D. 聯合國介入"], 
-          correct: 1, supplement: "以色列投下炸彈造成平民受傷，美國提議停火但尚未實現。" },
-        { month: 'jan', qid: 15, type: 'local', question: "香港北角東岸板道開放後，港島海濱全長多少公里？", 
-          options: ["A. 10公里", "B. 13公里", "C. 15公里", "D. 18公里"], 
-          correct: 1, supplement: "連同新開放的板道，港島海濱全長13公里貫通，設有玻璃觀景台和寵物區。" },
-        { month: 'jan', qid: 16, type: 'local', question: "1月23日新民黨議員陳家珮在灣仔逆線行車，可能面臨什麼處罰？", 
-          options: ["A. 罰款", "B. 停牌", "C. 監禁", "D. 社會服務令"], 
-          correct: 1, supplement: "專家指屬危險駕駛，可能停牌，她已報警調查並多次道歉。" },
+            // 2026年1月 (9題)
+            { month: 'jan', qid: 8, type: 'local', question: "2026年1月1日內地訪港旅客數字有何變化？", 
+              options: ["A. 與去年持平", "B. 較去年新年倍增", "C. 較去年減少一半", "D. 創十年新高"], 
+              correct: 1, supplement: "內地旅客達26.2萬人，是去年新年的兩倍，帶動旅遊及零售業復甦。" },
+            { month: 'jan', qid: 9, type: 'international', question: "1月3日美國突襲哪個國家並俘虜其總統？", 
+              options: ["A. 伊朗", "B. 委內瑞拉", "C. 敘利亞", "D. 古巴"], 
+              correct: 1, supplement: "美軍突襲委內瑞拉首都加拉加斯，總統馬杜羅夫婦被俘，該國宣布緊急狀態。" },
+            { month: 'jan', qid: 10, type: 'international', question: "柬埔寨央行關閉Prince Bank的原因與誰有關？", 
+              options: ["A. 涉嫌洗黑錢", "B. 創辦人Chen Zhi被美國控告詐騙", "C. 資本不足", "D. 違反本地法規"], 
+              correct: 1, supplement: "創辦人Chen Zhi因大規模詐騙被美國起訴後引渡中國，銀行因而被關閉。" },
+            { month: 'jan', qid: 11, type: 'international', question: "新加坡國會為何剝奪反對黨領袖Pritam Singh的頭銜？", 
+              options: ["A. 貪污", "B. 向委員會說謊", "C. 洩漏國家機密", "D. 勾結外國勢力"], 
+              correct: 1, supplement: "國會投票認為他向委員會說謊，不適合擔任反對黨領袖。" },
+            { month: 'jan', qid: 12, type: 'local', question: "1月15日香港馬拉松的主要意義是什麼？", 
+              options: ["A. 破世界紀錄", "B. 推廣健康生活和城市活力", "C. 選拔奧運選手", "D. 籌款賑災"], 
+              correct: 1, supplement: "數萬人參與，穿梭維港兩岸，展現城市活力與健康風氣。" },
+            { month: 'jan', qid: 13, type: 'local', question: "香港強制舉報虐兒新法規定哪些人士必須報警？", 
+              options: ["A. 社工", "B. 教師、醫生等25類專業人士", "C. 家長", "D. 鄰居"], 
+              correct: 1, supplement: "新例要求25類指定從業員發現兒童危險須立即報警，加強保護兒童。" },
+            { month: 'jan', qid: 14, type: 'international', question: "1月21日以色列在加沙的軍事行動造成什麼結果？", 
+              options: ["A. 達成停火協議", "B. 平民傷亡", "C. 哈馬斯投降", "D. 聯合國介入"], 
+              correct: 1, supplement: "以色列投下炸彈造成平民受傷，美國提議停火但尚未實現。" },
+            { month: 'jan', qid: 15, type: 'local', question: "香港北角東岸板道開放後，港島海濱全長多少公里？", 
+              options: ["A. 10公里", "B. 13公里", "C. 15公里", "D. 18公里"], 
+              correct: 1, supplement: "連同新開放的板道，港島海濱全長13公里貫通，設有玻璃觀景台和寵物區。" },
+            { month: 'jan', qid: 16, type: 'local', question: "1月23日新民黨議員陳家珮在灣仔逆線行車，可能面臨什麼處罰？", 
+              options: ["A. 罰款", "B. 停牌", "C. 監禁", "D. 社會服務令"], 
+              correct: 1, supplement: "專家指屬危險駕駛，可能停牌，她已報警調查並多次道歉。" },
 
-        // ========== 2026年2月 (9題) ==========
-        { month: 'feb', qid: 17, type: 'international', question: "2026年冬季奧運在哪個國家開幕？", 
-          options: ["A. 法國", "B. 意大利", "C. 日本", "D. 加拿大"], 
-          correct: 1, supplement: "冬奧在意大利舉行，設多個雪上及冰上項目，促進體育精神。" },
-        { month: 'feb', qid: 18, type: 'local', question: "2月9日黎智英案被判處多少年監禁？", 
-          options: ["A. 10年", "B. 15年", "C. 20年", "D. 25年"], 
-          correct: 2, supplement: "此案是國安法實施以來刑期最重案件之一，提醒市民須遵守國家安全法律。" },
-        { month: 'feb', qid: 19, type: 'international', question: "英國投資機構暫停對杜拜DP World投資的原因是什麼？", 
-          options: ["A. 市場波動", "B. 負責人與不當人士有聯繫", "C. 公司業績下滑", "D. 政治壓力"], 
-          correct: 1, supplement: "提醒企業選擇合作夥伴時要重視誠信和道德。" },
-        { month: 'feb', qid: 20, type: 'local', question: "農曆大年初二車公誕，鄉議局主席劉業強為香港求得的中簽鼓勵什麼？", 
-          options: ["A. 加強防疫", "B. 用精準政策推動經濟", "C. 發展旅遊業", "D. 改善民生"], 
-          correct: 1, supplement: "簽文鼓勵政府用精準政策讓香港像春天一樣繁榮發展。" },
-        { month: 'feb', qid: 21, type: 'international', question: "2月18日高市早苗當選日本第幾任首相？", 
-          options: ["A. 103任", "B. 104任", "C. 105任", "D. 106任"], 
-          correct: 2, supplement: "她領導的新政府將推動經濟政策，讓國家更強大繁榮。" },
-        { month: 'feb', qid: 22, type: 'international', question: "2月22日英國影藝學院電影獎最佳影片是哪一部？", 
-          options: ["A. 《奧本海默》", "B. 《可憐的東西》", "C. 《一戰再戰》", "D. 《花月殺手》"], 
-          correct: 2, supplement: "《一戰再戰》獲得多項大獎，鼓勵觀眾欣賞優秀電影培養藝術興趣。" },
-        { month: 'feb', qid: 23, type: 'international', question: "香港長和集團在巴拿馬運河的港口被誰接管？", 
-          options: ["A. 巴拿馬政府", "B. 美國公司", "C. 中國企業", "D. 國際法院"], 
-          correct: 0, supplement: "長和認為接管行動不合法，將用法律保護權益，提醒尊重合約和國際合作。" },
-        { month: 'feb', qid: 24, type: 'local', question: "2月25日財政司司長陳茂波發表什麼文件？", 
-          options: ["A. 施政報告", "B. 財政預算案2026", "C. 經濟展望", "D. 稅務修訂"], 
-          correct: 1, supplement: "預算案強調香港經濟轉型中成長，推動科技創新和民生發展。" },
-        { month: 'feb', qid: 25, type: 'international', question: "2月26日巴基斯坦和阿富汗邊境發生衝突，中國的立場是什麼？", 
-          options: ["A. 支持巴基斯坦", "B. 希望兩國冷靜談判", "C. 派遣維和部隊", "D. 不表態"], 
-          correct: 1, supplement: "中國呼籲雙方用外交解決爭端，保護人民安全。" }
-    ];
+            // 2026年2月 (9題)
+            { month: 'feb', qid: 17, type: 'international', question: "2026年冬季奧運在哪個國家開幕？", 
+              options: ["A. 法國", "B. 意大利", "C. 日本", "D. 加拿大"], 
+              correct: 1, supplement: "冬奧在意大利舉行，設多個雪上及冰上項目，促進體育精神。" },
+            { month: 'feb', qid: 18, type: 'local', question: "2月9日黎智英案被判處多少年監禁？", 
+              options: ["A. 10年", "B. 15年", "C. 20年", "D. 25年"], 
+              correct: 2, supplement: "此案是國安法實施以來刑期最重案件之一，提醒市民須遵守國家安全法律。" },
+            { month: 'feb', qid: 19, type: 'international', question: "英國投資機構暫停對杜拜DP World投資的原因是什麼？", 
+              options: ["A. 市場波動", "B. 負責人與不當人士有聯繫", "C. 公司業績下滑", "D. 政治壓力"], 
+              correct: 1, supplement: "提醒企業選擇合作夥伴時要重視誠信和道德。" },
+            { month: 'feb', qid: 20, type: 'local', question: "農曆大年初二車公誕，鄉議局主席劉業強為香港求得的中簽鼓勵什麼？", 
+              options: ["A. 加強防疫", "B. 用精準政策推動經濟", "C. 發展旅遊業", "D. 改善民生"], 
+              correct: 1, supplement: "簽文鼓勵政府用精準政策讓香港像春天一樣繁榮發展。" },
+            { month: 'feb', qid: 21, type: 'international', question: "2月18日高市早苗當選日本第幾任首相？", 
+              options: ["A. 103任", "B. 104任", "C. 105任", "D. 106任"], 
+              correct: 2, supplement: "她領導的新政府將推動經濟政策，讓國家更強大繁榮。" },
+            { month: 'feb', qid: 22, type: 'international', question: "2月22日英國影藝學院電影獎最佳影片是哪一部？", 
+              options: ["A. 《奧本海默》", "B. 《可憐的東西》", "C. 《一戰再戰》", "D. 《花月殺手》"], 
+              correct: 2, supplement: "《一戰再戰》獲得多項大獎，鼓勵觀眾欣賞優秀電影培養藝術興趣。" },
+            { month: 'feb', qid: 23, type: 'international', question: "香港長和集團在巴拿馬運河的港口被誰接管？", 
+              options: ["A. 巴拿馬政府", "B. 美國公司", "C. 中國企業", "D. 國際法院"], 
+              correct: 0, supplement: "長和認為接管行動不合法，將用法律保護權益，提醒尊重合約和國際合作。" },
+            { month: 'feb', qid: 24, type: 'local', question: "2月25日財政司司長陳茂波發表什麼文件？", 
+              options: ["A. 施政報告", "B. 財政預算案2026", "C. 經濟展望", "D. 稅務修訂"], 
+              correct: 1, supplement: "預算案強調香港經濟轉型中成長，推動科技創新和民生發展。" },
+            { month: 'feb', qid: 25, type: 'international', question: "2月26日巴基斯坦和阿富汗邊境發生衝突，中國的立場是什麼？", 
+              options: ["A. 支持巴基斯坦", "B. 希望兩國冷靜談判", "C. 派遣維和部隊", "D. 不表態"], 
+              correct: 1, supplement: "中國呼籲雙方用外交解決爭端，保護人民安全。" }
+        ];
 
-    // 計算各月份題數
-    const counts = {
-        dec: questionsData.filter(q => q.month === 'dec').length,
-        jan: questionsData.filter(q => q.month === 'jan').length,
-        feb: questionsData.filter(q => q.month === 'feb').length
-    };
+        // 計算各月份題數
+        const counts = {
+            dec: questionsData.filter(q => q.month === 'dec').length,
+            jan: questionsData.filter(q => q.month === 'jan').length,
+            feb: questionsData.filter(q => q.month === 'feb').length
+        };
 
-    // 更新分組標題的題數
-    document.querySelector('#group-dec-section .question-count').textContent = `(${counts.dec}題)`;
-    document.querySelector('#group-jan-section .question-count').textContent = `(${counts.jan}題)`;
-    document.querySelector('#group-feb-section .question-count').textContent = `(${counts.feb}題)`;
+        // 顯示題數
+        document.getElementById('dec-count').textContent = `(${counts.dec}題)`;
+        document.getElementById('jan-count').textContent = `(${counts.jan}題)`;
+        document.getElementById('feb-count').textContent = `(${counts.feb}題)`;
 
-    // 將題目渲染到對應月份的分組
-    const groups = {
-        dec: document.getElementById('group-dec'),
-        jan: document.getElementById('group-jan'),
-        feb: document.getElementById('group-feb')
-    };
+        // 渲染題目
+        const groups = {
+            dec: document.getElementById('group-dec'),
+            jan: document.getElementById('group-jan'),
+            feb: document.getElementById('group-feb')
+        };
 
-    questionsData.forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'question-card';
-        card.setAttribute('data-qid', item.qid);
-        card.setAttribute('data-type', item.type);
-        const badgeClass = (item.type === 'local' ? 'local' : 'international');
-        const badgeText = (item.type === 'local' ? '本地' : '國際');
-        card.innerHTML = `
-            <div class="question-header">
-                <div class="question-text">${item.qid}. ${item.question}</div>
-                <span class="type-badge ${badgeClass}"><i class="fas ${item.type === 'local' ? 'fa-home' : 'fa-plane'}"></i> ${badgeText}</span>
-            </div>
-            <div class="options" id="options-${item.qid}">
-                ${item.options.map((opt, idx) => `
-                    <label class="option">
-                        <input type="radio" name="q${item.qid}" value="${idx}">
-                        ${opt}
-                    </label>
-                `).join('')}
-            </div>
-            <button class="btn-submit" onclick="submitAnswer(${item.qid})">提交</button>
-            <div class="feedback" id="feedback-${item.qid}"></div>
-        `;
-        groups[item.month].appendChild(card);
-    });
-
-    // 提交答案函數
-    window.submitAnswer = function(qid) {
-        const question = questionsData.find(q => q.qid === qid);
-        const options = document.getElementsByName(`q${qid}`);
-        let selectedValue = null;
-        for (let opt of options) {
-            if (opt.checked) {
-                selectedValue = parseInt(opt.value);
-                break;
-            }
-        }
-        const feedbackDiv = document.getElementById(`feedback-${qid}`);
-        if (selectedValue === null) {
-            feedbackDiv.className = 'feedback incorrect';
-            feedbackDiv.innerHTML = '<strong>請先選擇一個選項！</strong>';
-            return;
-        }
-        const isCorrect = (selectedValue === question.correct);
-        const correctLetter = String.fromCharCode(65 + question.correct);
-        const supplement = question.supplement;
-        feedbackDiv.className = isCorrect ? 'feedback correct' : 'feedback incorrect';
-        feedbackDiv.innerHTML = isCorrect 
-            ? `<strong>✅ 正確！</strong><div class="supplement">📘 ${supplement}</div>`
-            : `<strong>❌ 錯誤！ 正確答案是 ${correctLetter}.</strong><div class="supplement">📘 ${supplement}</div>`;
-    };
-
-    // 摺疊分組功能
-    window.toggleGroup = function(header) {
-        const content = header.nextElementSibling;
-        header.classList.toggle('collapsed');
-        content.classList.toggle('collapsed');
-    };
-
-    // 篩選功能
-    window.filterQuestions = function(type) {
-        document.getElementById('filter-all').classList.remove('active');
-        document.getElementById('filter-local').classList.remove('active');
-        document.getElementById('filter-intl').classList.remove('active');
-        if (type === 'all') {
-            document.getElementById('filter-all').classList.add('active');
-        } else if (type === 'local') {
-            document.getElementById('filter-local').classList.add('active');
-        } else {
-            document.getElementById('filter-intl').classList.add('active');
-        }
-
-        const cards = document.querySelectorAll('.question-card');
-        cards.forEach(card => {
-            const cardType = card.getAttribute('data-type');
-            if (type === 'all' || cardType === type) {
-                card.classList.remove('hidden');
-            } else {
-                card.classList.add('hidden');
-            }
+        questionsData.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'question-card';
+            card.setAttribute('data-qid', item.qid);
+            card.setAttribute('data-type', item.type);
+            const badgeClass = (item.type === 'local' ? 'local' : 'international');
+            const badgeText = (item.type === 'local' ? '本地' : '國際');
+            card.innerHTML = `
+                <div class="question-header">
+                    <div class="question-text">${item.qid}. ${item.question}</div>
+                    <span class="type-badge ${badgeClass}"><i class="fas ${item.type === 'local' ? 'fa-home' : 'fa-plane'}"></i> ${badgeText}</span>
+                </div>
+                <div class="options" id="options-${item.qid}">
+                    ${item.options.map((opt, idx) => `
+                        <label class="option">
+                            <input type="radio" name="q${item.qid}" value="${idx}">
+                            ${opt}
+                        </label>
+                    `).join('')}
+                </div>
+                <button class="btn-submit" onclick="submitAnswer(${item.qid})">提交</button>
+                <div class="feedback" id="feedback-${item.qid}"></div>
+            `;
+            groups[item.month].appendChild(card);
         });
-    };
+
+        // 提交答案函數 (必須掛在 window 上)
+        window.submitAnswer = function(qid) {
+            const question = questionsData.find(q => q.qid === qid);
+            const options = document.getElementsByName(`q${qid}`);
+            let selectedValue = null;
+            for (let opt of options) {
+                if (opt.checked) {
+                    selectedValue = parseInt(opt.value);
+                    break;
+                }
+            }
+            const feedbackDiv = document.getElementById(`feedback-${qid}`);
+            if (selectedValue === null) {
+                feedbackDiv.className = 'feedback incorrect';
+                feedbackDiv.innerHTML = '<strong>請先選擇一個選項！</strong>';
+                return;
+            }
+            const isCorrect = (selectedValue === question.correct);
+            const correctLetter = String.fromCharCode(65 + question.correct);
+            const supplement = question.supplement;
+            feedbackDiv.className = isCorrect ? 'feedback correct' : 'feedback incorrect';
+            feedbackDiv.innerHTML = isCorrect 
+                ? `<strong>✅ 正確！</strong><div class="supplement">📘 ${supplement}</div>`
+                : `<strong>❌ 錯誤！ 正確答案是 ${correctLetter}.</strong><div class="supplement">📘 ${supplement}</div>`;
+        };
+
+        // 摺疊功能
+        window.toggleGroup = function(header) {
+            const content = header.nextElementSibling;
+            header.classList.toggle('collapsed');
+            content.classList.toggle('collapsed');
+        };
+
+        // 篩選功能
+        window.filterQuestions = function(type) {
+            document.getElementById('filter-all').classList.remove('active');
+            document.getElementById('filter-local').classList.remove('active');
+            document.getElementById('filter-intl').classList.remove('active');
+            if (type === 'all') {
+                document.getElementById('filter-all').classList.add('active');
+            } else if (type === 'local') {
+                document.getElementById('filter-local').classList.add('active');
+            } else {
+                document.getElementById('filter-intl').classList.add('active');
+            }
+
+            const cards = document.querySelectorAll('.question-card');
+            cards.forEach(card => {
+                const cardType = card.getAttribute('data-type');
+                if (type === 'all' || cardType === type) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        };
+    })();
 </script>
 
 <style>
