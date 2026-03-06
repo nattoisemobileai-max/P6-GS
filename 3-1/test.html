@@ -6,6 +6,7 @@
     <title>小常識 · 測驗 · 第三冊-第1課::最後的皇朝</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* 樣式保持不變 */
         * {
             margin: 0;
             padding: 0;
@@ -288,7 +289,6 @@
         }
         .start-btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #3e7a00; }
 
-        /* 全新靚靚總結樣式 */
         .summary-screen {
             padding: 0.5rem;
         }
@@ -443,7 +443,7 @@
 <div class="test-container">
     <div class="test-header">
         <a href="../index.html" class="back-home"><i class="fas fa-arrow-left"></i> 返回</a>
-        <span class="test-title">第三冊第3課·測驗</span>
+        <span class="test-title">第三冊第1課·最後的皇朝</span>
         <div class="test-stats">
             <span><i class="fas fa-star"></i> <span id="earnedPoints">0</span>/<span id="totalPoints">0</span></span>
         </div>
@@ -474,7 +474,7 @@
         <span class="question-indicator" id="questionIndicator">1/0</span>
         <button class="nav-btn primary" id="nextBtn">下一題 <i class="fas fa-chevron-right"></i></button>
         <button class="nav-btn primary hidden" id="submitBtn">提交</button>
-        <button class="nav-btn primary hidden" id="showResultsBtn">結果</button>
+        <button class="nav-btn primary hidden" id="showResultsBtn">查看結果</button>
     </div>
 </div>
 
@@ -514,6 +514,7 @@
             const data = await res.json();
             data.questions = data.questions.map(q => ({ type: 'multiple-choice', ...q }));
             fullTestData = data;
+            console.log('題庫載入成功，共', fullTestData.questions.length, '題');
         } catch (e) {
             alert('載入失敗：' + e.message);
         }
@@ -650,15 +651,19 @@
 
         if (last) {
             if (allAnswered) {
+                // 最後一題且全部答完：隱藏 next/submit，顯示結果按鈕
                 nextBtn.classList.add('hidden');
                 submitBtn.classList.add('hidden');
                 showResultsBtn.classList.remove('hidden');
+                console.log('所有題目已完成，顯示結果按鈕');
             } else {
+                // 最後一題但尚未答完：隱藏 next，顯示 submit
                 nextBtn.classList.add('hidden');
                 submitBtn.classList.remove('hidden');
                 showResultsBtn.classList.add('hidden');
             }
         } else {
+            // 不是最後一題：顯示 next，隱藏 submit/結果
             nextBtn.classList.remove('hidden');
             submitBtn.classList.add('hidden');
             showResultsBtn.classList.add('hidden');
@@ -666,6 +671,7 @@
     }
 
     function showSummary() {
+        console.log('顯示總結畫面');
         questionArea.classList.add('hidden');
         navButtons.classList.add('hidden');
         summaryArea.classList.remove('hidden');
@@ -677,7 +683,7 @@
         const correctPercent = totalQuestions ? (totalCorrect / totalQuestions) * 100 : 0;
         const wrongPercent = totalQuestions ? (totalWrong / totalQuestions) * 100 : 0;
 
-        // 5個指定小節
+        // 小節名稱（可根據實際 subtopic 調整）
         const sectionNames = [
             '清朝早期的盛世',
             '清朝中期的衰落',
@@ -715,8 +721,7 @@
             </div>
         `;
 
-        // 每個小節的圖示 (可依喜好調整)
-        const icons = ['fas fa-handshake', 'fas fa-heart', 'fas fa-exclamation-triangle', 'fas fa-shield-alt'];
+        const icons = ['fas fa-crown', 'fas fa-chart-line', 'fas fa-exclamation-triangle', 'fas fa-shield-alt', 'fas fa-flag'];
 
         sectionNames.forEach((name, idx) => {
             const stat = sectionStats[name] || { total: 0, correct: 0, wrong: 0 };
@@ -765,6 +770,7 @@
             alert('請先回答此題');
             return;
         }
+        // 如果是最後一題且所有題目已答，顯示總結
         if (currentIndex === currentSet.length - 1 && questionStatus.every(s => s !== 'unanswered')) {
             showSummary();
         } else if (currentIndex < currentSet.length - 1) {
@@ -772,7 +778,10 @@
         }
     });
 
-    showResultsBtn.addEventListener('click', showSummary);
+    showResultsBtn.addEventListener('click', () => {
+        console.log('結果按鈕被點擊');
+        showSummary();
+    });
 
     loadFullData();
 })();
