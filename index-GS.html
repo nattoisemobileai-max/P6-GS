@@ -2,11 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>常識學堂 · 學習模式</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* 全域樣式 */
         * {
             margin: 0;
             padding: 0;
@@ -20,31 +19,29 @@
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            padding: 1rem;
+            padding: 0;
         }
 
         .app-container {
-            max-width: 1200px;      /* 筆電/大螢幕最大寬度 */
+            max-width: 500px;
             width: 100%;
             background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(2px);
-            border-radius: 32px;
-            padding: 1.5rem;
-            box-shadow: 0 20px 40px -15px rgba(0,20,40,0.2);
+            padding: 1rem 0.8rem;
         }
 
-        /* 頂部列 (橫向排列，大螢幕不換行) */
+        /* 頂部列 (與原頁面一致) */
         .top-bar {
             display: flex;
             align-items: center;
             justify-content: space-between;
             background: white;
-            padding: 0.6rem 1.5rem;
-            border-radius: 60px;
+            padding: 0.6rem 1rem;
+            border-radius: 50px;
             box-shadow: 0 4px 0 #bed0e3;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             flex-wrap: wrap;
-            gap: 1rem;
+            gap: 0.5rem;
         }
 
         .user-greeting {
@@ -73,15 +70,14 @@
             font-size: 1rem;
             font-weight: 500;
             color: #4f6f8f;
-            margin-left: 2px;
         }
 
         .quote-ticker {
             flex: 1;
-            min-width: 250px;
+            min-width: 200px;
             background: #fff9e0;
             border-radius: 50px;
-            padding: 0.4rem 1.2rem;
+            padding: 0.4rem 1rem;
             border: 1px dashed #f3b33d;
             overflow: hidden;
             white-space: nowrap;
@@ -106,9 +102,9 @@
         .stats {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.8rem;
             background: #2b3c4e;
-            padding: 0.3rem 1.2rem;
+            padding: 0.3rem 1rem;
             border-radius: 40px;
             color: white;
             box-shadow: 0 4px 0 #0f1a24;
@@ -124,7 +120,9 @@
             font-weight: 800;
             font-size: 1.1rem;
         }
-        .xp-badge i { color: #f09b22; }
+        .xp-badge i {
+            color: #f09b22;
+        }
         .level-badge {
             background: white;
             color: #1f3a4b;
@@ -134,35 +132,21 @@
             font-size: 1.1rem;
         }
 
-        /* 書籍網格 (在大螢幕上可橫排，小螢幕縱排) */
+        /* 書籍/主題網格 (完全保留原樣) */
         .books-grid {
             display: flex;
             flex-direction: column;
-            gap: 1.8rem;
-            margin-top: 2rem;
+            gap: 1.2rem;
+            margin-top: 1.5rem;
         }
-        @media (min-width: 768px) {
-            .books-grid {
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
-                align-items: start;
-            }
-        }
-        @media (min-width: 1024px) {
-            .books-grid {
-                grid-template-columns: repeat(3, 1fr);  /* 三冊並排 */
-            }
-        }
-
         .book-card {
+            width: 100%;
             background: white;
             border-radius: 30px;
-            padding: 1.8rem 1.5rem;
+            padding: 1.5rem 1.2rem;
             box-shadow: 0 8px 0 #b3c9da, 0 15px 25px -8px rgba(60,80,100,0.3);
             border: 2px solid rgba(255,255,255,0.9);
-            height: fit-content;
         }
-
         .book-title {
             font-size: 2rem;
             font-weight: 900;
@@ -170,54 +154,40 @@
             margin-bottom: 0.2rem;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.4rem;
         }
         .book-title i { font-size: 2rem; color: #58a700; }
         .book-sub {
-            font-size: 1.1rem;
-            color: #4b6d8c;
-            margin-bottom: 1.2rem;
-            border-bottom: 2px dotted #c6d9eb;
-            padding-bottom: 0.5rem;
-            font-weight: 600;
+            font-size: 1.1rem; color: #4b6d8c; margin-bottom: 1.2rem;
+            border-bottom: 2px dotted #c6d9eb; padding-bottom: 0.5rem; font-weight: 600;
         }
-
         .lesson-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.8rem;
+            display: flex; flex-wrap: wrap; gap: 0.7rem;
         }
         .lesson-btn {
-            background: #f0f6ff;
-            border: 2px solid #c4d5e8;
-            border-radius: 40px;
-            padding: 0.8rem 1.2rem;
-            font-weight: 700;
-            font-size: 1.1rem;
-            color: #1f4973;
-            box-shadow: 0 4px 0 #9fbad0;
-            cursor: pointer;
-            transition: 0.06s linear;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            flex: 1 1 auto;
-            justify-content: center;
-            min-width: 130px;
-            border: none;
+            background: #f0f6ff; border: 2px solid #c4d5e8; border-radius: 40px;
+            padding: 0.8rem 1.2rem; font-weight: 700; font-size: 1.2rem; color: #1f4973;
+            box-shadow: 0 4px 0 #9fbad0; cursor: pointer; transition: 0.06s linear;
+            display: inline-flex; align-items: center; gap: 0.5rem; flex: 1 1 auto; justify-content: center;
+            min-width: 110px; border: none;
         }
         .lesson-btn i { font-size: 1.2rem; color: #ffa41b; }
         .lesson-btn:active { transform: translateY(4px); box-shadow: 0 1px 0 #9fbad0; }
 
-        /* 學習模式面板 */
+        /* ===== 彈出面板 (POPUP) 全新設計 ===== */
         .mode-panel {
             background: white;
             border-radius: 30px;
             padding: 1.8rem 1.5rem;
-            margin: 2rem 0 1rem;
-            box-shadow: 0 8px 0 #b3c9da;
+            margin: 1.5rem 0 1rem;
+            box-shadow: 0 8px 0 #b3c9da, 0 20px 30px -10px rgba(0,0,0,0.2);
             border: 2px solid #fff6cf;
             display: none;
+            animation: popIn 0.2s ease-out;
+        }
+        @keyframes popIn {
+            0% { opacity: 0; transform: scale(0.95); }
+            100% { opacity: 1; transform: scale(1); }
         }
         .mode-panel.active { display: block; }
 
@@ -226,71 +196,89 @@
             align-items: center;
             justify-content: space-between;
             margin-bottom: 1.5rem;
-            padding-bottom: 0.5rem;
+            padding-bottom: 0.8rem;
             border-bottom: 2px dashed #9bb7d1;
         }
         .panel-header h3 {
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             font-weight: 800;
             color: #1a4972;
         }
         .close-panel {
-            background: none;
+            background: #f5f5f5;
             border: none;
-            font-size: 2rem;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            font-size: 1.8rem;
             cursor: pointer;
             color: #e74c3c;
-            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.1s;
+            box-shadow: 0 3px 0 #c0c0c0;
+        }
+        .close-panel:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #c0c0c0;
         }
 
+        /* 2x3 網格 - 讓六個按鈕整齊排列 */
         .mode-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.2rem;
-        }
-        @media (min-width: 600px) {
-            .mode-grid { grid-template-columns: repeat(4, 1fr); }  /* 平板/電腦四模式一排 */
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
         }
 
-        .mode-card {
+        .mode-item {
             background: #f5f9ff;
             border: 2px solid #cad9eb;
             border-radius: 24px;
-            padding: 1.2rem 0.5rem;
+            padding: 1rem 0.3rem;
             text-align: center;
             text-decoration: none;
             color: #1f4973;
-            transition: 0.1s;
-            box-shadow: 0 4px 0 #9fbad0;
+            transition: all 0.15s ease;
+            box-shadow: 0 5px 0 #9fbad0;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 0.5rem;
         }
-        .mode-card:active { transform: translateY(4px); box-shadow: 0 1px 0 #9fbad0; }
-        .mode-card i { font-size: 2.2rem; color: #3498db; }
-        .mode-card span { font-weight: 700; font-size: 1rem; }
-
-        .footer-credit {
-            margin-top: 2rem;
-            text-align: center;
-            color: #6b8baa;
-            font-weight: 600;
+        .mode-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 0 #9fbad0;
+            background: #e1efff;
+        }
+        .mode-item:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #9fbad0;
+        }
+        .mode-item i {
+            font-size: 2rem;
+            color: #3498db;
+        }
+        .mode-item span {
+            font-weight: 700;
             font-size: 1rem;
         }
 
-        /* 手機微調 */
+        .footer-credit {
+            margin-top: 2rem; text-align: center; color: #6b8baa; font-weight: 600; font-size: 1rem;
+        }
+
         @media (max-width: 480px) {
-            .app-container { padding: 1rem; }
             .top-bar { flex-direction: column; align-items: stretch; }
             .user-greeting, .quote-ticker, .stats { width: 100%; justify-content: center; }
-            .panel-header h3 { font-size: 1.3rem; }
+            .mode-grid { gap: 0.8rem; }
+            .mode-item i { font-size: 1.8rem; }
+            .mode-item span { font-size: 0.9rem; }
         }
     </style>
 </head>
 <body>
 <div class="app-container">
-    <!-- 頂部列 -->
     <div class="top-bar">
         <div class="user-greeting">
             <i class="fas fa-user-astronaut"></i>
@@ -308,16 +296,16 @@
         </div>
     </div>
 
-    <!-- 書籍網格 -->
+    <!-- 書籍/主題網格 (完全保留原樣) -->
     <div class="books-grid">
         <!-- 第一冊 -->
         <div class="book-card">
             <div class="book-title"><i class="fas fa-shield-alt"></i> 第一冊::處變不驚</div>
             <div class="book-sub">共 3 課</div>
             <div class="lesson-grid">
-                <button class="lesson-btn" data-book="第一冊" data-lesson="第3課-兩性關係"><i class="fas fa-heart-broken"></i> 第3課-兩性關係</button>
-                <button class="lesson-btn" data-book="第一冊" data-lesson="第4課-情緒和壓力"><i class="fas fa-smile"></i> 第4課-情緒和壓力</button>
-                <button class="lesson-btn" data-book="第一冊" data-lesson="第5課-活出彩虹"><i class="fas fa-rainbow"></i> 第5課-活出彩虹</button>
+                <button class="lesson-btn" data-book="第一冊" data-lesson="第3課-兩性關係"><i class="fas fa-heart-broken"></i> 第3課</button>
+                <button class="lesson-btn" data-book="第一冊" data-lesson="第4課-情緒和壓力"><i class="fas fa-smile"></i> 第4課</button>
+                <button class="lesson-btn" data-book="第一冊" data-lesson="第5課-活出彩虹"><i class="fas fa-rainbow"></i> 第5課</button>
             </div>
         </div>
         <!-- 第三冊 -->
@@ -325,10 +313,10 @@
             <div class="book-title"><i class="fas fa-dragon"></i> 第三冊::中國的變遷</div>
             <div class="book-sub">共 4 課</div>
             <div class="lesson-grid">
-                <button class="lesson-btn" data-book="第三冊" data-lesson="第1課-最後的皇朝"><i class="fas fa-crown"></i> 第1課-最後的皇朝</button>
-                <button class="lesson-btn" data-book="第三冊" data-lesson="第2課-內外交困的時期"><i class="fas fa-fist-raised"></i> 第2課-內外交困的時期</button>
-                <button class="lesson-btn" data-book="第三冊" data-lesson="第3課-改革開放前後"><i class="fas fa-chart-line"></i> 第3課-改革開放前後</button>
-                <button class="lesson-btn" data-book="第三冊" data-lesson="第4課-中國近年發展"><i class="fas fa-city"></i> 第4課-中國近年發展</button>
+                <button class="lesson-btn" data-book="第三冊" data-lesson="第1課-最後的皇朝"><i class="fas fa-crown"></i> 第1課</button>
+                <button class="lesson-btn" data-book="第三冊" data-lesson="第2課-內外交困的時期"><i class="fas fa-fist-raised"></i> 第2課</button>
+                <button class="lesson-btn" data-book="第三冊" data-lesson="第3課-改革開放前後"><i class="fas fa-chart-line"></i> 第3課</button>
+                <button class="lesson-btn" data-book="第三冊" data-lesson="第4課-中國近年發展"><i class="fas fa-city"></i> 第4課</button>
             </div>
         </div>
         <!-- 時事新聞 -->
@@ -336,28 +324,34 @@
             <div class="book-title"><i class="fas fa-newspaper"></i> 時事新聞</div>
             <div class="book-sub">共 3 個主題</div>
             <div class="lesson-grid">
-                <button class="lesson-btn" data-book="時事" data-lesson="國際時事"><i class="fas fa-globe-asia"></i> 國際時事</button>
-                <button class="lesson-btn" data-book="時事" data-lesson="本地要聞"><i class="fas fa-home"></i> 本地要聞</button>
-                <button class="lesson-btn" data-book="時事" data-lesson="科技新知"><i class="fas fa-flask"></i> 科技新知</button>
+                <button class="lesson-btn" data-book="時事" data-lesson="國際時事"><i class="fas fa-globe-asia"></i> 國際</button>
+                <button class="lesson-btn" data-book="時事" data-lesson="本地要聞"><i class="fas fa-home"></i> 本地</button>
+                <button class="lesson-btn" data-book="時事" data-lesson="科技新知"><i class="fas fa-flask"></i> 科技</button>
             </div>
         </div>
     </div>
 
-    <!-- 學習模式面板 (點擊課堂後顯示) -->
+    <!-- 彈出面板 (POPUP) - 全新設計 -->
     <div id="modePanel" class="mode-panel">
         <div class="panel-header">
             <h3 id="selectedLessonTitle">第3課-兩性關係</h3>
-            <button class="close-panel" id="closePanelBtn"><i class="fas fa-times-circle"></i></button>
+            <button class="close-panel" id="closePanelBtn"><i class="fas fa-times"></i></button>
         </div>
-        <div class="mode-grid" id="modeLinks"></div>
+
+        <!-- 2x3 網格 - 六個模式按鈕 -->
+        <div class="mode-grid" id="modeLinks">
+            <!-- 動態載入 Flashcard, Test, Selfnotes, Mindmap, Notes, Video -->
+        </div>
     </div>
 
-    <div class="footer-credit">⚡ 每日常識 · 小習慣大智慧</div>
+    <div class="footer-credit">
+        ⚡ 每日常識 · 小習慣大智慧
+    </div>
 </div>
 
 <script>
     (function() {
-        // 金句滾動 (兩次後停止)
+        // 金句動畫 (與原頁面相同)
         const quoteSpan = document.getElementById('quoteSpan');
         let animCount = 0;
         quoteSpan.addEventListener('animationiteration', () => {
@@ -378,11 +372,14 @@
         const modeLinks = document.getElementById('modeLinks');
         const closeBtn = document.getElementById('closePanelBtn');
 
+        // 定義六個學習模式 (順序可自行調整)
         const modes = [
+            { name: 'Flashcard', icon: 'fas fa-layer-group', file: 'flashcard.html' },
             { name: 'Test', icon: 'fas fa-pencil-alt', file: 'test.html' },
-            { name: 'Cheatsheet', icon: 'fas fa-list-alt', file: 'cheatsheet.html' },
-            { name: 'Summary', icon: 'fas fa-compress-alt', file: 'summary.html' },
-            { name: 'Selfnotes', icon: 'fas fa-pen-fancy', file: 'selfnotes.html' }
+            { name: 'Selfnotes', icon: 'fas fa-pen-fancy', file: 'selfnotes.html' },
+            { name: 'Mindmap', icon: 'fas fa-brain', file: 'mindmap.html' },
+            { name: 'Notes', icon: 'fas fa-book-open', file: 'notes.html' },
+            { name: 'Video', icon: 'fas fa-video', file: 'video.html' }
         ];
 
         lessonBtns.forEach(btn => {
@@ -403,12 +400,20 @@
                     folder = 'news';
                 }
 
+                // 產生六個模式按鈕
                 let html = '';
-                modes.forEach(m => {
-                    const link = folder ? `${folder}/${m.file}` : m.file;
-                    html += `<a href="${link}" class="mode-card"><i class="${m.icon}"></i><span>${m.name}</span></a>`;
+                modes.forEach(mode => {
+                    const link = folder ? `${folder}/${mode.file}` : mode.file;
+                    html += `
+                        <a href="${link}" class="mode-item">
+                            <i class="${mode.icon}"></i>
+                            <span>${mode.name}</span>
+                        </a>
+                    `;
                 });
                 modeLinks.innerHTML = html;
+
+                // 顯示面板 (加入彈出動畫)
                 modePanel.classList.add('active');
             });
         });
