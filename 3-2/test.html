@@ -92,7 +92,6 @@
             margin-right: 2px;
         }
 
-        /* 模式選擇區 */
         .mode-selector {
             display: flex;
             justify-content: center;
@@ -198,31 +197,28 @@
             align-items: center;
             gap: 10px;
         }
-        .option-item.selected {
+        .option-item:hover {
+            background: #e1efff;
+        }
+        .option-item.selected-correct {
             background: #c1e5c0;
             border-color: #58a700;
+            box-shadow: 0 2px 0 #3e7a00;
+        }
+        .option-item.selected-incorrect {
+            background: #ffcdd2;
+            border-color: #c62828;
+            box-shadow: 0 2px 0 #8b0000;
+        }
+        .option-item.disabled {
+            opacity: 0.7;
+            cursor: default;
         }
         .option-item input[type="radio"] {
             width: 18px;
             height: 18px;
             accent-color: #58a700;
-        }
-
-        .btn-submit {
-            background: #58a700;
-            border: none;
-            color: white;
-            padding: 0.7rem 2rem;
-            border-radius: 40px;
-            font-weight: 700;
-            font-size: 1.1rem;
-            box-shadow: 0 4px 0 #3e7a00;
-            cursor: pointer;
-            margin-top: 0.5rem;
-        }
-        .btn-submit:active {
-            transform: translateY(4px);
-            box-shadow: 0 1px 0 #3e7a00;
+            pointer-events: none;
         }
 
         .result-area {
@@ -288,6 +284,69 @@
             color: #1a4972;
         }
 
+        /* 總結彈窗 */
+        .summary-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .summary-modal.active {
+            display: flex;
+        }
+        .summary-card {
+            background: white;
+            border-radius: 30px;
+            padding: 2rem;
+            max-width: 320px;
+            text-align: center;
+            box-shadow: 0 10px 0 #9bb7d1;
+            border: 3px solid #fff6cf;
+        }
+        .summary-icon {
+            font-size: 3rem;
+            color: #f3b33d;
+            margin-bottom: 1rem;
+        }
+        .summary-title {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: #1a4972;
+            margin-bottom: 0.5rem;
+        }
+        .summary-score {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #2c5a7a;
+            margin: 1rem 0;
+        }
+        .summary-detail {
+            color: #4f6f8f;
+            margin-bottom: 1.5rem;
+        }
+        .summary-btn {
+            background: #58a700;
+            border: none;
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 0 #3e7a00;
+            cursor: pointer;
+            width: 100%;
+        }
+        .summary-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 1px 0 #3e7a00;
+        }
+
         .footer-note {
             text-align: center;
             margin-top: 1rem;
@@ -312,9 +371,8 @@
         </div>
     </div>
 
-    <!-- 模式選擇按鈕 -->
     <div class="mode-selector">
-        <button class="mode-btn active" id="mode-random">隨機20題</button>
+        <button class="mode-btn" id="mode-random">隨機20題</button>
         <button class="mode-btn" id="mode-all">全部題目</button>
     </div>
 
@@ -334,7 +392,6 @@
         </div>
         <div class="question-text" id="q-text">載入中...</div>
         <div class="options-area" id="options-area"></div>
-        <button class="btn-submit" id="submit-btn">提交答案</button>
         <div class="result-area" id="result-area"></div>
     </div>
 
@@ -345,73 +402,65 @@
     </div>
 
     <div class="footer-note">
-        <i class="fas fa-lightbulb"></i> 點擊選項後按提交查看解說
+        <i class="fas fa-lightbulb"></i> 點選選項後立即顯示結果
+    </div>
+</div>
+
+<!-- 總結彈窗 -->
+<div class="summary-modal" id="summary-modal">
+    <div class="summary-card">
+        <div class="summary-icon"><i class="fas fa-trophy"></i></div>
+        <div class="summary-title">測驗完成！</div>
+        <div class="summary-score" id="summary-score">0/0</div>
+        <div class="summary-detail" id="summary-detail">正確 0 題，錯誤 0 題</div>
+        <button class="summary-btn" id="summary-close">繼續練習</button>
     </div>
 </div>
 
 <script>
-    const JSON_FILE = 'source_data_test.json';
-    let allQuestions = [];      // 完整題庫
-    let currentQuestions = [];  // 目前測驗用的題目 (可能是全部或隨機20題)
+    const JSON_FILE = 'test-data.json';
+    let allQuestions = [];
+    let currentQuestions = [];
     let currentIndex = 0;
-    let userAnswers = {};       // 儲存每題的答案 (索引: 選擇的選項)
+    let userAnswers = {};
+    let answeredStatus = {};
     let score = 0;
-    let correctCount = 0;       // 答對題數
-    let wrongCount = 0;         // 答錯題數
-    let currentMode = 'random'; // 'random' 或 'all'
+    let correctCount = 0;
+    let wrongCount = 0;
+    let currentMode = 'random';
 
     async function loadData() {
         try {
-            console.log('嘗試載入:', JSON_FILE);
             const response = await fetch(JSON_FILE);
-            
-            if (!response.ok) {
-                throw new Error(`HTTP錯誤: ${response.status} - 找不到檔案 ${JSON_FILE}`);
-            }
-            
+            if (!response.ok) throw new Error(`HTTP錯誤: ${response.status}`);
             const text = await response.text();
-            console.log('原始JSON長度:', text.length);
+            if (text.length === 0) throw new Error('JSON檔案為空');
             
-            if (text.length === 0) {
-                throw new Error('JSON檔案為空');
-            }
+            const data = JSON.parse(text);
+            allQuestions = data.questions || [];
             
-            try {
-                const data = JSON.parse(text);
-                allQuestions = data.questions || [];
-                
-                if (allQuestions.length === 0) {
-                    throw new Error('題目陣列為空');
-                }
-                
-                document.getElementById('lesson-title').textContent = data.lessonTitle || '歷史測驗';
-                document.getElementById('total').textContent = allQuestions.length;
-                
-                // 預設載入隨機20題
-                selectRandomQuestions();
-                
-            } catch (parseError) {
-                console.error('JSON解析錯誤:', parseError);
-                console.error('前100字:', text.substring(0, 100));
-                throw new Error('JSON格式錯誤：' + parseError.message);
-            }
+            if (allQuestions.length === 0) throw new Error('題目陣列為空');
+            
+            document.getElementById('lesson-title').textContent = data.lessonTitle || '歷史測驗';
+            document.getElementById('total').textContent = allQuestions.length;
+            
+            // 預設選擇隨機20題 (並讓按鈕正確顯示active)
+            document.getElementById('mode-random').classList.add('active');
+            selectRandomQuestions();
             
         } catch (e) {
-            console.error('載入失敗:', e);
             document.getElementById('q-text').innerHTML = `
                 <span style="color:#c62828;">❌ 載入失敗</span><br>
                 <small>${e.message}</small><br>
-                <small>請確認 <code>${JSON_FILE}</code> 存在且格式正確</small>
+                <small>請確認 ${JSON_FILE} 存在且格式正確</small>
             `;
         }
     }
 
-    // 選擇隨機20題
     function selectRandomQuestions() {
         if (allQuestions.length <= 20) {
             currentQuestions = [...allQuestions];
         } else {
-            // 隨機選取20題
             const shuffled = [...allQuestions].sort(() => 0.5 - Math.random());
             currentQuestions = shuffled.slice(0, 20);
         }
@@ -424,7 +473,6 @@
         resetTest();
     }
 
-    // 選擇全部題目
     function selectAllQuestions() {
         currentQuestions = [...allQuestions];
         currentMode = 'all';
@@ -436,10 +484,10 @@
         resetTest();
     }
 
-    // 重設測驗
     function resetTest() {
         currentIndex = 0;
         userAnswers = {};
+        answeredStatus = {};
         score = 0;
         correctCount = 0;
         wrongCount = 0;
@@ -447,20 +495,21 @@
         document.getElementById('score').textContent = '0';
         document.getElementById('correct-count').textContent = '0';
         document.getElementById('wrong-count').textContent = '0';
+        document.getElementById('progress-fill').style.width = '0%';
+        document.getElementById('summary-modal').classList.remove('active');
         
         if (currentQuestions.length > 0) {
             renderQuestion();
             document.getElementById('next-btn').disabled = false;
-            document.getElementById('submit-btn').disabled = false;
         }
-        
-        updateProgress();
     }
 
     function renderQuestion() {
         if (currentQuestions.length === 0) return;
         
         const q = currentQuestions[currentIndex];
+        const hasAnswered = answeredStatus[currentIndex] === true;
+        
         document.getElementById('q-number').textContent = `第${currentIndex+1}題`;
         document.getElementById('q-text').textContent = q.question;
         document.getElementById('indicator').textContent = `${currentIndex+1}/${currentQuestions.length}`;
@@ -468,40 +517,73 @@
 
         let optsHtml = '';
         q.options.forEach((opt, idx) => {
-            const checked = userAnswers[currentIndex] === idx ? 'checked' : '';
+            let selectedClass = '';
+            let disabledAttr = '';
+            
+            if (hasAnswered) {
+                disabledAttr = 'disabled';
+                if (userAnswers[currentIndex] === idx) {
+                    selectedClass = (idx === q.correctAnswer) ? 'selected-correct' : 'selected-incorrect';
+                } else if (idx === q.correctAnswer) {
+                    selectedClass = 'selected-correct';
+                }
+            }
+            
             optsHtml += `
-                <label class="option-item ${userAnswers[currentIndex] === idx ? 'selected' : ''}">
-                    <input type="radio" name="q-option" value="${idx}" ${checked} onchange="selectOption(${idx})">
+                <div class="option-item ${selectedClass} ${hasAnswered ? 'disabled' : ''}" 
+                     onclick="${!hasAnswered ? `selectOption(${idx})` : ''}">
+                    <input type="radio" name="q-option" value="${idx}" ${disabledAttr} ${userAnswers[currentIndex] === idx ? 'checked' : ''}>
                     ${opt}
-                </label>
+                </div>
             `;
         });
         document.getElementById('options-area').innerHTML = optsHtml;
 
-        document.getElementById('result-area').classList.remove('show');
-        document.getElementById('result-area').innerHTML = '';
+        if (hasAnswered) {
+            showResult(q, userAnswers[currentIndex]);
+        } else {
+            document.getElementById('result-area').classList.remove('show');
+        }
+        
         document.getElementById('prev-btn').disabled = currentIndex === 0;
-        document.getElementById('next-btn').disabled = currentIndex === currentQuestions.length - 1;
+        checkAllCompleted();
+    }
+
+    function showResult(q, selectedIdx) {
+        const isCorrect = (selectedIdx === q.correctAnswer);
+        const correctLetter = String.fromCharCode(65 + q.correctAnswer);
+        
+        let resultHtml = `
+            <p class="${isCorrect ? 'correct-msg' : 'incorrect-msg'}">
+                ${isCorrect ? '✅ 答對了！' : '❌ 答錯了！'}
+            </p>
+            <p><strong>🔍 解說：</strong> ${q.explanation}</p>
+        `;
+        document.getElementById('result-area').innerHTML = resultHtml;
+        document.getElementById('result-area').classList.add('show');
+    }
+
+    function checkAllCompleted() {
+        const answeredCount = Object.keys(answeredStatus).length;
+        if (answeredCount === currentQuestions.length && currentQuestions.length > 0) {
+            // 所有題目都已作答，顯示總結彈窗
+            setTimeout(() => {
+                document.getElementById('summary-score').textContent = `${score}/${currentQuestions.length}`;
+                document.getElementById('summary-detail').textContent = `正確 ${correctCount} 題，錯誤 ${wrongCount} 題`;
+                document.getElementById('summary-modal').classList.add('active');
+            }, 300);
+        }
     }
 
     window.selectOption = function(idx) {
-        document.querySelectorAll('.option-item').forEach(el => el.classList.remove('selected'));
-        document.querySelectorAll('.option-item input')[idx].parentElement.classList.add('selected');
-        userAnswers[currentIndex] = idx;
-    };
-
-    document.getElementById('submit-btn').addEventListener('click', function() {
+        if (answeredStatus[currentIndex] === true) return;
+        
         const q = currentQuestions[currentIndex];
-        const selected = userAnswers[currentIndex];
+        const isCorrect = (idx === q.correctAnswer);
         
-        if (selected === undefined) {
-            alert('請先選擇一個答案！');
-            return;
-        }
-
-        const isCorrect = (selected === q.correctAnswer);
+        userAnswers[currentIndex] = idx;
+        answeredStatus[currentIndex] = true;
         
-        // 更新計分
         if (isCorrect) {
             score++;
             correctCount++;
@@ -512,18 +594,10 @@
         document.getElementById('score').textContent = score;
         document.getElementById('correct-count').textContent = correctCount;
         document.getElementById('wrong-count').textContent = wrongCount;
-
-        let resultHtml = `
-            <p class="${isCorrect ? 'correct-msg' : 'incorrect-msg'}">
-                ${isCorrect ? '✅ 答對了！' : '❌ 答錯了！'}
-            </p>
-            <p><strong>🔍 解說：</strong> ${q.explanation}</p>
-        `;
-        document.getElementById('result-area').innerHTML = resultHtml;
-        document.getElementById('result-area').classList.add('show');
-
+        
+        renderQuestion();
         updateProgress();
-    });
+    };
 
     document.getElementById('prev-btn').addEventListener('click', function() {
         if (currentIndex > 0) {
@@ -551,9 +625,13 @@
         }
     });
 
+    document.getElementById('summary-close').addEventListener('click', function() {
+        document.getElementById('summary-modal').classList.remove('active');
+    });
+
     function updateProgress() {
         const total = currentQuestions.length;
-        const answered = Object.keys(userAnswers).length;
+        const answered = Object.keys(answeredStatus).length;
         const percent = Math.round((answered / total) * 100);
         document.getElementById('progress-fill').style.width = percent + '%';
     }
