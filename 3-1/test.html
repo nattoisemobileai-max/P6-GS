@@ -509,7 +509,7 @@
 
     async function loadFullData() {
         try {
-            const res = await fetch('test_data.json');
+            const res = await fetch('test-data.json');
             if (!res.ok) throw new Error('無法載入題庫');
             const data = await res.json();
             data.questions = data.questions.map(q => ({ type: 'multiple-choice', ...q }));
