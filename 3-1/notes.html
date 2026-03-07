@@ -352,6 +352,12 @@
             font-size: 1rem;
         }
 
+        @media (max-width: 480px) {
+            .keywords-header { flex-direction: column; }
+            .keyword-item { flex-direction: column; gap: 0.2rem; }
+            .keyword-term { min-width: auto; }
+        }
+
         @media (max-width: 380px) {
             .notes-header {
                 flex-direction: column;
