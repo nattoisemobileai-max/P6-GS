@@ -208,13 +208,20 @@
 .keyword-list {
             list-style: none;
         }
-        .keyword-item {
-            display: flex;
-            align-items: flex-start;
+              .keyword-item {
+            background: #f5f9ff;
+            border: 2px solid #cad9eb;
+            border-radius: 50px;
+            padding: 0.8rem 1.5rem;
+            font-weight: 600;
+            color: #1f4973;
+            box-shadow: 0 4px 0 #9fbad0;
+            display: inline-flex;
+            align-items: center;
             gap: 0.8rem;
-            margin-bottom: 1.2rem;
-            padding-bottom: 0.8rem;
-            border-bottom: 1px dashed #e1edff;
+            font-size: 1.3rem;
+            /* 確保圖示和文字在同一行絕不分離 */
+            white-space: nowrap;
         }
         .keyword-item:last-child {
             border-bottom: none;
