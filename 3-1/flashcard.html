@@ -445,9 +445,7 @@
             flashcards = data.cards || [];
             
             // 更新頁面標題
-            document.getElementById('page-title').innerHTML = `<i class="fas fa-layer-group"></i> ${data.lessonTitle || '費曼閃卡'}`;
             document.getElementById('deck-title').textContent = `💡 ${data.lessonTitle || '綜合題庫'}`;
-            document.getElementById('lesson-subtitle').innerHTML = `<i class="fas fa-book-open"></i> ${data.lessonTitle || '兩性關係與急救'}`;
             
             if (data.lessonIcon) {
                 document.getElementById('deck-icon').innerHTML = `<i class="fas ${data.lessonIcon}"></i>`;
