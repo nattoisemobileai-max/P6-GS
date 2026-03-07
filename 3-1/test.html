@@ -511,7 +511,6 @@
         <button class="nav-btn" id="prevBtn" disabled><i class="fas fa-chevron-left"></i> 上一題</button>
         <span class="question-indicator" id="questionIndicator">1/0</span>
         <button class="nav-btn primary" id="nextBtn">下一題 <i class="fas fa-chevron-right"></i></button>
-        <button class="nav-btn primary hidden" id="submitBtn">提交</button>
         <button class="nav-btn primary hidden" id="showResultsBtn">查看結果</button>
     </div>
 </div>
@@ -532,7 +531,6 @@
     const navButtons = document.getElementById('navButtons');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
-    const submitBtn = document.getElementById('submitBtn');
     const showResultsBtn = document.getElementById('showResultsBtn');
     const questionIndicator = document.getElementById('questionIndicator');
     const earnedPointsSpan = document.getElementById('earnedPoints');
@@ -652,6 +650,11 @@
         earnedPointsSpan.textContent = earnedPoints;
         updateProgressBar();
         loadQuestion(setIdx);
+
+        // 如果所有題目都已答完，顯示結果按鈕
+        if (questionStatus.every(s => s !== 'unanswered')) {
+            showResultsBtn.classList.remove('hidden');
+        }
     };
 
     function showFeedback(msg, color) {
@@ -683,20 +686,11 @@
         const last = (currentIndex === currentSet.length - 1);
         const allAnswered = questionStatus.every(s => s !== 'unanswered');
 
-        if (last) {
-            if (allAnswered) {
-                nextBtn.classList.add('hidden');
-                submitBtn.classList.add('hidden');
-                showResultsBtn.classList.remove('hidden');
-                console.log('所有題目已完成，顯示結果按鈕');
-            } else {
-                nextBtn.classList.add('hidden');
-                submitBtn.classList.remove('hidden');
-                showResultsBtn.classList.add('hidden');
-            }
+        if (last && allAnswered) {
+            nextBtn.classList.add('hidden');
+            showResultsBtn.classList.remove('hidden');
         } else {
             nextBtn.classList.remove('hidden');
-            submitBtn.classList.add('hidden');
             showResultsBtn.classList.add('hidden');
         }
     }
@@ -830,18 +824,9 @@
     });
 
     nextBtn.addEventListener('click', () => {
-        if (currentIndex < currentSet.length - 1) loadQuestion(currentIndex + 1);
-    });
-
-    submitBtn.addEventListener('click', () => {
-        if (questionStatus[currentIndex] === 'unanswered') {
-            alert('請先回答此題');
-            return;
-        }
-        if (currentIndex === currentSet.length - 1 && questionStatus.every(s => s !== 'unanswered')) {
-            showSummary();
-        } else if (currentIndex < currentSet.length - 1) {
-            loadQuestion(currentIndex + 1);
+        if (currentIndex < currentSet.length - 1) {
+            currentIndex++;
+            loadQuestion(currentIndex);
         }
     });
 
