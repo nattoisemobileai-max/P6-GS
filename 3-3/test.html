@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>小常識 · 測驗 · 第三冊-第3課</title>
+    <title>小常識 · 測驗 · 第三冊-第3課::改開放</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* 樣式保持不變 */
+        /* 樣式與前相同，僅在底部新增按鈕容器樣式 */
         * {
             margin: 0;
             padding: 0;
@@ -102,23 +102,19 @@
             color: #2c5a7a;
             font-size: 0.9rem;
         }
-        .progress-bar-dual {
+        .progress-bar-bg {
             height: 16px;
             background: #e2eaf3;
             border-radius: 30px;
             overflow: hidden;
-            display: flex;
             width: 100%;
         }
         .progress-correct {
             height: 100%;
             background: #58cc71;
             transition: width 0.3s;
-        }
-        .progress-wrong {
-            height: 100%;
-            background: #e74c3c;
-            transition: width 0.3s;
+            width: 0%;
+            border-radius: 30px;
         }
 
         .scrollable-content {
@@ -315,14 +311,15 @@
             color: #2c5a7a;
             margin-bottom: 0.5rem;
         }
-        .overall-bars {
-            display: flex;
+        .overall-bar {
             height: 36px;
+            background: #e2eaf3;
             border-radius: 30px;
             overflow: hidden;
             box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
         }
         .bar-correct {
+            height: 100%;
             background: linear-gradient(145deg, #58cc71, #2e9b5c);
             display: flex;
             align-items: center;
@@ -333,17 +330,7 @@
             transition: width 0.3s;
             text-shadow: 0 1px 2px rgba(0,0,0,0.2);
         }
-        .bar-wrong {
-            background: linear-gradient(145deg, #e74c3c, #c0392b);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 800;
-            font-size: 1.1rem;
-            transition: width 0.3s;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
-        }
+
         .section-card {
             background: white;
             border-radius: 24px;
@@ -416,24 +403,89 @@
         .fa-check-circle { color: #58cc71; }
         .fa-times-circle { color: #e74c3c; }
         .fa-file-alt { color: #3498db; }
-        .restart-btn {
+
+        /* 答錯題目回顧樣式 */
+        .wrong-questions-section {
+            background: white;
+            border-radius: 24px;
+            padding: 1rem;
+            margin-top: 1.5rem;
+            box-shadow: 0 5px 0 #a0b9cf;
+            border: 2px solid #fff6cf;
+        }
+        .wrong-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #c62828;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .wrong-item {
+            background: #fff9f9;
+            border-left: 4px solid #c62828;
+            border-radius: 16px;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+        }
+        .wrong-question {
+            font-weight: 700;
+            color: #1e3f5a;
+            margin-bottom: 0.5rem;
+        }
+        .wrong-answer {
+            color: #c62828;
+            font-size: 0.95rem;
+            margin-bottom: 0.3rem;
+        }
+        .correct-answer {
+            color: #2e7d32;
+            font-size: 0.95rem;
+            margin-bottom: 0.3rem;
+        }
+        .correct-tag {
+            display: inline-block;
+            background: #58cc71;
+            color: white;
+            padding: 0.2rem 0.8rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-top: 0.3rem;
+        }
+
+        /* 總結頁面雙按鈕容器 */
+        .summary-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+        .summary-btn {
             background: #48b5a5;
             border: none;
             color: white;
             font-size: 1.2rem;
             font-weight: 700;
-            padding: 0.8rem 2rem;
+            padding: 0.8rem 1.5rem;
             border-radius: 60px;
             box-shadow: 0 5px 0 #1c6b5e;
             cursor: pointer;
-            display: block;
-            width: fit-content;
-            margin: 1.5rem auto 0;
+            flex: 1;
             transition: 0.1s;
+            text-align: center;
         }
-        .restart-btn:active {
+        .summary-btn.wrong-btn {
+            background: #e67e22;
+            box-shadow: 0 5px 0 #b85e0f;
+        }
+        .summary-btn:active {
             transform: translateY(4px);
             box-shadow: 0 1px 0 #1c6b5e;
+        }
+        .summary-btn.wrong-btn:active {
+            box-shadow: 0 1px 0 #b85e0f;
         }
 
         .hidden { display: none; }
@@ -443,7 +495,7 @@
 <div class="test-container">
     <div class="test-header">
         <a href="../index.html" class="back-home"><i class="fas fa-arrow-left"></i> 返回</a>
-        <span class="test-title">第三冊第3課</span>
+        <span class="test-title">第三冊第1課·最後的皇朝</span>
         <div class="test-stats">
             <span><i class="fas fa-star"></i> <span id="earnedPoints">0</span>/<span id="totalPoints">0</span></span>
         </div>
@@ -454,9 +506,8 @@
             <span><span id="correctCount">0</span> 正確 · <span id="wrongCount">0</span> 錯誤</span>
             <span id="completionPercent">0%</span>
         </div>
-        <div class="progress-bar-dual">
+        <div class="progress-bar-bg">
             <div class="progress-correct" id="progressCorrect" style="width:0%"></div>
-            <div class="progress-wrong" id="progressWrong" style="width:0%"></div>
         </div>
     </div>
 
@@ -473,7 +524,6 @@
         <button class="nav-btn" id="prevBtn" disabled><i class="fas fa-chevron-left"></i> 上一題</button>
         <span class="question-indicator" id="questionIndicator">1/0</span>
         <button class="nav-btn primary" id="nextBtn">下一題 <i class="fas fa-chevron-right"></i></button>
-        <button class="nav-btn primary hidden" id="submitBtn">提交</button>
         <button class="nav-btn primary hidden" id="showResultsBtn">查看結果</button>
     </div>
 </div>
@@ -494,7 +544,6 @@
     const navButtons = document.getElementById('navButtons');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
-    const submitBtn = document.getElementById('submitBtn');
     const showResultsBtn = document.getElementById('showResultsBtn');
     const questionIndicator = document.getElementById('questionIndicator');
     const earnedPointsSpan = document.getElementById('earnedPoints');
@@ -502,7 +551,6 @@
     const correctCountSpan = document.getElementById('correctCount');
     const wrongCountSpan = document.getElementById('wrongCount');
     const progressCorrect = document.getElementById('progressCorrect');
-    const progressWrong = document.getElementById('progressWrong');
     const completionPercent = document.getElementById('completionPercent');
     const btnRandom20 = document.getElementById('btnRandom20');
     const btnAll = document.getElementById('btnAll');
@@ -520,20 +568,11 @@
         }
     }
 
-    async function startTest(mode) {
-        if (!fullTestData) await loadFullData();
+    // 通用開始測驗函數：可指定題目索引數組，或根據模式隨機/全部
+    function startTestWithSet(set) {
         if (!fullTestData) return;
 
-        const total = fullTestData.questions.length;
-        if (mode === 'random') {
-            const n = Math.min(20, total);
-            const indices = new Set();
-            while (indices.size < n) indices.add(Math.floor(Math.random() * total));
-            currentSet = Array.from(indices);
-        } else {
-            currentSet = Array.from({ length: total }, (_, i) => i);
-        }
-
+        currentSet = set;
         userAnswers = new Array(currentSet.length).fill(null);
         questionStatus = new Array(currentSet.length).fill('unanswered');
         earnedPoints = 0;
@@ -548,6 +587,27 @@
         navButtons.classList.remove('hidden');
 
         loadQuestion(0);
+    }
+
+    async function startTest(mode) {
+        if (!fullTestData) await loadFullData();
+        if (!fullTestData) return;
+
+        const total = fullTestData.questions.length;
+        let indices;
+        if (mode === 'random') {
+            const n = Math.min(20, total);
+            const set = new Set();
+            while (set.size < n) set.add(Math.floor(Math.random() * total));
+            indices = Array.from(set);
+        } else { // 'all'
+            indices = Array.from({ length: total }, (_, i) => i);
+        }
+        startTestWithSet(indices);
+    }
+
+    function startWrongTest(wrongIndices) {
+        startTestWithSet(wrongIndices);
     }
 
     function loadQuestion(index) {
@@ -615,6 +675,11 @@
         earnedPointsSpan.textContent = earnedPoints;
         updateProgressBar();
         loadQuestion(setIdx);
+
+        // 如果所有題目都已答完，顯示結果按鈕
+        if (questionStatus.every(s => s !== 'unanswered')) {
+            showResultsBtn.classList.remove('hidden');
+        }
     };
 
     function showFeedback(msg, color) {
@@ -635,10 +700,7 @@
         wrongCountSpan.textContent = wrong;
 
         const correctPercent = total ? (correct / total) * 100 : 0;
-        const wrongPercent = total ? (wrong / total) * 100 : 0;
-
         progressCorrect.style.width = correctPercent + '%';
-        progressWrong.style.width = wrongPercent + '%';
 
         const percentComplete = total ? Math.round(((correct + wrong) / total) * 100) : 0;
         completionPercent.textContent = percentComplete + '%';
@@ -649,23 +711,11 @@
         const last = (currentIndex === currentSet.length - 1);
         const allAnswered = questionStatus.every(s => s !== 'unanswered');
 
-        if (last) {
-            if (allAnswered) {
-                // 最後一題且全部答完：隱藏 next/submit，顯示結果按鈕
-                nextBtn.classList.add('hidden');
-                submitBtn.classList.add('hidden');
-                showResultsBtn.classList.remove('hidden');
-                console.log('所有題目已完成，顯示結果按鈕');
-            } else {
-                // 最後一題但尚未答完：隱藏 next，顯示 submit
-                nextBtn.classList.add('hidden');
-                submitBtn.classList.remove('hidden');
-                showResultsBtn.classList.add('hidden');
-            }
+        if (last && allAnswered) {
+            nextBtn.classList.add('hidden');
+            showResultsBtn.classList.remove('hidden');
         } else {
-            // 不是最後一題：顯示 next，隱藏 submit/結果
             nextBtn.classList.remove('hidden');
-            submitBtn.classList.add('hidden');
             showResultsBtn.classList.add('hidden');
         }
     }
@@ -681,7 +731,28 @@
         const totalQuestions = currentSet.length;
 
         const correctPercent = totalQuestions ? (totalCorrect / totalQuestions) * 100 : 0;
-        const wrongPercent = totalQuestions ? (totalWrong / totalQuestions) * 100 : 0;
+
+        // 收集答錯的題目索引和細節
+        const wrongIndices = [];
+        const wrongQuestions = [];
+        for (let i = 0; i < currentSet.length; i++) {
+            if (questionStatus[i] === 'incorrect') {
+                wrongIndices.push(currentSet[i]); // 儲存原始題庫索引
+                const qIdx = currentSet[i];
+                const q = fullTestData.questions[qIdx];
+                const userAnswerIdx = userAnswers[i];
+                const correctAnswerIdx = q.correctAnswer;
+                const userAnswerLetter = String.fromCharCode(65 + userAnswerIdx);
+                const correctAnswerLetter = String.fromCharCode(65 + correctAnswerIdx);
+                wrongQuestions.push({
+                    question: q.question,
+                    userAnswer: q.options[userAnswerIdx],
+                    userLetter: userAnswerLetter,
+                    correctAnswer: q.options[correctAnswerIdx],
+                    correctLetter: correctAnswerLetter
+                });
+            }
+        }
 
         // 小節名稱（可根據實際 subtopic 調整）
         const sectionNames = [
@@ -714,9 +785,8 @@
                     <span><i class="fas fa-check-circle" style="color:#58cc71;"></i> 正確 ${totalCorrect}</span>
                     <span><i class="fas fa-times-circle" style="color:#e74c3c;"></i> 錯誤 ${totalWrong}</span>
                 </div>
-                <div class="overall-bars">
+                <div class="overall-bar">
                     <div class="bar-correct" style="width: ${correctPercent}%;">${totalCorrect}</div>
-                    <div class="bar-wrong" style="width: ${wrongPercent}%;">${totalWrong}</div>
                 </div>
             </div>
         `;
@@ -745,36 +815,66 @@
             `;
         });
 
-        html += `<button class="restart-btn" id="restartFromSummary"><i class="fas fa-redo-alt"></i> 重新測驗</button>`;
+        // 加入答錯題目回顧
+        if (wrongQuestions.length > 0) {
+            html += `<div class="wrong-questions-section">`;
+            html += `<div class="wrong-title"><i class="fas fa-exclamation-triangle"></i> ❌ 答錯題目回顧 (${wrongQuestions.length} 題)</div>`;
+
+            wrongQuestions.forEach((item, index) => {
+                html += `
+                    <div class="wrong-item">
+                        <div class="wrong-question">${index+1}. ${item.question}</div>
+                        <div class="wrong-answer"><i class="fas fa-times-circle" style="color:#c62828;"></i> 你的答案：${item.userLetter}. ${item.userAnswer}</div>
+                        <div class="correct-answer"><i class="fas fa-check-circle" style="color:#2e7d32;"></i> 正確答案：${item.correctLetter}. ${item.correctAnswer}</div>
+                        <span class="correct-tag">✅ 正確！</span>
+                    </div>
+                `;
+            });
+
+            html += `</div>`;
+        }
+
+        // 按鈕區：如果沒有錯題，只顯示「重新測驗」；否則顯示兩個按鈕
+        if (wrongIndices.length > 0) {
+            html += `<div class="summary-buttons">`;
+            html += `<button class="summary-btn wrong-btn" id="redoWrongBtn">🔁 重做錯題</button>`;
+            html += `<button class="summary-btn" id="restartFromSummary">🔄 重新測驗</button>`;
+            html += `</div>`;
+        } else {
+            html += `<button class="summary-btn" id="restartFromSummary">🔄 重新測驗</button>`;
+        }
+
         summaryArea.innerHTML = html;
 
+        // 綁定重新測驗按鈕
         document.getElementById('restartFromSummary').addEventListener('click', () => {
             summaryArea.classList.add('hidden');
             startScreen.classList.remove('hidden');
         });
+
+        // 綁定重做錯題按鈕
+        if (wrongIndices.length > 0) {
+            document.getElementById('redoWrongBtn').addEventListener('click', () => {
+                summaryArea.classList.add('hidden');
+                startWrongTest(wrongIndices);
+            });
+        }
     }
 
     btnRandom20.addEventListener('click', () => startTest('random'));
     btnAll.addEventListener('click', () => startTest('all'));
 
     prevBtn.addEventListener('click', () => {
-        if (currentIndex > 0) loadQuestion(currentIndex - 1);
+        if (currentIndex > 0) {
+            currentIndex--;
+            loadQuestion(currentIndex);
+        }
     });
 
     nextBtn.addEventListener('click', () => {
-        if (currentIndex < currentSet.length - 1) loadQuestion(currentIndex + 1);
-    });
-
-    submitBtn.addEventListener('click', () => {
-        if (questionStatus[currentIndex] === 'unanswered') {
-            alert('請先回答此題');
-            return;
-        }
-        // 如果是最後一題且所有題目已答，顯示總結
-        if (currentIndex === currentSet.length - 1 && questionStatus.every(s => s !== 'unanswered')) {
-            showSummary();
-        } else if (currentIndex < currentSet.length - 1) {
-            loadQuestion(currentIndex + 1);
+        if (currentIndex < currentSet.length - 1) {
+            currentIndex++;
+            loadQuestion(currentIndex);
         }
     });
 
