@@ -188,7 +188,37 @@
             line-height: 1.8;
             font-size: 1.1rem;
         }
-
+.keyword-list {
+            list-style: none;
+        }
+        .keyword-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px dashed #e1edff;
+        }
+        .keyword-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .keyword-term {
+            font-weight: 800;
+            color: #1a4972;
+            min-width: 120px;
+            font-size: 1.1rem;
+        }
+        .keyword-def {
+            color: #1f3a4b;
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+        .keyword-def i {
+            color: #f3b33d;
+            margin-right: 4px;
+        }
         .table-wrap {
             overflow-x: auto;
             margin: 1rem 0;
