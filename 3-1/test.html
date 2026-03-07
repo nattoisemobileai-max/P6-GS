@@ -6,7 +6,7 @@
     <title>小常識 · 測驗 · 第三冊-第1課::最後的皇朝</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* 樣式保持不變 */
+        /* 樣式與前相同，僅在底部新增按鈕容器樣式 */
         * {
             margin: 0;
             padding: 0;
@@ -455,24 +455,37 @@
             margin-top: 0.3rem;
         }
 
-        .restart-btn {
+        /* 總結頁面雙按鈕容器 */
+        .summary-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+        .summary-btn {
             background: #48b5a5;
             border: none;
             color: white;
             font-size: 1.2rem;
             font-weight: 700;
-            padding: 0.8rem 2rem;
+            padding: 0.8rem 1.5rem;
             border-radius: 60px;
             box-shadow: 0 5px 0 #1c6b5e;
             cursor: pointer;
-            display: block;
-            width: fit-content;
-            margin: 1.5rem auto 0;
+            flex: 1;
             transition: 0.1s;
+            text-align: center;
         }
-        .restart-btn:active {
+        .summary-btn.wrong-btn {
+            background: #e67e22;
+            box-shadow: 0 5px 0 #b85e0f;
+        }
+        .summary-btn:active {
             transform: translateY(4px);
             box-shadow: 0 1px 0 #1c6b5e;
+        }
+        .summary-btn.wrong-btn:active {
+            box-shadow: 0 1px 0 #b85e0f;
         }
 
         .hidden { display: none; }
@@ -555,20 +568,11 @@
         }
     }
 
-    async function startTest(mode) {
-        if (!fullTestData) await loadFullData();
+    // 通用開始測驗函數：可指定題目索引數組，或根據模式隨機/全部
+    function startTestWithSet(set) {
         if (!fullTestData) return;
 
-        const total = fullTestData.questions.length;
-        if (mode === 'random') {
-            const n = Math.min(20, total);
-            const indices = new Set();
-            while (indices.size < n) indices.add(Math.floor(Math.random() * total));
-            currentSet = Array.from(indices);
-        } else {
-            currentSet = Array.from({ length: total }, (_, i) => i);
-        }
-
+        currentSet = set;
         userAnswers = new Array(currentSet.length).fill(null);
         questionStatus = new Array(currentSet.length).fill('unanswered');
         earnedPoints = 0;
@@ -583,6 +587,27 @@
         navButtons.classList.remove('hidden');
 
         loadQuestion(0);
+    }
+
+    async function startTest(mode) {
+        if (!fullTestData) await loadFullData();
+        if (!fullTestData) return;
+
+        const total = fullTestData.questions.length;
+        let indices;
+        if (mode === 'random') {
+            const n = Math.min(20, total);
+            const set = new Set();
+            while (set.size < n) set.add(Math.floor(Math.random() * total));
+            indices = Array.from(set);
+        } else { // 'all'
+            indices = Array.from({ length: total }, (_, i) => i);
+        }
+        startTestWithSet(indices);
+    }
+
+    function startWrongTest(wrongIndices) {
+        startTestWithSet(wrongIndices);
     }
 
     function loadQuestion(index) {
@@ -707,10 +732,12 @@
 
         const correctPercent = totalQuestions ? (totalCorrect / totalQuestions) * 100 : 0;
 
-        // 收集答錯的題目
+        // 收集答錯的題目索引和細節
+        const wrongIndices = [];
         const wrongQuestions = [];
         for (let i = 0; i < currentSet.length; i++) {
             if (questionStatus[i] === 'incorrect') {
+                wrongIndices.push(currentSet[i]); // 儲存原始題庫索引
                 const qIdx = currentSet[i];
                 const q = fullTestData.questions[qIdx];
                 const userAnswerIdx = userAnswers[i];
@@ -807,20 +834,41 @@
             html += `</div>`;
         }
 
-        html += `<button class="restart-btn" id="restartFromSummary"><i class="fas fa-redo-alt"></i> 重新測驗</button>`;
+        // 按鈕區：如果沒有錯題，只顯示「重新測驗」；否則顯示兩個按鈕
+        if (wrongIndices.length > 0) {
+            html += `<div class="summary-buttons">`;
+            html += `<button class="summary-btn wrong-btn" id="redoWrongBtn">🔁 重做錯題</button>`;
+            html += `<button class="summary-btn" id="restartFromSummary">🔄 重新測驗</button>`;
+            html += `</div>`;
+        } else {
+            html += `<button class="summary-btn" id="restartFromSummary">🔄 重新測驗</button>`;
+        }
+
         summaryArea.innerHTML = html;
 
+        // 綁定重新測驗按鈕
         document.getElementById('restartFromSummary').addEventListener('click', () => {
             summaryArea.classList.add('hidden');
             startScreen.classList.remove('hidden');
         });
+
+        // 綁定重做錯題按鈕
+        if (wrongIndices.length > 0) {
+            document.getElementById('redoWrongBtn').addEventListener('click', () => {
+                summaryArea.classList.add('hidden');
+                startWrongTest(wrongIndices);
+            });
+        }
     }
 
     btnRandom20.addEventListener('click', () => startTest('random'));
     btnAll.addEventListener('click', () => startTest('all'));
 
     prevBtn.addEventListener('click', () => {
-        if (currentIndex > 0) loadQuestion(currentIndex - 1);
+        if (currentIndex > 0) {
+            currentIndex--;
+            loadQuestion(currentIndex);
+        }
     });
 
     nextBtn.addEventListener('click', () => {
