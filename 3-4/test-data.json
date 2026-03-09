@@ -553,7 +553,7 @@
       "question": "一間位於廣東省的電子代工廠，其生產線上約有 80% 的員工是來自偏遠農村的勞動力。這些員工在工廠從事組裝工作，對技術門檻要求不高的職位表現出極大的需求。儘管該工廠生產的工業產品种类繁多並銷往全球，但工廠管理層表示，生產過程中最核心的運算微處理器仍需依賴高價進口。\n\n根據筆記內容，分析該工廠的員工結構反映了中國經濟發展的哪一項正面影響？此外，工廠面臨的進口依賴問題與哪一項關於中國科技發展的「事實」（Fact）相符？",
       "options": [],
       "correctAnswer": null,
-      "referenceAnswer": "該工廠員工結構反映了中國工業能夠提供大量「低技術及低學歷職位」（Low-skill and low-education positions），從而有效地「吸納大量農民工」（Absorb a large number of migrant workers），這是經濟發展的正面影響。工廠核心處理器依賴進口的問題，則與筆記中提到「2017年中國仍需從外國進口晶片產品價值2601億美元」這一事實（Fact）相符，顯示出中國在「核心零部件」（Core components）方面仍高度依賴進口。",
+      "referenceAnswer": "該工廠員工結構反映了中國工業能夠提供大量「低技術及低學歷職位」，從而有效地「吸納大量農民工」（Absorb a large number of migrant workers），這是經濟發展的正面影響。工廠核心處理器依賴進口的問題，則與筆記中提到「2017年中國仍需從外國進口晶片產品價值2601億美元」這一事實（Fact）相符，顯示出中國在「核心零部件」（Core components）方面仍高度依賴進口。",
       "explanation": "本題將筆記中「經濟發展的正反兩面」表格內容與「科技發展的輿論爭議」結合。案例中的低技術職位需求直接對應筆記中關於工廠吸納農民工的描述；而微處理器零件的進口依賴則具體化了筆記中關於晶片進口數據的事實，要求學生能區分產業結構優勢與技術瓶頸。"
     },
     {
@@ -580,7 +580,7 @@
       "question": "根據教材，中國工廠提供的特定職位類型如何影響了人口的就業結構？",
       "options": [],
       "correctAnswer": null,
-      "referenceAnswer": "中國工廠提供了大量低技術（Low-tech）及低學歷（Low education）的職位，這成為吸納大量農民工（Rural migrant workers）進入城市就業的主要渠道。",
+      "referenceAnswer": "中國工廠提供了大量低技術及低學歷的職位，這成為吸納大量農民工進入城市就業的主要渠道。",
       "explanation": "筆記在「經濟發展帶來的正反兩面」表格中明確指出：「工廠提供大量低技術及低學歷職位，吸納大量農民工。」這說明了製造業的門檻特性對特定勞動力群體的社會流動（Social mobility）具有關鍵影響。",
       "keywords": ["低技術", "低學歷", "農民工", "吸納", "就業"]
     },
@@ -590,7 +590,7 @@
       "question": "在資訊科技（Information Technology）領域中，發展「神威」與「太湖之光」的主要功能與目的是什麼？",
       "options": [],
       "correctAnswer": null,
-      "referenceAnswer": "這些超級電腦的主要功能是提升國家的計算能力（Computing power），藉此推動科學研究（Scientific research）與工業發展（Industrial development）的進步。",
+      "referenceAnswer": "這些超級電腦的主要功能是提升國家的計算能力，藉此推動科學研究與工業發展（Industrial development）的進步。",
       "explanation": "根據筆記「科技發展領域與成就」部分，資訊科技領域的例子是超級電腦，其影響與意義被定義為：「提升計算能力，推動科研與工業發展」。",
       "keywords": ["計算能力", "科學研究", "工業發展", "超級電腦"]
     },
@@ -610,17 +610,17 @@
       "question": "根據科技發展的輿論爭議，為什麼「中國科研人員、技術專利數量全球第一」被歸類為「事實」？",
       "options": [],
       "correctAnswer": null,
-      "referenceAnswer": "因為這項描述屬於有數據支持的客觀成就，反映了中國在科技研發投入上的豐碩成果（Fruitful results），而非主觀的價值判斷。",
-      "explanation": "筆記將「中國科研人員、技術專利數量全球第一」列入事實（Fact）欄位，並在說明中註解其反映了「科技成果豐碩」，這強調了數據在評估科技實力中的客觀性。",
+      "referenceAnswer": "因為這項描述屬於有數據支持的客觀成就，反映了中國在科技研發投入上的豐碩成果，而非主觀的價值判斷。",
+      "explanation": "筆記將「中國科研人員、技術專利數量全球第一」列入事實欄位，並在說明中註解其反映了「科技成果豐碩」，這強調了數據在評估科技實力中的客觀性。",
       "keywords": ["數據支持", "客觀成就", "科技成果", "事實"]
     },
     {
       "id": 62,
       "type": "short",
-      "question": "除了經濟增長，教材中小結提到發展「創新科技」（Innovation Technology）對改善民生有何具體作用？",
+      "question": "除了經濟增長，教材中小結提到發展「創新科技」對改善民生有何具體作用？",
       "options": [],
       "correctAnswer": null,
-      "referenceAnswer": "發展創新科技的主要動機是為了推動經濟增長、改善人民的生活質素（Quality of life），並對人類社會的整體進步（Progress of human society）作出貢獻。",
+      "referenceAnswer": "發展創新科技的主要動機是為了推動經濟增長、改善人民的生活質素，並對人類社會的整體進步（Progress of human society）作出貢獻。",
       "explanation": "筆記的科技發展小結提到：「中國近年著重創新科技發展，以推動經濟，改善人民生活質素，而且對推動人類社會進步作出貢獻。」這展示了科技發展的多元價值。",
       "keywords": ["生活質素", "人類社會進步", "改善民生"]
     },
@@ -640,7 +640,7 @@
       "question": "2008年北京奧運會（Olympic Games）在教材中被賦予了什麼樣的跨文化意義？",
       "options": [],
       "correctAnswer": null,
-      "referenceAnswer": "北京奧運會的主要意義在於向世界展示中國的國際形象（International image），並有效地促進了國際間的體育與文化交流（Cultural exchange）。",
+      "referenceAnswer": "北京奧運會的主要意義在於向世界展示中國的國際形象，並有效地促進了國際間的體育與文化交流（Cultural exchange）。",
       "explanation": "筆記在2008年事件欄指出，奧運會的影響包含「展示中國國際形象，促進體育文化交流」，這反映了體育賽事作為軟實力（Soft power）的一種體現。",
       "keywords": ["國際形象", "體育交流", "文化交流", "軟實力"]
     },
@@ -650,7 +650,7 @@
       "question": "「亞洲基礎設施投資銀行」（AIIB）在推動區域經濟方面發揮了什麼具體功能？",
       "options": [],
       "correctAnswer": null,
-      "referenceAnswer": "亞投行的核心功能是為亞洲各國的基礎設施建設（Infrastructure construction）提供必要的資金支持，從而推動區域內的經濟合作（Economic cooperation）。",
+      "referenceAnswer": "亞投行的核心功能是為亞洲各國的基礎設施建設提供必要的資金支持，從而推動區域內的經濟合作（Economic cooperation）。",
       "explanation": "筆記明確記載亞洲基礎設施投資銀行（AIIB）的功能為：「為亞洲各國基礎設施建設提供資金，推動區域經濟合作」。",
       "keywords": ["基礎設施建設", "資金支持", "區域經濟合作", "亞投行"]
     },
@@ -660,7 +660,7 @@
       "question": "根據「認識與關心中國的途徑」，除了被動接收資訊外，教材建議學生可以參與什麼具體活動？",
       "options": [],
       "correctAnswer": null,
-      "referenceAnswer": "教材建議學生可以透過參觀與中國有關的展覽（Exhibitions），這被視為了解中國發展動態與全球影響的高效率且多元的途徑之一。",
+      "referenceAnswer": "教材建議學生可以透過參觀與中國有關的展覽，這被視為了解中國發展動態與全球影響的高效率且多元的途徑之一。",
       "explanation": "在「認識與關心中國的途徑」章節中，第一項建議便是「參觀與中國有關的展覽」，這與單純閱讀新聞形成互補。",
       "keywords": ["參觀展覽", "展覽", "了解中國", "途徑"]
     },
@@ -670,7 +670,7 @@
       "question": "教材評估科技競爭時，認為「認清不足」對於國家的長遠發展有何幫助？",
       "options": [],
       "correctAnswer": null,
-      "referenceAnswer": "認清在核心技術上的不足，能幫助政府與科研機構制定更精準的未來發展策略（Future development strategy），以應對全球化的科技競爭。",
+      "referenceAnswer": "認清在核心技術上的不足，能幫助政府與科研機構制定更精準的未來發展策略，以應對全球化的科技競爭。",
       "explanation": "筆記小結指出：「科技發展…也反映國家在全球科技競爭中的位置，認清不足有助於制定未來發展策略。」這說明了客觀分析對戰略規劃的重要性。",
       "keywords": ["認清不足", "未來發展策略", "科技競爭", "戰略規劃"]
     }
