@@ -307,8 +307,13 @@
         .result-box.show {
             display: block;
         }
-        .correct-msg { color: #2e7d32; font-weight: 700; }
-        .incorrect-msg { color: #c62828; font-weight: 700; }
+        .correct-msg { color: #2e7d32; font-weight: 700; font-size: 1rem; margin-bottom: 0.5rem; }
+        .incorrect-msg { color: #c62828; font-weight: 700; font-size: 1rem; margin-bottom: 0.5rem; }
+        .explanation-line {
+            margin: 0.3rem 0;
+            padding-left: 0.5rem;
+            border-left: 2px solid #f3b33d;
+        }
 
         .navigation {
             display: flex;
@@ -480,6 +485,20 @@
         return icons[type] || '📌';
     }
 
+    function formatExplanation(explanation) {
+        if (!explanation) return '';
+        
+        // 將解說按選項分行 (A., B., C., D.)
+        const lines = explanation.split(/(?=[A-D]\.)/g);
+        let formatted = '';
+        lines.forEach(line => {
+            if (line.trim()) {
+                formatted += `<div class="explanation-line">${line.trim()}</div>`;
+            }
+        });
+        return formatted;
+    }
+
     function filterQuestions(filterType) {
         filterBtns.forEach(btn => {
             btn.classList.remove('active');
@@ -573,7 +592,7 @@
                         extraClass = ' correct-highlight';
                     }
                     
-                    // 顯示使用者選錯的選項（紅色）- 只有在答錯時才顯示
+                    // 顯示使用者選錯的選項（紅色）
                     if (userAnswers[index] && !userAnswers[index].isCorrect) {
                         if (Array.isArray(userAnswers[index]) && userAnswers[index].includes(optIdx) && 
                             !(Array.isArray(q.correctAnswer) && q.correctAnswer.includes(optIdx))) {
@@ -625,9 +644,24 @@
             html += `<p class="${isCorrect ? 'correct-msg' : 'incorrect-msg'}">
                 ${isCorrect ? '✅ 正確！' : '❌ 錯誤！'}
             </p>`;
+            
             if (q.explanation) {
-                html += `<p><strong>🔍 解說：</strong> ${q.explanation}</p>`;
+                html += formatExplanation(q.explanation);
             }
+            
+            // 如果是答錯，顯示正確答案提示
+            if (!isCorrect && q.correctAnswer !== undefined) {
+                if (Array.isArray(q.correctAnswer)) {
+                    const correctLetters = q.correctAnswer.map(idx => String.fromCharCode(65 + idx)).join('、');
+                    html += `<div class="explanation-line"><strong>正確答案：</strong> ${correctLetters}</div>`;
+                } else if (typeof q.correctAnswer === 'number') {
+                    const correctLetter = String.fromCharCode(65 + q.correctAnswer);
+                    html += `<div class="explanation-line"><strong>正確答案：</strong> ${correctLetter}</div>`;
+                } else if (typeof q.correctAnswer === 'boolean') {
+                    html += `<div class="explanation-line"><strong>正確答案：</strong> ${q.correctAnswer ? '正確' : '錯誤'}</div>`;
+                }
+            }
+            
             html += `</div>`;
         } else {
             html += `<div class="result-box" id="result-${index}"></div>`;
