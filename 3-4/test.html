@@ -479,7 +479,7 @@
     </div>
 
     <div class="footer-note">
-        <i class="fas fa-lightbulb"></i> 簡答/論述題需點「提交答案」
+        <i class="fas fa-lightbulb"></i> 選擇題點選即評分，複選/問答題需點「提交答案」
     </div>
 </div>
 
@@ -510,10 +510,7 @@
             if (!res.ok) throw new Error('無法載入題庫');
             const data = await res.json();
             
-            allQuestions = data.questions.map(q => {
-                let type = q.type || 'unknown';
-                return { ...q, type };
-            });
+            allQuestions = data.questions || [];
             
             lessonTitle.textContent = data.lessonTitle || '綜合題庫';
             totalSpan.textContent = allQuestions.length;
@@ -580,16 +577,14 @@
             }
             questionIndices = Array.from(indices);
         } else {
-            let filteredIndices = [];
             if (filterType === 'all') {
-                filteredIndices = allQuestions.map((_, idx) => idx);
+                questionIndices = allQuestions.map((_, idx) => idx);
             } else {
-                filteredIndices = allQuestions
+                questionIndices = allQuestions
                     .map((q, idx) => ({ type: q.type, idx }))
                     .filter(item => item.type === filterType)
                     .map(item => item.idx);
             }
-            questionIndices = filteredIndices;
         }
 
         currentQuestions = questionIndices;
@@ -628,13 +623,15 @@
                 </div>
         `;
 
-        // 案例分析題：顯示案例材料
-        if (q.type === 'case' && q.question.includes('\n\n')) {
+        // 案例分析題：分離案例材料和問題
+        if (q.type === 'case' && q.question && q.question.includes('\n\n')) {
             const parts = q.question.split('\n\n');
-            html += `<div class="case-material">${parts[0]}</div>`;
-            html += `<div class="question-text">${parts.slice(1).join('\n\n')}</div>`;
+            html += `<div class="case-material">${parts[0].replace(/\n/g, '<br>')}</div>`;
+            html += `<div class="question-text">${parts.slice(1).join('\n\n').replace(/\n/g, '<br>')}</div>`;
+        } else if (q.type === 'case') {
+            html += `<div class="question-text">${q.question.replace(/\n/g, '<br>')}</div>`;
         } else {
-            html += `<div class="question-text">${q.question}</div>`;
+            html += `<div class="question-text">${q.question ? q.question.replace(/\n/g, '<br>') : ''}</div>`;
         }
 
         // 根據題型渲染不同的輸入介面
@@ -646,62 +643,67 @@
                 options = ['正確', '錯誤'];
             }
             
-            options.forEach((opt, optIdx) => {
-                const inputType = q.type === 'checkbox' ? 'checkbox' : 'radio';
-                const name = q.type === 'checkbox' ? `q${index}_${optIdx}` : `q${index}`;
-                
-                let isChecked = false;
-                if (hasAnswered && userAnswers[index] !== undefined) {
-                    if (Array.isArray(userAnswers[index].selected)) {
-                        isChecked = userAnswers[index].selected.includes(optIdx);
-                    } else {
-                        isChecked = (userAnswers[index].selected === optIdx);
-                    }
-                } else if (!hasAnswered && userAnswers[index] !== undefined) {
-                    if (Array.isArray(userAnswers[index])) {
-                        isChecked = userAnswers[index].includes(optIdx);
-                    } else {
-                        isChecked = (userAnswers[index] === optIdx);
-                    }
-                }
-                
-                let extraClass = '';
-                if (hasAnswered) {
-                    if (Array.isArray(q.correctAnswer) && q.correctAnswer.includes(optIdx)) {
-                        extraClass = ' correct-highlight';
-                    } else if (!Array.isArray(q.correctAnswer) && q.correctAnswer === optIdx) {
-                        extraClass = ' correct-highlight';
-                    }
+            if (options && Array.isArray(options)) {
+                options.forEach((opt, optIdx) => {
+                    const inputType = q.type === 'checkbox' ? 'checkbox' : 'radio';
+                    const name = q.type === 'checkbox' ? `q${index}_${optIdx}` : `q${index}`;
                     
-                    if (userAnswers[index] && !userAnswers[index].isCorrect) {
-                        const userSelected = userAnswers[index].selected;
-                        if (Array.isArray(userSelected) && userSelected.includes(optIdx) && 
-                            !(Array.isArray(q.correctAnswer) && q.correctAnswer.includes(optIdx))) {
-                            extraClass = ' incorrect-highlight';
-                        } else if (!Array.isArray(userSelected) && userSelected === optIdx && 
-                                  userSelected !== q.correctAnswer) {
-                            extraClass = ' incorrect-highlight';
+                    let isChecked = false;
+                    if (hasAnswered && userAnswers[index] !== undefined) {
+                        if (Array.isArray(userAnswers[index].selected)) {
+                            isChecked = userAnswers[index].selected.includes(optIdx);
+                        } else {
+                            isChecked = (userAnswers[index].selected === optIdx);
+                        }
+                    } else if (!hasAnswered && userAnswers[index] !== undefined) {
+                        if (Array.isArray(userAnswers[index])) {
+                            isChecked = userAnswers[index].includes(optIdx);
+                        } else {
+                            isChecked = (userAnswers[index] === optIdx);
                         }
                     }
-                }
-                
-                html += `
-                    <label class="option-item ${hasAnswered ? 'disabled' : ''} ${extraClass}">
-                        <input type="${inputType}" name="${name}" value="${optIdx}" 
-                            ${isChecked ? 'checked' : ''} 
-                            ${hasAnswered ? 'disabled' : ''}
-                            onchange="${q.type === 'checkbox' 
-                                ? `handleCheckboxChange(${index}, ${optIdx}, this)` 
-                                : (q.type === 'truefalse' || q.type === 'mc') && !hasAnswered 
-                                    ? `handleRadioChange(${index}, ${optIdx})` 
-                                    : ''}">
-                        ${opt}
-                    </label>
-                `;
-            });
+                    
+                    let extraClass = '';
+                    if (hasAnswered) {
+                        // 顯示正確答案（綠色）
+                        if (Array.isArray(q.correctAnswer) && q.correctAnswer.includes(optIdx)) {
+                            extraClass = ' correct-highlight';
+                        } else if (!Array.isArray(q.correctAnswer) && q.correctAnswer === optIdx) {
+                            extraClass = ' correct-highlight';
+                        }
+                        
+                        // 顯示使用者選錯的選項（紅色）- 只有在答錯時才顯示
+                        if (userAnswers[index] && userAnswers[index].isCorrect === false) {
+                            const userSelected = userAnswers[index].selected;
+                            if (Array.isArray(userSelected) && userSelected.includes(optIdx) && 
+                                !(Array.isArray(q.correctAnswer) && q.correctAnswer.includes(optIdx))) {
+                                extraClass = ' incorrect-highlight';
+                            } else if (!Array.isArray(userSelected) && userSelected === optIdx && 
+                                      userSelected !== q.correctAnswer) {
+                                extraClass = ' incorrect-highlight';
+                            }
+                        }
+                    }
+                    
+                    html += `
+                        <label class="option-item ${hasAnswered ? 'disabled' : ''} ${extraClass}">
+                            <input type="${inputType}" name="${name}" value="${optIdx}" 
+                                ${isChecked ? 'checked' : ''} 
+                                ${hasAnswered ? 'disabled' : ''}
+                                onchange="${q.type === 'checkbox' 
+                                    ? `handleCheckboxChange(${index}, ${optIdx}, this)` 
+                                    : (q.type === 'truefalse' || q.type === 'mc') && !hasAnswered 
+                                        ? `handleRadioChange(${index}, ${optIdx})` 
+                                        : ''}">
+                            ${opt}
+                        </label>
+                    `;
+                });
+            }
             
             html += '</div>';
             
+            // 複選題顯示提交按鈕
             if (q.type === 'checkbox' && !hasAnswered) {
                 html += `<div class="submit-area"><button class="btn-submit" onclick="submitCheckbox(${index})">提交答案</button></div>`;
             }
@@ -734,14 +736,21 @@
                 html += `<p class="info-msg">📝 已提交，請對照參考答案</p>`;
             }
             
+            // 顯示參考答案（如果有）
             if (q.referenceAnswer) {
-                html += `<div class="reference-box"><strong>📌 參考答案：</strong><br>${q.referenceAnswer}</div>`;
+                html += `<div class="reference-box"><strong>📌 參考答案：</strong><br>${q.referenceAnswer.replace(/\n/g, '<br>')}</div>`;
             }
             
+            // 顯示解說
             if (q.explanation) {
-                html += `<div class="explanation-line"><span class="explanation-label">🔍 解說：</span>${q.explanation}</div>`;
+                if (q.type === 'mc' || q.type === 'checkbox') {
+                    html += formatExplanation(q.explanation);
+                } else {
+                    html += `<div class="explanation-line"><span class="explanation-label">🔍 解說：</span>${q.explanation.replace(/\n/g, '<br>')}</div>`;
+                }
             }
             
+            // 如果是選擇題且答錯，顯示正確答案提示
             if ((q.type === 'mc' || q.type === 'checkbox' || q.type === 'truefalse') && !userAnswers[index]?.isCorrect && q.correctAnswer !== undefined) {
                 if (Array.isArray(q.correctAnswer)) {
                     const correctLetters = q.correctAnswer.map(idx => String.fromCharCode(65 + idx)).join('、');
@@ -766,14 +775,23 @@
         prevBtn.disabled = index === 0;
     }
 
+    // 單選題/是非題處理
     window.handleRadioChange = function(index, value) {
         if (answeredStatus[index]) return;
         
         const selectedValue = parseInt(value);
         const qIdx = currentQuestions[index];
         const q = allQuestions[qIdx];
-        const correctValue = parseInt(q.correctAnswer);
-        const isCorrect = (selectedValue === correctValue);
+        
+        let isCorrect = false;
+        if (q.type === 'truefalse') {
+            // 是非題：true 表示正確（選項0），false 表示錯誤（選項1）
+            isCorrect = (selectedValue === 0 && q.correctAnswer === true) || 
+                        (selectedValue === 1 && q.correctAnswer === false);
+        } else {
+            // 單選題
+            isCorrect = (selectedValue === q.correctAnswer);
+        }
         
         userAnswers[index] = {
             selected: selectedValue,
@@ -786,6 +804,7 @@
         renderQuestion(index);
     };
 
+    // 複選題暫存
     window.handleCheckboxChange = function(index, value, checkbox) {
         if (answeredStatus[index]) return;
         
@@ -798,6 +817,7 @@
         }
     };
 
+    // 複選題提交
     window.submitCheckbox = function(index) {
         if (answeredStatus[index] || !userAnswers[index] || userAnswers[index].length === 0) {
             alert('請至少選擇一個選項');
@@ -823,6 +843,7 @@
         renderQuestion(index);
     };
 
+    // 簡答/論述/案例分析題提交
     window.submitTextAnswer = function(index, type) {
         const inputId = `${type}-${index}`;
         const input = document.getElementById(inputId);
@@ -833,7 +854,7 @@
         
         userAnswers[index] = {
             selected: input.value,
-            isCorrect: false
+            isCorrect: false  // 簡答題不自動計分，由老師批改
         };
         answeredStatus[index] = true;
         pendingCount++;
@@ -852,6 +873,7 @@
         completionPercent.textContent = percent + '%';
     }
 
+    // 導航
     prevBtn.addEventListener('click', () => {
         if (currentIndex > 0) {
             currentIndex--;
@@ -870,12 +892,14 @@
         }
     });
 
+    // 篩選按鈕事件
     filterBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             filterQuestions(btn.dataset.filter);
         });
     });
 
+    // 初始化
     loadQuestions();
 </script>
 </body>
