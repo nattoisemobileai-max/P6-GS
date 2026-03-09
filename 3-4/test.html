@@ -35,7 +35,6 @@
             overflow: hidden;
         }
 
-        /* 頂部欄 - 最簡化 */
         .top-bar {
             display: flex;
             align-items: center;
@@ -73,7 +72,6 @@
             font-size: 0.9rem;
         }
 
-        /* 篩選按鈕 - 極簡 */
         .filters {
             display: flex;
             flex-wrap: wrap;
@@ -99,7 +97,6 @@
             color: white;
         }
 
-        /* 進度條 - 簡單明瞭 */
         .progress-bar {
             height: 8px;
             background: #e0e7ef;
@@ -116,7 +113,6 @@
             transition: width 0.2s;
         }
 
-        /* 題目區 - 可捲動 */
         .question-area {
             flex: 1;
             overflow-y: auto;
@@ -162,7 +158,6 @@
             line-height: 1.5;
         }
 
-        /* 選項 - 清爽 */
         .options {
             display: flex;
             flex-direction: column;
@@ -201,7 +196,11 @@
             border-color: #ff6b6b;
         }
 
-        /* 輸入框 */
+        .option.disabled {
+            opacity: 0.7;
+            cursor: default;
+        }
+
         textarea {
             width: 100%;
             padding: 1rem;
@@ -213,7 +212,6 @@
             font-family: inherit;
         }
 
-        /* 按鈕 */
         .btn {
             background: #58a700;
             color: white;
@@ -230,7 +228,6 @@
             opacity: 0.8;
         }
 
-        /* 解說區 */
         .explain-box {
             background: #fff9e6;
             border-left: 4px solid #f3b33d;
@@ -240,7 +237,6 @@
             font-size: 0.9rem;
         }
 
-        /* 底部導航 */
         .nav {
             display: flex;
             justify-content: space-between;
@@ -284,14 +280,12 @@
 </head>
 <body>
 <div class="test-container">
-    <!-- 頂部欄 -->
     <div class="top-bar">
         <a href="../index.html" class="back-home"><i class="fas fa-arrow-left"></i> 返回</a>
         <span class="title" id="lesson-title">測驗</span>
         <span class="stats"><span id="score">0</span>/<span id="total">0</span></span>
     </div>
 
-    <!-- 篩選按鈕 -->
     <div class="filters" id="filter-buttons">
         <button class="filter-btn active" data-filter="random20">🎲 隨機20</button>
         <button class="filter-btn" data-filter="all">📚 全部</button>
@@ -303,15 +297,12 @@
         <button class="filter-btn" data-filter="case">📋 案例</button>
     </div>
 
-    <!-- 進度條 -->
     <div class="progress-bar">
         <div class="progress-fill" id="progressFill"></div>
     </div>
 
-    <!-- 題目區 -->
     <div class="question-area" id="questionArea"></div>
 
-    <!-- 底部導航 -->
     <div class="nav">
         <button class="nav-btn" id="prevBtn" disabled>◀ 上一題</button>
         <span class="counter" id="counter">1/0</span>
@@ -337,7 +328,6 @@
     const counter = document.getElementById('counter');
     const filterBtns = document.querySelectorAll('.filter-btn');
 
-    // 載入題庫
     async function loadQuestions() {
         try {
             const res = await fetch('test-data.json');
@@ -364,7 +354,6 @@
     }
 
     function filterQuestions(filterType) {
-        // 更新按鈕狀態
         filterBtns.forEach(btn => {
             btn.classList.remove('active');
             if (btn.dataset.filter === filterType) btn.classList.add('active');
@@ -429,6 +418,7 @@
             options.forEach((opt, i) => {
                 let checked = '';
                 let extraClass = '';
+                let disabled = answered ? 'disabled' : '';
                 
                 if (answered && userAnswers[index]) {
                     const selected = userAnswers[index].selected;
@@ -436,18 +426,38 @@
                         checked = 'checked';
                     }
                     
+                    // 顯示正確答案（綠色）
                     if (q.type === 'checkbox') {
-                        if (Array.isArray(q.correctAnswer) && q.correctAnswer.includes(i)) extraClass = ' correct';
+                        if (Array.isArray(q.correctAnswer) && q.correctAnswer.includes(i)) {
+                            extraClass = ' correct';
+                        }
+                    } else if (q.type === 'truefalse') {
+                        // 是非題：true 表示選項0正確，false 表示選項1正確
+                        if ((i === 0 && q.correctAnswer === true) || (i === 1 && q.correctAnswer === false)) {
+                            extraClass = ' correct';
+                        }
                     } else {
                         if (q.correctAnswer === i) extraClass = ' correct';
+                    }
+                    
+                    // 顯示錯誤選項（紅色）- 只有當使用者答錯時才標示使用者選的選項
+                    if (userAnswers[index].isCorrect === false) {
+                        if (Array.isArray(selected) && selected.includes(i) && 
+                            !(Array.isArray(q.correctAnswer) && q.correctAnswer.includes(i))) {
+                            extraClass = ' incorrect';
+                        } else if (!Array.isArray(selected) && selected === i && 
+                                  ((q.type === 'truefalse' && ((i === 0 && q.correctAnswer !== true) || (i === 1 && q.correctAnswer !== false))) ||
+                                   (q.type !== 'truefalse' && selected !== q.correctAnswer))) {
+                            extraClass = ' incorrect';
+                        }
                     }
                 }
                 
                 html += `
-                    <label class="option ${answered ? 'disabled' : ''} ${extraClass}">
+                    <label class="option ${disabled} ${extraClass}">
                         <input type="${q.type === 'checkbox' ? 'checkbox' : 'radio'}" 
                                name="q${index}" value="${i}" ${checked} 
-                               ${answered ? 'disabled' : ''}
+                               ${disabled}
                                onchange="${q.type === 'checkbox' 
                                    ? `handleCheckboxChange(${index}, ${i}, this)` 
                                    : `handleRadioChange(${index}, ${i})`}">
@@ -462,29 +472,27 @@
             }
             
         } else {
-            // 問答題
             html += `<textarea id="input-${index}" placeholder="請輸入答案..." ${answered ? 'disabled' : ''}>${userAnswers[index]?.selected || ''}</textarea>`;
             if (!answered) {
                 html += `<button class="btn" onclick="submitText(${index})">提交答案</button>`;
             }
         }
 
-        // 結果顯示
         if (answered) {
             html += '<div class="explain-box">';
             const isCorrect = userAnswers[index]?.isCorrect;
             
             if (['mc', 'checkbox', 'truefalse'].includes(q.type)) {
-                html += isCorrect ? '✅ 正確' : '❌ 錯誤';
+                html += isCorrect ? '✅ 正確！' : '❌ 錯誤！';
             } else {
                 html += '📝 已提交，請對照參考答案';
             }
             
             if (q.referenceAnswer) {
-                html += `<br><br><strong>參考答案：</strong><br>${q.referenceAnswer}`;
+                html += `<br><br><strong>參考答案：</strong><br>${q.referenceAnswer.replace(/\n/g, '<br>')}`;
             }
             if (q.explanation) {
-                html += `<br><br><strong>解說：</strong><br>${q.explanation}`;
+                html += `<br><br><strong>解說：</strong><br>${q.explanation.replace(/\n/g, '<br>')}`;
             }
             html += '</div>';
         }
@@ -496,21 +504,34 @@
         prevBtn.disabled = index === 0;
     }
 
-    // 單選
+    // 單選/是非題
     window.handleRadioChange = function(index, value) {
         if (answeredStatus[index]) return;
         
-        const q = allQuestions[currentQuestions[index]];
-        const correct = parseInt(value) === q.correctAnswer;
+        const selectedValue = parseInt(value);
+        const qIdx = currentQuestions[index];
+        const q = allQuestions[qIdx];
         
-        userAnswers[index] = { selected: parseInt(value), isCorrect: correct };
+        let isCorrect = false;
+        if (q.type === 'truefalse') {
+            // 是非題：選項0 = 正確 (true)，選項1 = 錯誤 (false)
+            isCorrect = (selectedValue === 0 && q.correctAnswer === true) || 
+                        (selectedValue === 1 && q.correctAnswer === false);
+        } else {
+            isCorrect = (selectedValue === q.correctAnswer);
+        }
+        
+        userAnswers[index] = {
+            selected: selectedValue,
+            isCorrect: isCorrect
+        };
+        
         answeredStatus[index] = true;
-        if (correct) completedCount++; else pendingCount++;
+        if (isCorrect) completedCount++; else pendingCount++;
         updateProgress();
         renderQuestion(index);
     };
 
-    // 複選暫存
     window.handleCheckboxChange = function(index, value, cb) {
         if (answeredStatus[index]) return;
         if (!userAnswers[index]) userAnswers[index] = [];
@@ -522,13 +543,12 @@
         }
     };
 
-    // 複選提交
     window.submitCheckbox = function(index) {
         if (answeredStatus[index] || !userAnswers[index]?.length) return;
         
         const q = allQuestions[currentQuestions[index]];
-        const correct = q.correctAnswer;
-        const selected = userAnswers[index];
+        const correct = q.correctAnswer.map(v => parseInt(v));
+        const selected = userAnswers[index].map(v => parseInt(v));
         const isCorrect = selected.length === correct.length &&
             selected.every(v => correct.includes(v));
         
@@ -539,7 +559,6 @@
         renderQuestion(index);
     };
 
-    // 問答提交
     window.submitText = function(index) {
         const input = document.getElementById(`input-${index}`);
         if (!input?.value.trim()) return;
@@ -558,7 +577,6 @@
         scoreSpan.textContent = completedCount;
     }
 
-    // 導航
     prevBtn.addEventListener('click', () => {
         if (currentIndex > 0) {
             currentIndex--;
@@ -573,7 +591,6 @@
         }
     });
 
-    // 篩選
     filterBtns.forEach(btn => {
         btn.addEventListener('click', () => filterQuestions(btn.dataset.filter));
     });
