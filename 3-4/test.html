@@ -228,6 +228,10 @@
             opacity: 0.8;
         }
 
+        .btn.secondary {
+            background: #e67e22;
+        }
+
         .explain-box {
             background: #fff9e6;
             border-left: 4px solid #f3b33d;
@@ -235,6 +239,58 @@
             border-radius: 12px;
             margin-top: 1rem;
             font-size: 0.9rem;
+        }
+
+        /* 總結畫面 */
+        .summary-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            border: 2px solid #e0e8f0;
+        }
+
+        .summary-title {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #1a4972;
+            margin-bottom: 1rem;
+        }
+
+        .summary-icon {
+            font-size: 4rem;
+            color: #f3b33d;
+            margin-bottom: 1rem;
+        }
+
+        .summary-stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .stat-box {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #1a4972;
+        }
+
+        .stat-label {
+            color: #4f6f8f;
+            font-weight: 600;
+        }
+
+        .summary-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
         }
 
         .nav {
@@ -276,6 +332,10 @@
             font-weight: 600;
             color: #1a4972;
         }
+
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -303,6 +363,27 @@
 
     <div class="question-area" id="questionArea"></div>
 
+    <!-- 總結畫面 (預設隱藏) -->
+    <div id="summarySection" class="summary-section hidden">
+        <div class="summary-icon"><i class="fas fa-trophy"></i></div>
+        <div class="summary-title" id="summaryTitle">測驗完成！</div>
+        <div class="summary-stats">
+            <div class="stat-box">
+                <div class="stat-number" id="summaryCorrect">0</div>
+                <div class="stat-label">正確</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number" id="summaryWrong">0</div>
+                <div class="stat-label">錯誤</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number" id="summaryTotal">0</div>
+                <div class="stat-label">總題數</div>
+            </div>
+        </div>
+        <div class="summary-buttons" id="summaryButtons"></div>
+    </div>
+
     <div class="nav">
         <button class="nav-btn" id="prevBtn" disabled>◀ 上一題</button>
         <span class="counter" id="counter">1/0</span>
@@ -315,10 +396,11 @@
     let currentQuestions = [];
     let userAnswers = {};
     let answeredStatus = {};
-    let completedCount = 0, pendingCount = 0;
+    let completedCount = 0, wrongCount = 0;
     let currentIndex = 0;
 
     const questionArea = document.getElementById('questionArea');
+    const summarySection = document.getElementById('summarySection');
     const lessonTitle = document.getElementById('lesson-title');
     const scoreSpan = document.getElementById('score');
     const totalSpan = document.getElementById('total');
@@ -327,6 +409,11 @@
     const nextBtn = document.getElementById('nextBtn');
     const counter = document.getElementById('counter');
     const filterBtns = document.querySelectorAll('.filter-btn');
+    const summaryCorrect = document.getElementById('summaryCorrect');
+    const summaryWrong = document.getElementById('summaryWrong');
+    const summaryTotal = document.getElementById('summaryTotal');
+    const summaryButtons = document.getElementById('summaryButtons');
+    const summaryTitle = document.getElementById('summaryTitle');
 
     async function loadQuestions() {
         try {
@@ -379,8 +466,13 @@
         userAnswers = {};
         answeredStatus = {};
         completedCount = 0;
-        pendingCount = 0;
+        wrongCount = 0;
         currentIndex = 0;
+        
+        // 隱藏總結畫面
+        summarySection.classList.add('hidden');
+        questionArea.classList.remove('hidden');
+        
         updateProgress();
 
         if (currentQuestions.length === 0) {
@@ -410,7 +502,6 @@
                 <div class="q-text">${q.question.replace(/\n/g, '<br>')}</div>
         `;
 
-        // 選擇題
         if (['mc', 'checkbox', 'truefalse'].includes(q.type)) {
             let options = q.options || (q.type === 'truefalse' ? ['正確', '錯誤'] : []);
             
@@ -432,7 +523,6 @@
                             extraClass = ' correct';
                         }
                     } else if (q.type === 'truefalse') {
-                        // 是非題：true 表示選項0正確，false 表示選項1正確
                         if ((i === 0 && q.correctAnswer === true) || (i === 1 && q.correctAnswer === false)) {
                             extraClass = ' correct';
                         }
@@ -440,7 +530,7 @@
                         if (q.correctAnswer === i) extraClass = ' correct';
                     }
                     
-                    // 顯示錯誤選項（紅色）- 只有當使用者答錯時才標示使用者選的選項
+                    // 顯示錯誤選項（紅色）
                     if (userAnswers[index].isCorrect === false) {
                         if (Array.isArray(selected) && selected.includes(i) && 
                             !(Array.isArray(q.correctAnswer) && q.correctAnswer.includes(i))) {
@@ -504,7 +594,6 @@
         prevBtn.disabled = index === 0;
     }
 
-    // 單選/是非題
     window.handleRadioChange = function(index, value) {
         if (answeredStatus[index]) return;
         
@@ -514,7 +603,6 @@
         
         let isCorrect = false;
         if (q.type === 'truefalse') {
-            // 是非題：選項0 = 正確 (true)，選項1 = 錯誤 (false)
             isCorrect = (selectedValue === 0 && q.correctAnswer === true) || 
                         (selectedValue === 1 && q.correctAnswer === false);
         } else {
@@ -527,8 +615,11 @@
         };
         
         answeredStatus[index] = true;
-        if (isCorrect) completedCount++; else pendingCount++;
+        if (isCorrect) completedCount++; else wrongCount++;
         updateProgress();
+        
+        // 檢查是否所有題目都已作答
+        checkAllAnswered();
         renderQuestion(index);
     };
 
@@ -554,8 +645,10 @@
         
         userAnswers[index] = { selected, isCorrect };
         answeredStatus[index] = true;
-        if (isCorrect) completedCount++; else pendingCount++;
+        if (isCorrect) completedCount++; else wrongCount++;
         updateProgress();
+        
+        checkAllAnswered();
         renderQuestion(index);
     };
 
@@ -565,8 +658,10 @@
         
         userAnswers[index] = { selected: input.value, isCorrect: false };
         answeredStatus[index] = true;
-        pendingCount++;
+        wrongCount++;
         updateProgress();
+        
+        checkAllAnswered();
         renderQuestion(index);
     };
 
@@ -576,6 +671,84 @@
         progressFill.style.width = percent + '%';
         scoreSpan.textContent = completedCount;
     }
+
+    function checkAllAnswered() {
+        const totalAnswered = Object.keys(answeredStatus).length;
+        if (totalAnswered === currentQuestions.length) {
+            showSummary();
+        }
+    }
+
+    function showSummary() {
+        // 隱藏題目區，顯示總結畫面
+        questionArea.classList.add('hidden');
+        summarySection.classList.remove('hidden');
+        
+        const totalCorrect = completedCount;
+        const totalWrong = wrongCount;
+        const total = currentQuestions.length;
+        
+        summaryCorrect.textContent = totalCorrect;
+        summaryWrong.textContent = totalWrong;
+        summaryTotal.textContent = total;
+        
+        // 根據結果設定標題
+        if (totalWrong === 0) {
+            summaryTitle.innerHTML = '🎉 恭喜你！全部答對！';
+        } else {
+            summaryTitle.innerHTML = '📊 測驗總結';
+        }
+        
+        // 產生按鈕
+        let buttonsHtml = '';
+        
+        // 如果有錯題，顯示「重做錯題」按鈕
+        if (totalWrong > 0) {
+            buttonsHtml += `<button class="btn secondary" onclick="retryWrongQuestions()">🔁 重做錯題</button>`;
+        }
+        
+        // 永遠顯示「重新測驗」按鈕
+        buttonsHtml += `<button class="btn" onclick="retryAllQuestions()">🔄 重新測驗</button>`;
+        
+        summaryButtons.innerHTML = buttonsHtml;
+    }
+
+    // 重做錯題
+    window.retryWrongQuestions = function() {
+        // 收集答錯的題目索引
+        const wrongIndices = [];
+        for (let i = 0; i < currentQuestions.length; i++) {
+            if (userAnswers[i] && userAnswers[i].isCorrect === false) {
+                wrongIndices.push(currentQuestions[i]);
+            }
+        }
+        
+        if (wrongIndices.length === 0) return;
+        
+        // 重新設定測驗
+        currentQuestions = wrongIndices;
+        userAnswers = {};
+        answeredStatus = {};
+        completedCount = 0;
+        wrongCount = 0;
+        currentIndex = 0;
+        
+        // 隱藏總結畫面
+        summarySection.classList.add('hidden');
+        questionArea.classList.remove('hidden');
+        
+        updateProgress();
+        counter.textContent = `1/${currentQuestions.length}`;
+        nextBtn.disabled = false;
+        renderQuestion(0);
+    };
+
+    // 重新測驗（全部題目）
+    window.retryAllQuestions = function() {
+        // 回到目前的篩選模式
+        const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
+        filterQuestions(activeFilter);
+    };
 
     prevBtn.addEventListener('click', () => {
         if (currentIndex > 0) {
