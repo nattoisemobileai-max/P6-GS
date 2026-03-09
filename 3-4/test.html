@@ -246,7 +246,6 @@
         .option-item.disabled {
             opacity: 0.7;
             cursor: default;
-            background: #f0f0f0;
         }
         .option-item.correct-highlight {
             background: #c1e5c0;
@@ -405,7 +404,7 @@
     </div>
 
     <div class="footer-note">
-        <i class="fas fa-lightbulb"></i> 點選選項後自動評分
+        <i class="fas fa-lightbulb"></i> 單選題點選即評分，複選題需點「提交答案」
     </div>
 </div>
 
@@ -589,10 +588,22 @@
                 
                 let extraClass = '';
                 if (hasAnswered) {
+                    // 顯示正確答案（綠色）
                     if (Array.isArray(q.correctAnswer) && q.correctAnswer.includes(optIdx)) {
                         extraClass = ' correct-highlight';
                     } else if (!Array.isArray(q.correctAnswer) && q.correctAnswer === optIdx) {
                         extraClass = ' correct-highlight';
+                    }
+                    
+                    // 顯示使用者選錯的選項（紅色）
+                    if (userAnswers[index] !== undefined) {
+                        if (Array.isArray(userAnswers[index]) && userAnswers[index].includes(optIdx) && 
+                            !(Array.isArray(q.correctAnswer) && q.correctAnswer.includes(optIdx))) {
+                            extraClass = ' incorrect-highlight';
+                        } else if (!Array.isArray(userAnswers[index]) && userAnswers[index] === optIdx && 
+                                  userAnswers[index] !== q.correctAnswer) {
+                            extraClass = ' incorrect-highlight';
+                        }
                     }
                 }
                 
@@ -601,7 +612,11 @@
                         <input type="${inputType}" name="${name}" value="${optIdx}" 
                             ${isChecked ? 'checked' : ''} 
                             ${hasAnswered ? 'disabled' : ''}
-                            onchange="${q.type === 'checkbox' ? `handleCheckboxChange(${index}, ${optIdx}, this)` : `handleRadioChange(${index}, ${optIdx})`}">
+                            onchange="${q.type === 'checkbox' 
+                                ? `handleCheckboxChange(${index}, ${optIdx}, this)` 
+                                : (q.type === 'truefalse' || q.type === 'mc') && !hasAnswered 
+                                    ? `handleRadioChange(${index}, ${optIdx})` 
+                                    : ''}">
                         ${opt}
                     </label>
                 `;
@@ -609,23 +624,29 @@
             
             html += '</div>';
             
+            // 複選題顯示提交按鈕
+            if (q.type === 'checkbox' && !hasAnswered) {
+                html += `<div class="submit-area"><button class="btn-submit" onclick="submitCheckbox(${index})">提交答案</button></div>`;
+            }
+            
         } else if (q.type === 'essay') {
             html += `
                 <textarea class="essay-input" id="essay-${index}" placeholder="請輸入你的論述..." ${hasAnswered ? 'disabled' : ''}>${userAnswers[index] || ''}</textarea>
-                ${!hasAnswered ? '<button class="btn-submit" onclick="submitEssay('+index+')">提交答案</button>' : ''}
+                ${!hasAnswered ? '<div class="submit-area"><button class="btn-submit" onclick="submitEssay('+index+')">提交答案</button></div>' : ''}
             `;
         } else if (q.type === 'short') {
             html += `
                 <input type="text" class="short-input" id="short-${index}" placeholder="請輸入簡短答案" value="${userAnswers[index] || ''}" ${hasAnswered ? 'disabled' : ''}>
-                ${!hasAnswered ? '<button class="btn-submit" onclick="submitShort('+index+')">提交答案</button>' : ''}
+                ${!hasAnswered ? '<div class="submit-area"><button class="btn-submit" onclick="submitShort('+index+')">提交答案</button></div>' : ''}
             `;
         }
 
         // 顯示結果（如果已答）
         if (hasAnswered) {
             html += `<div class="result-box show" id="result-${index}">`;
-            html += `<p class="${userAnswers[index]?.isCorrect ? 'correct-msg' : 'incorrect-msg'}">
-                ${userAnswers[index]?.isCorrect ? '✅ 正確！' : '❌ 錯誤！'}
+            const isCorrect = userAnswers[index]?.isCorrect;
+            html += `<p class="${isCorrect ? 'correct-msg' : 'incorrect-msg'}">
+                ${isCorrect ? '✅ 正確！' : '❌ 錯誤！'}
             </p>`;
             if (q.explanation) {
                 html += `<p><strong>🔍 解說：</strong> ${q.explanation}</p>`;
@@ -642,7 +663,7 @@
         prevBtn.disabled = index === 0;
     }
 
-    // 單選題處理
+    // 單選題/是非題處理
     window.handleRadioChange = function(index, value) {
         if (answeredStatus[index]) return;
         
@@ -651,13 +672,13 @@
         const isCorrect = (value === q.correctAnswer);
         
         userAnswers[index] = value;
+        userAnswers[index].isCorrect = isCorrect;
         answeredStatus[index] = true;
         updateScore(isCorrect);
-        showResult(index, isCorrect, q.explanation);
-        renderQuestion(index); // 重新渲染鎖定選項
+        renderQuestion(index);
     };
 
-    // 複選題處理
+    // 複選題 - 儲存選中的值
     window.handleCheckboxChange = function(index, value, checkbox) {
         if (answeredStatus[index]) return;
         
@@ -670,9 +691,12 @@
         }
     };
 
-    // 複選題提交（需要獨立的提交按鈕）
+    // 複選題提交
     window.submitCheckbox = function(index) {
-        if (answeredStatus[index] || !userAnswers[index]) return;
+        if (answeredStatus[index] || !userAnswers[index] || userAnswers[index].length === 0) {
+            alert('請至少選擇一個選項');
+            return;
+        }
         
         const qIdx = currentQuestions[index];
         const q = allQuestions[qIdx];
@@ -683,9 +707,9 @@
             userAnswers[index].every(v => correct.includes(v)) &&
             correct.every(v => userAnswers[index].includes(v));
         
+        userAnswers[index].isCorrect = isCorrect;
         answeredStatus[index] = true;
         updateScore(isCorrect);
-        showResult(index, isCorrect, q.explanation);
         renderQuestion(index);
     };
 
@@ -698,12 +722,9 @@
         }
         
         userAnswers[index] = textarea.value;
+        userAnswers[index].isCorrect = false; // 論述題不自動計分
         answeredStatus[index] = true;
-        // 論述題通常沒有自動對錯，可以記錄為待批改或直接給提示
-        const qIdx = currentQuestions[index];
-        const q = allQuestions[qIdx];
-        updateScore(false); // 論述題不自動計分
-        showResult(index, false, q.explanation || '請參考範例答案', true);
+        updateScore(false);
         renderQuestion(index);
     };
 
@@ -726,9 +747,9 @@
         }
         
         userAnswers[index] = input.value;
+        userAnswers[index].isCorrect = isCorrect;
         answeredStatus[index] = true;
         updateScore(isCorrect);
-        showResult(index, isCorrect, q.explanation);
         renderQuestion(index);
     };
 
@@ -750,20 +771,6 @@
         scoreSpan.textContent = correctCount;  // 分數只計正確題數
         progressCorrect.style.width = percent + '%';
         completionPercent.textContent = percent + '%';
-    }
-
-    function showResult(index, isCorrect, explanation, isEssay = false) {
-        const resultDiv = document.getElementById(`result-${index}`);
-        if (!resultDiv) return;
-        
-        let html = `<p class="${isCorrect ? 'correct-msg' : 'incorrect-msg'}">
-            ${isCorrect ? '✅ 正確！' : isEssay ? '📝 已提交' : '❌ 錯誤！'}
-        </p>`;
-        if (explanation) {
-            html += `<p><strong>🔍 解說：</strong> ${explanation}</p>`;
-        }
-        resultDiv.innerHTML = html;
-        resultDiv.classList.add('show');
     }
 
     // 導航
