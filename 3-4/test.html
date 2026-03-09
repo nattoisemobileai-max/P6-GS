@@ -76,16 +76,16 @@
             display: flex;
             flex-wrap: wrap;
             gap: 0.5rem;
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
             flex-shrink: 0;
         }
 
         .filter-btn {
             background: #f0f2f5;
             border: none;
-            padding: 0.5rem 1rem;
+            padding: 0.4rem 0.9rem;
             border-radius: 30px;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             font-weight: 600;
             color: #2c5a7a;
             cursor: pointer;
@@ -101,7 +101,7 @@
             height: 8px;
             background: #e0e7ef;
             border-radius: 10px;
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
             overflow: hidden;
             flex-shrink: 0;
         }
@@ -129,6 +129,7 @@
 
         .question-header {
             display: flex;
+            flex-wrap: wrap;
             gap: 0.5rem;
             margin-bottom: 1rem;
         }
@@ -148,6 +149,16 @@
             border-radius: 30px;
             font-size: 0.8rem;
             font-weight: 700;
+        }
+
+        .q-section {
+            background: #e1f0fa;
+            color: #1a4972;
+            padding: 0.2rem 1rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1px solid #9bb7d1;
         }
 
         .q-text {
@@ -245,20 +256,22 @@
         .summary-section {
             background: white;
             border-radius: 20px;
-            padding: 2rem;
+            padding: 1.5rem;
             text-align: center;
             border: 2px solid #e0e8f0;
+            overflow-y: auto;
+            max-height: 100%;
         }
 
         .summary-title {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 900;
             color: #1a4972;
             margin-bottom: 1rem;
         }
 
         .summary-icon {
-            font-size: 4rem;
+            font-size: 3rem;
             color: #f3b33d;
             margin-bottom: 1rem;
         }
@@ -267,15 +280,17 @@
             display: flex;
             justify-content: center;
             gap: 2rem;
-            margin: 2rem 0;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
         }
 
         .stat-box {
             text-align: center;
+            min-width: 80px;
         }
 
         .stat-number {
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 900;
             color: #1a4972;
         }
@@ -283,13 +298,76 @@
         .stat-label {
             color: #4f6f8f;
             font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* 章節進度卡片 */
+        .section-progress {
+            background: #f0f7ff;
+            border-radius: 16px;
+            padding: 1.2rem;
+            margin: 1.5rem 0;
+            text-align: left;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #1a4972;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .section-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1rem;
+            border-left: 4px solid #3498db;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .section-name {
+            font-weight: 700;
+            color: #1f3a4b;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .section-progress-bar {
+            height: 6px;
+            background: #e0e7ef;
+            border-radius: 10px;
+            margin: 0.5rem 0;
+            overflow: hidden;
+        }
+
+        .section-progress-fill {
+            height: 100%;
+            background: #58cc71;
+            width: 0%;
+            border-radius: 10px;
+        }
+
+        .section-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: #4f6f8f;
         }
 
         .summary-buttons {
             display: flex;
             gap: 1rem;
             justify-content: center;
-            margin-top: 2rem;
+            margin-top: 1.5rem;
             flex-wrap: wrap;
         }
 
@@ -367,6 +445,7 @@
     <div id="summarySection" class="summary-section hidden">
         <div class="summary-icon"><i class="fas fa-trophy"></i></div>
         <div class="summary-title" id="summaryTitle">測驗完成！</div>
+        
         <div class="summary-stats">
             <div class="stat-box">
                 <div class="stat-number" id="summaryCorrect">0</div>
@@ -381,6 +460,15 @@
                 <div class="stat-label">總題數</div>
             </div>
         </div>
+
+        <!-- 章節完成度 -->
+        <div class="section-progress" id="sectionProgress">
+            <div class="section-title">
+                <i class="fas fa-book-open"></i> 章節學習進度
+            </div>
+            <div class="section-grid" id="sectionGrid"></div>
+        </div>
+
         <div class="summary-buttons" id="summaryButtons"></div>
     </div>
 
@@ -401,6 +489,7 @@
 
     const questionArea = document.getElementById('questionArea');
     const summarySection = document.getElementById('summarySection');
+    const sectionGrid = document.getElementById('sectionGrid');
     const lessonTitle = document.getElementById('lesson-title');
     const scoreSpan = document.getElementById('score');
     const totalSpan = document.getElementById('total');
@@ -440,6 +529,12 @@
         return map[type] || type;
     }
 
+    function getSectionDisplay(section) {
+        if (!section) return '';
+        // 移除頁碼標記 [Pxx] 只保留章節名稱
+        return section.replace(/\s*\[.*?\]\s*/g, '');
+    }
+
     function filterQuestions(filterType) {
         filterBtns.forEach(btn => {
             btn.classList.remove('active');
@@ -469,7 +564,6 @@
         wrongCount = 0;
         currentIndex = 0;
         
-        // 隱藏總結畫面
         summarySection.classList.add('hidden');
         questionArea.classList.remove('hidden');
         
@@ -498,6 +592,7 @@
                 <div class="question-header">
                     <span class="q-num">${index+1}/${currentQuestions.length}</span>
                     <span class="q-type">${getTypeName(q.type)}</span>
+                    ${q.section ? `<span class="q-section">${getSectionDisplay(q.section)}</span>` : ''}
                 </div>
                 <div class="q-text">${q.question.replace(/\n/g, '<br>')}</div>
         `;
@@ -517,7 +612,6 @@
                         checked = 'checked';
                     }
                     
-                    // 顯示正確答案（綠色）
                     if (q.type === 'checkbox') {
                         if (Array.isArray(q.correctAnswer) && q.correctAnswer.includes(i)) {
                             extraClass = ' correct';
@@ -530,7 +624,6 @@
                         if (q.correctAnswer === i) extraClass = ' correct';
                     }
                     
-                    // 顯示錯誤選項（紅色）
                     if (userAnswers[index].isCorrect === false) {
                         if (Array.isArray(selected) && selected.includes(i) && 
                             !(Array.isArray(q.correctAnswer) && q.correctAnswer.includes(i))) {
@@ -617,8 +710,6 @@
         answeredStatus[index] = true;
         if (isCorrect) completedCount++; else wrongCount++;
         updateProgress();
-        
-        // 檢查是否所有題目都已作答
         checkAllAnswered();
         renderQuestion(index);
     };
@@ -647,7 +738,6 @@
         answeredStatus[index] = true;
         if (isCorrect) completedCount++; else wrongCount++;
         updateProgress();
-        
         checkAllAnswered();
         renderQuestion(index);
     };
@@ -660,7 +750,6 @@
         answeredStatus[index] = true;
         wrongCount++;
         updateProgress();
-        
         checkAllAnswered();
         renderQuestion(index);
     };
@@ -680,7 +769,6 @@
     }
 
     function showSummary() {
-        // 隱藏題目區，顯示總結畫面
         questionArea.classList.add('hidden');
         summarySection.classList.remove('hidden');
         
@@ -692,30 +780,65 @@
         summaryWrong.textContent = totalWrong;
         summaryTotal.textContent = total;
         
-        // 根據結果設定標題
-        if (totalWrong === 0) {
-            summaryTitle.innerHTML = '🎉 恭喜你！全部答對！';
-        } else {
-            summaryTitle.innerHTML = '📊 測驗總結';
+        summaryTitle.innerHTML = totalWrong === 0 ? '🎉 恭喜你！全部答對！' : '📊 測驗總結';
+        
+        // 計算各章節完成度
+        const sectionStats = {};
+        
+        for (let i = 0; i < currentQuestions.length; i++) {
+            const qIdx = currentQuestions[i];
+            const q = allQuestions[qIdx];
+            const section = q.section || '未分類';
+            
+            if (!sectionStats[section]) {
+                sectionStats[section] = { total: 0, correct: 0, wrong: 0 };
+            }
+            
+            sectionStats[section].total++;
+            
+            if (answeredStatus[i]) {
+                if (userAnswers[i]?.isCorrect) {
+                    sectionStats[section].correct++;
+                } else {
+                    sectionStats[section].wrong++;
+                }
+            }
         }
+        
+        // 產生章節進度卡片
+        let sectionHtml = '';
+        Object.keys(sectionStats).sort().forEach(section => {
+            const stat = sectionStats[section];
+            const percent = stat.total ? Math.round((stat.correct / stat.total) * 100) : 0;
+            const displayName = getSectionDisplay(section);
+            
+            sectionHtml += `
+                <div class="section-card">
+                    <div class="section-name">${displayName || '未分類'}</div>
+                    <div class="section-progress-bar">
+                        <div class="section-progress-fill" style="width: ${percent}%;"></div>
+                    </div>
+                    <div class="section-stats">
+                        <span>✅ ${stat.correct}</span>
+                        <span>❌ ${stat.wrong}</span>
+                        <span>📋 ${stat.total}題</span>
+                    </div>
+                </div>
+            `;
+        });
+        
+        sectionGrid.innerHTML = sectionHtml || '<div style="text-align:center; padding:1rem;">暫無章節資料</div>';
         
         // 產生按鈕
         let buttonsHtml = '';
-        
-        // 如果有錯題，顯示「重做錯題」按鈕
         if (totalWrong > 0) {
             buttonsHtml += `<button class="btn secondary" onclick="retryWrongQuestions()">🔁 重做錯題</button>`;
         }
-        
-        // 永遠顯示「重新測驗」按鈕
         buttonsHtml += `<button class="btn" onclick="retryAllQuestions()">🔄 重新測驗</button>`;
-        
         summaryButtons.innerHTML = buttonsHtml;
     }
 
-    // 重做錯題
     window.retryWrongQuestions = function() {
-        // 收集答錯的題目索引
         const wrongIndices = [];
         for (let i = 0; i < currentQuestions.length; i++) {
             if (userAnswers[i] && userAnswers[i].isCorrect === false) {
@@ -725,7 +848,6 @@
         
         if (wrongIndices.length === 0) return;
         
-        // 重新設定測驗
         currentQuestions = wrongIndices;
         userAnswers = {};
         answeredStatus = {};
@@ -733,7 +855,6 @@
         wrongCount = 0;
         currentIndex = 0;
         
-        // 隱藏總結畫面
         summarySection.classList.add('hidden');
         questionArea.classList.remove('hidden');
         
@@ -743,9 +864,7 @@
         renderQuestion(0);
     };
 
-    // 重新測驗（全部題目）
     window.retryAllQuestions = function() {
-        // 回到目前的篩選模式
         const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
         filterQuestions(activeFilter);
     };
