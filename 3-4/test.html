@@ -578,10 +578,23 @@
             options.forEach((opt, optIdx) => {
                 const inputType = q.type === 'checkbox' ? 'checkbox' : 'radio';
                 const name = q.type === 'checkbox' ? `q${index}_${optIdx}` : `q${index}`;
-                const isChecked = userAnswers[index] && 
-                    (Array.isArray(userAnswers[index]) 
-                        ? userAnswers[index].includes(optIdx)
-                        : userAnswers[index] === optIdx);
+                
+                // 檢查當前選項是否被選中
+                let isChecked = false;
+                if (hasAnswered && userAnswers[index] !== undefined) {
+                    if (Array.isArray(userAnswers[index].selected)) {
+                        isChecked = userAnswers[index].selected.includes(optIdx);
+                    } else {
+                        isChecked = (userAnswers[index].selected === optIdx);
+                    }
+                } else if (!hasAnswered && userAnswers[index] !== undefined) {
+                    // 未提交前暫存選中狀態
+                    if (Array.isArray(userAnswers[index])) {
+                        isChecked = userAnswers[index].includes(optIdx);
+                    } else {
+                        isChecked = (userAnswers[index] === optIdx);
+                    }
+                }
                 
                 let extraClass = '';
                 if (hasAnswered) {
@@ -594,11 +607,12 @@
                     
                     // 顯示使用者選錯的選項（紅色）
                     if (userAnswers[index] && !userAnswers[index].isCorrect) {
-                        if (Array.isArray(userAnswers[index]) && userAnswers[index].includes(optIdx) && 
+                        const userSelected = userAnswers[index].selected;
+                        if (Array.isArray(userSelected) && userSelected.includes(optIdx) && 
                             !(Array.isArray(q.correctAnswer) && q.correctAnswer.includes(optIdx))) {
                             extraClass = ' incorrect-highlight';
-                        } else if (!Array.isArray(userAnswers[index]) && userAnswers[index] === optIdx && 
-                                  userAnswers[index] !== q.correctAnswer) {
+                        } else if (!Array.isArray(userSelected) && userSelected === optIdx && 
+                                  userSelected !== q.correctAnswer) {
                             extraClass = ' incorrect-highlight';
                         }
                     }
@@ -627,12 +641,12 @@
             
         } else if (q.type === 'essay') {
             html += `
-                <textarea class="essay-input" id="essay-${index}" placeholder="請輸入你的論述..." ${hasAnswered ? 'disabled' : ''}>${userAnswers[index] || ''}</textarea>
+                <textarea class="essay-input" id="essay-${index}" placeholder="請輸入你的論述..." ${hasAnswered ? 'disabled' : ''}>${userAnswers[index]?.selected || ''}</textarea>
                 ${!hasAnswered ? '<div class="submit-area"><button class="btn-submit" onclick="submitEssay('+index+')">提交答案</button></div>' : ''}
             `;
         } else if (q.type === 'short') {
             html += `
-                <input type="text" class="short-input" id="short-${index}" placeholder="請輸入簡短答案" value="${userAnswers[index] || ''}" ${hasAnswered ? 'disabled' : ''}>
+                <input type="text" class="short-input" id="short-${index}" placeholder="請輸入簡短答案" value="${userAnswers[index]?.selected || ''}" ${hasAnswered ? 'disabled' : ''}>
                 ${!hasAnswered ? '<div class="submit-area"><button class="btn-submit" onclick="submitShort('+index+')">提交答案</button></div>' : ''}
             `;
         }
@@ -677,12 +691,25 @@
     window.handleRadioChange = function(index, value) {
         if (answeredStatus[index]) return;
         
+        // 將 value 轉換為數字
+        const selectedValue = parseInt(value);
+        
+        // 儲存當前選擇（未提交狀態）
+        userAnswers[index] = selectedValue;
+        
         const qIdx = currentQuestions[index];
         const q = allQuestions[qIdx];
-        const isCorrect = (value === q.correctAnswer);
         
-        userAnswers[index] = value;
-        userAnswers[index].isCorrect = isCorrect;
+        // 確保正確答案也是數字
+        const correctValue = parseInt(q.correctAnswer);
+        const isCorrect = (selectedValue === correctValue);
+        
+        // 儲存完整的答案資訊
+        userAnswers[index] = {
+            selected: selectedValue,
+            isCorrect: isCorrect
+        };
+        
         answeredStatus[index] = true;
         updateScore(isCorrect);
         renderQuestion(index);
@@ -694,9 +721,9 @@
         if (!userAnswers[index]) userAnswers[index] = [];
         
         if (checkbox.checked) {
-            userAnswers[index].push(value);
+            userAnswers[index].push(parseInt(value));
         } else {
-            userAnswers[index] = userAnswers[index].filter(v => v !== value);
+            userAnswers[index] = userAnswers[index].filter(v => v !== parseInt(value));
         }
     };
 
@@ -708,13 +735,17 @@
         
         const qIdx = currentQuestions[index];
         const q = allQuestions[qIdx];
-        const correct = q.correctAnswer;
+        const correct = q.correctAnswer.map(v => parseInt(v));
+        const userSelected = userAnswers[index].map(v => parseInt(v));
         
-        const isCorrect = userAnswers[index].length === correct.length &&
-            userAnswers[index].every(v => correct.includes(v)) &&
-            correct.every(v => userAnswers[index].includes(v));
+        const isCorrect = userSelected.length === correct.length &&
+            userSelected.every(v => correct.includes(v)) &&
+            correct.every(v => userSelected.includes(v));
         
-        userAnswers[index].isCorrect = isCorrect;
+        userAnswers[index] = {
+            selected: userSelected,
+            isCorrect: isCorrect
+        };
         answeredStatus[index] = true;
         updateScore(isCorrect);
         renderQuestion(index);
@@ -727,8 +758,10 @@
             return;
         }
         
-        userAnswers[index] = textarea.value;
-        userAnswers[index].isCorrect = false;
+        userAnswers[index] = {
+            selected: textarea.value,
+            isCorrect: false
+        };
         answeredStatus[index] = true;
         updateScore(false);
         renderQuestion(index);
@@ -750,8 +783,10 @@
             isCorrect = q.keywords.some(k => userAns.includes(k.toLowerCase()));
         }
         
-        userAnswers[index] = input.value;
-        userAnswers[index].isCorrect = isCorrect;
+        userAnswers[index] = {
+            selected: input.value,
+            isCorrect: isCorrect
+        };
         answeredStatus[index] = true;
         updateScore(isCorrect);
         renderQuestion(index);
