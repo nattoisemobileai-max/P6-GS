@@ -314,6 +314,11 @@
             padding-left: 0.5rem;
             border-left: 2px solid #f3b33d;
         }
+        .explanation-label {
+            font-weight: 600;
+            color: #7d5d2a;
+            margin-right: 0.3rem;
+        }
 
         .navigation {
             display: flex;
@@ -655,12 +660,17 @@
         if (hasAnswered) {
             html += `<div class="result-box show" id="result-${index}">`;
             const isCorrect = userAnswers[index]?.isCorrect;
-            html += `<p class="${isCorrect ? 'correct-msg' : 'incorrect-msg'}">
-                ${isCorrect ? '✅ 正確！' : '❌ 錯誤！'}
-            </p>`;
             
+            // 答對時顯示特殊訊息
+            if (isCorrect) {
+                html += `<p class="correct-msg">✅ 正確！Correct :D</p>`;
+            } else {
+                html += `<p class="incorrect-msg">❌ 錯誤！</p>`;
+            }
+            
+            // 顯示解說（如果有）
             if (q.explanation) {
-                html += formatExplanation(q.explanation);
+                html += `<div class="explanation-line"><span class="explanation-label">🔍 解說：</span>${q.explanation}</div>`;
             }
             
             // 如果是答錯，顯示正確答案提示
