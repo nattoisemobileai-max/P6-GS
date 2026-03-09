@@ -1,415 +1,842 @@
-{
-  "lessonTitle": "第三冊第4課：中國近年發展（綜合題庫）",
-  "lessonIcon": "fa-chart-line",
-  "totalQuestions": 35,
-  "questions": [
-    {
-      "id": 1,
-      "question": "根據資料一的圖表，中國內地人均收入在 2013 年至 2016 年間呈現什麼樣的趨勢？",
-      "options": [
-        "A. 逐年穩步上升",
-        "B. 先升後跌",
-        "C. 保持停滯不前",
-        "D. 呈現劇烈波動"
-      ],
-      "correctAnswer": 0,
-      "explanation": "圖表顯示柱狀高度從 2013 年至 2016 年持續增長，反映了國民經濟收入的擴張。"
-    },
-    {
-      "id": 2,
-      "question": "關於網購節的報導，下列哪一項描述屬於客觀事實而非媒體評論？",
-      "options": [
-        "A. 網民瘋狂購物",
-        "B. 網民的消費能力驚人",
-        "C. 交易額再創新高",
-        "D. 網購節是年度最重要的節日"
-      ],
-      "correctAnswer": 2,
-      "explanation": "這是基於具體銷售數據得出的統計結果，是可以被量化和證實的現狀。"
-    },
-    {
-      "id": 3,
-      "question": "資料顯示，中國每年約有多少農民從農村轉向城市工作和生活？",
-      "options": [
-        "A. 200 名",
-        "B. 10,000,000 名",
-        "C. 60,000,000 名",
-        "D. 2,601 名"
-      ],
-      "correctAnswer": 1,
-      "explanation": "根據國家統計局的資料，每年平均約有一千萬名農民流入城市。"
-    },
-    {
-      "id": 4,
-      "question": "根據 2017 年的統計，在城市工作的農民工與在農村工作的農民工相比，月均收入差異為何？",
-      "options": [
-        "A. 城市農民工收入是農村的兩倍",
-        "B. 城市農民工比農村農民工高約 20%",
-        "C. 兩者收入完全相同",
-        "D. 農村農民工比城市農民工高約 20%"
-      ],
-      "correctAnswer": 1,
-      "explanation": "資料明確指出城鄉工作環境下的收入差距，這也是吸引農村人口向城市流動的主因。"
-    },
-    {
-      "id": 5,
-      "question": "資料中提到的「留守兒童」問題，最主要與下列哪一個社會現象直接相關？",
-      "options": [
-        "A. 電子產品的進口依賴",
-        "B. 高科技研發人員數量的增長",
-        "C. 大規模的農村勞動力向城市遷移",
-        "D. 工業產品產量居世界第一"
-      ],
-      "correctAnswer": 2,
-      "explanation": "當父母為了更高收入前往城市工作而無法帶同子女時，便產生了留守農村的兒童問題。"
-    },
-    {
-      "id": 6,
-      "question": "中國在工業發展方面取得的成就中，哪一項數據體現了其「世界工廠」的地位？",
-      "options": [
-        "A. 每年減少一千萬名農業人口",
-        "B. 工廠提供了大量高技術職位",
-        "C. 有二百多種工業產品產量居世界第一",
-        "D. 工業生產完全解決了空氣污染問題"
-      ],
-      "correctAnswer": 2,
-      "explanation": "多種產品產量冠絕全球反映了中國製造業的廣度與極強的生產能力。"
-    },
-    {
-      "id": 7,
-      "question": "北京在 2016 年底至 2017 年初發出的空氣污染預警，持續了多久？",
-      "options": [
-        "A. 不到 24 小時",
-        "B. 二百多個小時",
-        "C. 二十多天",
-        "D. 整整一個月"
-      ],
-      "correctAnswer": 1,
-      "explanation": "資料引用《明報》報導，指出該次預警持續時間長並創造了歷史紀錄。"
-    },
-    {
-      "id": 8,
-      "question": "在科技發展範疇中，「超級電腦」被歸類為哪一項技術領域的成就？",
-      "options": [
-        "A. 航天科技",
-        "B. 農業科技",
-        "C. 資訊科技",
-        "D. 能源科技"
-      ],
-      "correctAnswer": 2,
-      "explanation": "超級電腦涉及大規模數據處理與運算能力，是現代資訊產業的核心指標。"
-    },
-    {
-      "id": 9,
-      "question": "根據《2018 年全球創新指數》報告，中國在哪些指標上均位居全球第一？",
-      "options": [
-        "A. 高端晶片設計與製造能力",
-        "B. 全國空氣質量優良率",
-        "C. 科研人員、技術專利和科技出版物數量",
-        "D. 氫能源電動車的普及率"
-      ],
-      "correctAnswer": 2,
-      "explanation": "報導一明確列出這三項量化指標是中國展現創新實力的關鍵優勢。"
-    },
-    {
-      "id": 10,
-      "question": "報導二指出中國在高端科技發展上面臨的挑戰是什麼？",
-      "options": [
-        "A. 科研人員數量嚴重不足",
-        "B. 完全沒有任何自主研發的科技產品",
-        "C. 高端科技發展仍處於中低水平，依賴進口核心零件",
-        "D. 不再需要與外國進行貿易往來"
-      ],
-      "correctAnswer": 2,
-      "explanation": "中科院院長認為中國雖然整體排名提升，但在關鍵的高端領域如晶片仍有不足。"
-    },
-    {
-      "id": 11,
-      "question": "中國在 2017 年進口的晶片產品總值約為多少？",
-      "options": [
-        "A. 260 億美元",
-        "B. 200 億美元",
-        "C. 2,601 億美元",
-        "D. 1,000 億美元"
-      ],
-      "correctAnswer": 2,
-      "explanation": "報導二提供的數據顯示了中國對外國核心電子零件的巨大需求量。"
-    },
-    {
-      "id": 12,
-      "question": "下列關於報導一與報導二的敘述，哪一項最能體現「觀點」而非「事實」？",
-      "options": [
-        "A. 科技出版物數量居全球第一",
-        "B. 2017 年進口晶片總值 2,601 億美元",
-        "C. 中國在經濟領域上的轉型取得成功和突破",
-        "D. 中國首次躋身全球創新指數前 20 名"
-      ],
-      "correctAnswer": 2,
-      "explanation": "「成功和突破」是對數據的主觀詮釋與評價，不同觀察者可能有不同判斷。"
-    },
-    {
-      "id": 13,
-      "question": "資料中提到的「雜交水稻」屬於哪方面的科技成就，其主要貢獻可能為何？",
-      "options": [
-        "A. 農業科技；解決糧食安全與產量問題",
-        "B. 環境科技；減少農藥對土地的污染",
-        "C. 能源科技；開發生物質燃料",
-        "D. 資訊科技；提升農場的數位化管理"
-      ],
-      "correctAnswer": 0,
-      "explanation": "水稻是主要農作物，雜交技術旨在提高單位面積產量以養活更多人口。"
-    },
-    {
-      "id": 14,
-      "question": "根據「小總結」，中國近年發展各項領域（經濟、科技）的最終目標是為了什麼？",
-      "options": [
-        "A. 全面取代所有國家的科技",
-        "B. 改善人民生活素質",
-        "C. 單純追求世界第一的排名",
-        "D. 增加農村留守兒童的數量"
-      ],
-      "correctAnswer": 1,
-      "explanation": "總結指出經濟推動與科技進步的落腳點在於提升全體國民的生活水平。"
-    },
-    {
-      "id": 15,
-      "question": "為什麼報導二認為中國在高端科技上仍「落後於其他發達國家」？",
-      "options": [
-        "A. 因為中國的科研人員數量排名太低",
-        "B. 因為中國不重視科技發展",
-        "C. 因為核心電子產品生產仍依賴大量進口零件",
-        "D. 因為中國完全沒有製造電腦的能力"
-      ],
-      "correctAnswer": 2,
-      "explanation": "缺乏自主生產高端晶片的能力，顯示了產業鏈頂端的技術短板。"
-    },
-    {
-      "id": 16,
-      "question": "資料中提到的「低技術及低學歷職位」，其對社會的主要正面影響是：",
-      "options": [
-        "A. 徹底消除城鄉之間的收入差距",
-        "B. 推動中國迅速進入高端科技領先地位",
-        "C. 減少環境污染的壓力",
-        "D. 為大量轉移的農村勞動力提供就業機會"
-      ],
-      "correctAnswer": 3,
-      "explanation": "對於教育水平較低的遷移人口，這些職位是他們在城市立足的基礎。"
-    },
-    {
-      "id": 17,
-      "question": "若要分辨媒體報導中的事實（Fact）與意見（Opinion），下列哪種描述最可能是事實？",
-      "options": [
-        "A. 中國首次躋身全球創新指數前 20 名",
-        "B. 網民購物時表現得極度瘋狂",
-        "C. 中國科技落後得令人擔憂",
-        "D. 中國的轉型非常成功"
-      ],
-      "correctAnswer": 0,
-      "explanation": "這是一個可以從官方排名清單中查證的具體位次。"
-    },
-    {
-      "id": 18,
-      "question": "在資料二中，哪一個機構提供了關於留守兒童現狀的白皮書？",
-      "options": [
-        "A. 世界知識產權組織",
-        "B. 《中國留守兒童心靈狀況白皮書 2015》",
-        "C. 《明報》網站",
-        "D. 國家統計局網站"
-      ],
-      "correctAnswer": 1,
-      "explanation": "資料腳註中明確標註了數據的來源文件名稱。"
-    },
-    {
-      "id": 19,
-      "question": "根據資料分析，中國經濟發展對環境帶來的負面影響是：",
-      "options": [
-        "A. 使得晶片進口額逐年減少",
-        "B. 讓更多兒童能夠留在農村生活",
-        "C. 工業生產排放導致嚴重的空氣污染問題",
-        "D. 導致農村人口過度肥胖"
-      ],
-      "correctAnswer": 2,
-      "explanation": "北京創紀錄的空氣污染預警反映了高速工業化帶來的環境代價。"
-    },
-    {
-      "id": 20,
-      "question": "氫能源電動車作為能源科技的例子，其研發主要符合下列哪一個發展方向？",
-      "options": [
-        "A. 增加農產品的運輸速度",
-        "B. 完全依賴外國技術進口",
-        "C. 提高工廠低技術職位的需求",
-        "D. 推動綠色能源與減少碳排放"
-      ],
-      "correctAnswer": 3,
-      "explanation": "氫能源是一種清潔能源，發展電動車有助於緩解資料中提到的污染問題。"
-    },
-    {
-      "id": 21,
-      "question": "在兩則關於創新指數的報導中，兩者共同認可的「事實」是什麼？",
-      "options": [
-        "A. 科研人員的數量在 2018 年有所下降",
-        "B. 中國已經是全球最強的高端科技國家",
-        "C. 中國晶片產量已經供過於求",
-        "D. 中國在《2018 年全球創新指數》中進入了前 20 名"
-      ],
-      "correctAnswer": 3,
-      "explanation": "兩則報導的標題或開頭都確認了這一具體的排名數據。"
-    },
-    {
-      "id": 22,
-      "question": "下列哪一項數據最能支持「中國內地居民消費能力提升」這一論點？",
-      "options": [
-        "A. 工廠提供大量低技術職位",
-        "B. 留守兒童人數達六千多萬",
-        "C. 網購節交易額再創新高",
-        "D. 進口晶片花費 2,601 億美元"
-      ],
-      "correctAnswer": 2,
-      "explanation": "交易額的不斷突破直接反映了網民在零售市場的購買力增強。"
-    },
-    {
-      "id": 23,
-      "question": "根據資料，關於中國近年發展的「正反兩面」分析，下列配對正確的是：",
-      "options": [
-        "A. 正面：月均收入低；反面：創新指數高",
-        "B. 正面：產量世界第一；反面：空氣污染嚴重",
-        "C. 正面：留守兒童多；反面：人均收入增加",
-        "D. 正面：進口晶片多；反面：科研人員多"
-      ],
-      "correctAnswer": 1,
-      "explanation": "這準確地概括了工業高度發達帶來的經濟收益與環境代價。"
-    },
-    {
-      "id": 24,
-      "question": "報導二提到中國需從外國輸入總值 2,601 億美元的晶片，這主要反映了：",
-      "options": [
-        "A. 外國晶片價格比中國自產的便宜",
-        "B. 中國不打算發展本國的電子產業",
-        "C. 中國的外匯儲備過多，需要透過進口消耗",
-        "D. 中國在關鍵核心技術上仍受制於人"
-      ],
-      "correctAnswer": 3,
-      "explanation": "對外國核心零件的高度依賴意味著科技自主權尚未完全達成。"
-    },
-    {
-      "id": 25,
-      "question": "中國在 2013-2016 年的人均收入數據來源是：",
-      "options": [
-        "A. 國家統計局網站",
-        "B. 報章關於網購節的報導",
-        "C. 《明報》網站",
-        "D. 世界知識產權組織"
-      ],
-      "correctAnswer": 0,
-      "explanation": "圖表下方標註了來源，這是國家發布官方經濟數據的最權威機構。"
-    },
-    {
-      "id": 26,
-      "question": "分析資料二中有關「留守兒童」的數據，六千多萬這個數字主要說明了什麼？",
-      "options": [
-        "A. 政府鼓勵家長將孩子留在農村",
-        "B. 中國農村人口出生率極高",
-        "C. 中國已經實現了全面的農村現代化",
-        "D. 城鎮化進程中巨大的家庭代價與社會福利缺口"
-      ],
-      "correctAnswer": 3,
-      "explanation": "龐大的受影響兒童數量反映了人口遷徙與家庭團聚、教育保障之間的矛盾。"
-    },
-    {
-      "id": 27,
-      "question": "若要支持「中國在科研投入上已具備世界級規模」這一論點，最合適的證據是：",
-      "options": [
-        "A. 每年有一千萬農民進城",
-        "B. 科研人員及技術專利數量居全球第一",
-        "C. 北京空氣污染預警創紀錄",
-        "D. 晶片進口總值超過二千億美元"
-      ],
-      "correctAnswer": 1,
-      "explanation": "人力資源和產出數量（專利）是衡量科研投入與規模的最直接指標。"
-    },
-    {
-      "id": 28,
-      "question": "關於中國在資訊科技領域的成就「超級電腦」，下列哪些描述是準確的？",
-      "options": [
-        "A. 這些科技成就的核心意義在於提升計算能力並推動科研發展",
-        "B. 中國目前的超級電腦運算速度已經超越了所有發達國家的總和",
-        "C. 超級電腦的高速發展已經徹底解決了國內所有能源短缺問題",
-        "D. 「神威」與「太湖之光」是中國目前極具代表性的超級電腦"
-      ],
-      "correctAnswer": [0, 3],
-      "explanation": "A. 正確，超級電腦的核心意義是提升計算能力與推動科研。B. 錯誤，沒有證據顯示已超越所有發達國家總和。C. 錯誤，能源問題無法單靠超級電腦解決。D. 正確，神威·太湖之光確實是代表性超級電腦。"
-    },
-    {
-      "id": 29,
-      "question": "在「一帶一路」國際合作高峰論壇中，其描述的核心目標包括：",
-      "options": [
-        "A. 解決北京市內因為經濟快速發展而產生的嚴重空氣污染預警",
-        "B. 確保中國在二零一七年後完全停止使用傳統的石化能源發電",
-        "C. 促進中國與「一帶一路」沿線國家之間更深層次的經濟合作",
-        "D. 推動全球化發展並加強中國在國際經濟體系中的多邊影響力"
-      ],
-      "correctAnswer": [2, 3],
-      "explanation": "A. 錯誤，空氣污染是國內治理問題，非論壇主旨。B. 錯誤，能源替代非一帶一路唯一目標。C. 正確，促進沿線經濟合作是主要目標。D. 正確，推動全球化發展也是論壇目的。"
-    },
-    {
-      "id": 30,
-      "question": "根據教材的「小總結」，中國近年著重發展「創新科技」的主要動機為何？",
-      "options": [
-        "A. 旨在藉由科技進步來實際改善人民群眾的整體生活質素水平",
-        "B. 完全是為了在全球創新指數中獲得排名而不需要具備實際產出",
-        "C. 主要的動機是為了完全封鎖與發達國家之間的科技與文化交流",
-        "D. 通過科技創新來進一步推動中國內地經濟的持續性轉型與增長"
-      ],
-      "correctAnswer": [0, 3],
-      "explanation": "A. 正確，改善生活質素是小總結中提到的目標。B. 錯誤，排名是結果，並非發展科技的「目的」。C. 錯誤，中國積極參與國際交流，非封鎖。D. 正確，推動經濟轉型與增長是主要動機。"
-    },
-    {
-      "id": 31,
-      "question": "對於中國目前仍需進口大量晶片這一事實，教材提供了哪些深層解讀？",
-      "options": [
-        "A. 這項事實具體顯示了中國在核心零部件方面仍然高度依賴外國",
-        "B. 認清這些發展中的不足有助於國家制定更精準的未來發展策略",
-        "C. 這種依賴性是為了確保中國能繼續維持世界衛生組織總幹事席位",
-        "D. 該現象證明了中國目前的科技專利數量仍然位居全球最後幾位"
-      ],
-      "correctAnswer": [0, 1],
-      "explanation": "A. 正確，晶片依賴顯示核心零部件仍依賴進口。B. 正確，認清不足有助於制定未來策略。C. 錯誤，晶片進口與WHO席位無關。D. 錯誤，科技專利數量中國居全球前列，並非最後。"
-    },
-    {
-      "id": 32,
-      "question": "教材中提到關於「二零一六年北京空氣污染預警」的數據，其主要用意是：",
-      "options": [
-        "A. 反映出由於網購節交易額過高而導致城市物流交通極度癱瘓",
-        "B. 說明急躁的經濟與工商業發展可能對自然環境造成負面影響",
-        "C. 以此證明中國的氫能源與電動車已經徹底取代了所有柴油車輛",
-        "D. 以歷史紀錄的數據來強調城市化過程中必須正視的污染問題"
-      ],
-      "correctAnswer": [1, 3],
-      "explanation": "A. 錯誤，空氣污染與網購節無直接因果關係。B. 正確，經濟發展可能帶來環境負面影響。C. 錯誤，氫能源尚未完全取代柴油車。D. 正確，用歷史紀錄強調必須正視污染問題。"
-    },
-    {
-      "id": 33,
-      "question": "關於中國內地網購節交易額屢創新高的現象，下列哪些推論符合教材？",
-      "options": [
-        "A. 網購節的興起是導致二零一七年農民工收入增加的唯一主因",
-        "B. 這項趨勢主要證明了中國在雜交水稻研發領域取得了重大成果",
-        "C. 該現象顯示出網民參與消費的意願增強且支付工具日益普及",
-        "D. 這反映了中國內地民眾的消費能力在近年來有了顯著的提升"
-      ],
-      "correctAnswer": [2, 3],
-      "explanation": "A. 錯誤，農民工收入增加與工廠職位、經濟發展有關，不應單歸因於網購節。B. 錯誤，雜交水稻與網購節無關。C. 正確，消費意願增強且支付工具普及。D. 正確，消費能力顯著提升。"
-    },
-    {
-      "id": 34,
-      "question": "在能源科技領域，教材提到「氫能源與電動車」的發展，其目標包括：",
-      "options": [
-        "A. 透過能源技術的創新來促進國家的環境保護與生態文明建設",
-        "B. 積極推動綠色能源的應用以實現社會與環境的可持續性發展",
-        "C. 完全是為了減少中國製造業在國際市場上的工業產品種類數量",
-        "D. 旨在限制農民工進入城市以解決北京日益嚴重的空氣污染問題"
-      ],
-      "correctAnswer": [0, 1],
-      "explanation": "A. 正確，促進環保與生態文明建設。B. 正確，推動綠色能源與可持續發展。C. 錯誤，發展能源科技不會為了減少產品種類。D. 錯誤，能源科技非人口管理政策。"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>小常識 · 測驗 · 綜合題庫</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #d4e0ec 0%, #eaf0f6 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0.3rem;
+            font-size: 16px;
+        }
+
+        .test-container {
+            max-width: 550px;
+            width: 100%;
+            height: 98vh;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(4px);
+            border-radius: 32px;
+            box-shadow: 0 20px 30px -10px rgba(0,40,60,0.4);
+            padding: 0.8rem;
+            border: 2px solid rgba(255,255,255,0.8);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .test-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 40px;
+            margin-bottom: 0.5rem;
+            box-shadow: 0 3px 0 #bed0e3;
+            flex-shrink: 0;
+        }
+
+        .back-home {
+            background: #f4d03f;
+            border-radius: 40px;
+            padding: 0.3rem 0.8rem;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #1f3a4b;
+            border: none;
+            box-shadow: 0 3px 0 #b38f1c;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            text-decoration: none;
+        }
+        .back-home:active { transform: translateY(3px); box-shadow: 0 1px 0 #b38f1c; }
+
+        .test-title {
+            font-size: 1.2rem;
+            font-weight: 900;
+            background: #eef5ff;
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+            color: #1a4972;
+            border: 2px solid #c1d9f0;
+        }
+
+        .test-stats {
+            display: flex;
+            gap: 0.5rem;
+            background: #2b3c4e;
+            padding: 0.2rem 0.8rem;
+            border-radius: 40px;
+            color: white;
+            font-weight: 600;
+            font-size: 0.8rem;
+            align-items: center;
+        }
+        .test-stats i {
+            color: #ffd966;
+        }
+
+        .filter-section {
+            margin-bottom: 0.5rem;
+            flex-shrink: 0;
+        }
+        .filter-title {
+            font-size: 0.9rem;
+            color: #2c5a7a;
+            margin-bottom: 0.3rem;
+            font-weight: 600;
+        }
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            justify-content: center;
+        }
+        .filter-btn {
+            background: white;
+            border: 2px solid #c1d9f0;
+            border-radius: 40px;
+            padding: 0.3rem 0.8rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #1f3a4b;
+            cursor: pointer;
+            transition: 0.1s;
+            box-shadow: 0 2px 0 #9fbad0;
+            flex: 0 1 auto;
+            white-space: nowrap;
+        }
+        .filter-btn.active {
+            background: #3498db;
+            color: white;
+            border-color: #2c7bb6;
+        }
+        .filter-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 1px 0 #9fbad0;
+        }
+
+        .progress-section {
+            margin-bottom: 0.5rem;
+            flex-shrink: 0;
+        }
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.2rem;
+            font-weight: 600;
+            color: #2c5a7a;
+            font-size: 0.9rem;
+        }
+        .progress-bar-bg {
+            height: 16px;
+            background: #e2eaf3;
+            border-radius: 30px;
+            overflow: hidden;
+            width: 100%;
+        }
+        .progress-correct {
+            height: 100%;
+            background: #58cc71;
+            transition: width 0.3s;
+            width: 0%;
+            border-radius: 30px;
+        }
+
+        .scrollable-content {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 2px;
+            margin-bottom: 0.3rem;
+        }
+
+        .question-card {
+            background: white;
+            border-radius: 24px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 0 #a0b9cf, 0 5px 15px rgba(0,0,0,0.1);
+            border: 2px solid #fff6cf;
+        }
+
+        .question-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .question-number {
+            background: #3498db;
+            color: white;
+            padding: 0.1rem 0.8rem;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 0.8rem;
+        }
+        .type-badge {
+            background: #f4d03f;
+            color: #1f3a4b;
+            padding: 0.1rem 0.8rem;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1e3f5a;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+            padding-left: 0.3rem;
+            border-left: 4px solid #f3b33d;
+        }
+
+        .options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 0.8rem;
+        }
+        .option-item {
+            background: #f5f9ff;
+            border: 2px solid #cad9eb;
+            border-radius: 40px;
+            padding: 0.7rem 1rem;
+            font-size: 1rem;
+            color: #1f4973;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            cursor: pointer;
+            transition: 0.1s;
+            box-shadow: 0 2px 0 #9fbad0;
+        }
+        .option-item:hover {
+            background: #e1efff;
+        }
+        .option-item input[type="radio"], 
+        .option-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #58a700;
+            cursor: pointer;
+        }
+        .option-item.disabled {
+            opacity: 0.7;
+            cursor: default;
+        }
+        .option-item.correct-highlight {
+            background: #c1e5c0;
+            border-color: #58a700;
+        }
+        .option-item.incorrect-highlight {
+            background: #ffcdd2;
+            border-color: #c62828;
+        }
+
+        .essay-input, .short-input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #cad9eb;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            margin: 0.5rem 0;
+            resize: vertical;
+            font-family: inherit;
+        }
+        .essay-input {
+            min-height: 100px;
+        }
+
+        .submit-area {
+            display: flex;
+            gap: 0.5rem;
+            margin: 0.8rem 0 0.5rem;
+        }
+        .btn-submit {
+            background: #58a700;
+            border: none;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            box-shadow: 0 3px 0 #3e7a00;
+            cursor: pointer;
+            flex: 1;
+        }
+        .btn-submit:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #3e7a00;
+        }
+        .btn-submit:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .result-box {
+            margin-top: 0.8rem;
+            padding: 0.8rem;
+            border-radius: 16px;
+            background: #fff9e6;
+            border-left: 4px solid #f3b33d;
+            font-size: 0.9rem;
+            display: none;
+        }
+        .result-box.show {
+            display: block;
+        }
+        .correct-msg { color: #2e7d32; font-weight: 700; font-size: 1rem; margin-bottom: 0.5rem; }
+        .incorrect-msg { color: #c62828; font-weight: 700; font-size: 1rem; margin-bottom: 0.5rem; }
+        .explanation-line {
+            margin: 0.3rem 0;
+            padding-left: 0.5rem;
+            border-left: 2px solid #f3b33d;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.3rem;
+            flex-shrink: 0;
+        }
+        .nav-btn {
+            background: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #1f4973;
+            box-shadow: 0 3px 0 #9fbad0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            flex: 1;
+            justify-content: center;
+        }
+        .nav-btn:active:not(:disabled) { transform: translateY(3px); box-shadow: 0 1px 0 #9fbad0; }
+        .nav-btn.primary { background: #58a700; color: white; box-shadow: 0 3px 0 #3e7a00; }
+        .nav-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .question-indicator {
+            background: #e1edff;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-weight: 600;
+            color: #1a4972;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        .footer-note {
+            text-align: center;
+            margin-top: 0.5rem;
+            color: #6b8baa;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+<div class="test-container">
+    <div class="test-header">
+        <a href="../index.html" class="back-home"><i class="fas fa-arrow-left"></i> 返回</a>
+        <span class="test-title" id="lesson-title">綜合題庫</span>
+        <div class="test-stats">
+            <span><i class="fas fa-star"></i> <span id="score">0</span>/<span id="total">0</span></span>
+        </div>
+    </div>
+
+    <div class="filter-section">
+        <div class="filter-title"><i class="fas fa-filter"></i> 題型篩選</div>
+        <div class="filter-buttons" id="filter-buttons">
+            <button class="filter-btn active" data-filter="random20">🎲 隨機20題</button>
+            <button class="filter-btn" data-filter="all">📚 全部題目</button>
+            <button class="filter-btn" data-filter="mc">🔘 單選題</button>
+            <button class="filter-btn" data-filter="checkbox">✅ 複選題</button>
+            <button class="filter-btn" data-filter="truefalse">✓ 是非題</button>
+            <button class="filter-btn" data-filter="essay">📝 論述題</button>
+            <button class="filter-btn" data-filter="short">✏️ 簡答題</button>
+        </div>
+    </div>
+
+    <div class="progress-section">
+        <div class="progress-info">
+            <span><span id="correctCount">0</span> 正確 · <span id="wrongCount">0</span> 錯誤</span>
+            <span id="completionPercent">0%</span>
+        </div>
+        <div class="progress-bar-bg">
+            <div class="progress-correct" id="progressCorrect" style="width:0%"></div>
+        </div>
+    </div>
+
+    <div class="scrollable-content" id="contentArea"></div>
+
+    <div class="navigation">
+        <button class="nav-btn" id="prevBtn" disabled><i class="fas fa-chevron-left"></i> 上一題</button>
+        <span class="question-indicator" id="questionIndicator">1/0</span>
+        <button class="nav-btn primary" id="nextBtn" disabled>下一題 <i class="fas fa-chevron-right"></i></button>
+    </div>
+
+    <div class="footer-note">
+        <i class="fas fa-lightbulb"></i> 單選題點選即評分，複選題需點「提交答案」
+    </div>
+</div>
+
+<script>
+    let allQuestions = [];
+    let currentQuestions = [];
+    let userAnswers = {};
+    let answeredStatus = {};
+    let correctCount = 0, wrongCount = 0;
+    let currentIndex = 0;
+
+    const contentArea = document.getElementById('contentArea');
+    const lessonTitle = document.getElementById('lesson-title');
+    const scoreSpan = document.getElementById('score');
+    const totalSpan = document.getElementById('total');
+    const correctCountSpan = document.getElementById('correctCount');
+    const wrongCountSpan = document.getElementById('wrongCount');
+    const progressCorrect = document.getElementById('progressCorrect');
+    const completionPercent = document.getElementById('completionPercent');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const questionIndicator = document.getElementById('questionIndicator');
+    const filterBtns = document.querySelectorAll('.filter-btn');
+
+    async function loadQuestions() {
+        try {
+            const res = await fetch('test-data.json');
+            if (!res.ok) throw new Error('無法載入題庫');
+            const data = await res.json();
+            
+            allQuestions = data.questions.map(q => {
+                let type = 'unknown';
+                if (q.type) {
+                    type = q.type;
+                } else if (typeof q.correctAnswer === 'boolean') {
+                    type = 'truefalse';
+                } else if (Array.isArray(q.correctAnswer)) {
+                    type = 'checkbox';
+                } else if (typeof q.correctAnswer === 'number') {
+                    type = 'mc';
+                } else if (q.keywords) {
+                    type = 'short';
+                } else {
+                    type = 'essay';
+                }
+                return { ...q, type };
+            });
+            
+            lessonTitle.textContent = data.lessonTitle || '綜合題庫';
+            totalSpan.textContent = allQuestions.length;
+            filterQuestions('random20');
+            
+        } catch (error) {
+            contentArea.innerHTML = `<div style="color:#c62828; padding:1rem;">❌ 載入失敗：${error.message}</div>`;
+        }
     }
-  ]
-}
+
+    function getTypeName(type) {
+        const names = {
+            'mc': '單選',
+            'checkbox': '複選',
+            'truefalse': '是非',
+            'essay': '論述',
+            'short': '簡答'
+        };
+        return names[type] || type;
+    }
+
+    function getTypeIcon(type) {
+        const icons = {
+            'mc': '🔘',
+            'checkbox': '✅',
+            'truefalse': '✓',
+            'essay': '📝',
+            'short': '✏️'
+        };
+        return icons[type] || '📌';
+    }
+
+    function formatExplanation(explanation) {
+        if (!explanation) return '';
+        
+        // 將解說按選項分行 (A., B., C., D.)
+        const lines = explanation.split(/(?=[A-D]\.)/g);
+        let formatted = '';
+        lines.forEach(line => {
+            if (line.trim()) {
+                formatted += `<div class="explanation-line">${line.trim()}</div>`;
+            }
+        });
+        return formatted;
+    }
+
+    function filterQuestions(filterType) {
+        filterBtns.forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.dataset.filter === filterType) {
+                btn.classList.add('active');
+            }
+        });
+
+        let questionIndices = [];
+        
+        if (filterType === 'random20') {
+            const total = allQuestions.length;
+            const count = Math.min(20, total);
+            const indices = new Set();
+            while (indices.size < count) {
+                indices.add(Math.floor(Math.random() * total));
+            }
+            questionIndices = Array.from(indices);
+        } else {
+            let filteredIndices = [];
+            if (filterType === 'all') {
+                filteredIndices = allQuestions.map((_, idx) => idx);
+            } else {
+                filteredIndices = allQuestions
+                    .map((q, idx) => ({ type: q.type, idx }))
+                    .filter(item => item.type === filterType)
+                    .map(item => item.idx);
+            }
+            questionIndices = filteredIndices;
+        }
+
+        currentQuestions = questionIndices;
+        userAnswers = {};
+        answeredStatus = {};
+        correctCount = 0;
+        wrongCount = 0;
+        currentIndex = 0;
+        updateStats();
+
+        if (currentQuestions.length === 0) {
+            contentArea.innerHTML = '<div style="text-align:center; padding:2rem;">📭 沒有符合條件的題目</div>';
+            questionIndicator.textContent = `0/0`;
+            nextBtn.disabled = true;
+            prevBtn.disabled = true;
+            return;
+        }
+
+        questionIndicator.textContent = `1/${currentQuestions.length}`;
+        nextBtn.disabled = false;
+        renderQuestion(0);
+    }
+
+    function renderQuestion(index) {
+        if (currentQuestions.length === 0) return;
+        
+        const qIdx = currentQuestions[index];
+        const q = allQuestions[qIdx];
+        const hasAnswered = answeredStatus[index] === true;
+        
+        let html = `
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">第 ${index+1}/${currentQuestions.length} 題</span>
+                    <span class="type-badge">${getTypeIcon(q.type)} ${getTypeName(q.type)}</span>
+                </div>
+                <div class="question-text">${q.question}</div>
+        `;
+
+        if (q.type === 'mc' || q.type === 'checkbox' || q.type === 'truefalse') {
+            html += '<div class="options-grid" id="options-container">';
+            
+            let options = q.options;
+            if (q.type === 'truefalse' && (!options || options.length === 0)) {
+                options = ['正確', '錯誤'];
+            }
+            
+            options.forEach((opt, optIdx) => {
+                const inputType = q.type === 'checkbox' ? 'checkbox' : 'radio';
+                const name = q.type === 'checkbox' ? `q${index}_${optIdx}` : `q${index}`;
+                
+                // 檢查當前選項是否被選中
+                let isChecked = false;
+                if (hasAnswered && userAnswers[index] !== undefined) {
+                    if (Array.isArray(userAnswers[index].selected)) {
+                        isChecked = userAnswers[index].selected.includes(optIdx);
+                    } else {
+                        isChecked = (userAnswers[index].selected === optIdx);
+                    }
+                } else if (!hasAnswered && userAnswers[index] !== undefined) {
+                    // 未提交前暫存選中狀態
+                    if (Array.isArray(userAnswers[index])) {
+                        isChecked = userAnswers[index].includes(optIdx);
+                    } else {
+                        isChecked = (userAnswers[index] === optIdx);
+                    }
+                }
+                
+                let extraClass = '';
+                if (hasAnswered) {
+                    // 顯示正確答案（綠色）
+                    if (Array.isArray(q.correctAnswer) && q.correctAnswer.includes(optIdx)) {
+                        extraClass = ' correct-highlight';
+                    } else if (!Array.isArray(q.correctAnswer) && q.correctAnswer === optIdx) {
+                        extraClass = ' correct-highlight';
+                    }
+                    
+                    // 顯示使用者選錯的選項（紅色）
+                    if (userAnswers[index] && !userAnswers[index].isCorrect) {
+                        const userSelected = userAnswers[index].selected;
+                        if (Array.isArray(userSelected) && userSelected.includes(optIdx) && 
+                            !(Array.isArray(q.correctAnswer) && q.correctAnswer.includes(optIdx))) {
+                            extraClass = ' incorrect-highlight';
+                        } else if (!Array.isArray(userSelected) && userSelected === optIdx && 
+                                  userSelected !== q.correctAnswer) {
+                            extraClass = ' incorrect-highlight';
+                        }
+                    }
+                }
+                
+                html += `
+                    <label class="option-item ${hasAnswered ? 'disabled' : ''} ${extraClass}">
+                        <input type="${inputType}" name="${name}" value="${optIdx}" 
+                            ${isChecked ? 'checked' : ''} 
+                            ${hasAnswered ? 'disabled' : ''}
+                            onchange="${q.type === 'checkbox' 
+                                ? `handleCheckboxChange(${index}, ${optIdx}, this)` 
+                                : (q.type === 'truefalse' || q.type === 'mc') && !hasAnswered 
+                                    ? `handleRadioChange(${index}, ${optIdx})` 
+                                    : ''}">
+                        ${opt}
+                    </label>
+                `;
+            });
+            
+            html += '</div>';
+            
+            if (q.type === 'checkbox' && !hasAnswered) {
+                html += `<div class="submit-area"><button class="btn-submit" onclick="submitCheckbox(${index})">提交答案</button></div>`;
+            }
+            
+        } else if (q.type === 'essay') {
+            html += `
+                <textarea class="essay-input" id="essay-${index}" placeholder="請輸入你的論述..." ${hasAnswered ? 'disabled' : ''}>${userAnswers[index]?.selected || ''}</textarea>
+                ${!hasAnswered ? '<div class="submit-area"><button class="btn-submit" onclick="submitEssay('+index+')">提交答案</button></div>' : ''}
+            `;
+        } else if (q.type === 'short') {
+            html += `
+                <input type="text" class="short-input" id="short-${index}" placeholder="請輸入簡短答案" value="${userAnswers[index]?.selected || ''}" ${hasAnswered ? 'disabled' : ''}>
+                ${!hasAnswered ? '<div class="submit-area"><button class="btn-submit" onclick="submitShort('+index+')">提交答案</button></div>' : ''}
+            `;
+        }
+
+        // 顯示結果（如果已答）
+        if (hasAnswered) {
+            html += `<div class="result-box show" id="result-${index}">`;
+            const isCorrect = userAnswers[index]?.isCorrect;
+            html += `<p class="${isCorrect ? 'correct-msg' : 'incorrect-msg'}">
+                ${isCorrect ? '✅ 正確！' : '❌ 錯誤！'}
+            </p>`;
+            
+            if (q.explanation) {
+                html += formatExplanation(q.explanation);
+            }
+            
+            // 如果是答錯，顯示正確答案提示
+            if (!isCorrect && q.correctAnswer !== undefined) {
+                if (Array.isArray(q.correctAnswer)) {
+                    const correctLetters = q.correctAnswer.map(idx => String.fromCharCode(65 + idx)).join('、');
+                    html += `<div class="explanation-line"><strong>正確答案：</strong> ${correctLetters}</div>`;
+                } else if (typeof q.correctAnswer === 'number') {
+                    const correctLetter = String.fromCharCode(65 + q.correctAnswer);
+                    html += `<div class="explanation-line"><strong>正確答案：</strong> ${correctLetter}</div>`;
+                } else if (typeof q.correctAnswer === 'boolean') {
+                    html += `<div class="explanation-line"><strong>正確答案：</strong> ${q.correctAnswer ? '正確' : '錯誤'}</div>`;
+                }
+            }
+            
+            html += `</div>`;
+        } else {
+            html += `<div class="result-box" id="result-${index}"></div>`;
+        }
+
+        html += '</div>';
+        contentArea.innerHTML = html;
+
+        questionIndicator.textContent = `${index+1}/${currentQuestions.length}`;
+        prevBtn.disabled = index === 0;
+    }
+
+    window.handleRadioChange = function(index, value) {
+        if (answeredStatus[index]) return;
+        
+        // 將 value 轉換為數字
+        const selectedValue = parseInt(value);
+        
+        // 儲存當前選擇（未提交狀態）
+        userAnswers[index] = selectedValue;
+        
+        const qIdx = currentQuestions[index];
+        const q = allQuestions[qIdx];
+        
+        // 確保正確答案也是數字
+        const correctValue = parseInt(q.correctAnswer);
+        const isCorrect = (selectedValue === correctValue);
+        
+        // 儲存完整的答案資訊
+        userAnswers[index] = {
+            selected: selectedValue,
+            isCorrect: isCorrect
+        };
+        
+        answeredStatus[index] = true;
+        updateScore(isCorrect);
+        renderQuestion(index);
+    };
+
+    window.handleCheckboxChange = function(index, value, checkbox) {
+        if (answeredStatus[index]) return;
+        
+        if (!userAnswers[index]) userAnswers[index] = [];
+        
+        if (checkbox.checked) {
+            userAnswers[index].push(parseInt(value));
+        } else {
+            userAnswers[index] = userAnswers[index].filter(v => v !== parseInt(value));
+        }
+    };
+
+    window.submitCheckbox = function(index) {
+        if (answeredStatus[index] || !userAnswers[index] || userAnswers[index].length === 0) {
+            alert('請至少選擇一個選項');
+            return;
+        }
+        
+        const qIdx = currentQuestions[index];
+        const q = allQuestions[qIdx];
+        const correct = q.correctAnswer.map(v => parseInt(v));
+        const userSelected = userAnswers[index].map(v => parseInt(v));
+        
+        const isCorrect = userSelected.length === correct.length &&
+            userSelected.every(v => correct.includes(v)) &&
+            correct.every(v => userSelected.includes(v));
+        
+        userAnswers[index] = {
+            selected: userSelected,
+            isCorrect: isCorrect
+        };
+        answeredStatus[index] = true;
+        updateScore(isCorrect);
+        renderQuestion(index);
+    };
+
+    window.submitEssay = function(index) {
+        const textarea = document.getElementById(`essay-${index}`);
+        if (!textarea.value.trim()) {
+            alert('請輸入內容');
+            return;
+        }
+        
+        userAnswers[index] = {
+            selected: textarea.value,
+            isCorrect: false
+        };
+        answeredStatus[index] = true;
+        updateScore(false);
+        renderQuestion(index);
+    };
+
+    window.submitShort = function(index) {
+        const input = document.getElementById(`short-${index}`);
+        if (!input.value.trim()) {
+            alert('請輸入答案');
+            return;
+        }
+        
+        const qIdx = currentQuestions[index];
+        const q = allQuestions[qIdx];
+        const userAns = input.value.trim().toLowerCase();
+        
+        let isCorrect = false;
+        if (q.keywords) {
+            isCorrect = q.keywords.some(k => userAns.includes(k.toLowerCase()));
+        }
+        
+        userAnswers[index] = {
+            selected: input.value,
+            isCorrect: isCorrect
+        };
+        answeredStatus[index] = true;
+        updateScore(isCorrect);
+        renderQuestion(index);
+    };
+
+    function updateScore(isCorrect) {
+        if (isCorrect) {
+            correctCount++;
+        } else {
+            wrongCount++;
+        }
+        updateStats();
+    }
+
+    function updateStats() {
+        const totalAnswered = Object.keys(answeredStatus).length;
+        const percent = currentQuestions.length ? Math.round((totalAnswered / currentQuestions.length) * 100) : 0;
+        
+        correctCountSpan.textContent = correctCount;
+        wrongCountSpan.textContent = wrongCount;
+        scoreSpan.textContent = correctCount;
+        progressCorrect.style.width = percent + '%';
+        completionPercent.textContent = percent + '%';
+    }
+
+    prevBtn.addEventListener('click', () => {
+        if (currentIndex > 0) {
+            currentIndex--;
+            renderQuestion(currentIndex);
+        }
+    });
+
+    nextBtn.addEventListener('click', () => {
+        if (currentIndex < currentQuestions.length - 1) {
+            currentIndex++;
+            renderQuestion(currentIndex);
+        } else {
+            if (Object.keys(answeredStatus).length === currentQuestions.length) {
+                alert(`測驗完成！\n正確：${correctCount} 題\n錯誤：${wrongCount} 題`);
+            }
+        }
+    });
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterQuestions(btn.dataset.filter);
+        });
+    });
+
+    loadQuestions();
+</script>
+</body>
+</html>
