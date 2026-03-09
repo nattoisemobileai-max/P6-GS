@@ -92,7 +92,6 @@
             color: #ffd966;
         }
 
-        /* 篩選按鈕列 */
         .filter-section {
             margin-bottom: 0.5rem;
             flex-shrink: 0;
@@ -369,7 +368,6 @@
         </div>
     </div>
 
-    <!-- 篩選按鈕列 -->
     <div class="filter-section">
         <div class="filter-title"><i class="fas fa-filter"></i> 題型篩選</div>
         <div class="filter-buttons" id="filter-buttons">
@@ -393,9 +391,7 @@
         </div>
     </div>
 
-    <div class="scrollable-content" id="contentArea">
-        <!-- 題目會動態載入到這裡 -->
-    </div>
+    <div class="scrollable-content" id="contentArea"></div>
 
     <div class="navigation">
         <button class="nav-btn" id="prevBtn" disabled><i class="fas fa-chevron-left"></i> 上一題</button>
@@ -409,14 +405,13 @@
 </div>
 
 <script>
-    let allQuestions = [];          // 完整題庫
-    let currentQuestions = [];      // 目前顯示的題目索引陣列
-    let userAnswers = {};           // 儲存每題答案 (依 currentQuestions 索引)
-    let answeredStatus = {};        // 記錄是否已答
+    let allQuestions = [];
+    let currentQuestions = [];
+    let userAnswers = {};
+    let answeredStatus = {};
     let correctCount = 0, wrongCount = 0;
     let currentIndex = 0;
 
-    // DOM 元素
     const contentArea = document.getElementById('contentArea');
     const lessonTitle = document.getElementById('lesson-title');
     const scoreSpan = document.getElementById('score');
@@ -430,14 +425,12 @@
     const questionIndicator = document.getElementById('questionIndicator');
     const filterBtns = document.querySelectorAll('.filter-btn');
 
-    // 載入 JSON 資料
     async function loadQuestions() {
         try {
             const res = await fetch('test-data.json');
             if (!res.ok) throw new Error('無法載入題庫');
             const data = await res.json();
             
-            // 確保每題都有 type 欄位
             allQuestions = data.questions.map(q => {
                 let type = 'unknown';
                 if (q.type) {
@@ -458,8 +451,6 @@
             
             lessonTitle.textContent = data.lessonTitle || '綜合題庫';
             totalSpan.textContent = allQuestions.length;
-            
-            // 預設載入隨機20題
             filterQuestions('random20');
             
         } catch (error) {
@@ -467,7 +458,6 @@
         }
     }
 
-    // 取得題型名稱
     function getTypeName(type) {
         const names = {
             'mc': '單選',
@@ -479,7 +469,6 @@
         return names[type] || type;
     }
 
-    // 取得題型圖示
     function getTypeIcon(type) {
         const icons = {
             'mc': '🔘',
@@ -491,9 +480,7 @@
         return icons[type] || '📌';
     }
 
-    // 篩選題目
     function filterQuestions(filterType) {
-        // 更新按鈕狀態
         filterBtns.forEach(btn => {
             btn.classList.remove('active');
             if (btn.dataset.filter === filterType) {
@@ -504,7 +491,6 @@
         let questionIndices = [];
         
         if (filterType === 'random20') {
-            // 隨機20題（從全部題目中隨機選取）
             const total = allQuestions.length;
             const count = Math.min(20, total);
             const indices = new Set();
@@ -513,7 +499,6 @@
             }
             questionIndices = Array.from(indices);
         } else {
-            // 先按類型篩選原始索引
             let filteredIndices = [];
             if (filterType === 'all') {
                 filteredIndices = allQuestions.map((_, idx) => idx);
@@ -526,10 +511,7 @@
             questionIndices = filteredIndices;
         }
 
-        // 更新 currentQuestions
         currentQuestions = questionIndices;
-        
-        // 重置狀態
         userAnswers = {};
         answeredStatus = {};
         correctCount = 0;
@@ -545,13 +527,11 @@
             return;
         }
 
-        // 更新總題數顯示
         questionIndicator.textContent = `1/${currentQuestions.length}`;
         nextBtn.disabled = false;
         renderQuestion(0);
     }
 
-    // 渲染單一題目
     function renderQuestion(index) {
         if (currentQuestions.length === 0) return;
         
@@ -568,11 +548,9 @@
                 <div class="question-text">${q.question}</div>
         `;
 
-        // 根據題型渲染不同的輸入介面
         if (q.type === 'mc' || q.type === 'checkbox' || q.type === 'truefalse') {
             html += '<div class="options-grid" id="options-container">';
             
-            // 處理是非題選項
             let options = q.options;
             if (q.type === 'truefalse' && (!options || options.length === 0)) {
                 options = ['正確', '錯誤'];
@@ -595,8 +573,8 @@
                         extraClass = ' correct-highlight';
                     }
                     
-                    // 顯示使用者選錯的選項（紅色）
-                    if (userAnswers[index] !== undefined) {
+                    // 顯示使用者選錯的選項（紅色）- 只有在答錯時才顯示
+                    if (userAnswers[index] && !userAnswers[index].isCorrect) {
                         if (Array.isArray(userAnswers[index]) && userAnswers[index].includes(optIdx) && 
                             !(Array.isArray(q.correctAnswer) && q.correctAnswer.includes(optIdx))) {
                             extraClass = ' incorrect-highlight';
@@ -624,7 +602,6 @@
             
             html += '</div>';
             
-            // 複選題顯示提交按鈕
             if (q.type === 'checkbox' && !hasAnswered) {
                 html += `<div class="submit-area"><button class="btn-submit" onclick="submitCheckbox(${index})">提交答案</button></div>`;
             }
@@ -663,7 +640,6 @@
         prevBtn.disabled = index === 0;
     }
 
-    // 單選題/是非題處理
     window.handleRadioChange = function(index, value) {
         if (answeredStatus[index]) return;
         
@@ -678,7 +654,6 @@
         renderQuestion(index);
     };
 
-    // 複選題 - 儲存選中的值
     window.handleCheckboxChange = function(index, value, checkbox) {
         if (answeredStatus[index]) return;
         
@@ -691,7 +666,6 @@
         }
     };
 
-    // 複選題提交
     window.submitCheckbox = function(index) {
         if (answeredStatus[index] || !userAnswers[index] || userAnswers[index].length === 0) {
             alert('請至少選擇一個選項');
@@ -702,7 +676,6 @@
         const q = allQuestions[qIdx];
         const correct = q.correctAnswer;
         
-        // 比對兩個陣列是否相同（不論順序）
         const isCorrect = userAnswers[index].length === correct.length &&
             userAnswers[index].every(v => correct.includes(v)) &&
             correct.every(v => userAnswers[index].includes(v));
@@ -713,7 +686,6 @@
         renderQuestion(index);
     };
 
-    // 論述題提交
     window.submitEssay = function(index) {
         const textarea = document.getElementById(`essay-${index}`);
         if (!textarea.value.trim()) {
@@ -722,13 +694,12 @@
         }
         
         userAnswers[index] = textarea.value;
-        userAnswers[index].isCorrect = false; // 論述題不自動計分
+        userAnswers[index].isCorrect = false;
         answeredStatus[index] = true;
         updateScore(false);
         renderQuestion(index);
     };
 
-    // 簡答題提交
     window.submitShort = function(index) {
         const input = document.getElementById(`short-${index}`);
         if (!input.value.trim()) {
@@ -740,7 +711,6 @@
         const q = allQuestions[qIdx];
         const userAns = input.value.trim().toLowerCase();
         
-        // 簡易關鍵詞比對（可根據 keywords 陣列）
         let isCorrect = false;
         if (q.keywords) {
             isCorrect = q.keywords.some(k => userAns.includes(k.toLowerCase()));
@@ -768,12 +738,11 @@
         
         correctCountSpan.textContent = correctCount;
         wrongCountSpan.textContent = wrongCount;
-        scoreSpan.textContent = correctCount;  // 分數只計正確題數
+        scoreSpan.textContent = correctCount;
         progressCorrect.style.width = percent + '%';
         completionPercent.textContent = percent + '%';
     }
 
-    // 導航
     prevBtn.addEventListener('click', () => {
         if (currentIndex > 0) {
             currentIndex--;
@@ -786,21 +755,18 @@
             currentIndex++;
             renderQuestion(currentIndex);
         } else {
-            // 最後一題，顯示完成訊息
             if (Object.keys(answeredStatus).length === currentQuestions.length) {
                 alert(`測驗完成！\n正確：${correctCount} 題\n錯誤：${wrongCount} 題`);
             }
         }
     });
 
-    // 篩選按鈕事件
     filterBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             filterQuestions(btn.dataset.filter);
         });
     });
 
-    // 初始化
     loadQuestions();
 </script>
 </body>
