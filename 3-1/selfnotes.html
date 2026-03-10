@@ -68,19 +68,22 @@
         }
 
         .notes-title {
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             font-weight: 900;
             background: #eef5ff;
             padding: 0.3rem 1.2rem;
             border-radius: 40px;
             color: #1a4972;
             border: 2px solid #c1d9f0;
-            display: flex;
-            align-items: center;
-            gap: 6px;
         }
-        .notes-title i {
-            color: #3498db;
+
+        .stats-badge {
+            background: #2b3c4e;
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 600;
         }
 
         /* 標籤列 */
@@ -133,16 +136,29 @@
             border-radius: 20px;
             padding: 1rem;
             border: 2px dashed #c1d9f0;
+        }
+
+        /* 多圖網格 */
+        .image-grid {
             display: flex;
-            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
             justify-content: center;
         }
-        .tab-image {
-            max-width: 100%;
-            max-height: 400px;
-            object-fit: contain;
+        .image-grid-item {
+            flex: 1 1 calc(50% - 0.5rem);
+            min-width: 200px;
+        }
+        .image-grid-item img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
             border-radius: 16px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        .image-grid-item img:hover {
+            transform: scale(1.02);
         }
 
         .image-caption {
@@ -170,6 +186,9 @@
                 font-size: 1rem;
                 padding: 0.5rem 1rem;
             }
+            .image-grid-item {
+                flex: 1 1 100%;
+            }
         }
     </style>
 </head>
@@ -178,10 +197,8 @@
     <!-- 頂部列 -->
     <div class="notes-header">
         <a href="../index.html" class="back-home"><i class="fas fa-arrow-left"></i> 返回</a>
-        <span class="test-title">第三冊第1課·最後的皇朝</span>
-        <div class="test-stats">
-            <span><i class="fas fa-star"></i> <span id="earnedPoints">0</span>/<span id="totalPoints">0</span></span>
-        </div>
+        <span class="notes-title">第三冊第1課·最後的皇朝</span>
+        <span class="stats-badge"><i class="fas fa-star"></i> 圖片筆記</span>
     </div>
 
     <!-- 標籤按鈕 -->
@@ -191,30 +208,44 @@
         <button class="tab-btn" data-tab="banana">Banana</button>
     </div>
 
-    <!-- Self 標籤圖片 -->
+    <!-- Self 標籤圖片（多張） -->
     <div class="image-card active" id="tab-self">
         <div class="image-wrapper">
-            <img class="tab-image" src="images/img-3.1_self3.jpg" alt="self image"><p>
-            <img class="tab-image" src="images/img-3.1_self4.jpg" alt="self image"><p>
-            <img class="tab-image" src="images/img-3.1_self5.jpg" alt="self image"><p>
+            <div class="image-grid">
+                <div class="image-grid-item">
+                    <img src="images/img-3.1_self3.jpg" alt="self image 3">
+                </div>
+                <div class="image-grid-item">
+                    <img src="images/img-3.1_self4.jpg" alt="self image 4">
+                </div>
+                <div class="image-grid-item">
+                    <img src="images/img-3.1_self5.jpg" alt="self image 5">
+                </div>
+            </div>
         </div>
-        
+        <div class="image-caption">
+            <i class="fas fa-user"></i> Self 圖片系列
+        </div>
     </div>
 
     <!-- Wave 標籤圖片 -->
     <div class="image-card" id="tab-wave">
         <div class="image-wrapper">
-            <img class="tab-image" src="images/img-3.1_wave.jpg" alt="Wave image">
+            <img src="images/img-3.1_wave.jpg" alt="Wave image" style="width:100%; border-radius:16px;">
         </div>
-        
+        <div class="image-caption">
+            <i class="fas fa-water"></i> Wave – 海浪
+        </div>
     </div>
 
     <!-- Banana 標籤圖片 -->
     <div class="image-card" id="tab-banana">
         <div class="image-wrapper">
-            <img class="tab-image" src="images/img-3.1_banana.jpg" alt="Banana image">
+            <img src="images/img-3.1_banana.jpg" alt="Banana image" style="width:100%; border-radius:16px;">
         </div>
-        
+        <div class="image-caption">
+            <i class="fas fa-leaf"></i> Banana – 香蕉
+        </div>
     </div>
 
     <div class="footer-note">
