@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>小常識 · 時事互動測驗 · 2025-2026</title>
+    <title>小常識 · 時事互動測驗</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -19,19 +19,22 @@
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            padding: 0;
-            font-size: 18px;
+            padding: 0.5rem;
+            font-size: 16px;
         }
 
-        .quiz-container {
-            max-width: 100%;
+        .test-container {
+            max-width: 600px;
             width: 100%;
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(4px);
-            padding: 0.5rem 0.3rem;
+            border-radius: 32px;
+            padding: 1rem;
+            box-shadow: 0 20px 30px -10px rgba(0,40,60,0.4);
+            border: 2px solid rgba(255,255,255,0.8);
         }
 
-        .top-bar {
+        .test-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -49,7 +52,7 @@
             border-radius: 40px;
             padding: 0.4rem 1rem;
             font-weight: 700;
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: #1f3a4b;
             border: none;
             box-shadow: 0 3px 0 #b38f1c;
@@ -60,107 +63,51 @@
             text-decoration: none;
             white-space: nowrap;
         }
-        .back-home:active {
-            transform: translateY(3px);
-            box-shadow: 0 1px 0 #b38f1c;
-        }
+        .back-home:active { transform: translateY(3px); box-shadow: 0 1px 0 #b38f1c; }
 
-        .quiz-title {
-            font-size: 1.4rem;
+        .test-title {
+            font-size: 1.3rem;
             font-weight: 900;
             background: #eef5ff;
-            padding: 0.3rem 1.2rem;
+            padding: 0.2rem 1.2rem;
             border-radius: 40px;
             color: #1a4972;
             border: 2px solid #c1d9f0;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .quiz-title i {
-            color: #3498db;
-            font-size: 1.2rem;
         }
 
-        .user-stats {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
+        .stats {
             background: #2b3c4e;
-            padding: 0.2rem 1rem;
-            border-radius: 40px;
             color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
             font-size: 0.9rem;
-        }
-        .user-stats i {
-            color: #ffd966;
-        }
-
-        .filter-bar {
-            display: flex;
-            justify-content: center;
-            gap: 0.8rem;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-        }
-        .filter-btn {
-            background: white;
-            border: 2px solid #c1d9f0;
-            border-radius: 40px;
-            padding: 0.4rem 1.5rem;
-            font-weight: 700;
-            font-size: 1.1rem;
-            color: #1f3a4b;
-            box-shadow: 0 3px 0 #9bb7d1;
-            cursor: pointer;
-            transition: 0.1s;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .filter-btn.active {
-            background: #3498db;
-            color: white;
-            border-color: #2c7bb6;
-            box-shadow: 0 3px 0 #1f5b8a;
-        }
-        .filter-btn i {
-            font-size: 1rem;
         }
 
         .group-section {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             background: white;
-            border-radius: 25px;
-            box-shadow: 0 6px 0 #9bb7d1;
-            border: 2px solid #c1d9f0;
+            border-radius: 24px;
             overflow: hidden;
+            box-shadow: 0 4px 0 #9bb7d1;
+            border: 1px solid #c1d9f0;
         }
 
         .group-header {
-            background: #f5faff;
-            padding: 1rem;
+            background: #e1f0fa;
+            padding: 0.8rem 1rem;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 2px solid #c1d9f0;
+            border-bottom: 2px solid #9bb7d1;
         }
-        .group-header h2 {
-            font-size: 1.3rem;
+        .group-header h3 {
+            font-size: 1.1rem;
             font-weight: 800;
             color: #1a4972;
             display: flex;
             align-items: center;
-            gap: 8px;
-        }
-        .group-header .count-badge {
-            background: #3498db;
-            color: white;
-            padding: 0.2rem 0.8rem;
-            border-radius: 40px;
-            font-size: 0.9rem;
-            margin-left: 8px;
+            gap: 6px;
         }
         .group-header i {
             transition: transform 0.3s;
@@ -170,7 +117,7 @@
         }
 
         .group-content {
-            padding: 1rem;
+            padding: 0.5rem;
             display: block;
         }
         .group-content.collapsed {
@@ -178,44 +125,45 @@
         }
 
         .question-card {
-            background: white;
+            background: #f8fafd;
             border-radius: 20px;
-            padding: 1.2rem;
-            margin-bottom: 1.2rem;
-            border-left: 6px solid #3498db;
-            box-shadow: 0 4px 0 #bed0e3;
-            transition: opacity 0.2s;
-        }
-        .question-card.hidden {
-            display: none;
+            padding: 1rem;
+            margin-bottom: 0.8rem;
+            border: 1px solid #e0e8f0;
+            transition: all 0.2s;
         }
         .question-card:last-child {
             margin-bottom: 0;
+        }
+        .question-card.answered {
+            background: #f0f7ff;
+            border-left: 4px solid #3498db;
         }
 
         .question-header {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 0.5rem;
             margin-bottom: 0.8rem;
             flex-wrap: wrap;
         }
-        .question-text {
-            font-size: 1.2rem;
+        .q-num {
+            background: #3498db;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-weight: 700;
-            color: #1f3a4b;
-            line-height: 1.4;
-            flex: 1;
+            font-size: 0.9rem;
         }
         .type-badge {
-            background: #e1f0fa;
-            padding: 0.2rem 0.8rem;
+            padding: 0.2rem 1rem;
             border-radius: 40px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 700;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
         }
         .type-badge.local {
             background: #d5f5e3;
@@ -226,355 +174,388 @@
             color: #943126;
         }
 
+        .question-text {
+            font-weight: 700;
+            color: #1f3a4b;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
         .options {
             display: flex;
             flex-direction: column;
             gap: 0.6rem;
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
         }
-
         .option {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: #f5f9ff;
+            background: white;
             border: 2px solid #cad9eb;
             border-radius: 40px;
-            padding: 0.6rem 1rem;
-            font-size: 1rem;
+            padding: 0.8rem 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
             cursor: pointer;
             transition: 0.1s;
+            box-shadow: 0 2px 0 #9fbad0;
         }
-        .option input[type="radio"] {
-            appearance: none;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #9bb7d1;
-            border-radius: 50%;
-            margin-right: 5px;
-            position: relative;
+        .option:hover:not(.locked) {
+            background: #e1efff;
+        }
+        .option input {
+            width: 18px;
+            height: 18px;
+            accent-color: #58a700;
             cursor: pointer;
         }
-        .option input[type="radio"]:checked {
-            background: #58a700;
+        .option.selected {
+            background: #c1e5c0;
             border-color: #58a700;
-            box-shadow: inset 0 0 0 4px white;
+        }
+        .option.locked {
+            opacity: 0.7;
+            cursor: default;
+            pointer-events: none;
+        }
+        .option.correct-answer {
+            background: #a5d6a5;
+            border-color: #2e7d32;
+            border-width: 3px;
+        }
+        .option.wrong-answer {
+            background: #ffcdd2;
+            border-color: #c62828;
+            border-width: 3px;
         }
 
         .btn-submit {
-            background: #3498db;
+            background: #58a700;
             border: none;
             color: white;
-            padding: 0.6rem 1.5rem;
+            padding: 0.6rem 1.2rem;
             border-radius: 40px;
             font-weight: 700;
-            font-size: 1rem;
-            box-shadow: 0 3px 0 #1f5b8a;
+            font-size: 0.9rem;
+            box-shadow: 0 3px 0 #3e7a00;
             cursor: pointer;
-            transition: 0.06s linear;
+            width: fit-content;
             margin-top: 0.5rem;
+            transition: 0.05s;
         }
-        .btn-submit:active {
+        .btn-submit:active:not(:disabled) {
             transform: translateY(3px);
-            box-shadow: 0 1px 0 #1f5b8a;
+            box-shadow: 0 1px 0 #3e7a00;
+        }
+        .btn-submit:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
-        .feedback {
-            margin-top: 1rem;
+        .explain-box {
+            margin-top: 0.8rem;
             padding: 0.8rem;
-            border-radius: 16px;
+            border-radius: 12px;
+            background: #fff9e6;
+            border-left: 4px solid #f3b33d;
+            font-size: 0.9rem;
             display: none;
         }
-        .feedback.correct {
-            background: #e8f5e8;
-            border-left: 6px solid #2e7d32;
+        .explain-box.show {
             display: block;
-        }
-        .feedback.incorrect {
-            background: #ffebee;
-            border-left: 6px solid #c62828;
-            display: block;
-        }
-        .feedback .supplement {
-            margin-top: 0.5rem;
-            font-style: italic;
-            color: #1f3a4b;
         }
 
         .footer-note {
             text-align: center;
             margin-top: 1.5rem;
             color: #6b8baa;
-            font-weight: 600;
             font-size: 0.9rem;
         }
 
-        @media (max-width: 480px) {
-            .top-bar { flex-direction: column; align-items: stretch; }
-            .back-home, .quiz-title, .user-stats { justify-content: center; }
-            .filter-bar { gap: 0.4rem; }
-            .filter-btn { padding: 0.3rem 1rem; font-size: 1rem; }
-        }
+        .hidden { display: none; }
     </style>
 </head>
 <body>
-<div class="quiz-container">
-    <div class="top-bar">
-        <a href="index-GS.html" class="back-home"><i class="fas fa-arrow-left"></i> 返回</a>
-        <span class="quiz-title"><i class="fas fa-calendar-alt"></i> 時事常識 · 2025-2026</span>
-        <div class="user-stats">
-            <i class="fas fa-star"></i> 每月一測
-        </div>
+<div class="test-container">
+    <div class="test-header">
+        <a href="../index.html" class="back-home"><i class="fas fa-arrow-left"></i> 返回</a>
+        <span class="test-title">時事常識 · 2025-2026</span>
+        <span class="stats"><i class="fas fa-star"></i> 36 題</span>
     </div>
 
-    <!-- 篩選按鈕 -->
-    <div class="filter-bar">
-        <button class="filter-btn active" id="filter-all" onclick="filterQuestions('all')"><i class="fas fa-globe"></i> 全部</button>
-        <button class="filter-btn" id="filter-local" onclick="filterQuestions('local')"><i class="fas fa-home"></i> 本地</button>
-        <button class="filter-btn" id="filter-intl" onclick="filterQuestions('international')"><i class="fas fa-plane"></i> 國際</button>
-    </div>
-
-    <!-- 2025年12月分組 -->
-    <div class="group-section" id="group-dec-section">
+    <!-- 2025年12月分組 (7題) -->
+    <div class="group-section">
         <div class="group-header" onclick="toggleGroup(this)">
-            <h2><i class="fas fa-calendar-alt"></i> 2025年12月 <span class="count-badge" id="dec-count"></span></h2>
+            <h3><i class="fas fa-calendar-alt"></i> 2025年12月 (7題)</h3>
             <i class="fas fa-chevron-down"></i>
         </div>
         <div class="group-content" id="group-dec"></div>
     </div>
 
-    <!-- 2026年1月分組 -->
-    <div class="group-section" id="group-jan-section">
+    <!-- 2026年1月分組 (11題) -->
+    <div class="group-section">
         <div class="group-header" onclick="toggleGroup(this)">
-            <h2><i class="fas fa-calendar-alt"></i> 2026年1月 <span class="count-badge" id="jan-count"></span></h2>
+            <h3><i class="fas fa-calendar-alt"></i> 2026年1月 (11題)</h3>
             <i class="fas fa-chevron-down"></i>
         </div>
         <div class="group-content" id="group-jan"></div>
     </div>
 
-    <!-- 2026年2月分組 -->
-    <div class="group-section" id="group-feb-section">
+    <!-- 2026年2月分組 (9題) -->
+    <div class="group-section">
         <div class="group-header" onclick="toggleGroup(this)">
-            <h2><i class="fas fa-calendar-alt"></i> 2026年2月 <span class="count-badge" id="feb-count"></span></h2>
+            <h3><i class="fas fa-calendar-alt"></i> 2026年2月 (9題)</h3>
             <i class="fas fa-chevron-down"></i>
         </div>
         <div class="group-content" id="group-feb"></div>
     </div>
 
+    <!-- 2026年3月分組 (8題) -->
+    <div class="group-section">
+        <div class="group-header" onclick="toggleGroup(this)">
+            <h3><i class="fas fa-calendar-alt"></i> 2026年3月 (8題)</h3>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="group-content" id="group-mar"></div>
+    </div>
+
+    <!-- 2026年4月分組 (1題) -->
+    <div class="group-section">
+        <div class="group-header" onclick="toggleGroup(this)">
+            <h3><i class="fas fa-calendar-alt"></i> 2026年4月 (1題)</h3>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="group-content" id="group-apr"></div>
+    </div>
+
     <div class="footer-note">
-        <i class="fas fa-lightbulb"></i> 每題提交後顯示正確答案與補充資料
+        <i class="fas fa-hand-pointer"></i> 點擊月份標題可摺疊 · 答錯時會顯示正確答案
     </div>
 </div>
 
 <script>
-    window.onload = function() {
-        // 題目資料
-        const questionsData = [
-            // 2025年12月 (7題)
-            { month: 'dec', qid: 1, type: 'local', question: "大埔浸信會公立學校因火災封閉，下學年將如何安排？", 
-              options: ["A. 學生轉往其他學校", "B. 遷往前基正小學繼續辦學", "C. 原地重建校舍", "D. 停辦並解散"], 
-              correct: 1, supplement: "教育局安排該校學生在下學年使用前基正小學校舍上課，確保學習不受影響。" },
-            { month: 'dec', qid: 2, type: 'local', question: "黃藻森小學學生在2025世界機械人奧林匹克比賽中取得什麼成果？", 
-              options: ["A. 獲得獎項", "B. 未獲獎", "C. 入圍決賽", "D. 打破紀錄"], 
-              correct: 0, supplement: "香港學生在國際賽事中獲獎，展現了科技創新與STEAM教育的成果。" },
-            { month: 'dec', qid: 3, type: 'local', question: "選管會主席陸啟康如何評價火災下的立法會選舉？", 
-              options: ["A. 選舉無法舉行", "B. 選民仍積極投票", "C. 投票率創新低", "D. 選舉結果無效"], 
-              correct: 1, supplement: "儘管發生火災，災民仍踴躍投票，展現公民責任感。" },
-            { month: 'dec', qid: 4, type: 'international', question: "聯合國兒童基金會報告指出加沙有多少兒童因營養不良入院？", 
-              options: ["A. 逾900名", "B. 逾9000名", "C. 逾20000名", "D. 逾500名"], 
-              correct: 1, supplement: "報告呼籲國際社會提供人道援助，關注兒童健康。" },
-            { month: 'dec', qid: 5, type: 'international', question: "神舟二十一號乘組完成首次出艙活動，主要任務是什麼？", 
-              options: ["A. 維修太陽能板", "B. 安裝空間站碎片防護裝置", "C. 測試新太空服", "D. 拍攝地球影像"], 
-              correct: 1, supplement: "航天員安裝了碎片防護裝置，為天宮太空站披上「鎧甲」，應對太空碎片威脅。" },
-            { month: 'dec', qid: 6, type: 'local', question: "立法會選舉結果公布後，曾國衞對選舉組織有何評價？", 
-              options: ["A. 受火災影響未達預期", "B. 組織達歷史最高水平", "C. 需重新投票", "D. 投票率過低"], 
-              correct: 1, supplement: "儘管發生火災，選舉組織仍創下歷史最佳表現。" },
-            { month: 'dec', qid: 7, type: 'local', question: "政府解散宏福苑法團校董會後，主席徐滿柑的回應涉及什麼？", 
-              options: ["A. 校舍重建", "B. 學校停辦", "C. 教師調職", "D. 學額增加"], 
-              correct: 0, supplement: "徐滿柑表示將處理學校重建事宜。" },
+    // 題目資料（共36題）
+    const questionsData = [
+        // 2025年12月 (7題)
+        { month: 'dec', id: 1, type: 'local', question: "大埔浸信會公立學校因火災封閉，下學年將如何安排？",
+          options: ["A. 學生轉往其他學校", "B. 遷往前基正小學繼續辦學", "C. 原地重建校舍", "D. 停辦並解散"],
+          correct: 1, explanation: "教育局安排該校學生在下學年使用前基正小學校舍上課，確保學習不受影響。" },
+        { month: 'dec', id: 2, type: 'local', question: "黃藻森小學學生在2025世界機械人奧林匹克比賽中取得什麼成果？",
+          options: ["A. 獲得獎項", "B. 未獲獎", "C. 入圍決賽", "D. 打破紀錄"],
+          correct: 0, explanation: "香港學生在國際賽事中獲獎，展現了科技創新與STEAM教育的成果。" },
+        { month: 'dec', id: 3, type: 'local', question: "選管會主席陸啟康如何評價火災下的立法會選舉？",
+          options: ["A. 選舉無法舉行", "B. 選民仍積極投票", "C. 投票率創新低", "D. 選舉結果無效"],
+          correct: 1, explanation: "儘管發生火災，災民仍踴躍投票，展現公民責任感。" },
+        { month: 'dec', id: 4, type: 'international', question: "聯合國兒童基金會報告指出加沙有多少兒童因營養不良入院？",
+          options: ["A. 逾900名", "B. 逾9000名", "C. 逾20000名", "D. 逾500名"],
+          correct: 1, explanation: "報告呼籲國際社會提供人道援助，關注兒童健康。" },
+        { month: 'dec', id: 5, type: 'international', question: "神舟二十一號乘組完成首次出艙活動，主要任務是什麼？",
+          options: ["A. 維修太陽能板", "B. 安裝空間站碎片防護裝置", "C. 測試新太空服", "D. 拍攝地球影像"],
+          correct: 1, explanation: "航天員安裝了碎片防護裝置，為天宮太空站披上「鎧甲」，應對太空碎片威脅。" },
+        { month: 'dec', id: 6, type: 'local', question: "立法會選舉結果公布後，曾國衞對選舉組織有何評價？",
+          options: ["A. 受火災影響未達預期", "B. 組織達歷史最高水平", "C. 需重新投票", "D. 投票率過低"],
+          correct: 1, explanation: "儘管發生火災，選舉組織仍創下歷史最佳表現。" },
+        { month: 'dec', id: 7, type: 'local', question: "政府解散宏福苑法團校董會後，主席徐滿柑的回應涉及什麼？",
+          options: ["A. 校舍重建", "B. 學校停辦", "C. 教師調職", "D. 學額增加"],
+          correct: 0, explanation: "徐滿柑表示將處理學校重建事宜。" },
 
-            // 2026年1月 (9題)
-            { month: 'jan', qid: 8, type: 'local', question: "2026年1月1日內地訪港旅客數字有何變化？", 
-              options: ["A. 與去年持平", "B. 較去年新年倍增", "C. 較去年減少一半", "D. 創十年新高"], 
-              correct: 1, supplement: "內地旅客達26.2萬人，是去年新年的兩倍，帶動旅遊及零售業復甦。" },
-            { month: 'jan', qid: 9, type: 'international', question: "1月3日美國突襲哪個國家並俘虜其總統？", 
-              options: ["A. 伊朗", "B. 委內瑞拉", "C. 敘利亞", "D. 古巴"], 
-              correct: 1, supplement: "美軍突襲委內瑞拉首都加拉加斯，總統馬杜羅夫婦被俘，該國宣布緊急狀態。" },
-            { month: 'jan', qid: 10, type: 'international', question: "柬埔寨央行關閉Prince Bank的原因與誰有關？", 
-              options: ["A. 涉嫌洗黑錢", "B. 創辦人Chen Zhi被美國控告詐騙", "C. 資本不足", "D. 違反本地法規"], 
-              correct: 1, supplement: "創辦人Chen Zhi因大規模詐騙被美國起訴後引渡中國，銀行因而被關閉。" },
-            { month: 'jan', qid: 11, type: 'international', question: "新加坡國會為何剝奪反對黨領袖Pritam Singh的頭銜？", 
-              options: ["A. 貪污", "B. 向委員會說謊", "C. 洩漏國家機密", "D. 勾結外國勢力"], 
-              correct: 1, supplement: "國會投票認為他向委員會說謊，不適合擔任反對黨領袖。" },
-            { month: 'jan', qid: 12, type: 'local', question: "1月15日香港馬拉松的主要意義是什麼？", 
-              options: ["A. 破世界紀錄", "B. 推廣健康生活和城市活力", "C. 選拔奧運選手", "D. 籌款賑災"], 
-              correct: 1, supplement: "數萬人參與，穿梭維港兩岸，展現城市活力與健康風氣。" },
-            { month: 'jan', qid: 13, type: 'local', question: "香港強制舉報虐兒新法規定哪些人士必須報警？", 
-              options: ["A. 社工", "B. 教師、醫生等25類專業人士", "C. 家長", "D. 鄰居"], 
-              correct: 1, supplement: "新例要求25類指定從業員發現兒童危險須立即報警，加強保護兒童。" },
-            { month: 'jan', qid: 14, type: 'international', question: "1月21日以色列在加沙的軍事行動造成什麼結果？", 
-              options: ["A. 達成停火協議", "B. 平民傷亡", "C. 哈馬斯投降", "D. 聯合國介入"], 
-              correct: 1, supplement: "以色列投下炸彈造成平民受傷，美國提議停火但尚未實現。" },
-            { month: 'jan', qid: 15, type: 'local', question: "香港北角東岸板道開放後，港島海濱全長多少公里？", 
-              options: ["A. 10公里", "B. 13公里", "C. 15公里", "D. 18公里"], 
-              correct: 1, supplement: "連同新開放的板道，港島海濱全長13公里貫通，設有玻璃觀景台和寵物區。" },
-            { month: 'jan', qid: 16, type: 'local', question: "1月23日新民黨議員陳家珮在灣仔逆線行車，可能面臨什麼處罰？", 
-              options: ["A. 罰款", "B. 停牌", "C. 監禁", "D. 社會服務令"], 
-              correct: 1, supplement: "專家指屬危險駕駛，可能停牌，她已報警調查並多次道歉。" },
+        // 2026年1月 (11題：原8-16 + 新30、34)
+        { month: 'jan', id: 8, type: 'local', question: "2026年1月1日內地訪港旅客數字有何變化？",
+          options: ["A. 與去年持平", "B. 較去年新年倍增", "C. 較去年減少一半", "D. 創十年新高"],
+          correct: 1, explanation: "內地旅客達26.2萬人，是去年新年的兩倍，帶動旅遊及零售業復甦。" },
+        { month: 'jan', id: 9, type: 'international', question: "1月3日美國突襲哪個國家並俘虜其總統？",
+          options: ["A. 伊朗", "B. 委內瑞拉", "C. 敘利亞", "D. 古巴"],
+          correct: 1, explanation: "美軍突襲委內瑞拉首都加拉加斯，總統馬杜羅夫婦被俘，該國宣布緊急狀態。" },
+        { month: 'jan', id: 10, type: 'international', question: "柬埔寨央行關閉Prince Bank的原因與誰有關？",
+          options: ["A. 涉嫌洗黑錢", "B. 創辦人Chen Zhi被美國控告詐騙", "C. 資本不足", "D. 違反本地法規"],
+          correct: 1, explanation: "創辦人Chen Zhi因大規模詐騙被美國起訴後引渡中國，銀行因而被關閉。" },
+        { month: 'jan', id: 11, type: 'international', question: "新加坡國會為何剝奪反對黨領袖Pritam Singh的頭銜？",
+          options: ["A. 貪污", "B. 向委員會說謊", "C. 洩漏國家機密", "D. 勾結外國勢力"],
+          correct: 1, explanation: "國會投票認為他向委員會說謊，不適合擔任反對黨領袖。" },
+        { month: 'jan', id: 12, type: 'local', question: "1月15日香港馬拉松的主要意義是什麼？",
+          options: ["A. 破世界紀錄", "B. 推廣健康生活和城市活力", "C. 選拔奧運選手", "D. 籌款賑災"],
+          correct: 1, explanation: "數萬人參與，穿梭維港兩岸，展現城市活力與健康風氣。" },
+        { month: 'jan', id: 13, type: 'local', question: "香港強制舉報虐兒新法規定哪些人士必須報警？",
+          options: ["A. 社工", "B. 教師、醫生等25類專業人士", "C. 家長", "D. 鄰居"],
+          correct: 1, explanation: "新例要求25類指定從業員發現兒童危險須立即報警，加強保護兒童。" },
+        { month: 'jan', id: 14, type: 'international', question: "1月21日以色列在加沙的軍事行動造成什麼結果？",
+          options: ["A. 達成停火協議", "B. 平民傷亡", "C. 哈馬斯投降", "D. 聯合國介入"],
+          correct: 1, explanation: "以色列投下炸彈造成平民受傷，美國提議停火但尚未實現。" },
+        { month: 'jan', id: 15, type: 'local', question: "香港北角東岸板道開放後，港島海濱全長多少公里？",
+          options: ["A. 10公里", "B. 13公里", "C. 15公里", "D. 18公里"],
+          correct: 1, explanation: "連同新開放的板道，港島海濱全長13公里貫通，設有玻璃觀景台和寵物區。" },
+        { month: 'jan', id: 16, type: 'local', question: "1月23日新民黨議員陳家珮在灣仔逆線行車，可能面臨什麼處罰？",
+          options: ["A. 罰款", "B. 停牌", "C. 監禁", "D. 社會服務令"],
+          correct: 1, explanation: "專家指屬危險駕駛，可能停牌，她已報警調查並多次道歉。" },
+        // 新加1月題
+        { month: 'jan', id: 30, type: 'local', question: "2026 年 1 月 1 日起，在法定禁煙區吸煙的定額罰款增加到了多少？",
+          options: ["A. 5,000 港元", "B. 2,000 港元", "C. 1,500 港元", "D. 3,000 港元"],
+          correct: 3, explanation: "報告提到禁煙區吸煙的罰款由 1,500 港元「倍增」至 3,000 港元。" },
+        { month: 'jan', id: 34, type: 'local', question: "2026 年 1 月 1 日施行的《保護關鍵基礎設施條例》，違例機構最高罰款可達多少？",
+          options: ["A. 100 萬港元", "B. 5,000 萬港元", "C. 500 萬港元", "D. 50 萬港元"],
+          correct: 2, explanation: "法律規定針對八大關鍵領域的電腦系統保安違例，最高罰款達 500 萬。" },
 
-            // 2026年2月 (9題)
-            { month: 'feb', qid: 17, type: 'international', question: "2026年冬季奧運在哪個國家開幕？", 
-              options: ["A. 法國", "B. 意大利", "C. 日本", "D. 加拿大"], 
-              correct: 1, supplement: "冬奧在意大利舉行，設多個雪上及冰上項目，促進體育精神。" },
-            { month: 'feb', qid: 18, type: 'local', question: "2月9日黎智英案被判處多少年監禁？", 
-              options: ["A. 10年", "B. 15年", "C. 20年", "D. 25年"], 
-              correct: 2, supplement: "此案是國安法實施以來刑期最重案件之一，提醒市民須遵守國家安全法律。" },
-            { month: 'feb', qid: 19, type: 'international', question: "英國投資機構暫停對杜拜DP World投資的原因是什麼？", 
-              options: ["A. 市場波動", "B. 負責人與不當人士有聯繫", "C. 公司業績下滑", "D. 政治壓力"], 
-              correct: 1, supplement: "提醒企業選擇合作夥伴時要重視誠信和道德。" },
-            { month: 'feb', qid: 20, type: 'local', question: "農曆大年初二車公誕，鄉議局主席劉業強為香港求得的中簽鼓勵什麼？", 
-              options: ["A. 加強防疫", "B. 用精準政策推動經濟", "C. 發展旅遊業", "D. 改善民生"], 
-              correct: 1, supplement: "簽文鼓勵政府用精準政策讓香港像春天一樣繁榮發展。" },
-            { month: 'feb', qid: 21, type: 'international', question: "2月18日高市早苗當選日本第幾任首相？", 
-              options: ["A. 103任", "B. 104任", "C. 105任", "D. 106任"], 
-              correct: 2, supplement: "她領導的新政府將推動經濟政策，讓國家更強大繁榮。" },
-            { month: 'feb', qid: 22, type: 'international', question: "2月22日英國影藝學院電影獎最佳影片是哪一部？", 
-              options: ["A. 《奧本海默》", "B. 《可憐的東西》", "C. 《一戰再戰》", "D. 《花月殺手》"], 
-              correct: 2, supplement: "《一戰再戰》獲得多項大獎，鼓勵觀眾欣賞優秀電影培養藝術興趣。" },
-            { month: 'feb', qid: 23, type: 'international', question: "香港長和集團在巴拿馬運河的港口被誰接管？", 
-              options: ["A. 巴拿馬政府", "B. 美國公司", "C. 中國企業", "D. 國際法院"], 
-              correct: 0, supplement: "長和認為接管行動不合法，將用法律保護權益，提醒尊重合約和國際合作。" },
-            { month: 'feb', qid: 24, type: 'local', question: "2月25日財政司司長陳茂波發表什麼文件？", 
-              options: ["A. 施政報告", "B. 財政預算案2026", "C. 經濟展望", "D. 稅務修訂"], 
-              correct: 1, supplement: "預算案強調香港經濟轉型中成長，推動科技創新和民生發展。" },
-            { month: 'feb', qid: 25, type: 'international', question: "2月26日巴基斯坦和阿富汗邊境發生衝突，中國的立場是什麼？", 
-              options: ["A. 支持巴基斯坦", "B. 希望兩國冷靜談判", "C. 派遣維和部隊", "D. 不表態"], 
-              correct: 1, supplement: "中國呼籲雙方用外交解決爭端，保護人民安全。" }
-        ];
+        // 2026年2月 (9題)
+        { month: 'feb', id: 17, type: 'international', question: "2026年冬季奧運在哪個國家開幕？",
+          options: ["A. 法國", "B. 意大利", "C. 日本", "D. 加拿大"],
+          correct: 1, explanation: "冬奧在意大利舉行，設多個雪上及冰上項目，促進體育精神。" },
+        { month: 'feb', id: 18, type: 'local', question: "2月9日黎智英案被判處多少年監禁？",
+          options: ["A. 10年", "B. 15年", "C. 20年", "D. 25年"],
+          correct: 2, explanation: "此案是國安法實施以來刑期最重案件之一，提醒市民須遵守國家安全法律。" },
+        { month: 'feb', id: 19, type: 'international', question: "英國投資機構暫停對杜拜DP World投資的原因是什麼？",
+          options: ["A. 市場波動", "B. 負責人與不當人士有聯繫", "C. 公司業績下滑", "D. 政治壓力"],
+          correct: 1, explanation: "提醒企業選擇合作夥伴時要重視誠信和道德。" },
+        { month: 'feb', id: 20, type: 'local', question: "農曆大年初二車公誕，鄉議局主席劉業強為香港求得的中簽鼓勵什麼？",
+          options: ["A. 加強防疫", "B. 用精準政策推動經濟", "C. 發展旅遊業", "D. 改善民生"],
+          correct: 1, explanation: "簽文鼓勵政府用精準政策讓香港像春天一樣繁榮發展。" },
+        { month: 'feb', id: 21, type: 'international', question: "2月18日高市早苗當選日本第幾任首相？",
+          options: ["A. 103任", "B. 104任", "C. 105任", "D. 106任"],
+          correct: 2, explanation: "她領導的新政府將推動經濟政策，讓國家更強大繁榮。" },
+        { month: 'feb', id: 22, type: 'international', question: "2月22日英國影藝學院電影獎最佳影片是哪一部？",
+          options: ["A. 《奧本海默》", "B. 《可憐的東西》", "C. 《一戰再戰》", "D. 《花月殺手》"],
+          correct: 2, explanation: "《一戰再戰》獲得多項大獎，鼓勵觀眾欣賞優秀電影培養藝術興趣。" },
+        { month: 'feb', id: 23, type: 'international', question: "香港長和集團在巴拿馬運河的港口被誰接管？",
+          options: ["A. 巴拿馬政府", "B. 美國公司", "C. 中國企業", "D. 國際法院"],
+          correct: 0, explanation: "長和認為接管行動不合法，將用法律保護權益，提醒尊重合約和國際合作。" },
+        { month: 'feb', id: 24, type: 'local', question: "2月25日財政司司長陳茂波發表什麼文件？",
+          options: ["A. 施政報告", "B. 財政預算案2026", "C. 經濟展望", "D. 稅務修訂"],
+          correct: 1, explanation: "預算案強調香港經濟轉型中成長，推動科技創新和民生發展。" },
+        { month: 'feb', id: 25, type: 'international', question: "2月26日巴基斯坦和阿富汗邊境發生衝突，中國的立場是什麼？",
+          options: ["A. 支持巴基斯坦", "B. 希望兩國冷靜談判", "C. 派遣維和部隊", "D. 不表態"],
+          correct: 1, explanation: "中國呼籲雙方用外交解決爭端，保護人民安全。" },
 
-        // 計算各月份題數
-        const counts = {
-            dec: questionsData.filter(q => q.month === 'dec').length,
-            jan: questionsData.filter(q => q.month === 'jan').length,
-            feb: questionsData.filter(q => q.month === 'feb').length
-        };
+        // 2026年3月 (8題：原26-28 + 新29,31,32,35,36)
+        { month: 'mar', id: 26, type: 'local', question: "根據 2026/27 年度財政預算案，香港政府在 2025/26 財政年度的財務狀況如何？",
+          options: ["A. 財政儲備完全耗盡，需要依賴國際援助", "B. 取消了所有稅收，改為全債務融資", "C. 錄得約 29 億港元盈餘，終結了連續數年的赤字", "D. 仍然面臨超過 500 億港元的嚴重赤字"],
+          correct: 2, explanation: "報告提到受惠於股市旺盛及稅收增加，政府成功在 2025/26 年度錄得盈餘並終結赤字。財政儲備預計為 6,572 億港元，仍處於穩健水平。" },
+        { month: 'mar', id: 27, type: 'local', question: "從 2026 年 1 月 1 日起，公立醫院急症室（非緊急個案）的收費調整為多少？",
+          options: ["A. 320 港元", "B. 180 港元", "C. 400 港元", "D. 500 港元"],
+          correct: 2, explanation: "報告明確指出急症室收費由 180 港元大幅上調至 400 港元，以遏止濫用。" },
+        { month: 'mar', id: 28, type: 'local', question: "大埔宏福苑五級大火中，導致火勢在不同樓層間迅速蔓延的主要原因是什麼？",
+          options: ["A. 大廈外牆安裝了大量的太陽能板", "B. 消防隊員延誤了超過一小時才到達現場", "C. 住戶在家中存放了大量易燃化學品", "D. 外牆搭建的竹棚架及不具阻燃效果的防塵網"],
+          correct: 3, explanation: "調查指出防塵網燃燒產生的碎屑成為了跨樓層蔓延的導火線。這與大廈正在進行的維修工程物料有關。" },
+        // 新加3月題
+        { month: 'mar', id: 29, type: 'local', question: "為了增加政府收入，預算案針對超過 1 億港元的豪宅交易，將印花稅率上調至多少？",
+          options: ["A. 6.5%", "B. 10%", "C. 15%", "D. 4.25%"],
+          correct: 0, explanation: "政府對 1 億港元以上的豪宅採取「能者多付」策略，將稅率定為 6.5%。" },
+        { month: 'mar', id: 31, type: 'local', question: "政府計劃如何支持「北部都會區」的開發？",
+          options: ["A. 完全交由私人地產商開發，不投入公帑", "B. 將該區域設定為無人居住的純工業區", "C. 向每個入住的家庭發放 100 萬港元補貼", "D. 成立專屬公司並注資 100 億港元起始資金"],
+          correct: 3, explanation: "政府將產業開發制度化，透過注資和成立公司積極參與開發。" },
+        { month: 'mar', id: 32, type: 'local', question: "關於強積金（MPF）制度的改革，2026 年將推行什麼重大舉措？",
+          options: ["A. 強制所有僱員將 50% 的工資存入強積金", "B. 逐步推行強積金「全自由行」", "C. 禁止僱員在 80 歲前提取強積金", "D. 取消強積金制度，改為全民退休金"],
+          correct: 1, explanation: "這項改革賦予僱員更大的選擇權，有望透過競爭降低行政費。" },
+        { month: 'mar', id: 35, type: 'local', question: "行政長官李家超在 2026 年 3 月宣布啟動編制什麼文件，以提升治理戰略？",
+          options: ["A. 全球數字貨幣白皮書", "B. 香港旅遊發展藍圖 2050", "C. 香港首份「五年規劃」", "D. 強制全民健身計劃綱要"],
+          correct: 2, explanation: "旨在將年度施政報告提升為具系統性、對接國家戰略的長遠規劃。" },
+        { month: 'mar', id: 36, type: 'local', question: "報告提到香港的財政儲備預計為 6,572 億港元。這筆錢大約足夠支付政府幾個月的開支？",
+          options: ["A. 12 個月", "B. 3 個月", "C. 24 個月", "D. 8 個月"],
+          correct: 3, explanation: "雖然儲備有所回落，但仍足以維持約 8 個月的開支，顯示財政相對穩健。" },
 
-        // 顯示題數
-        document.getElementById('dec-count').textContent = `(${counts.dec}題)`;
-        document.getElementById('jan-count').textContent = `(${counts.jan}題)`;
-        document.getElementById('feb-count').textContent = `(${counts.feb}題)`;
+        // 2026年4月 (1題)
+        { month: 'apr', id: 33, type: 'local', question: "2026 年 4 月起，「二元乘車優惠」將如何調整？",
+          options: ["A. 改為「免費乘車」，無需支付任何費用", "B. 實施「兩蚊兩折」方案，10 元以上車程需付原價 20%", "C. 完全取消所有交通優惠，恢復原價", "D. 僅限於周日使用，平日需付全費"],
+          correct: 1, explanation: "這項方案體現了福利承諾與財政責任之間的平衡。" }
+    ];
 
-        // 渲染題目
-        const groups = {
-            dec: document.getElementById('group-dec'),
-            jan: document.getElementById('group-jan'),
-            feb: document.getElementById('group-feb')
-        };
+    // 渲染題目
+    const groups = {
+        dec: document.getElementById('group-dec'),
+        jan: document.getElementById('group-jan'),
+        feb: document.getElementById('group-feb'),
+        mar: document.getElementById('group-mar'),
+        apr: document.getElementById('group-apr')
+    };
 
-        questionsData.forEach(item => {
-            const card = document.createElement('div');
-            card.className = 'question-card';
-            card.setAttribute('data-qid', item.qid);
-            card.setAttribute('data-type', item.type);
-            const badgeClass = (item.type === 'local' ? 'local' : 'international');
-            const badgeText = (item.type === 'local' ? '本地' : '國際');
-            card.innerHTML = `
-                <div class="question-header">
-                    <div class="question-text">${item.qid}. ${item.question}</div>
-                    <span class="type-badge ${badgeClass}"><i class="fas ${item.type === 'local' ? 'fa-home' : 'fa-plane'}"></i> ${badgeText}</span>
-                </div>
-                <div class="options" id="options-${item.qid}">
-                    ${item.options.map((opt, idx) => `
-                        <label class="option">
-                            <input type="radio" name="q${item.qid}" value="${idx}">
-                            ${opt}
-                        </label>
-                    `).join('')}
-                </div>
-                <button class="btn-submit" onclick="submitAnswer(${item.qid})">提交</button>
-                <div class="feedback" id="feedback-${item.qid}"></div>
+    questionsData.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'question-card';
+        card.id = `q-${item.id}`;
+        
+        let optionsHtml = '';
+        item.options.forEach((opt, idx) => {
+            optionsHtml += `
+                <label class="option" onclick="selectOption(${item.id}, ${idx}, this)">
+                    <input type="radio" name="q${item.id}" value="${idx}">
+                    ${opt}
+                </label>
             `;
-            groups[item.month].appendChild(card);
         });
 
-        // 提交答案函數 (掛在 window 上)
-        window.submitAnswer = function(qid) {
-            const question = questionsData.find(q => q.qid === qid);
-            const options = document.getElementsByName(`q${qid}`);
-            let selectedValue = null;
-            for (let opt of options) {
-                if (opt.checked) {
-                    selectedValue = parseInt(opt.value);
-                    break;
-                }
-            }
-            const feedbackDiv = document.getElementById(`feedback-${qid}`);
-            if (selectedValue === null) {
-                feedbackDiv.className = 'feedback incorrect';
-                feedbackDiv.innerHTML = '<strong>請先選擇一個選項！</strong>';
-                return;
-            }
-            const isCorrect = (selectedValue === question.correct);
-            const correctLetter = String.fromCharCode(65 + question.correct);
-            const supplement = question.supplement;
-            feedbackDiv.className = isCorrect ? 'feedback correct' : 'feedback incorrect';
-            feedbackDiv.innerHTML = isCorrect 
-                ? `<strong>✅ 正確！</strong><div class="supplement">📘 ${supplement}</div>`
-                : `<strong>❌ 錯誤！ 正確答案是 ${correctLetter}.</strong><div class="supplement">📘 ${supplement}</div>`;
-        };
+        card.innerHTML = `
+            <div class="question-header">
+                <span class="q-num">${item.id}</span>
+                <span class="type-badge ${item.type}">${item.type === 'local' ? '本地' : '國際'}</span>
+            </div>
+            <div class="question-text">${item.question}</div>
+            <div class="options" id="options-${item.id}">${optionsHtml}</div>
+            <button class="btn-submit" id="btn-${item.id}" onclick="submitAnswer(${item.id})">提交答案</button>
+            <div class="explain-box" id="explain-${item.id}"></div>
+        `;
+        groups[item.month].appendChild(card);
+    });
 
-        // 摺疊功能
-        window.toggleGroup = function(header) {
-            const content = header.nextElementSibling;
-            header.classList.toggle('collapsed');
-            content.classList.toggle('collapsed');
-        };
+    // 摺疊功能
+    window.toggleGroup = function(header) {
+        header.classList.toggle('collapsed');
+        header.nextElementSibling.classList.toggle('collapsed');
+    };
 
-        // 篩選功能
-        window.filterQuestions = function(type) {
-            document.getElementById('filter-all').classList.remove('active');
-            document.getElementById('filter-local').classList.remove('active');
-            document.getElementById('filter-intl').classList.remove('active');
-            if (type === 'all') {
-                document.getElementById('filter-all').classList.add('active');
-            } else if (type === 'local') {
-                document.getElementById('filter-local').classList.add('active');
-            } else {
-                document.getElementById('filter-intl').classList.add('active');
+    // 選取選項
+    window.selectOption = function(qid, optIdx, element) {
+        const questionCard = document.getElementById(`q-${qid}`);
+        if (questionCard.classList.contains('answered')) return; // 已答題不可再選
+        
+        const container = element.closest('.options');
+        const labels = container.querySelectorAll('.option');
+        labels.forEach(label => label.classList.remove('selected'));
+        element.classList.add('selected');
+    };
+
+    // 提交答案
+    window.submitAnswer = function(qid) {
+        const questionCard = document.getElementById(`q-${qid}`);
+        if (questionCard.classList.contains('answered')) return;
+
+        const question = questionsData.find(q => q.id === qid);
+        const options = document.querySelectorAll(`#options-${qid} .option`);
+        let selected = null;
+
+        options.forEach((opt, idx) => {
+            if (opt.classList.contains('selected')) {
+                selected = idx;
             }
+        });
 
-            const cards = document.querySelectorAll('.question-card');
-            cards.forEach(card => {
-                const cardType = card.getAttribute('data-type');
-                if (type === 'all' || cardType === type) {
-                    card.classList.remove('hidden');
-                } else {
-                    card.classList.add('hidden');
-                }
-            });
-        };
+        if (selected === null) {
+            alert('請先選擇一個答案！');
+            return;
+        }
+
+        const isCorrect = (selected === question.correct);
+        const explainBox = document.getElementById(`explain-${qid}`);
+        
+        let correctLetter = String.fromCharCode(65 + question.correct);
+        let resultMsg = isCorrect ? '✅ 正確！' : `❌ 錯誤！ 正確答案是 ${correctLetter}`;
+        
+        explainBox.innerHTML = `
+            <strong>${resultMsg}</strong><br>
+            <strong>🔍 解說：</strong> ${question.explanation}
+        `;
+        explainBox.classList.add('show');
+
+        // 標示正確答案和錯誤選擇
+        options.forEach((opt, idx) => {
+            opt.classList.add('locked');
+            if (idx === question.correct) {
+                opt.classList.add('correct-answer');
+            }
+            if (!isCorrect && idx === selected) {
+                opt.classList.add('wrong-answer');
+            }
+        });
+
+        document.getElementById(`btn-${qid}`).disabled = true;
+        questionCard.classList.add('answered');
     };
 </script>
-
-<style>
-    .group-header.collapsed + .group-content {
-        display: none;
-    }
-    .group-header i {
-        transition: transform 0.3s;
-    }
-    .group-header.collapsed i {
-        transform: rotate(-90deg);
-    }
-    .option {
-        user-select: none;
-    }
-    .option input[type="radio"] {
-        accent-color: #58a700;
-    }
-    .question-card.hidden {
-        display: none;
-    }
-</style>
 </body>
 </html>
