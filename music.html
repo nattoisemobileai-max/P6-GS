@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-HK">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>小六呈三 - 音樂 (單元一至單元三)</title>
+    <title>小六呈三 - 音樂科 (管弦樂團 | 和弦伴奏 | 主題和變奏)</title>
     <style>
         * {
             margin: 0;
@@ -23,7 +23,7 @@
 
         /* Duolingo-inspired card with bright colors */
         .podcast-hub {
-            max-width: 880px;
+            max-width: 920px;
             width: 100%;
             background: #FFFFFF;
             border-radius: 3rem;
@@ -43,7 +43,7 @@
         }
 
         .hero::before {
-            content: "🎧";
+            content: "🎵";
             font-size: 120px;
             position: absolute;
             right: -20px;
@@ -171,7 +171,7 @@
             }
         }
 
-        /* podcast card - Duolingo card style with soft shadows */
+        /* podcast card - with image gallery style */
         .podcast-card {
             background: #FEFCF5;
             border-radius: 2rem;
@@ -198,8 +198,6 @@
         .podcast-title {
             font-size: 1.7rem;
             font-weight: 800;
-            color: #3A9B4E;
-            letter-spacing: -0.2px;
             background: linear-gradient(135deg, #3A9B4E 0%, #58CC71 100%);
             background-clip: text;
             -webkit-background-clip: text;
@@ -216,30 +214,53 @@
             letter-spacing: 0.3px;
         }
 
-        .host {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin: 0.5rem 0 0.9rem 0;
-            color: #E68A2E;
-            font-size: 0.9rem;
-            font-weight: 600;
-            background: #FFF7EA;
-            padding: 0.3rem 1rem;
-            border-radius: 40px;
-            width: fit-content;
+        /* ===== IMAGE GALLERY STYLES (replaces description) ===== */
+        .music-image {
+            width: 100%;
+            border-radius: 1.5rem;
+            margin: 0.8rem 0 1.2rem 0;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            border: 2px solid #FFE5BF;
+            transition: transform 0.2s ease, box-shadow 0.2s;
+            display: block;
+            object-fit: cover;
+            max-height: 280px;
+            background: #FFF3E3;
         }
 
-        .description {
-            color: #5A5A5A;
-            line-height: 1.5;
-            margin-bottom: 1.6rem;
-            font-size: 0.95rem;
-            background: #FFFEF9;
-            padding: 0.8rem 1rem;
-            border-radius: 1.2rem;
-            border-left: 5px solid #FFB347;
-            font-weight: 500;
+        .music-image:hover {
+            transform: scale(1.01);
+            box-shadow: 0 12px 24px rgba(88, 204, 113, 0.15);
+            border-color: #FFD48A;
+        }
+
+        .image-caption {
+            font-size: 0.8rem;
+            color: #C97E2A;
+            font-weight: 600;
+            text-align: center;
+            margin-top: -0.5rem;
+            margin-bottom: 1rem;
+            background: #FFF7EA;
+            display: inline-block;
+            padding: 0.2rem 1rem;
+            border-radius: 60px;
+        }
+
+        .image-error-msg {
+            background: #FFF2E2;
+            border-radius: 60px;
+            padding: 12px 16px;
+            font-size: 0.75rem;
+            color: #E68A2E;
+            border-left: 4px solid #FFB347;
+            margin: 0.5rem 0 1rem 0;
+            font-weight: 600;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         /* audio player - Duolingo playful style */
@@ -308,7 +329,7 @@
                 border-radius: 2rem;
             }
             .tab-btn {
-                font-size: 0.75rem;
+                font-size: 0.7rem;
                 gap: 5px;
                 padding: 0.8rem 0.2rem;
             }
@@ -316,17 +337,20 @@
                 padding: 1.3rem;
             }
             .podcast-title {
-                font-size: 1.35rem;
+                font-size: 1.3rem;
             }
             .hero h1 {
-                font-size: 1.6rem;
+                font-size: 1.5rem;
             }
             .podcast-card {
                 padding: 1.2rem;
             }
+            .music-image {
+                max-height: 200px;
+            }
         }
 
-        /* error message style */
+        /* error message style for audio */
         .audio-error-msg {
             background: #FFF2E2;
             border-radius: 60px;
@@ -341,7 +365,6 @@
             display: none;
         }
 
-        /* extra duo owl emoji */
         .duo-icon {
             font-size: 1.1rem;
             vertical-align: middle;
@@ -352,116 +375,149 @@
 <div class="podcast-hub">
     <div class="hero">
         <h1>
-            🎙️ 音樂科
-            <span>3 Tabs · 3 Voices</span>
+            🎵 音樂科 · 呈分試複習
+            <span>單元一至三</span>
         </h1>
+        <p>管弦樂團 · 和弦伴奏 · 主題和變奏</p>
         <div class="folder-path">
-            🦉 podcast / episode_01.mp3 &nbsp;✦&nbsp; episode_02.mp3 &nbsp;✦&nbsp; episode_03.mp3
+            🦉 podcast / episode_01.mp3 &nbsp;✦&nbsp; episode_02.mp3 &nbsp;✦&nbsp; episode_03.mp3 &nbsp;&nbsp;|&nbsp;&nbsp; 🖼️ images / 1.jpg , 2.jpg , 3.jpg
         </div>
     </div>
 
     <div class="tab-bar">
         <button class="tab-btn active" data-tab="tab1">
-            <i class="emoji">🎧</i> 管弦樂團
+            <i class="emoji">🎻</i> 管弦樂團
         </button>
         <button class="tab-btn" data-tab="tab2">
-            <i class="emoji">⚡</i> 和弦伴奏
+            <i class="emoji">🎹</i> 和弦伴奏
         </button>
         <button class="tab-btn" data-tab="tab3">
-            <i class="emoji">🎨</i> 主題和變奏
+            <i class="emoji">🎼</i> 主題和變奏
         </button>
     </div>
 
     <div class="panels-container">
-        <!-- Tab 1: episode_01.mp3 from podcast folder -->
+        <!-- Tab 1: 管弦樂團 - image from images/1.jpg -->
         <div id="tab1" class="tab-panel active-panel">
             <div class="podcast-card">
                 <div class="podcast-header">
-                    <div class="podcast-title">🎧 管弦樂團</div>
-                    <div class="badge">Episode 01 · 管弦樂團音色與經典作品欣賞</div>
+                    <div class="podcast-title">🎻 管弦樂團</div>
+                    <div class="badge">單元一 · 樂器家族與交響樂</div>
                 </div>
                 
-                <div class="description">
-                    
+                <!-- IMAGE SECTION: loads from images/1.jpg -->
+                <div class="image-container" id="img-container-1">
+                    <img class="music-image" id="topic-img-1" alt="管弦樂團圖示" src="images/1.jpg">
+                    <div class="image-caption">📸 管弦樂團編制 · 弦樂、木管、銅管、敲擊樂</div>
+                    <div id="img-error-1" class="image-error-msg" style="display: none;">
+                        🖼️ 找不到圖片 images/1.jpg，請將圖片放入「images」資料夾
+                    </div>
                 </div>
+
                 <div class="audio-player-wrapper">
                     <audio controls preload="metadata">
                         <source src="podcast/episode_01.mp3" type="audio/mpeg">
                         Your browser does not support the audio element.
                     </audio>
-                    
+                    <div class="player-meta">
+                        <span>🎧 聆聽管弦樂經典片段</span>
+                        <span>🎵 認識樂團音色</span>
+                    </div>
                 </div>
-                
+                <div class="file-ref">
+                    📁 podcast/episode_01.mp3
+                </div>
                 <hr>
                 <div class="audio-error-msg" id="error-tab1" style="display: none;">
-                    ⚠️ Oops! Missing file. Place <strong>episode_01.mp3</strong> inside the "podcast" folder.
+                    ⚠️ 音檔遺失。請將 <strong>episode_01.mp3</strong> 放入「podcast」資料夾。
                 </div>
             </div>
         </div>
 
-        <!-- Tab 2: episode_02.mp3 from podcast folder -->
+        <!-- Tab 2: 和弦伴奏 - image from images/2.jpg -->
         <div id="tab2" class="tab-panel">
             <div class="podcast-card">
                 <div class="podcast-header">
-                    <div class="podcast-title">⚡ 和弦伴奏</div>
-                    <div class="badge">Episode 02 · 認識與應用和弦伴奏</div>
+                    <div class="podcast-title">🎹 和弦伴奏</div>
+                    <div class="badge">單元二 · 和弦進行與伴奏技巧</div>
                 </div>
                 
-                <div class="description">
-                    
+                <!-- IMAGE SECTION: loads from images/2.jpg -->
+                <div class="image-container" id="img-container-2">
+                    <img class="music-image" id="topic-img-2" alt="和弦伴奏圖示" src="images/2.jpg">
+                    <div class="image-caption">🎹 和弦配置 · 主和弦、屬和弦、下屬和弦</div>
+                    <div id="img-error-2" class="image-error-msg" style="display: none;">
+                        🖼️ 找不到圖片 images/2.jpg，請將圖片放入「images」資料夾
+                    </div>
                 </div>
+
                 <div class="audio-player-wrapper">
                     <audio controls preload="metadata">
                         <source src="podcast/episode_02.mp3" type="audio/mpeg">
                         Your browser does not support the audio element.
                     </audio>
-                    
+                    <div class="player-meta">
+                        <span>⚡ 和弦伴奏示範</span>
+                        <span>🎶 I - IV - V 和弦進行</span>
+                    </div>
                 </div>
-                
+                <div class="file-ref">
+                    📁 podcast/episode_02.mp3
+                </div>
                 <hr>
                 <div class="audio-error-msg" id="error-tab2" style="display: none;">
-                    ⚠️ File not found. Add <strong>episode_02.mp3</strong> to your "podcast" directory.
+                    ⚠️ 音檔遺失。請將 <strong>episode_02.mp3</strong> 放入「podcast」資料夾。
                 </div>
             </div>
         </div>
 
-        <!-- Tab 3: episode_03.mp3 from podcast folder -->
+        <!-- Tab 3: 主題和變奏 - image from images/3.jpg -->
         <div id="tab3" class="tab-panel">
             <div class="podcast-card">
                 <div class="podcast-header">
-                    <div class="podcast-title">🎨 主題和變奏</div>
-                    <div class="badge">Episode 03 · 主題和變奏</div>
+                    <div class="podcast-title">🎼 主題和變奏</div>
+                    <div class="badge">單元三 · 變奏曲式與創意發展</div>
                 </div>
-                <div class="host">
-                    <span>🦉</span> Host: Luna Park & indie makers
+                
+                <!-- IMAGE SECTION: loads from images/3.jpg -->
+                <div class="image-container" id="img-container-3">
+                    <img class="music-image" id="topic-img-3" alt="主題和變奏圖示" src="images/3.jpg">
+                    <div class="image-caption">🎼 主題 · 變奏1 · 變奏2 · 尾聲</div>
+                    <div id="img-error-3" class="image-error-msg" style="display: none;">
+                        🖼️ 找不到圖片 images/3.jpg，請將圖片放入「images」資料夾
+                    </div>
                 </div>
-                <div class="description">
-                    
-                </div>
+
                 <div class="audio-player-wrapper">
                     <audio controls preload="metadata">
                         <source src="podcast/episode_03.mp3" type="audio/mpeg">
                         Your browser does not support the audio element.
                     </audio>
-                    
+                    <div class="player-meta">
+                        <span>🎶 莫札特「小星星變奏曲」選段</span>
+                        <span>✨ 主題與三次變奏</span>
+                    </div>
                 </div>
-                
+                <div class="file-ref">
+                    📁 podcast/episode_03.mp3
+                </div>
                 <hr>
                 <div class="audio-error-msg" id="error-tab3" style="display: none;">
-                    ⚠️ Missing MP3. Please ensure <strong>episode_03.mp3</strong> exists inside the "podcast" folder.
+                    ⚠️ 音檔遺失。請將 <strong>episode_03.mp3</strong> 放入「podcast」資料夾。
                 </div>
             </div>
         </div>
     </div>
     <div class="footer-note">
-        🦉 Duolingo-style podcast hub · All audio files from <strong style="color:#E68A2E;">/podcast/</strong> folder (episode_01.mp3, episode_02.mp3, episode_03.mp3)<br>
-        🌟 Switch tabs while listening — each episode plays independently. Keep learning!
+        🦉 小六音樂科重溫 · 點擊分頁切換單元 | 所有音檔存放於 <strong style="color:#E68A2E;">/podcast/</strong> 資料夾 (episode_01.mp3, episode_02.mp3, episode_03.mp3)<br>
+        🖼️ 單元圖片存放於 <strong style="color:#E68A2E;">/images/</strong> 資料夾 (1.jpg, 2.jpg, 3.jpg) · 可自由更換圖片<br>
+        🌟 分頁獨立播放，一邊聆聽一邊觀看圖解。加油！
     </div>
 </div>
 
 <script>
     (function() {
-        // TAB SWITCHING - fresh and fluid
+        // ========== TAB SWITCHING ==========
         const tabBtns = document.querySelectorAll('.tab-btn');
         const panels = document.querySelectorAll('.tab-panel');
 
@@ -479,9 +535,8 @@
             const correspondingBtn = Array.from(tabBtns).find(btn => btn.getAttribute('data-tab') === activeTabId);
             if (correspondingBtn) correspondingBtn.classList.add('active');
 
-            // save last active tab to localStorage for fun
             try {
-                localStorage.setItem('duocast_active_tab', activeTabId);
+                localStorage.setItem('music_active_tab', activeTabId);
             } catch(e) {}
         }
 
@@ -492,33 +547,81 @@
             });
         });
 
-        // Restore last tab if any
         try {
-            const savedTab = localStorage.getItem('duocast_active_tab');
+            const savedTab = localStorage.getItem('music_active_tab');
             if (savedTab && (savedTab === 'tab1' || savedTab === 'tab2' || savedTab === 'tab3')) {
                 const currentActive = document.querySelector('.tab-panel.active-panel')?.id;
                 if (currentActive !== savedTab) switchTab(savedTab);
             }
         } catch(e) {}
 
-        // ---------- ERROR HANDLING FOR MISSING MP3 FILES (FRIENDLY DUO ALERTS) ----------
+        // ========== IMAGE ERROR HANDLING (check if images exist, show fallback) ==========
+        const imageConfigs = [
+            { imgId: 'topic-img-1', errorId: 'img-error-1', src: 'images/1.jpg', alt: '管弦樂團' },
+            { imgId: 'topic-img-2', errorId: 'img-error-2', src: 'images/2.jpg', alt: '和弦伴奏' },
+            { imgId: 'topic-img-3', errorId: 'img-error-3', src: 'images/3.jpg', alt: '主題和變奏' }
+        ];
+
+        function showImageError(errorElementId, fileName) {
+            const errorDiv = document.getElementById(errorElementId);
+            if (errorDiv) {
+                errorDiv.style.display = 'flex';
+                errorDiv.innerHTML = `🖼️ 無法載入圖片 <strong>${fileName}</strong>，請確認圖片位於「images」資料夾內。`;
+            }
+        }
+
+        function hideImageError(errorElementId) {
+            const errorDiv = document.getElementById(errorElementId);
+            if (errorDiv) errorDiv.style.display = 'none';
+        }
+
+        imageConfigs.forEach(cfg => {
+            const imgElement = document.getElementById(cfg.imgId);
+            if (!imgElement) return;
+
+            // 檢查圖片是否載入成功
+            imgElement.onerror = function() {
+                console.warn(`圖片載入失敗: ${cfg.src}`);
+                showImageError(cfg.errorId, cfg.src);
+                // 可選: 設定一個 placeholder 樣式
+                imgElement.style.opacity = '0.6';
+                imgElement.style.backgroundColor = '#F9EFE2';
+                imgElement.style.objectFit = 'contain';
+                imgElement.style.padding = '2rem';
+                imgElement.alt = `[圖片遺失] ${cfg.alt}`;
+            };
+
+            imgElement.onload = function() {
+                hideImageError(cfg.errorId);
+                imgElement.style.opacity = '1';
+            };
+
+            // 手動觸發檢查 (如果已經快取，onload 會觸發)
+            if (imgElement.complete) {
+                if (imgElement.naturalWidth === 0) {
+                    imgElement.onerror();
+                } else {
+                    hideImageError(cfg.errorId);
+                }
+            }
+        });
+
+        // ========== AUDIO ERROR HANDLING (MP3 files in /podcast/) ==========
         const audioConfigs = [
             { panelId: 'tab1', audioSelector: '#tab1 audio', errorMsgId: 'error-tab1', src: 'podcast/episode_01.mp3', fileName: 'episode_01.mp3' },
             { panelId: 'tab2', audioSelector: '#tab2 audio', errorMsgId: 'error-tab2', src: 'podcast/episode_02.mp3', fileName: 'episode_02.mp3' },
             { panelId: 'tab3', audioSelector: '#tab3 audio', errorMsgId: 'error-tab3', src: 'podcast/episode_03.mp3', fileName: 'episode_03.mp3' }
         ];
 
-        function showFileError(errorElementId, fileName) {
+        function showAudioError(errorElementId, fileName) {
             const errorDiv = document.getElementById(errorElementId);
             if (errorDiv) {
                 errorDiv.style.display = 'flex';
-                errorDiv.style.alignItems = 'center';
-                errorDiv.style.justifyContent = 'flex-start';
-                errorDiv.innerHTML = `🦉⚠️ Oops! <strong>${fileName}</strong> not found in the "podcast" folder. Add your MP3 to start listening!`;
+                errorDiv.innerHTML = `🎵⚠️ 音檔遺失！請將 <strong>${fileName}</strong> 放入「podcast」資料夾。`;
             }
         }
 
-        function hideError(errorElementId) {
+        function hideAudioError(errorElementId) {
             const errorDiv = document.getElementById(errorElementId);
             if (errorDiv && errorDiv.style.display !== 'none') {
                 errorDiv.style.display = 'none';
@@ -529,40 +632,41 @@
             const audioEl = document.querySelector(cfg.audioSelector);
             if (!audioEl) return;
             
-            // error event -> file missing or network issue
             audioEl.addEventListener('error', (e) => {
-                console.warn(`DuoCast: ${cfg.src} could not be loaded. Check podcast folder.`);
-                showFileError(cfg.errorMsgId, cfg.fileName);
+                console.warn(`音檔錯誤: ${cfg.src} 無法載入。請檢查 podcast 資料夾`);
+                showAudioError(cfg.errorMsgId, cfg.fileName);
             });
             
-            // if file loads successfully, hide error message
             audioEl.addEventListener('canplaythrough', () => {
-                hideError(cfg.errorMsgId);
+                hideAudioError(cfg.errorMsgId);
             });
             audioEl.addEventListener('loadeddata', () => {
-                hideError(cfg.errorMsgId);
+                hideAudioError(cfg.errorMsgId);
             });
             
-            // trigger initial load to detect missing files early
             audioEl.load();
         });
 
-        // Duolingo extra: playful console message
-        console.log("🦉 DuoCast ready! Place episode_01.mp3, episode_02.mp3, episode_03.mp3 inside /podcast/ folder. Keep learning and listening!");
+        // 額外小功能：為圖片加上友善提示 (在控制台提醒)
+        console.log("🎵 音樂學習頁面已啟動 | 請確保資料夾結構: /podcast/ (mp3) 與 /images/ (1.jpg , 2.jpg , 3.jpg)");
 
-        // additional micro interaction: add hover sound effect? not needed but adds style
+        // 增加微互動樣式
         const style = document.createElement('style');
         style.textContent = `
             .tab-btn:active {
-                transform: scale(0.97);
+                transform: scale(0.96);
             }
             audio:hover {
-                filter: drop-shadow(0 2px 5px rgba(255,180,70,0.3));
+                filter: drop-shadow(0 2px 6px rgba(255,180,70,0.4));
             }
-            .folder-path::before {
-                content: "📂";
-                margin-right: 6px;
-                font-size: 0.85rem;
+            .music-image {
+                transition: all 0.2s ease-in-out;
+            }
+            .image-error-msg {
+                background: #FFF0E0;
+                border-radius: 28px;
+                padding: 10px 14px;
+                font-size: 0.75rem;
             }
         `;
         document.head.appendChild(style);
