@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Podcast Hub | Three Audio Tabs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #101010 0%, #1a1a1a 100%);
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1.5rem;
+        }
+
+        /* main card container */
+        .podcast-hub {
+            max-width: 880px;
+            width: 100%;
+            background: rgba(20, 20, 22, 0.92);
+            backdrop-filter: blur(2px);
+            border-radius: 2.5rem;
+            box-shadow: 0 30px 50px -20px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+
+        /* header area */
+        .hero {
+            background: linear-gradient(120deg, #0b0b0e 0%, #141417 100%);
+            padding: 2rem 2rem 1.6rem 2rem;
+            color: #f0ede8;
+            border-bottom: 1px solid #2c2c2e;
+        }
+
+        .hero h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .hero h1 span {
+            background: #c47a3e;
+            font-size: 0.85rem;
+            font-weight: 500;
+            padding: 0.2rem 0.9rem;
+            border-radius: 60px;
+            color: #ffffff;
+            letter-spacing: 0;
+        }
+
+        .hero p {
+            font-size: 0.95rem;
+            margin-top: 0.75rem;
+            opacity: 0.7;
+            font-weight: 400;
+        }
+
+        /* folder path indicator */
+        .folder-path {
+            background: #00000055;
+            display: inline-block;
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-family: monospace;
+            margin-top: 0.8rem;
+            backdrop-filter: blur(4px);
+            color: #c47a3e;
+            border: 1px solid #3a2a1e;
+        }
+
+        /* tab navigation */
+        .tab-bar {
+            display: flex;
+            background: #1c1c1f;
+            border-bottom: 1px solid #2c2c2f;
+            padding: 0 1.2rem;
+            gap: 0.5rem;
+        }
+
+        .tab-btn {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 1rem 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: inherit;
+            color: #9c9ca0;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-radius: 28px 28px 0 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            letter-spacing: -0.2px;
+        }
+
+        .tab-btn i.emoji {
+            font-style: normal;
+            font-size: 1.2rem;
+        }
+
+        .tab-btn:hover {
+            background: #2a2a2e;
+            color: #e0cfbc;
+        }
+
+        .tab-btn.active {
+            color: #e6b27a;
+            background: #26262a;
+            border-bottom: 3px solid #e6b27a;
+        }
+
+        /* panels container */
+        .panels-container {
+            background: #18181c;
+            padding: 2rem 1.8rem 2.2rem 1.8rem;
+        }
+
+        .tab-panel {
+            display: none;
+            animation: fadeSlide 0.3s ease-out;
+        }
+
+        .tab-panel.active-panel {
+            display: block;
+        }
+
+        @keyframes fadeSlide {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* podcast card style - dark theme */
+        .podcast-card {
+            background: #222226;
+            border-radius: 1.8rem;
+            padding: 1.5rem 1.6rem 1.9rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            border: 1px solid #333337;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .podcast-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.5);
+            border-color: #4a3a2a;
+        }
+
+        .podcast-header {
+            display: flex;
+            align-items: baseline;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 0.6rem;
+        }
+
+        .podcast-title {
+            font-size: 1.65rem;
+            font-weight: 700;
+            color: #f3e7db;
+            letter-spacing: -0.3px;
+        }
+
+        .badge {
+            background: #2e2b28;
+            border-radius: 50px;
+            padding: 0.25rem 0.9rem;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: #e6b27a;
+            font-family: monospace;
+        }
+
+        .host {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0.5rem 0 0.9rem 0;
+            color: #b8a48c;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .host i {
+            font-style: normal;
+        }
+
+        .description {
+            color: #bcb0a2;
+            line-height: 1.45;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            border-left: 3px solid #e6b27a;
+            padding-left: 1rem;
+            background: #1e1e22;
+            border-radius: 0 12px 12px 0;
+        }
+
+        /* audio player styling */
+        .audio-player-wrapper {
+            margin: 0.8rem 0 0.3rem;
+            width: 100%;
+        }
+
+        audio {
+            width: 100%;
+            border-radius: 60px;
+            outline: none;
+            background: #2c2c30;
+        }
+
+        audio::-webkit-media-controls-panel {
+            background-color: #2c2c30;
+        }
+
+        .player-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.7rem;
+            font-size: 0.75rem;
+            color: #a48e76;
+            font-weight: 500;
+        }
+
+        .file-ref {
+            font-family: monospace;
+            font-size: 0.7rem;
+            background: #131316;
+            display: inline-block;
+            padding: 0.2rem 0.7rem;
+            border-radius: 20px;
+            color: #c48b5a;
+            margin-top: 0.6rem;
+        }
+
+        hr {
+            margin: 1.3rem 0 0.2rem;
+            border: none;
+            border-top: 1px solid #35353a;
+        }
+
+        /* footer */
+        .footer-note {
+            text-align: center;
+            font-size: 0.75rem;
+            color: #7f6e5c;
+            padding: 1rem 1.5rem 1.3rem;
+            background: #131316;
+            border-top: 1px solid #2a2a2e;
+        }
+
+        @media (max-width: 600px) {
+            .podcast-hub {
+                border-radius: 1.8rem;
+            }
+            .tab-btn {
+                font-size: 0.8rem;
+                gap: 5px;
+                padding: 0.8rem 0.2rem;
+            }
+            .panels-container {
+                padding: 1.3rem;
+            }
+            .podcast-title {
+                font-size: 1.3rem;
+            }
+            .hero h1 {
+                font-size: 1.5rem;
+            }
+            .podcast-card {
+                padding: 1.2rem;
+            }
+        }
+
+        /* warning / error style (soft) */
+        .audio-error-msg {
+            font-size: 0.7rem;
+            color: #c2774a;
+            margin-top: 0.4rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+    </style>
+</head>
+<body>
+<div class="podcast-hub">
+    <div class="hero">
+        <h1>
+            🎙️ Podcast Library
+            <span>3 episodes</span>
+        </h1>
+        <p>Three immersive audio experiences — each loaded from the <strong style="color:#e6b27a">/podcast/</strong> folder.</p>
+        <div class="folder-path">
+            📁 podcast / episode_01.mp3 &nbsp;&nbsp;|&nbsp;&nbsp; podcast / episode_02.mp3 &nbsp;&nbsp;|&nbsp;&nbsp; podcast / episode_03.mp3
+        </div>
+    </div>
+
+    <div class="tab-bar">
+        <button class="tab-btn active" data-tab="tab1">
+            <i class="emoji">🎧</i> Sonic Stories
+        </button>
+        <button class="tab-btn" data-tab="tab2">
+            <i class="emoji">⚡</i> Deep Dialogues
+        </button>
+        <button class="tab-btn" data-tab="tab3">
+            <i class="emoji">🎨</i> Creative Pulse
+        </button>
+    </div>
+
+    <div class="panels-container">
+        <!-- Tab 1: Episode 01 - MP3 from podcast folder -->
+        <div id="tab1" class="tab-panel active-panel">
+            <div class="podcast-card">
+                <div class="podcast-header">
+                    <div class="podcast-title">🎧 Sonic Stories</div>
+                    <div class="badge">EP 01 · Narratives</div>
+                </div>
+                <div class="host">
+                    <i>🎙️</i> Host: Morgan James & audio storytellers
+                </div>
+                <div class="description">
+                    "The echo of forgotten melodies" — immersive storytelling blending ambient textures and personal journeys. A deep dive into memory, music, and meaning.
+                </div>
+                <div class="audio-player-wrapper">
+                    <audio controls preload="metadata">
+                        <source src="podcast/episode_01.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <div class="player-meta">
+                        <span>📀 28 min · narrative podcast</span>
+                        <span>🎙️ recorded in high fidelity</span>
+                    </div>
+                </div>
+                <div class="file-ref">
+                    📂 podcast/episode_01.mp3
+                </div>
+                <hr>
+                <div class="audio-error-msg" id="error-tab1" style="display: none;">
+                    ⚠️ Could not load MP3. Please ensure <strong>podcast/episode_01.mp3</strong> exists in the "podcast" folder.
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 2: Episode 02 - MP3 from podcast folder -->
+        <div id="tab2" class="tab-panel">
+            <div class="podcast-card">
+                <div class="podcast-header">
+                    <div class="podcast-title">⚡ Deep Dialogues</div>
+                    <div class="badge">EP 02 · Unscripted</div>
+                </div>
+                <div class="host">
+                    <i>🎙️</i> Host: Dr. Aisha Kamau & futurists
+                </div>
+                <div class="description">
+                    Conversations at the edge of science and soul. This episode explores sound healing, neuro-acoustics, and how rhythm rewires our focus.
+                </div>
+                <div class="audio-player-wrapper">
+                    <audio controls preload="metadata">
+                        <source src="podcast/episode_02.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <div class="player-meta">
+                        <span>⚡ 42 min · interview & field recordings</span>
+                        <span>🧠 neuroscience + beats</span>
+                    </div>
+                </div>
+                <div class="file-ref">
+                    📂 podcast/episode_02.mp3
+                </div>
+                <hr>
+                <div class="audio-error-msg" id="error-tab2" style="display: none;">
+                    ⚠️ MP3 not found. Please add <strong>podcast/episode_02.mp3</strong> inside the "podcast" directory.
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 3: Episode 03 - MP3 from podcast folder -->
+        <div id="tab3" class="tab-panel">
+            <div class="podcast-card">
+                <div class="podcast-header">
+                    <div class="podcast-title">🎨 Creative Pulse</div>
+                    <div class="badge">EP 03 · Art & Flow</div>
+                </div>
+                <div class="host">
+                    <i>🎙️</i> Host: Lin Wei & multidisciplinary artists
+                </div>
+                <div class="description">
+                    From canvas to composition — how visual artists use sound as inspiration. Includes raw studio sessions, generative music tips, and creative rituals.
+                </div>
+                <div class="audio-player-wrapper">
+                    <audio controls preload="metadata">
+                        <source src="podcast/episode_03.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <div class="player-meta">
+                        <span>🎸 33 min · behind the scenes</span>
+                        <span>✨ modular synth special</span>
+                    </div>
+                </div>
+                <div class="file-ref">
+                    📂 podcast/episode_03.mp3
+                </div>
+                <hr>
+                <div class="audio-error-msg" id="error-tab3" style="display: none;">
+                    ⚠️ Missing file. Place <strong>podcast/episode_03.mp3</strong> in the same root folder under "podcast".
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-note">
+        🎙️ Three podcasts | all audio files should be inside <strong style="color:#d89f62;">/podcast/</strong> folder (episode_01.mp3, episode_02.mp3, episode_03.mp3).<br>
+        Tabs keep playback independent — switch while listening.
+    </div>
+</div>
+
+<script>
+    (function() {
+        // TAB SWITCHING LOGIC
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const panels = document.querySelectorAll('.tab-panel');
+
+        function switchTab(activeTabId) {
+            panels.forEach(panel => {
+                panel.classList.remove('active-panel');
+            });
+            tabBtns.forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            const activePanel = document.getElementById(activeTabId);
+            if (activePanel) activePanel.classList.add('active-panel');
+
+            const correspondingBtn = Array.from(tabBtns).find(btn => btn.getAttribute('data-tab') === activeTabId);
+            if (correspondingBtn) correspondingBtn.classList.add('active');
+
+            // store last active
+            try {
+                localStorage.setItem('podcast_active_tab', activeTabId);
+            } catch(e) {}
+        }
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabId = btn.getAttribute('data-tab');
+                if (tabId) switchTab(tabId);
+            });
+        });
+
+        // restore last tab from localStorage
+        try {
+            const saved = localStorage.getItem('podcast_active_tab');
+            if (saved && (saved === 'tab1' || saved === 'tab2' || saved === 'tab3')) {
+                const currentActive = document.querySelector('.tab-panel.active-panel')?.id;
+                if (currentActive !== saved) switchTab(saved);
+            }
+        } catch(e) {}
+
+        // ---------- MP3 FILE EXISTENCE CHECK & ERROR HANDLING (graceful) ----------
+        // For each audio element, we listen for 'error' event to show friendly message 
+        // without breaking UI. This helps users know if files are missing from /podcast/ folder.
+        // Also we add a small retry / info tip.
+        
+        const audioConfigs = [
+            { panelId: 'tab1', audioSelector: '#tab1 audio', errorMsgId: 'error-tab1', src: 'podcast/episode_01.mp3' },
+            { panelId: 'tab2', audioSelector: '#tab2 audio', errorMsgId: 'error-tab2', src: 'podcast/episode_02.mp3' },
+            { panelId: 'tab3', audioSelector: '#tab3 audio', errorMsgId: 'error-tab3', src: 'podcast/episode_03.mp3' }
+        ];
+
+        // Helper to show error message inside respective card
+        function showFileError(errorElementId, fileName) {
+            const errorDiv = document.getElementById(errorElementId);
+            if (errorDiv) {
+                errorDiv.style.display = 'flex';
+                errorDiv.style.backgroundColor = '#2a1f16';
+                errorDiv.style.padding = '6px 12px';
+                errorDiv.style.borderRadius = '40px';
+                errorDiv.style.marginTop = '12px';
+                errorDiv.innerHTML = `⚠️ <strong>podcast/${fileName}</strong> not found. Please add your MP3 file to the "podcast" folder.`;
+            }
+        }
+
+        function hideError(errorElementId) {
+            const errorDiv = document.getElementById(errorElementId);
+            if (errorDiv && errorDiv.style.display !== 'none') {
+                // we only hide if it was previously shown for error; but we avoid flicker.
+                // But better to keep hidden by default, show on error only.
+                if (errorDiv.style.display === 'flex') {
+                    // we might reset but we'll just set display to none only if needed.
+                }
+                errorDiv.style.display = 'none';
+            }
+        }
+
+        // Initialize each audio element: attach error listener, also can pre-check network status
+        audioConfigs.forEach(cfg => {
+            const audioEl = document.querySelector(cfg.audioSelector);
+            if (!audioEl) return;
+            
+            // Extract filename from src for display
+            const srcPath = audioEl.querySelector('source')?.getAttribute('src') || cfg.src;
+            const fileName = srcPath.split('/').pop();
+            
+            // Listen for error event (network / 404 / unsupported)
+            audioEl.addEventListener('error', (e) => {
+                console.warn(`Podcast audio error: ${srcPath} could not be loaded.`);
+                showFileError(cfg.errorMsgId, fileName);
+                // Optional: add a small hint that file might be missing
+            });
+            
+            // If the audio can play through, we can hide any previous error (good for dynamic)
+            audioEl.addEventListener('canplaythrough', () => {
+                hideError(cfg.errorMsgId);
+            });
+            
+            // Also on 'loadeddata' reset error display
+            audioEl.addEventListener('loadeddata', () => {
+                hideError(cfg.errorMsgId);
+            });
+            
+            // Manual check: we also try to 'load' to trigger potential error event early
+            audioEl.load();
+        });
+        
+        // Additional folder helper: if the files are correctly placed, no errors appear.
+        // Provide a tiny console tip for developers.
+        console.log('🎧 Podcast Hub Ready — expecting files: podcast/episode_01.mp3, episode_02.mp3, episode_03.mp3');
+        
+        // Edge: when tabs switch, we do not pause audio intentionally to allow cross-tab listening.
+        // But we also add optional accessibility note in footer.
+        
+        // Also add style for the error messages to look consistent
+        const style = document.createElement('style');
+        style.textContent = `
+            .audio-error-msg {
+                background: #2a211b;
+                border-radius: 30px;
+                padding: 6px 12px;
+                font-size: 0.75rem;
+                color: #e6ad7a;
+                border-left: 3px solid #c2774a;
+                align-items: center;
+                gap: 8px;
+                margin-top: 12px;
+            }
+            audio:focus {
+                outline: 2px solid #e6b27a;
+                border-radius: 30px;
+            }
+            .file-ref {
+                font-family: monospace;
+                background: #0f0f12;
+                border: 1px solid #2e2a24;
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // if any audio file is missing, we provide a visual guide: the folder path info is already in hero.
+        // Also provide an extra dev note (optional)
+        const folderGuide = document.querySelector('.folder-path');
+        if (folderGuide) {
+            // All good, just subtle hint.
+        }
+    })();
+</script>
+</body>
+</html>
