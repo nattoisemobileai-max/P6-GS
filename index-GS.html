@@ -132,7 +132,7 @@
             font-size: clamp(0.9rem, 3vw, 1.1rem);
         }
 
-        /* 🎙️ Podcast 專區樣式 - 置頂區域，顯示課程清單 */
+        /* 🎙️ Podcast 專區樣式 */
         .podcast-section {
             background: linear-gradient(105deg, #fef7e0 0%, #fff3db 100%);
             border-radius: 1.8rem;
@@ -211,6 +211,20 @@
             text-align: center;
             color: #a06e2c;
             font-weight: 500;
+        }
+        /* 內嵌音頻播放器樣式 (點擊後顯示) */
+        .audio-player-container {
+            margin-top: 0.5rem;
+            width: 100%;
+            display: none;
+        }
+        .audio-player-container.active {
+            display: block;
+        }
+        .audio-player-container audio {
+            width: 100%;
+            border-radius: 40px;
+            margin-top: 0.4rem;
         }
 
         /* 書籍卡片網格 */
@@ -452,51 +466,58 @@
         </div>
     </div>
 
-    <!-- 🎙️ Podcast 專區 - 根據用戶要求顯示各課標題與小標題 -->
+    <!-- 🎙️ Podcast 專區 - 所有MP3檔案存放在 podcast/ 資料夾，檔名符合要求 -->
     <div class="podcast-section">
         <div class="podcast-header">
             <i class="fas fa-podcast"></i>
             <h3>🎧 常識Podcast · 聽出大智慧</h3>
         </div>
         <div class="podcast-grid">
-            <!-- 第一冊第3課 - 友情愛情 -->
-            <a href="#" class="podcast-btn" target="_blank">
+            <!-- 第一冊第3課 - 友情愛情 MP3 -->
+            <div class="podcast-btn" data-audio="podcast/第一冊第3課.mp3">
                 <i class="fas fa-heart"></i>
                 <span class="podcast-title">第一冊第3課</span>
                 <span class="podcast-subtitle">友情愛情</span>
-            </a>
-            <!-- 第一冊第4課 - 情緒壓力 -->
-            <a href="#" class="podcast-btn" target="_blank">
+            </div>
+            <!-- 第一冊第4課 - 情緒壓力 MP3 -->
+            <div class="podcast-btn" data-audio="podcast/第一冊第4課.mp3">
                 <i class="fas fa-smile"></i>
                 <span class="podcast-title">第一冊第4課</span>
                 <span class="podcast-subtitle">情緒壓力</span>
-            </a>
-            <!-- 第三冊第1課 - 清朝盛亡 -->
-            <a href="#" class="podcast-btn" target="_blank">
+            </div>
+            <!-- 第三冊第1課 - 清朝盛亡 MP3 -->
+            <div class="podcast-btn" data-audio="podcast/第三冊第1課.mp3">
                 <i class="fas fa-crown"></i>
                 <span class="podcast-title">第三冊第1課</span>
                 <span class="podcast-subtitle">清朝盛亡</span>
-            </a>
-            <!-- 第三冊第2課 - 內外戰爭 -->
-            <a href="#" class="podcast-btn" target="_blank">
+            </div>
+            <!-- 第三冊第2課 - 內外戰爭 MP3 -->
+            <div class="podcast-btn" data-audio="podcast/第三冊第2課.mp3">
                 <i class="fas fa-fist-raised"></i>
                 <span class="podcast-title">第三冊第2課</span>
                 <span class="podcast-subtitle">內外戰爭</span>
-            </a>
-            <!-- 第三冊第3課 - 改革前後 -->
-            <a href="#" class="podcast-btn" target="_blank">
+            </div>
+            <!-- 第三冊第3課 - 改革前後 MP3 -->
+            <div class="podcast-btn" data-audio="podcast/第三冊第3課.mp3">
                 <i class="fas fa-chart-line"></i>
                 <span class="podcast-title">第三冊第3課</span>
                 <span class="podcast-subtitle">改革前後</span>
-            </a>
-            <!-- 第三冊第4課 - 近年發展 -->
-            <a href="#" class="podcast-btn" target="_blank">
+            </div>
+            <!-- 第三冊第4課 - 近年發展 MP3 -->
+            <div class="podcast-btn" data-audio="podcast/第三冊第4課.mp3">
                 <i class="fas fa-city"></i>
                 <span class="podcast-title">第三冊第4課</span>
                 <span class="podcast-subtitle">近年發展</span>
-            </a>
+            </div>
         </div>
-        <div class="podcast-sub">🎙️ 精選課程導讀 · 隨時隨地聆聽課堂重點</div>
+        <!-- 內嵌音頻播放器會動態顯示在此處 -->
+        <div id="globalAudioContainer" style="margin-top: 1rem; display: none;">
+            <audio id="dynamicAudioPlayer" controls style="width: 100%; border-radius: 60px;">
+                <source src="" type="audio/mpeg">
+                您的瀏覽器不支援音頻播放。
+            </audio>
+        </div>
+        <div class="podcast-sub">🎙️ 點擊課程即可播放對應MP3 · 聆聽重點知識</div>
     </div>
 
     <div class="books-grid">
@@ -624,6 +645,7 @@
 
 <script>
     (function() {
+        // 金句動畫
         const quoteSpan = document.getElementById('quoteSpan');
         let animCount = 0;
         if (quoteSpan) {
@@ -642,22 +664,18 @@
             }, 19000);
         }
 
+        // 課堂按鈕展開邏輯
         const lessonBtns = document.querySelectorAll('.lesson-btn[data-lesson]');
-        
         lessonBtns.forEach(btn => {
             btn.addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
-                
                 const book = this.dataset.book;
                 const lesson = this.dataset.lesson;
                 const targetId = `book${book}-${lesson}`;
                 const targetSection = document.getElementById(targetId);
-                
                 if (!targetSection) return;
-                
                 const isExpanded = targetSection.classList.contains('expanded');
-                
                 if (!isExpanded) {
                     const parentCard = this.closest('.book-card');
                     if (parentCard) {
@@ -669,9 +687,39 @@
                         allBtns.forEach(b => b.classList.remove('active'));
                     }
                 }
-                
                 targetSection.classList.toggle('expanded');
                 this.classList.toggle('active');
+            });
+        });
+
+        // Podcast 音頻播放功能：點擊按鈕後播放對應 podcast/ 資料夾內的 mp3
+        const podcastBtns = document.querySelectorAll('.podcast-btn');
+        const globalAudioContainer = document.getElementById('globalAudioContainer');
+        const dynamicAudioPlayer = document.getElementById('dynamicAudioPlayer');
+        
+        // 隱藏初始播放器，點擊後顯示並載入音源
+        if (globalAudioContainer) {
+            globalAudioContainer.style.display = 'none';
+        }
+        
+        podcastBtns.forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const audioSrc = this.getAttribute('data-audio');
+                if (audioSrc && dynamicAudioPlayer) {
+                    // 顯示播放器容器
+                    if (globalAudioContainer) {
+                        globalAudioContainer.style.display = 'block';
+                    }
+                    // 設定音源並嘗試播放
+                    dynamicAudioPlayer.src = audioSrc;
+                    dynamicAudioPlayer.load();
+                    dynamicAudioPlayer.play().catch(err => {
+                        console.log('自動播放被瀏覽器阻擋，請手動點擊播放', err);
+                    });
+                    // 可選：滾動到播放器位置
+                    globalAudioContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
             });
         });
     })();
