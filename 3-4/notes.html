@@ -1,65 +1,69 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-HK">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>小常識 · 筆記 · 第三冊第4課</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>小常識 · 自學筆記 · 第一冊第4課｜情緒管理與壓力調適</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+            font-family: system-ui, 'Segoe UI', 'Nunito', 'Noto Sans', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
         body {
-            background: linear-gradient(145deg, #d4e0ec 0%, #eaf0f6 100%);
+            background: linear-gradient(145deg, #cbdde9 0%, #eef3fc 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: flex-start;
-            padding: 0.5rem;
-            font-size: 18px;
+            align-items: center;
+            padding: 1rem;
         }
 
+        /* 主容器 - 響應式核心：寬度100%，最大寬度更大以適應筆電螢幕 */
         .notes-container {
-            max-width: 600px;
             width: 100%;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(4px);
-            border-radius: 32px;
-            padding: 1rem 0.8rem;
-            box-shadow: 0 20px 30px -10px rgba(0,40,60,0.4);
+            max-width: 1600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(3px);
+            border-radius: 2rem;
+            padding: 1rem 1rem 2rem;
+            box-shadow: 0 20px 40px rgba(0, 20, 40, 0.2);
+            transition: all 0.2s ease;
         }
 
+        /* 彈性 header */
         .notes-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
             background: white;
-            padding: 0.5rem 0.8rem;
-            border-radius: 40px;
-            margin-bottom: 1rem;
-            box-shadow: 0 4px 0 #bed0e3;
+            padding: 0.7rem 1.2rem;
+            border-radius: 60px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 6px 0 #b8cee4;
             flex-wrap: wrap;
-            gap: 0.5rem;
+            gap: 0.8rem;
         }
 
         .back-home {
             background: #f4d03f;
-            border-radius: 40px;
-            padding: 0.4rem 1rem;
-            font-weight: 700;
+            border-radius: 60px;
+            padding: 0.5rem 1.3rem;
+            font-weight: 800;
             font-size: 1rem;
             color: #1f3a4b;
             border: none;
-            box-shadow: 0 3px 0 #b38f1c;
+            box-shadow: 0 4px 0 #b38f1c;
             cursor: pointer;
-            display: flex;
+            display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             text-decoration: none;
+            transition: 0.07s linear;
             white-space: nowrap;
         }
         .back-home:active {
@@ -68,325 +72,573 @@
         }
 
         .notes-title {
-            font-size: 1.4rem;
+            font-size: clamp(1rem, 4.5vw, 1.6rem);
             font-weight: 900;
             background: #eef5ff;
-            padding: 0.2rem 1.2rem;
-            border-radius: 40px;
+            padding: 0.4rem 1.4rem;
+            border-radius: 60px;
             color: #1a4972;
             border: 2px solid #c1d9f0;
             display: flex;
             align-items: center;
             gap: 8px;
+            flex-wrap: wrap;
         }
         .notes-title i {
             color: #3498db;
-        }
-
-        .stats {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: #2b3c4e;
-            padding: 0.2rem 0.8rem;
-            border-radius: 40px;
-            color: white;
-            font-size: 0.9rem;
-        }
-        .stats i {
-            color: #ffd966;
-        }
-
-        .notebook {
-            background: white;
-            border-radius: 30px;
-            padding: 1.5rem;
-            box-shadow: 0 8px 0 #a0b9cf;
-            border: 2px solid #fff6cf;
-        }
-
-        .section-title {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: #1e3f5a;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-bottom: 4px solid #f3b33d;
-            padding-bottom: 0.5rem;
-        }
-        .section-title i {
-            color: #f39c12;
-        }
-
-        .subsection-title {
             font-size: 1.2rem;
-            font-weight: 700;
-            color: #1a4972;
-            margin: 1.2rem 0 0.8rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .subsection-title i {
-            color: #3498db;
         }
 
+        /* 筆記本外框 - 寬敞內距 */
+        .notebook {
+            background: #fefefe;
+            border-radius: 2rem;
+            padding: 1.2rem 1rem;
+            margin-bottom: 0.5rem;
+            box-shadow: 0 12px 0 #9bb7d1, 0 8px 28px rgba(0, 0, 0, 0.08);
+            border: 1px solid #cde1f0;
+        }
+
+        .notebook-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.8rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 4px solid #bdd6ec;
+            flex-wrap: wrap;
+        }
+        .notebook-icon {
+            width: 55px;
+            height: 55px;
+            background: #2c7cb6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+            box-shadow: 0 4px 0 #1a4e72;
+            flex-shrink: 0;
+        }
+        .notebook-title {
+            font-size: clamp(1.3rem, 5.5vw, 2rem);
+            font-weight: 800;
+            color: #1a4972;
+            line-height: 1.2;
+        }
+
+        /* section 容器 - 使用 grid 並且在筆電螢幕上自動呈現多欄 */
+        .section-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.8rem;
+        }
+
+        .lesson-section {
+            background: white;
+            border-radius: 28px;
+            padding: 1.3rem 1.2rem;
+            border-left: 8px solid #3498db;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.03), 0 2px 5px rgba(0,0,0,0.05);
+            transition: all 0.2s;
+            height: fit-content;
+            break-inside: avoid;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 1.1rem;
+            flex-wrap: wrap;
+        }
+        .section-icon {
+            width: 48px;
+            height: 48px;
+            background: #3498db;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        .section-title {
+            font-size: clamp(1.2rem, 4.5vw, 1.7rem);
+            font-weight: 800;
+            color: #1a4972;
+            letter-spacing: -0.2px;
+        }
+
+        .section-content {
+            color: #1f3a4b;
+            line-height: 1.65;
+            font-size: clamp(0.95rem, 3.8vw, 1.08rem);
+        }
+
+        /* 表格響應 */
         .table-wrap {
             overflow-x: auto;
             margin: 1rem 0;
+            border-radius: 20px;
         }
         table {
             width: 100%;
+            min-width: 280px;
             border-collapse: collapse;
-            background: white;
-            border-radius: 16px;
+            background: #ffffff;
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 3px 0 #bed0e3;
-            font-size: 0.95rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            font-size: clamp(0.85rem, 3.3vw, 1rem);
         }
         th {
-            background: #3498db;
+            background: #2c7cb6;
             color: white;
             font-weight: 700;
-            padding: 0.6rem;
+            padding: 0.8rem 0.8rem;
             text-align: left;
         }
         td {
-            padding: 0.6rem;
-            border-bottom: 1px solid #e1edff;
+            padding: 0.75rem 0.8rem;
+            border-bottom: 1px solid #e4edf8;
         }
         tr:last-child td {
             border-bottom: none;
         }
 
-        .bullet-list {
+        .bullet-list, .numbered-list {
             list-style: none;
-            margin-top: 0.5rem;
+            margin-top: 0.6rem;
         }
-        .bullet-list li {
-            padding: 0.4rem 0 0.4rem 1.8rem;
+        .bullet-list li, .numbered-list li {
+            padding: 0.45rem 0 0.45rem 1.9rem;
             position: relative;
-            font-size: 1rem;
+            font-size: clamp(0.95rem, 3.6vw, 1.08rem);
+            line-height: 1.45;
         }
         .bullet-list li:before {
-            content: "•";
+            content: "●";
             color: #3498db;
             font-weight: bold;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             position: absolute;
             left: 0;
-            top: -2px;
+            top: 0.2rem;
         }
-
-        .highlight-box {
-            background: #e1f0fa;
-            border-radius: 16px;
-            padding: 1rem;
-            margin: 1.5rem 0;
-            border: 2px dashed #9bb7d1;
-            font-size: 1rem;
+        .numbered-list {
+            counter-reset: item;
+        }
+        .numbered-list li:before {
+            content: counter(item) ".";
+            counter-increment: item;
+            color: #3498db;
+            font-weight: 800;
+            position: absolute;
+            left: 0;
+            top: 0.45rem;
         }
 
         .highlight {
-            background: #fffacd;
-            padding: 0.1rem 0.3rem;
-            border-radius: 6px;
-            font-weight: 600;
+            background: #fff1b8;
+            padding: 0.1rem 0.4rem;
+            border-radius: 12px;
+            font-weight: 700;
+            color: #1e3f5a;
+            border: 1px solid #f5bc5c;
+            display: inline-block;
+            margin: 0 0.1rem;
+            font-size: 0.95em;
         }
 
         .badge {
             display: inline-block;
-            background: #f4d03f;
+            background: #f7de7c;
             color: #1f3a4b;
-            padding: 0.2rem 1rem;
+            padding: 0.2rem 0.9rem;
             border-radius: 40px;
             font-weight: 700;
-            font-size: 0.9rem;
-            margin-right: 0.3rem;
+            font-size: 0.85rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.4rem;
+            border: 1px solid #e0a82b;
+        }
+
+        .highlight-box {
+            background: #eef4fc;
+            border-radius: 1.2rem;
+            padding: 1rem 1.2rem;
+            margin: 1.2rem 0;
+            border-left: 5px solid #3498db;
+            font-size: clamp(0.95rem, 3.8vw, 1.05rem);
+        }
+
+        .illustration-placeholder {
+            background: #f4f9ff;
+            border-radius: 1.4rem;
+            padding: 0.9rem;
+            margin: 1.2rem 0 0.3rem;
+            text-align: center;
+            border: 2px dashed #8db5d3;
+            color: #2c5a7a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            font-size: clamp(0.9rem, 3.5vw, 1rem);
+            font-weight: 600;
+            flex-wrap: wrap;
+        }
+        .illustration-placeholder i {
+            font-size: 1.8rem;
+            color: #488fb0;
         }
 
         .footer-note {
             text-align: center;
-            margin-top: 1.5rem;
-            color: #6b8baa;
+            margin-top: 1.8rem;
+            padding-top: 0.5rem;
+            font-weight: 500;
+            color: #5b7f9b;
             font-size: 0.9rem;
         }
 
-        @media (max-width: 480px) {
-            .notes-header { flex-direction: column; align-items: stretch; }
-            .section-title { font-size: 1.3rem; }
-            .subsection-title { font-size: 1.1rem; }
+        /* ========= 響應式斷點：平板 (768px 以上) ========= */
+        @media (min-width: 768px) {
+            body {
+                padding: 1.5rem;
+            }
+            .notes-container {
+                padding: 1.5rem 2rem 2rem;
+            }
+            .notebook {
+                padding: 1.6rem 1.8rem;
+            }
+            .lesson-section {
+                padding: 1.5rem 1.6rem;
+            }
+            .table-wrap table th, .table-wrap table td {
+                padding: 0.9rem 1rem;
+            }
+            .section-container {
+                gap: 2rem;
+            }
+        }
+
+        /* ========= 筆電 / 小桌面 (最小寬度 1024px) 兩欄網格 ========= */
+        @media (min-width: 1024px) {
+            .notes-container {
+                max-width: 1400px;
+                padding: 1.8rem 2.2rem 2.5rem;
+            }
+            /* 關鍵！使用 grid 兩欄，讓筆電視窗不再狹窄，內容橫向展開 */
+            .section-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2rem;
+            }
+            /* 讓某些較長的區塊內容自然分佈，高度一致保留流暢感 */
+            .lesson-section {
+                padding: 1.6rem 1.8rem;
+            }
+            .notebook-header {
+                margin-bottom: 2rem;
+            }
+        }
+
+        /* ========= 大型桌面 / 高解析筆電 (1280px 以上) 更寬鬆舒適 ========= */
+        @media (min-width: 1280px) {
+            .notes-container {
+                max-width: 1600px;
+                padding: 2rem 2.5rem 2.8rem;
+            }
+            .section-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2.2rem;
+            }
+            .lesson-section {
+                padding: 1.8rem 2rem;
+            }
+            .notebook {
+                padding: 2rem 2.2rem;
+            }
+            .section-title {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* ========= 超大寬螢幕 (1600px+) 維持兩欄但比例更從容 ========= */
+        @media (min-width: 1600px) {
+            .notes-container {
+                max-width: 1800px;
+            }
+            .section-container {
+                gap: 2.5rem;
+            }
+            .lesson-section {
+                padding: 2rem 2.2rem;
+            }
+        }
+
+        /* 手機橫向或極小螢幕 (低於 640px 仍維持單欄) */
+        @media (max-width: 640px) {
+            .notes-header {
+                flex-direction: column;
+                align-items: stretch;
+                border-radius: 32px;
+            }
+            .back-home, .notes-title {
+                justify-content: center;
+            }
+            .notebook-icon {
+                width: 48px;
+                height: 48px;
+                font-size: 1.5rem;
+            }
+            .section-icon {
+                width: 42px;
+                height: 42px;
+                font-size: 1.3rem;
+            }
+            .highlight-box {
+                padding: 0.8rem;
+            }
+            .bullet-list li, .numbered-list li {
+                padding-left: 1.6rem;
+            }
+        }
+
+        /* 保持表格內文整潔 */
+        td, th {
+            word-break: break-word;
+        }
+
+        .back-home:hover {
+            background: #f0c72a;
+            transition: 0.1s;
+        }
+
+        h3, .section-content h3 {
+            margin: 1rem 0 0.5rem;
+            font-size: clamp(1rem, 4vw, 1.25rem);
+            font-weight: 800;
+            color: #1d5a83;
+        }
+        .section-content p {
+            margin-bottom: 0.4rem;
+        }
+
+        /* 強制內部元素不斷行過度 */
+        .section-content {
+            word-break: break-word;
         }
     </style>
 </head>
 <body>
 <div class="notes-container">
     <div class="notes-header">
-        <a href="../index-GS.html" class="back-home"><i class="fas fa-arrow-left"></i> 返回</a>
+        <a href="../index.html" class="back-home"><i class="fas fa-arrow-left"></i> 返回主頁</a>
         <span class="notes-title">
-            <i class="fas fa-chart-line"></i> 第三冊第4課·中國近年的發展
+            <i class="fas fa-smile-wink"></i> 第一冊第4課 · 情緒壓力自學筆記
         </span>
-        <div class="stats">
-            <i class="fas fa-star"></i> 經濟·科技·國際
-        </div>
     </div>
 
     <div class="notebook">
-        <!-- 經濟發展 -->
-        <div class="section-title">
-            <i class="fas fa-coins"></i> 📊 中國近年經濟發展與社會影響
+        <div class="notebook-header">
+            <div class="notebook-icon"><i class="fas fa-brain"></i></div>
+            <div class="notebook-title">🧠 情緒管理 × 壓力調適 · 完整攻略</div>
         </div>
 
-        <!-- 一、收入與消費能力變化 -->
-        <div class="subsection-title">
-            <i class="fas fa-chart-line"></i> 一、中國內地人民近年收入與消費能力變化 [P23]
-        </div>
-        <ul class="bullet-list">
-            <li><span class="highlight">人均收入增長趨勢：</span>根據2013至2016年國家統計局資料，中國內地人均收入持續上升，接近或超過2萬元人民幣，反映人民生活水平穩步提高。</li>
-            <li><span class="highlight">網購節交易額創新高：</span>近年中國內地網民大規模參與網購節，交易額屢創新高，顯示消費能力和消費意願顯著提升。</li>
-        </ul>
+        <div class="section-container">
+            <!-- 1. 我們有甚麼不同的情緒？ -->
+            <div class="lesson-section">
+                <div class="section-header">
+                    <div class="section-icon"><i class="fas fa-face-smile"></i></div>
+                    <div class="section-title">1. 情緒多樣性 [P28]</div>
+                </div>
+                <div class="section-content">
+                    <p><span class="badge">情緒光譜</span> 生活中的事件會觸發不同情緒反應，有正亦有負。</p>
+                    <h3>📖 藹琳的一天：六種情境與情緒</h3>
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>情境</th><th>對應情緒</th></tr></thead>
+                            <tbody>
+                                <tr><td>同學作弄她</td><td><span class="highlight">憤怒</span>、生氣</td></tr>
+                                <tr><td>同學借書給她</td><td><span class="highlight">開心</span>、感激</td></tr>
+                                <tr><td>測驗成績不理想</td><td><span class="highlight">失落</span>、沮喪</td></tr>
+                                <tr><td>怕被媽媽責罵</td><td><span class="highlight">害怕</span>、擔心</td></tr>
+                                <tr><td>被弟弟取笑</td><td><span class="highlight">難受</span>、難堪</td></tr>
+                                <tr><td>得到爸爸安慰鼓勵</td><td><span class="highlight">欣慰</span>、溫暖</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>情緒種類</th><th>例子</th><th>特點</th></tr></thead>
+                            <tbody>
+                                <tr><td>正面情緒</td><td>開心、歡欣</td><td>令人愉快，有助身心健康</td></tr>
+                                <tr><td>負面情緒</td><td>憤怒、害怕、失落</td><td>令人不適，可能影響身心</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="highlight-box">
+                        <span class="badge">重點</span> 情緒是受刺激產生的心理反應，長期低落需注意調節。
+                    </div>
+                    <ul class="bullet-list">
+                        <li>情緒通常短暫，會隨環境改變</li>
+                        <li>長期情緒不穩會影響生活及健康</li>
+                        <li>藹琳案例：多重事件引發複雜感受，需適當疏導</li>
+                    </ul>
+                </div>
+                <div class="illustration-placeholder"><i class="fas fa-images"></i> 六種情境圖 · 情緒變化示意</div>
+            </div>
 
-        <!-- 二、正反兩面 -->
-        <div class="subsection-title">
-            <i class="fas fa-balance-scale"></i> 二、經濟發展帶來的正反兩面 [P23]
-        </div>
-        <div class="table-wrap">
-            <table>
-                <thead>
-                    <tr><th>正面影響</th><th>反面影響</th></tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>農民工年均收入較留守農村農民高約20%</td>
-                        <td>城市空氣污染嚴重，2016年北京空氣污染預警持續多小時創歷史紀錄</td>
-                    </tr>
-                    <tr>
-                        <td>工業產品種類超過200種，產量居世界第一</td>
-                        <td>物價上漲，生活成本增加</td>
-                    </tr>
-                    <tr>
-                        <td>工廠提供大量低技術及低學歷職位，吸納大量農民工</td>
-                        <td>有六千多萬留守兒童，社會問題突出</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="highlight-box">
-            <span class="badge">小總結</span> 中國近年工商業發展蓬勃，城市設施日趨完善，人民收入普遍增加，消費力也相應提高了。不過急速的經濟發展，卻引致物價上漲及環境污染等問題，需要正視和處理。
-        </div>
+            <!-- 2. 怎樣紓緩負面情緒？ -->
+            <div class="lesson-section">
+                <div class="section-header">
+                    <div class="section-icon"><i class="fas fa-heart-circle-check"></i></div>
+                    <div class="section-title">2. 紓緩負面情緒 [P29]</div>
+                </div>
+                <div class="section-content">
+                    <p><span class="badge">黃金原則</span> 以<span class="highlight">不傷害自己及他人</span>為前提，選擇健康方式。</p>
+                    <h3>✨ 具體紓緩策略</h3>
+                    <ul class="bullet-list">
+                        <li><span class="highlight">調整想法</span>：正向思考、改變觀點（如「盡力就很好」）</li>
+                        <li><span class="highlight">身體放鬆</span>：運動、深呼吸、聽音樂、畫畫或彈奏樂器</li>
+                        <li><span class="highlight">傾訴連結</span>：向家人、朋友或老師傾訴，必要時尋求專業輔導</li>
+                    </ul>
+                    <div class="highlight-box">
+                        <i class="fas fa-hand-peace"></i> 重要：發洩情緒時絕不傷害自己或他人，避免破壞物品。
+                    </div>
+                </div>
+                <div class="illustration-placeholder"><i class="fas fa-person-running"></i> 運動 · 音樂 · 深呼吸  放鬆小技巧</div>
+            </div>
 
-        <!-- 三、經濟發展數據與社會現象 -->
-        <div class="subsection-title">
-            <i class="fas fa-database"></i> 三、經濟發展數據與社會現象 [P23]
-        </div>
-        <ul class="bullet-list">
-            <li>2017年城市農民工月均收入較農村農民高約20%</li>
-            <li>中國製造業涵蓋多達200多種工業產品，產量世界第一</li>
-            <li>空氣污染問題嚴重，特別是大城市如北京</li>
-            <li>留守兒童數量龐大，反映農村人口流動與家庭結構變動</li>
-        </ul>
-<p style="margin-top:0.5rem; color:#2c5a7a;">改⾰開放後，中國內地不少農⺠離開農村，到城市⼯作，把⼦女留在原居住地，這些農⺠⼦女稱為「留守兒童」。</p>
+            <!-- 3. 壓力從哪裏來？ -->
+            <div class="lesson-section">
+                <div class="section-header">
+                    <div class="section-icon"><i class="fas fa-weight-hanging"></i></div>
+                    <div class="section-title">3. 壓力來源 & 警號 [P30]</div>
+                </div>
+                <div class="section-content">
+                    <p><span class="badge">壓力定義</span> 面對困難挑戰時產生的身心不適或負面感受。</p>
+                    <h3>🔍 主要壓力源</h3>
+                    <ul class="bullet-list">
+                        <li><span class="highlight">學業負荷</span>：功課太多、測驗密集</li>
+                        <li><span class="highlight">成績期望</span>：自我要求高或家長期望</li>
+                        <li><span class="highlight">升學適應</span>：轉換環境、新學校焦慮</li>
+                        <li><span class="highlight">人際困擾</span>：朋友、家庭相處摩擦</li>
+                    </ul>
+                    <h3>⚠️ 壓力警號表</h3>
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>生理警號</th><th>情緒警號</th></tr></thead>
+                            <tbody>
+                                <tr><td>失眠、頭痛</td><td>容易哭泣、煩躁</td></tr>
+                                <tr><td>食欲不振 / 暴食</td><td>對活動失去興趣</td></tr>
+                                <tr><td>心跳加速、疲憊</td><td>易發脾氣、焦慮</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="highlight-box">
+                        💡 壓力雙面刃：適當壓力能推動成長，過度則需主動求助。
+                    </div>
+                </div>
+                <div class="illustration-placeholder"><i class="fas fa-school"></i> 學業 · 家庭 · 人際  常見壓力雷達圖</div>
+            </div>
 
-        <!-- 科技發展 -->
-        <div class="section-title" style="margin-top:2rem;">
-            <i class="fas fa-microchip"></i> 🚀 中國近年科技發展狀況
-        </div>
+            <!-- 4. 怎樣紓緩壓力？ (減壓四步驟) -->
+            <div class="lesson-section">
+                <div class="section-header">
+                    <div class="section-icon"><i class="fas fa-list-check"></i></div>
+                    <div class="section-title">4. 減壓策略與四步驟 [P31-32]</div>
+                </div>
+                <div class="section-content">
+                    <h3>🎯 即時紓壓技巧</h3>
+                    <ul class="bullet-list">
+                        <li>改變想法：「成績不代表一切，我已經盡力」</li>
+                        <li>放鬆調節：腹式深呼吸、聆聽平靜音樂</li>
+                    </ul>
+                    <h3>📌 減壓四步驟實戰</h3>
+                    <ol class="numbered-list">
+                        <li><span class="highlight">分析問題</span>：具體記錄不適感（如考前頭暈、心悸）</li>
+                        <li><span class="highlight">多角度思考成因</span>：是否自我要求過高？時間規劃不足？</li>
+                        <li><span class="highlight">尋找解決方案</span>：規律運動、向師長請教、制定溫習時間表</li>
+                        <li><span class="highlight">實行與檢討</span>：評估效果，調整更適合的方法</li>
+                    </ol>
+                    <div class="highlight-box">
+                        <i class="fas fa-chart-line"></i> 建議寫下壓力日記，追蹤情緒變化，提升自我覺察。
+                    </div>
+                </div>
+                <div class="illustration-placeholder"><i class="fas fa-clipboard-list"></i> 四步驟循環：分析→思考→解決→執行調整</div>
+            </div>
 
-        <!-- 一、科技發展領域與成就 -->
-        <div class="subsection-title">
-            <i class="fas fa-flask"></i> 一、科技發展領域與成就 [P24]
-        </div>
-        <div class="table-wrap">
-            <table>
-                <thead>
-                    <tr><th>領域</th><th>具體例子</th><th>影響與意義</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>農業科技</td><td>雜交水稻</td><td>增加糧食產量，保障國家糧食安全</td></tr>
-                    <tr><td>資訊科技</td><td>超級電腦（神威·太湖之光）</td><td>提升計算能力，推動科研與工業發展</td></tr>
-                    <tr><td>能源科技</td><td>氫能源與電動車</td><td>推動綠色能源，促進環保與可持續發展</td></tr>
-                    <tr><td>海陸空科技</td><td>三軍科技發展</td><td>增強國防實力，提升國家安全</td></tr>
-                </tbody>
-            </table>
-        </div>
+            <!-- 5. 怎樣關心受壓力和情緒困擾的人？ -->
+            <div class="lesson-section">
+                <div class="section-header">
+                    <div class="section-icon"><i class="fas fa-hand-holding-heart"></i></div>
+                    <div class="section-title">5. 同理心・陪伴行動 [P33]</div>
+                </div>
+                <div class="section-content">
+                    <ul class="bullet-list">
+                        <li><span class="highlight">主動觀察</span>：留意朋友是否突然沉默、易怒、逃避社交</li>
+                        <li><span class="highlight">傾聽與支持</span>：不打斷、不批評，溫和詢問「你需要聊聊嗎？」</li>
+                        <li><span class="highlight">提供實際建議</span>：分享減壓方法，陪伴散步或一起做興趣活動</li>
+                        <li><span class="highlight">助人為快樂之本</span>：分擔憂慮能強化彼此心理韌性</li>
+                    </ul>
+                    <h3>🏫 尋求輔導資源</h3>
+                    <ul class="bullet-list">
+                        <li>學校輔導組／學生健康服務</li>
+                        <li>社區青少年中心、綜合家庭服務中心</li>
+                        <li>香港小童群益會、香港撒瑪利亞防止自殺會</li>
+                    </ul>
+                </div>
+                <div class="illustration-placeholder"><i class="fas fa-users"></i> 陪伴與聆聽，是最好的支持良藥</div>
+            </div>
 
-        <!-- 二、科技發展的輿論爭議 -->
-        <div class="subsection-title">
-            <i class="fas fa-newspaper"></i> 二、科技發展的輿論爭議 [P24]
-        </div>
-        <div class="table-wrap">
-            <table>
-                <thead>
-                    <tr><th>報道內容</th><th>屬性</th><th>說明與評論</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>中國首次躋身《2018年全球創新指數》前20名</td><td>事實</td><td>反映中國創新能力提升</td></tr>
-                    <tr><td>中國科研人員、技術專利數量全球第一</td><td>事實</td><td>科技成果豐碩</td></tr>
-                    <tr><td>中國高端科技發展仍處於中低水平</td><td>意見</td><td>對比發達國家仍有差距，需要進一步提升</td></tr>
-                    <tr><td>2017年中國仍需從外國進口晶片產品價值2601億美元</td><td>事實</td><td>顯示核心零部件依賴進口</td></tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="highlight-box">
-            <span class="badge">小總結</span> 科技發展不僅促進經濟與生活改善，也反映國家在全球科技競爭中的位置，認清不足有助於制定未來發展策略。中國近年著重創新科技發展，以推動經濟，改善人民生活質素，而且對推動人類社會進步作出貢獻。
-        </div>
+            <!-- 本課總結重點 -->
+            <div class="lesson-section">
+                <div class="section-header">
+                    <div class="section-icon"><i class="fas fa-star-of-life"></i></div>
+                    <div class="section-title">📘 本課總結｜情緒壓力核心素養</div>
+                </div>
+                <div class="section-content">
+                    <ul class="bullet-list">
+                        <li><span class="highlight">情緒管理</span>：覺察情緒，接納正負感受，適時抒發</li>
+                        <li><span class="highlight">壓力因應</span>：辨識壓力源，善用四步驟 + 健康紓壓活動</li>
+                        <li><span class="highlight">支持網絡</span>：家人、朋友、學校及社區機構皆為重要後盾</li>
+                        <li><span class="highlight">專業協助</span>：當壓力持續數週且影響生活，請勇敢求助</li>
+                    </ul>
+                </div>
+                <div class="illustration-placeholder"><i class="fas fa-chalkboard-user"></i> 情緒韌性｜照顧自己・關懷他人</div>
+            </div>
 
-        <!-- 國際角色 -->
-        <div class="section-title" style="margin-top:2rem;">
-            <i class="fas fa-globe-asia"></i> 🌐 中國在國際社會中的角色
+            <!-- 考試題型提示 重點複習 -->
+            <div class="lesson-section">
+                <div class="section-header">
+                    <div class="section-icon"><i class="fas fa-pen-fancy"></i></div>
+                    <div class="section-title">📝 考試題型與實戰演練</div>
+                </div>
+                <div class="section-content">
+                    <ul class="bullet-list">
+                        <li><span class="highlight">定義題</span>：試解釋「情緒」與「壓力」的定義，並指出兩者關係。</li>
+                        <li><span class="highlight">分析題</span>：舉出三種負面情緒成因，並說明如何以正面思維轉化。</li>
+                        <li><span class="highlight">應用題</span>：假如你面臨期中考壓力，請運用減壓四步驟規劃行動。</li>
+                        <li><span class="highlight">情境題</span>：可兒在鋼琴比賽中失手，她非常沮喪。你會給她哪些正面建議？</li>
+                        <li><span class="highlight">關懷題</span>：好友因被同學排擠而情緒低落，請列出三項具體幫助他的方法。</li>
+                    </ul>
+                    <div class="highlight-box">
+                        <i class="fas fa-lightbulb"></i> 貼士：答題時緊扣「不傷害原則」、「四步驟」及「尋求支援」，並結合生活例子。
+                    </div>
+                </div>
+                <div class="illustration-placeholder"><i class="fas fa-check-double"></i> 高分關鍵：理解情緒本質＋行動方案＋關懷技巧</div>
+            </div>
         </div>
-        <div class="subsection-title">
-            <i class="fas fa-calendar-alt"></i> 重要國際參與與貢獻
-        </div>
-        <div class="table-wrap">
-            <table>
-                <thead>
-                    <tr><th>時間</th><th>事件或組織</th><th>內容與影響</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>2001年11月</td><td>中國加入世界貿易組織（WTO）</td><td>促進國際貿易自由和平等，推動中國經濟全球化</td></tr>
-                    <tr><td>2007-2017年</td><td>中國香港代表擔任世界衛生組織總幹事長達10年（陳馮富珍）</td><td>該組織旨在提高世界各地的人的健康水平</td></tr>
-                    <tr><td>2008年</td><td>北京奧運會（奧林匹克運動會）</td><td>展示中國國際形象，促進體育文化交流</td></tr>
-                    <tr><td>2013年</td><td>中國代表擔任聯合國教科文組織主席（郝平）</td><td>促進各國教育、科學、文化國際合作</td></tr>
-                    <tr><td>2015年</td><td>亞洲基礎設施投資銀行成立（AIIB）</td><td>為亞洲各國基礎設施建設提供資金，推動區域經濟合作</td></tr>
-                    <tr><td>2017年</td><td>「一帶一路」國際合作高峰論壇</td><td>促進中國與「一帶一路」沿線國家經濟合作，推動全球化發展</td></tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="highlight-box">
-            <span class="badge">小總結</span> 這些角色不僅提升中國的國際地位，也促進全球經濟發展與多領域合作。
-        </div>
+    </div>
 
-        <!-- 認識與關心中國的途徑 -->
-        <div class="subsection-title">
-            <i class="fas fa-search"></i> 🔍 認識與關心中國的途徑 [P26]
-        </div>
-        <ul class="bullet-list">
-            <li>參觀與中國有關的展覽</li>
-            <li>閱讀中國相關新聞與報導</li>
-            <li>了解中國的經濟、科技及國際參與情況</li>
-        </ul>
-        <p style="margin-top:0.5rem; color:#2c5a7a;">透過多元途徑了解中國，有助於掌握其發展動態與全球影響。</p>
-
-        <!-- 整體小結 -->
-        <div class="section-title" style="margin-top:2rem;">
-            <i class="fas fa-lightbulb"></i> 💡 小結
-        </div>
-        <div class="table-wrap">
-            <table>
-                <thead>
-                    <tr><th>項目</th><th>內容重點</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>經濟發展</td><td>人民收入與消費力提升，工業產品豐富，但伴隨物價上漲與環境污染問題</td></tr>
-                    <tr><td>科技發展</td><td>創新科技成果顯著，核心技術仍有待突破，推動經濟與生活質素改善</td></tr>
-                    <tr><td>國際角色</td><td>積極參與國際組織與活動，提升國際影響力，推動全球合作</td></tr>
-                    <tr><td>認識中國途徑</td><td>利用展覽、新聞等多元渠道，全面了解中國發展與挑戰</td></tr>
-                </tbody>
-            </table>
-        </div>
+    <div class="footer-note">
+        <i class="fas fa-leaf"></i> 自學筆記 · 第一冊第4課｜善待情緒，調節壓力，成為更好的自己
     </div>
 </div>
 </body>
