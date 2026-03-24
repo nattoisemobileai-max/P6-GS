@@ -1,63 +1,69 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-HK">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>小常識 · 自學筆記 · 第一冊第4課</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>小常識 · 自學筆記 · 第一冊第4課｜情緒管理與壓力調適</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+            font-family: system-ui, 'Segoe UI', 'Nunito', 'Noto Sans', sans-serif;
         }
 
         body {
-            background: linear-gradient(145deg, #d4e0ec 0%, #eaf0f6 100%);
+            background: linear-gradient(145deg, #cbdde9 0%, #eef3fc 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: flex-start;
-            padding: 0;
-            font-size: 18px;
+            align-items: center;
+            padding: 1rem;
         }
 
+        /* 主容器 - 響應式核心 */
         .notes-container {
-            max-width: 100%;
+            max-width: 1400px;
             width: 100%;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(4px);
-            padding: 0.5rem 0.3rem;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(3px);
+            border-radius: 2rem;
+            padding: 1rem 1.2rem 2rem;
+            box-shadow: 0 20px 35px rgba(0, 20, 40, 0.15);
+            transition: all 0.2s ease;
         }
 
+        /* 彈性 header */
         .notes-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
             background: white;
-            padding: 0.5rem 0.8rem;
-            border-radius: 40px;
-            margin-bottom: 1rem;
-            box-shadow: 0 4px 0 #bed0e3;
+            padding: 0.7rem 1.2rem;
+            border-radius: 60px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 6px 0 #b8cee4;
             flex-wrap: wrap;
-            gap: 0.5rem;
+            gap: 0.8rem;
         }
 
         .back-home {
             background: #f4d03f;
-            border-radius: 40px;
-            padding: 0.4rem 1rem;
-            font-weight: 700;
-            font-size: 1.1rem;
+            border-radius: 60px;
+            padding: 0.5rem 1.3rem;
+            font-weight: 800;
+            font-size: 1rem;
             color: #1f3a4b;
             border: none;
-            box-shadow: 0 3px 0 #b38f1c;
+            box-shadow: 0 4px 0 #b38f1c;
             cursor: pointer;
-            display: flex;
+            display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             text-decoration: none;
+            transition: 0.07s linear;
             white-space: nowrap;
         }
         .back-home:active {
@@ -66,488 +72,554 @@
         }
 
         .notes-title {
-            font-size: 1.4rem;
+            font-size: clamp(1rem, 5vw, 1.6rem);
             font-weight: 900;
             background: #eef5ff;
-            padding: 0.3rem 1.2rem;
-            border-radius: 40px;
+            padding: 0.4rem 1.4rem;
+            border-radius: 60px;
             color: #1a4972;
             border: 2px solid #c1d9f0;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
+            flex-wrap: wrap;
         }
         .notes-title i {
             color: #3498db;
             font-size: 1.2rem;
         }
 
+        /* 筆記本外框 - 平板 & 桌面舒適留白 */
         .notebook {
-            background: #f5faff;
-            border-radius: 25px;
-            padding: 1rem 0.8rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 6px 0 #9bb7d1, 0 8px 20px rgba(0,40,60,0.1);
-            border: 2px solid #c1d9f0;
+            background: #fefefe;
+            border-radius: 2rem;
+            padding: 1.4rem 1.2rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 12px 0 #9bb7d1, 0 8px 28px rgba(0, 0, 0, 0.08);
+            border: 1px solid #cde1f0;
         }
 
         .notebook-header {
             display: flex;
             align-items: center;
-            gap: 0.8rem;
-            margin-bottom: 1.5rem;
+            gap: 1rem;
+            margin-bottom: 1.8rem;
             padding-bottom: 0.8rem;
-            border-bottom: 3px solid #9bb7d1;
+            border-bottom: 4px solid #bdd6ec;
             flex-wrap: wrap;
         }
         .notebook-icon {
-            width: 50px;
-            height: 50px;
-            background: #3498db;
+            width: 55px;
+            height: 55px;
+            background: #2c7cb6;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-size: 1.8rem;
-            box-shadow: 0 3px 0 #1f5b8a;
+            box-shadow: 0 4px 0 #1a4e72;
             flex-shrink: 0;
         }
         .notebook-title {
-            font-size: 1.6rem;
+            font-size: clamp(1.3rem, 6vw, 2rem);
             font-weight: 800;
             color: #1a4972;
-            line-height: 1.3;
-            flex: 1;
+            line-height: 1.2;
         }
 
+        /* section 區塊 - 網格感應 */
         .section-container {
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
+            gap: 1.8rem;
         }
 
         .lesson-section {
             background: white;
-            border-radius: 22px;
-            padding: 1.2rem 1rem;
-            border-left: 6px solid #3498db;
-            box-shadow: 0 4px 0 #bed0e3;
+            border-radius: 28px;
+            padding: 1.3rem 1.2rem;
+            border-left: 8px solid #3498db;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.03), 0 2px 5px rgba(0,0,0,0.05);
+            transition: all 0.2s;
         }
 
         .section-header {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 1rem;
+            gap: 14px;
+            margin-bottom: 1.1rem;
             flex-wrap: wrap;
         }
         .section-icon {
-            width: 44px;
-            height: 44px;
+            width: 48px;
+            height: 48px;
             background: #3498db;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             flex-shrink: 0;
         }
         .section-title {
-            font-size: 1.5rem;
+            font-size: clamp(1.2rem, 5vw, 1.8rem);
             font-weight: 800;
             color: #1a4972;
-            line-height: 1.3;
+            letter-spacing: -0.2px;
         }
 
         .section-content {
             color: #1f3a4b;
-            line-height: 1.8;
-            font-size: 1.1rem;
+            line-height: 1.65;
+            font-size: clamp(0.95rem, 4vw, 1.1rem);
         }
 
+        /* 表格響應 */
         .table-wrap {
             overflow-x: auto;
             margin: 1rem 0;
+            border-radius: 20px;
         }
         table {
             width: 100%;
+            min-width: 280px;
             border-collapse: collapse;
-            background: white;
-            border-radius: 16px;
+            background: #ffffff;
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 3px 0 #bed0e3;
-            font-size: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            font-size: clamp(0.85rem, 3.5vw, 1rem);
         }
         th {
-            background: #3498db;
+            background: #2c7cb6;
             color: white;
             font-weight: 700;
-            padding: 0.6rem;
+            padding: 0.8rem 0.8rem;
             text-align: left;
         }
         td {
-            padding: 0.6rem;
-            border-bottom: 1px solid #e1edff;
+            padding: 0.75rem 0.8rem;
+            border-bottom: 1px solid #e4edf8;
         }
         tr:last-child td {
             border-bottom: none;
         }
 
-        .bullet-list {
+        .bullet-list, .numbered-list {
             list-style: none;
-            margin-top: 0.5rem;
+            margin-top: 0.6rem;
         }
-        .bullet-list li {
-            padding: 0.4rem 0 0.4rem 1.8rem;
+        .bullet-list li, .numbered-list li {
+            padding: 0.45rem 0 0.45rem 1.9rem;
             position: relative;
-            font-size: 1.1rem;
+            font-size: clamp(0.95rem, 3.8vw, 1.08rem);
+            line-height: 1.45;
         }
         .bullet-list li:before {
-            content: "•";
+            content: "●";
             color: #3498db;
             font-weight: bold;
-            font-size: 1.6rem;
+            font-size: 1.3rem;
             position: absolute;
             left: 0;
-            top: -2px;
+            top: 0.2rem;
         }
-
         .numbered-list {
-            list-style: none;
-            margin-top: 0.5rem;
             counter-reset: item;
-        }
-        .numbered-list li {
-            padding: 0.4rem 0 0.4rem 2rem;
-            position: relative;
-            font-size: 1.1rem;
-            counter-increment: item;
         }
         .numbered-list li:before {
             content: counter(item) ".";
+            counter-increment: item;
             color: #3498db;
-            font-weight: bold;
+            font-weight: 800;
             position: absolute;
             left: 0;
+            top: 0.45rem;
         }
 
         .highlight {
-            background: #fffacd;
-            padding: 0.1rem 0.3rem;
-            border-radius: 10px;
+            background: #fff1b8;
+            padding: 0.1rem 0.4rem;
+            border-radius: 12px;
             font-weight: 700;
             color: #1e3f5a;
-            border: 1px solid #f3b33d;
+            border: 1px solid #f5bc5c;
             display: inline-block;
             margin: 0 0.1rem;
-            font-size: 1.1rem;
+            font-size: 0.95em;
         }
 
         .badge {
             display: inline-block;
-            background: #f4d03f;
+            background: #f7de7c;
             color: #1f3a4b;
             padding: 0.2rem 0.9rem;
             border-radius: 40px;
             font-weight: 700;
-            font-size: 0.95rem;
-            margin-right: 0.3rem;
-            margin-bottom: 0.3rem;
-            border: 1px solid #e67e22;
+            font-size: 0.85rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.4rem;
+            border: 1px solid #e0a82b;
         }
 
         .highlight-box {
-            background: #e1f0fa;
-            border-radius: 16px;
-            padding: 1rem;
-            margin: 1rem 0;
-            border: 2px dashed #9bb7d1;
-            font-size: 1.1rem;
+            background: #eef4fc;
+            border-radius: 1.2rem;
+            padding: 1rem 1.2rem;
+            margin: 1.2rem 0;
+            border-left: 5px solid #3498db;
+            font-size: clamp(0.95rem, 4vw, 1.05rem);
         }
 
         .illustration-placeholder {
-            background: #f0f4fa;
-            border-radius: 16px;
-            padding: 0.8rem;
-            margin: 1.2rem 0 0.2rem;
+            background: #f4f9ff;
+            border-radius: 1.4rem;
+            padding: 0.9rem;
+            margin: 1.2rem 0 0.3rem;
             text-align: center;
-            border: 2px dashed #7fa3c2;
+            border: 2px dashed #8db5d3;
             color: #2c5a7a;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            font-size: 1.1rem;
+            gap: 12px;
+            font-size: clamp(0.9rem, 3.8vw, 1rem);
             font-weight: 600;
             flex-wrap: wrap;
         }
         .illustration-placeholder i {
-            font-size: 2rem;
-            color: #5a9ec2;
+            font-size: 1.8rem;
+            color: #488fb0;
         }
 
         .footer-note {
             text-align: center;
-            margin-top: 1rem;
-            color: #6b8baa;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.8rem;
-            flex-wrap: wrap;
-            font-size: 1rem;
-        }
-        .save-status {
-            background: #d4e6f5;
-            color: #1a4972;
-            padding: 0.3rem 0.8rem;
-            border-radius: 40px;
-            border: 1px solid #9bb7d1;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 1rem;
+            margin-top: 1.8rem;
+            padding-top: 0.5rem;
+            font-weight: 500;
+            color: #5b7f9b;
+            font-size: 0.9rem;
         }
 
+        /* 平板電腦適配 (768px以上) */
+        @media (min-width: 768px) {
+            body {
+                padding: 1.5rem;
+            }
+            .notes-container {
+                padding: 1.5rem 2rem 2rem;
+            }
+            .notebook {
+                padding: 1.8rem 2rem;
+            }
+            .lesson-section {
+                padding: 1.6rem 1.8rem;
+            }
+            .section-container {
+                gap: 2rem;
+            }
+            .table-wrap table th, .table-wrap table td {
+                padding: 0.9rem 1rem;
+            }
+        }
+
+        /* 桌面寬螢幕 (1024px+) */
+        @media (min-width: 1024px) {
+            .notes-container {
+                max-width: 1280px;
+                padding: 1.8rem 2.2rem 2.5rem;
+            }
+            .section-container {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
+                gap: 1.8rem;
+            }
+            /* 讓某些長內容區塊佔滿整行時美觀，但保留流動性，所有區塊皆獨立 */
+            .lesson-section {
+                height: fit-content;
+            }
+            .notebook-header {
+                margin-bottom: 2rem;
+            }
+            .illustration-placeholder {
+                margin-top: 1rem;
+            }
+        }
+
+        /* 超大螢幕極限舒適 */
+        @media (min-width: 1440px) {
+            .notes-container {
+                max-width: 1500px;
+            }
+            .section-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2rem;
+            }
+            .lesson-section {
+                padding: 1.8rem 2rem;
+            }
+        }
+
+        /* 手機橫向或極小螢幕優化 */
         @media (max-width: 480px) {
-            .notes-header { flex-direction: column; align-items: stretch; }
-            .back-home, .notes-title { justify-content: center; }
-            .section-title { font-size: 1.3rem; }
+            .notes-header {
+                flex-direction: column;
+                align-items: stretch;
+                border-radius: 32px;
+            }
+            .back-home, .notes-title {
+                justify-content: center;
+            }
+            .notebook-icon {
+                width: 48px;
+                height: 48px;
+                font-size: 1.5rem;
+            }
+            .section-icon {
+                width: 42px;
+                height: 42px;
+                font-size: 1.3rem;
+            }
+            .highlight-box {
+                padding: 0.8rem;
+            }
+            .bullet-list li, .numbered-list li {
+                padding-left: 1.6rem;
+            }
+        }
+
+        /* 自適應表格文字折行友善 */
+        td, th {
+            word-break: break-word;
+        }
+
+        /* 模擬按壓效果 */
+        button, a, .back-home {
+            -webkit-tap-highlight-color: transparent;
+        }
+        .back-home:hover {
+            background: #f0c72a;
+            transition: 0.1s;
+        }
+
+        /* 增強可讀性 */
+        h3, .section-content h3 {
+            margin: 1rem 0 0.5rem;
+            font-size: clamp(1rem, 4vw, 1.25rem);
+            font-weight: 800;
+            color: #1d5a83;
+        }
+        .section-content p {
+            margin-bottom: 0.4rem;
         }
     </style>
 </head>
 <body>
 <div class="notes-container">
     <div class="notes-header">
-        <a href="../index.html" class="back-home"><i class="fas fa-arrow-left"></i> 返回</a>
+        <a href="../index.html" class="back-home"><i class="fas fa-arrow-left"></i> 返回主頁</a>
         <span class="notes-title">
-            <i class="fas fa-smile"></i> 第一冊第4課 · 處理情緒和壓力
+            <i class="fas fa-smile-wink"></i> 第一冊第4課 · 情緒壓力自學筆記
         </span>
     </div>
 
     <div class="notebook">
         <div class="notebook-header">
             <div class="notebook-icon"><i class="fas fa-brain"></i></div>
-            <div class="notebook-title">🧠 情緒管理與壓力調適</div>
+            <div class="notebook-title">🧠 情緒管理 × 壓力調適 · 全攻略</div>
         </div>
 
         <div class="section-container">
-            <!-- 小節 1: 我們有甚麼不同的情緒？     -->
+            <!-- 1. 我們有甚麼不同的情緒？ -->
             <div class="lesson-section">
                 <div class="section-header">
                     <div class="section-icon"><i class="fas fa-face-smile"></i></div>
-                    <div class="section-title">1. 我們有甚麼不同的情緒？ [P28]</div>
+                    <div class="section-title">1. 情緒多樣性 [P28]</div>
                 </div>
                 <div class="section-content">
-                    <p><span class="badge">情緒多樣性</span> 生活中的不同事件會引發各種情緒。</p>
-                    <h3 style="font-size:1.2rem; margin:1rem 0 0.5rem;">藹琳的一天：六種情境與對應情緒</h3>
+                    <p><span class="badge">情緒光譜</span> 生活中的事件會觸發不同情緒反應，有正亦有負。</p>
+                    <h3>📖 藹琳的一天：六種情境與情緒</h3>
                     <div class="table-wrap">
                         <table>
-                            <thead>
-                                <tr><th>情境</th><th>對應情緒</th></tr>
-                            </thead>
+                            <thead><tr><th>情境</th><th>對應情緒</th></tr></thead>
                             <tbody>
                                 <tr><td>同學作弄她</td><td><span class="highlight">憤怒</span>、生氣</td></tr>
                                 <tr><td>同學借書給她</td><td><span class="highlight">開心</span>、感激</td></tr>
                                 <tr><td>測驗成績不理想</td><td><span class="highlight">失落</span>、沮喪</td></tr>
                                 <tr><td>怕被媽媽責罵</td><td><span class="highlight">害怕</span>、擔心</td></tr>
                                 <tr><td>被弟弟取笑</td><td><span class="highlight">難受</span>、難堪</td></tr>
-                                <tr><td>得到爸爸安慰和鼓勵</td><td><span class="highlight">欣慰</span>、溫暖</td></tr>
+                                <tr><td>得到爸爸安慰鼓勵</td><td><span class="highlight">欣慰</span>、溫暖</td></tr>
                             </tbody>
                         </table>
                     </div>
                     <div class="table-wrap">
                         <table>
-                            <thead>
-                                <tr><th>情緒種類</th><th>例子</th><th>特點</th></tr>
-                            </thead>
+                            <thead><tr><th>情緒種類</th><th>例子</th><th>特點</th></tr></thead>
                             <tbody>
-                                <tr><td>正面情緒</td><td>開心、歡欣</td><td>令人愉快,有助身心健康</td></tr>
-                                <tr><td>負面情緒</td><td>憤怒、害怕、失落</td><td>令不舒服, 可能影響身心健康</td></tr>
+                                <tr><td>正面情緒</td><td>開心、歡欣</td><td>令人愉快，有助身心健康</td></tr>
+                                <tr><td>負面情緒</td><td>憤怒、害怕、失落</td><td>令人不適，可能影響身心</td></tr>
                             </tbody>
                         </table>
                     </div>
                     <div class="highlight-box">
-                        <p><span class="badge">重點</span> 情緒是受到外來刺激時產生的心理反應，包含<span class="highlight">正面</span>（開心、歡欣）與<span class="highlight">負面</span>（憤怒、害怕、失落）情緒。</p>
+                        <span class="badge">重點</span> 情緒是受刺激產生的心理反應，長期低落需注意調節。
                     </div>
-                </div>
-                <h3 style="font-size:1.2rem; margin:1rem 0 0.5rem;">情緒超伏個案</h3>
                     <ul class="bullet-list">
-                        <li>情緒通常只維持短時間，會隨環境及經歷改變。</li>
-                        <li>長期情緒低落或不穩定會對身心造成負面影響。</li>
-                        <li>案例：藹琳因測驗成績不理想、同學作弄、被弟弟取笑等產生多種情緒。</li>
+                        <li>情緒通常短暫，會隨環境改變</li>
+                        <li>長期情緒不穩會影響生活及健康</li>
+                        <li>藹琳案例：多重事件引發複雜感受，需適當疏導</li>
                     </ul>
-                <div class="illustration-placeholder"><i class="fas fa-image"></i> 六種情境插圖</div>
+                </div>
+                <div class="illustration-placeholder"><i class="fas fa-images"></i> 六種情境情境圖 · 情緒變化示意</div>
             </div>
 
-            <!-- 小節 2: 怎樣紓緩負面的情緒？ -->
+            <!-- 2. 怎樣紓緩負面情緒？ -->
             <div class="lesson-section">
                 <div class="section-header">
                     <div class="section-icon"><i class="fas fa-heart-circle-check"></i></div>
-                    <div class="section-title">2. 怎樣紓緩負面的情緒？ [P29]</div>
+                    <div class="section-title">2. 紓緩負面情緒 [P29]</div>
                 </div>
                 <div class="section-content">
-                    <p><span class="badge">基本原則</span> 以<span class="highlight">不傷害自己和別人</span>為原則，選擇正確且適合自己的方法。</p>
-                    
-                    <h3 style="font-size:1.2rem; margin:1rem 0 0.5rem;">具體紓緩方法</h3>
+                    <p><span class="badge">黃金原則</span> 以<span class="highlight">不傷害自己及他人</span>為前提，選擇健康方式。</p>
+                    <h3>✨ 具體紓緩策略</h3>
                     <ul class="bullet-list">
-                        <li><span class="highlight">心理與想法調整</span>：保持正面思考、改變觀點（如「成績不是一切」）、以積極態度面對挑戰。</li>
-                        <li><span class="highlight">行動與身體放鬆</span>：做運動、深呼吸、聽音樂、培養興趣（如彈奏樂器）。</li>
-                        <li><span class="highlight">尋求社交支持</span>：向家長、老師或朋友傾訴，必要時尋求專業協助。</li>
+                        <li><span class="highlight">調整想法</span>：正向思考、改變觀點（如「盡力就很好」）</li>
+                        <li><span class="highlight">身體放鬆</span>：運動、深呼吸、聽音樂、畫畫或彈奏樂器</li>
+                        <li><span class="highlight">傾訴連結</span>：向家人、朋友或老師傾訴，必要時尋求專業輔導</li>
                     </ul>
-                    
                     <div class="highlight-box">
-                        <p><span class="badge">重要原則</span> 選擇紓緩方法時，必須以<span class="highlight">不傷害自己和別人</span>為基本原則。</p>
+                        <i class="fas fa-hand-peace"></i> 重要：發洩情緒時絕不傷害自己或他人，避免破壞物品。
                     </div>
                 </div>
-                <div class="illustration-placeholder"><i class="fas fa-image"></i> 紓緩方法插圖</div>
+                <div class="illustration-placeholder"><i class="fas fa-person-running"></i> 運動 · 音樂 · 深呼吸  放鬆小技巧</div>
             </div>
 
-            <!-- 小節 3: 壓力從哪裏來？    -->
+            <!-- 3. 壓力從哪裏來？ -->
             <div class="lesson-section">
                 <div class="section-header">
-                    <div class="section-icon"><i class="fas fa-weight-scale"></i></div>
-                    <div class="section-title">3. 壓力從哪裏來？ [P30]</div>
+                    <div class="section-icon"><i class="fas fa-weight-hanging"></i></div>
+                    <div class="section-title">3. 壓力來源 & 警號 [P30]</div>
                 </div>
                 <div class="section-content">
-                    <p><span class="badge">壓力的定義</span> 面對困難和挑戰時產生的負面感受或身心不適。</p>
-                    
-                    <h3 style="font-size:1.2rem; margin:1rem 0 0.5rem;">主要壓力來源</h3>
+                    <p><span class="badge">壓力定義</span> 面對困難挑戰時產生的身心不適或負面感受。</p>
+                    <h3>🔍 主要壓力源</h3>
                     <ul class="bullet-list">
-                        <li><span class="highlight">學業</span>：功課太多: 學業負擔重，是最大壓力來源</li>
-                        <li><span class="highlight">成績未如理想</span>對自己學業表現不滿意</li>
-                    
-                        <li><span class="highlight">升學選擇</span>：轉變環境的壓力: 對未來學習階段的選擇感到焦慮</li>
-                        <li><span class="highlight">升學適應</span>：適應中學生活: 適應新環境的困難</li>
-                        
-                        <li><span class="highlight">家庭與朋友相處</span>：人際關係困擾</li>
+                        <li><span class="highlight">學業負荷</span>：功課太多、測驗密集</li>
+                        <li><span class="highlight">成績期望</span>：自我要求高或家長期望</li>
+                        <li><span class="highlight">升學適應</span>：轉換環境、新學校焦慮</li>
+                        <li><span class="highlight">人際困擾</span>：朋友、家庭相處摩擦</li>
                     </ul>
-                    
-                    <h3 style="font-size:1.2rem; margin:1.5rem 0 0.5rem;">壓力警號</h3>
+                    <h3>⚠️ 壓力警號表</h3>
                     <div class="table-wrap">
                         <table>
-                            <thead>
-                                <tr><th>生理警號</th><th>情緒警號</th></tr>
-                            </thead>
+                            <thead><tr><th>生理警號</th><th>情緒警號</th></tr></thead>
                             <tbody>
-                                <tr>
-                                    <td>失眠</td>
-                                    <td>容易哭泣</td>
-                                </tr>
-                                <tr>
-                                    <td>頭痛</td>
-                                    <td>容易發脾氣</td>
-                                </tr>
-                                <tr>
-                                    <td>食欲不振</td>
-                                    <td>對活動失去興趣</td>
-                                </tr>
-                                <tr>
-                                    <td>心跳加速</td>
-                                    <td></td>
-                                </tr>
-                                
+                                <tr><td>失眠、頭痛</td><td>容易哭泣、煩躁</td></tr>
+                                <tr><td>食欲不振 / 暴食</td><td>對活動失去興趣</td></tr>
+                                <tr><td>心跳加速、疲憊</td><td>易發脾氣、焦慮</td></tr>
                             </tbody>
                         </table>
                     </div>
-                    
                     <div class="highlight-box">
-                        <p><span class="badge">壓力的兩面性</span> 適當的壓力可成為動力，但超出負荷時必須尋求協助。</p>
+                        💡 壓力雙面刃：適當壓力能推動成長，過度則需主動求助。
                     </div>
                 </div>
-                <div class="illustration-placeholder"><i class="fas fa-image"></i> 壓力來源插圖</div>
+                <div class="illustration-placeholder"><i class="fas fa-school"></i> 學業 · 家庭 · 人際  常見壓力雷達圖</div>
             </div>
 
-            <!-- 小節 4: 怎樣紓緩壓力？ -->
+            <!-- 4. 怎樣紓緩壓力？ (減壓四步驟) -->
             <div class="lesson-section">
                 <div class="section-header">
                     <div class="section-icon"><i class="fas fa-list-check"></i></div>
-                    <div class="section-title">4. 怎樣紓緩壓力？ [P31~32]</div>
+                    <div class="section-title">4. 減壓策略與四步驟 [P31-32]</div>
                 </div>
                 <div class="section-content">
-                    <h3 style="font-size:1.2rem; margin:0 0 0.5rem;">即時應對方法</h3>
+                    <h3>🎯 即時紓壓技巧</h3>
                     <ul class="bullet-list">
-                        <li>改變想法：告訴自己「成績不是一切」</li>
-                        <li>學習放鬆：聽音樂、深呼吸</li>
+                        <li>改變想法：「成績不代表一切，我已經盡力」</li>
+                        <li>放鬆調節：腹式深呼吸、聆聽平靜音樂</li>
                     </ul>
-                    
-                    <h3 style="font-size:1.2rem; margin:1.5rem 0 0.5rem;">減壓四步驟</h3>
+                    <h3>📌 減壓四步驟實戰</h3>
                     <ol class="numbered-list">
-                        <li><span class="highlight">分析問題</span>：找出具體的身心不適（如考前頭痛）;找出壓力成因，例如家長期望過高、對成績過度重視。</li>
-                        <li><span class="highlight">多角度分析/找出成因</span>：理解壓力來源的不同面向。是否對自己要求過高？學業難度太大？</li>
-                        <li><span class="highlight">尋求解決方法</span>：培養興趣、向師長請教、調劑身心、提早溫習。</li>
-                        <li><span class="highlight">實行與檢討</span>：觀察方法是否有效並持續改進。採取方法後檢視效果，調整策略。</li>
+                        <li><span class="highlight">分析問題</span>：具體記錄不適感（如考前頭暈、心悸）</li>
+                        <li><span class="highlight">多角度思考成因</span>：是否自我要求過高？時間規劃不足？</li>
+                        <li><span class="highlight">尋找解決方案</span>：規律運動、向師長請教、制定溫習時間表</li>
+                        <li><span class="highlight">實行與檢討</span>：評估效果，調整更適合的方法</li>
                     </ol>
+                    <div class="highlight-box">
+                        <i class="fas fa-chart-line"></i> 建議寫下壓力日記，追蹤情緒變化，提升自我覺察。
+                    </div>
                 </div>
-                <div class="illustration-placeholder"><i class="fas fa-image"></i> 減壓步驟插圖</div>
+                <div class="illustration-placeholder"><i class="fas fa-clipboard-list"></i> 四步驟循環：分析→思考→解決→執行調整</div>
             </div>
 
-            <!-- 小節 5: 怎樣關心受壓力和情緒困擾的人？ -->
+            <!-- 5. 怎樣關心受壓力和情緒困擾的人？ -->
             <div class="lesson-section">
                 <div class="section-header">
                     <div class="section-icon"><i class="fas fa-hand-holding-heart"></i></div>
-                    <div class="section-title">5. 怎樣關心受壓力和情緒困擾的人？ [P33]</div>
+                    <div class="section-title">5. 同理心・陪伴行動 [P33]</div>
                 </div>
                 <div class="section-content">
                     <ul class="bullet-list">
-                        <li><span class="highlight">主動觀察</span>：留意身邊的人是否因學業、社交取笑、生活繁忙而困擾</li>
-                        <li><span class="highlight">給予建議與支持</span>：主動慰問、傾聽、提供實質建議</li>
-                        <li><span class="highlight">助人為快樂之本</span>：與他人分擔憂慮並分享快樂，能讓人生更美好</li>
+                        <li><span class="highlight">主動觀察</span>：留意朋友是否突然沉默、易怒、逃避社交</li>
+                        <li><span class="highlight">傾聽與支持</span>：不打斷、不批評，溫和詢問「你需要聊聊嗎？」</li>
+                        <li><span class="highlight">提供實際建議</span>：分享減壓方法，陪伴散步或一起做興趣活動</li>
+                        <li><span class="highlight">助人為快樂之本</span>：分擔憂慮能強化彼此心理韌性</li>
                     </ul>
-                </div>
-                <div class="section-content">
-                    <h3 style="font-size:1.2rem; margin:0 0 0.5rem;">尋求輔導的機構</h3>
-                   
+                    <h3>🏫 尋求輔導資源</h3>
                     <ul class="bullet-list">
-                        <li>學校學生健健康服務</li>
-                        <li>社會福利構</li>
-                        <li>青少年輔導中心</li>
+                        <li>學校輔導組／學生健康服務</li>
+                        <li>社區青少年中心、綜合家庭服務中心</li>
+                        <li>香港小童群益會、香港撒瑪利亞防止自殺會</li>
                     </ul>
                 </div>
-                <div class="illustration-placeholder"><i class="fas fa-image"></i> 關心他人插圖</div>
+                <div class="illustration-placeholder"><i class="fas fa-users"></i> 陪伴與聆聽，是最好的支持良藥</div>
             </div>
 
-            <!-- 本課總結 -->
+            <!-- 本課總結重點 -->
             <div class="lesson-section">
                 <div class="section-header">
-                    <div class="section-icon"><i class="fas fa-star"></i></div>
-                    <div class="section-title">📝 本課總結重點</div>
+                    <div class="section-icon"><i class="fas fa-star-of-life"></i></div>
+                    <div class="section-title">📘 本課總結｜情緒壓力核心素養</div>
                 </div>
                 <div class="section-content">
                     <ul class="bullet-list">
-                        <li><span class="highlight">情緒管理</span>：情緒受外界影響而變化，長期不穩會影響身心健康，應向師長或朋友傾訴。</li>
-                        <li><span class="highlight">尋求專業協助</span>：若感到無助，可向相關機構（如香港撒瑪利亞防止自殺會、香港小童群益會）尋求輔導。</li>
-                        <li><span class="highlight">人際扶持</span>：面對壓力和困難時，家人和朋友的扶持至關重要。</li>
+                        <li><span class="highlight">情緒管理</span>：覺察情緒，接納正負感受，適時抒發</li>
+                        <li><span class="highlight">壓力因應</span>：辨識壓力源，善用四步驟 + 健康紓壓活動</li>
+                        <li><span class="highlight">支持網絡</span>：家人、朋友、學校及社區機構皆為重要後盾</li>
+                        <li><span class="highlight">專業協助</span>：當壓力持續數週且影響生活，請勇敢求助</li>
                     </ul>
                 </div>
-                <div class="illustration-placeholder"><i class="fas fa-image"></i> 總結插圖</div>
+                <div class="illustration-placeholder"><i class="fas fa-chalkboard-user"></i> 情緒韌性｜照顧自己・關懷他人</div>
             </div>
 
-            <!-- EXAM -->
+            <!-- 考試題型提示 重點複習 -->
             <div class="lesson-section">
                 <div class="section-header">
-                    <div class="section-icon"><i class="fas fa-star"></i></div>
-                    <div class="section-title">📝 重要考試題型提示</div>
+                    <div class="section-icon"><i class="fas fa-pen-fancy"></i></div>
+                    <div class="section-title">📝 考試題型與實戰演練</div>
                 </div>
                 <div class="section-content">
                     <ul class="bullet-list">
-                        <li><span class="highlight">定義題</span>：請解釋情緒與壓力的意義及其差異。</li>
-                        <li><span class="highlight">分析題</span>：請說明負面情緒產生的原因及如何以正面態度應對。</li>
-                        <li><span class="highlight">應用題</span>：面對考試壓力，請列出減壓的步驟及有效方法。</li>
-                        <li><span class="highlight">情境題</span>：根據可兒演奏失手事件，如何用正面思維調適情緒？</li>
-                        <li><span class="highlight">關懷題</span>：你如何幫助身邊情緒或壓力困擾的朋友？列出具體行動。
-</li>
+                        <li><span class="highlight">定義題</span>：試解釋「情緒」與「壓力」的定義，並指出兩者關係。</li>
+                        <li><span class="highlight">分析題</span>：舉出三種負面情緒成因，並說明如何以正面思維轉化。</li>
+                        <li><span class="highlight">應用題</span>：假如你面臨期中考壓力，請運用減壓四步驟規劃行動。</li>
+                        <li><span class="highlight">情境題</span>：可兒在鋼琴比賽中失手，她非常沮喪。你會給她哪些正面建議？</li>
+                        <li><span class="highlight">關懷題</span>：好友因被同學排擠而情緒低落，請列出三項具體幫助他的方法。</li>
                     </ul>
+                    <div class="highlight-box">
+                        <i class="fas fa-lightbulb"></i> 貼士：答題時緊扣「不傷害原則」、「四步驟」及「尋求支援」，並結合生活例子。
+                    </div>
                 </div>
-                <div class="illustration-placeholder"><i class="fas fa-image"></i> 總結插圖</div>
+                <div class="illustration-placeholder"><i class="fas fa-check-double"></i> 高分關鍵：理解情緒本質＋行動方案＋關懷技巧</div>
             </div>
         </div>
     </div>
 
     <div class="footer-note">
+        <i class="fas fa-leaf"></i> 自學筆記 · 第一冊第4課｜善待情緒，調節壓力，成為更好的自己
     </div>
 </div>
 </body>
