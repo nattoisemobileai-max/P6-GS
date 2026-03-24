@@ -1,34 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-HK">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>常識學堂 · 學習模式</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>常識學堂 · 學習模式 | 互動學習平台</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+            font-family: system-ui, 'Segoe UI', 'Nunito', 'Noto Sans', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
         body {
-            background: linear-gradient(145deg, #f7f9fc 0%, #eef2f7 100%);
+            background: linear-gradient(145deg, #f0f4fa 0%, #e6edf5 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: flex-start;
-            padding: 0;
-            font-size: 18px;
+            align-items: center;
+            padding: 1rem;
         }
 
         .app-container {
-            max-width: 500px;
             width: 100%;
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(2px);
-            padding: 1rem 0.8rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(3px);
+            border-radius: 2rem;
+            padding: 1rem 1rem 1.8rem;
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s;
         }
 
         .top-bar {
@@ -36,21 +39,21 @@
             align-items: center;
             justify-content: space-between;
             background: white;
-            padding: 0.6rem 1rem;
-            border-radius: 50px;
-            box-shadow: 0 4px 0 #bed0e3;
+            padding: 0.7rem 1.2rem;
+            border-radius: 60px;
+            box-shadow: 0 6px 0 #cbdbe0;
             margin-bottom: 1.5rem;
             flex-wrap: wrap;
-            gap: 0.5rem;
+            gap: 0.8rem;
         }
 
         .user-greeting {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.6rem;
             background: #eef5ff;
             padding: 0.3rem 1rem 0.3rem 0.6rem;
-            border-radius: 40px;
+            border-radius: 50px;
             border: 1px solid #c1d9f0;
         }
         .user-greeting i {
@@ -59,26 +62,26 @@
             background: white;
             border-radius: 50%;
             padding: 0.2rem;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
         .user-greeting span {
             font-weight: 800;
-            font-size: 1.3rem;
+            font-size: clamp(1rem, 4vw, 1.3rem);
             color: #1f2d3d;
         }
         .user-greeting .sub {
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 500;
             color: #4f6f8f;
         }
 
         .quote-ticker {
             flex: 1;
-            min-width: 200px;
-            background: #fff9e0;
-            border-radius: 50px;
-            padding: 0.4rem 1rem;
-            border: 1px dashed #f3b33d;
+            min-width: 220px;
+            background: #fff9e8;
+            border-radius: 60px;
+            padding: 0.45rem 1rem;
+            border: 1px solid #f3c26b;
             overflow: hidden;
             white-space: nowrap;
         }
@@ -87,9 +90,9 @@
             white-space: nowrap;
             font-style: italic;
             font-weight: 500;
-            color: #9b6b00;
-            font-size: 1.1rem;
-            animation: scrollRightLeft 14s cubic-bezier(0.2, 0.9, 0.3, 1) 2 forwards;
+            color: #b87c00;
+            font-size: clamp(0.85rem, 3.5vw, 1rem);
+            animation: scrollRightLeft 18s cubic-bezier(0.2, 0.9, 0.3, 1) 2 forwards;
         }
         @keyframes scrollRightLeft {
             0% { transform: translateX(100%); }
@@ -102,10 +105,10 @@
         .stats {
             display: flex;
             align-items: center;
-            gap: 0.8rem;
+            gap: 0.7rem;
             background: #2b3c4e;
             padding: 0.3rem 1rem;
-            border-radius: 40px;
+            border-radius: 50px;
             color: white;
             box-shadow: 0 4px 0 #0f1a24;
         }
@@ -115,79 +118,165 @@
             gap: 0.3rem;
             background: #ffd966;
             color: #2f2f2f;
-            padding: 0.2rem 0.8rem;
-            border-radius: 30px;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
             font-weight: 800;
-            font-size: 1.1rem;
-        }
-        .xp-badge i {
-            color: #f09b22;
+            font-size: clamp(0.9rem, 3vw, 1.1rem);
         }
         .level-badge {
             background: white;
             color: #1f3a4b;
             font-weight: 800;
-            padding: 0.2rem 0.9rem;
-            border-radius: 30px;
-            font-size: 1.1rem;
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+            font-size: clamp(0.9rem, 3vw, 1.1rem);
         }
 
+        /* 🎙️ Podcast 專區樣式 - 置頂區域，顯示課程清單 */
+        .podcast-section {
+            background: linear-gradient(105deg, #fef7e0 0%, #fff3db 100%);
+            border-radius: 1.8rem;
+            padding: 0.9rem 1.2rem 1.2rem 1.2rem;
+            border-left: 8px solid #e67e22;
+            box-shadow: 0 8px 0 #e0c28a;
+            margin-bottom: 1.8rem;
+        }
+        .podcast-header {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        .podcast-header i {
+            font-size: 2rem;
+            color: #e67e22;
+            background: white;
+            border-radius: 50%;
+            padding: 0.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .podcast-header h3 {
+            font-size: clamp(1.1rem, 5vw, 1.5rem);
+            font-weight: 800;
+            color: #b45f1b;
+            margin: 0;
+        }
+        .podcast-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 0.8rem;
+        }
+        .podcast-btn {
+            background: white;
+            border-radius: 60px;
+            padding: 0.8rem 0.5rem;
+            text-align: center;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.3rem;
+            font-weight: 700;
+            color: #2c3e50;
+            border: 1px solid #f7d49c;
+            box-shadow: 0 3px 0 #e2bc7c;
+            transition: 0.08s linear;
+            font-size: clamp(0.85rem, 3.5vw, 0.95rem);
+            cursor: pointer;
+        }
+        .podcast-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #e2bc7c;
+        }
+        .podcast-btn i {
+            font-size: 1.3rem;
+            color: #e67e22;
+            margin-bottom: 0.2rem;
+        }
+        .podcast-title {
+            font-weight: 800;
+            font-size: 0.95rem;
+            color: #2c3e50;
+        }
+        .podcast-subtitle {
+            font-size: 0.75rem;
+            color: #b45f1b;
+            font-weight: 600;
+        }
+        .podcast-sub {
+            font-size: 0.7rem;
+            margin-top: 0.8rem;
+            text-align: center;
+            color: #a06e2c;
+            font-weight: 500;
+        }
+
+        /* 書籍卡片網格 */
         .books-grid {
             display: flex;
             flex-direction: column;
-            gap: 1.2rem;
-            margin-top: 1.5rem;
+            gap: 1.5rem;
+            margin-top: 0.5rem;
         }
+
         .book-card {
             width: 100%;
             background: white;
-            border-radius: 30px;
-            padding: 1.5rem 1.2rem;
-            box-shadow: 0 8px 0 #b3c9da, 0 15px 25px -8px rgba(60,80,100,0.3);
-            border: 2px solid rgba(255,255,255,0.9);
+            border-radius: 2rem;
+            padding: 1.5rem 1.3rem;
+            box-shadow: 0 10px 0 #b8cee4, 0 12px 28px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255,255,255,0.7);
         }
         .book-title {
-            font-size: 2rem;
+            font-size: clamp(1.5rem, 6vw, 2rem);
             font-weight: 900;
             color: #2f5575;
             margin-bottom: 0.2rem;
             display: flex;
             align-items: center;
-            gap: 0.4rem;
+            gap: 0.6rem;
+            flex-wrap: wrap;
         }
-        .book-title i { font-size: 2rem; color: #58a700; }
+        .book-title i { font-size: clamp(1.6rem, 6vw, 2.2rem); color: #58a700; }
         .book-sub {
-            font-size: 1.1rem; color: #4b6d8c; margin-bottom: 1.2rem;
-            border-bottom: 2px dotted #c6d9eb; padding-bottom: 0.5rem; font-weight: 600;
+            font-size: clamp(0.9rem, 4vw, 1.05rem);
+            color: #4b6d8c;
+            margin-bottom: 1.2rem;
+            border-bottom: 2px dotted #c6d9eb;
+            padding-bottom: 0.6rem;
+            font-weight: 600;
         }
 
         .lesson-grid {
             display: flex;
             flex-direction: column;
-            gap: 0.7rem;
-            margin-bottom: 0.5rem;
+            gap: 0.8rem;
+            margin-bottom: 0.3rem;
         }
         .lesson-btn {
             background: #f0f6ff;
-            border: 2px solid #c4d5e8;
-            border-radius: 40px;
-            padding: 0.8rem 1.2rem;
-            font-weight: 700;
-            font-size: 1.1rem;
+            border: 2px solid #cfe2f5;
+            border-radius: 50px;
+            padding: 0.85rem 1.2rem;
+            font-weight: 800;
+            font-size: clamp(0.95rem, 4vw, 1.1rem);
             color: #1f4973;
-            box-shadow: 0 4px 0 #9fbad0;
+            box-shadow: 0 5px 0 #9fbad0;
             cursor: pointer;
             transition: 0.06s linear;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.8rem;
             width: 100%;
-            border: none;
+            text-align: left;
+            background: #f8fbfe;
         }
         .lesson-btn i {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             color: #ffa41b;
-            min-width: 24px;
+            min-width: 28px;
         }
         .lesson-btn:active {
             transform: translateY(4px);
@@ -203,10 +292,9 @@
         }
 
         .sub-mode-section {
-            margin: 0.5rem 0 1rem 1.5rem;
-            padding: 1rem 0 0.5rem;
-            border-left: 3px solid #9bb7d1;
-            padding-left: 1rem;
+            margin: 0.5rem 0 0.8rem 1.2rem;
+            padding: 0.8rem 0 0.3rem 1rem;
+            border-left: 4px solid #7faccf;
             display: none;
         }
         .sub-mode-section.expanded {
@@ -214,25 +302,26 @@
         }
         .sub-mode-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
             gap: 0.8rem;
         }
         .sub-mode-item {
             background: #f5f9ff;
             border: 2px solid #cad9eb;
-            border-radius: 30px;
-            padding: 0.6rem 0.3rem;
+            border-radius: 40px;
+            padding: 0.7rem 0.3rem;
             text-align: center;
             text-decoration: none;
             color: #1f4973;
-            transition: 0.1s;
+            transition: 0.08s linear;
             box-shadow: 0 3px 0 #9fbad0;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 0.3rem;
-            font-size: 0.9rem;
-            font-weight: 600;
+            font-size: clamp(0.8rem, 3vw, 0.9rem);
+            font-weight: 700;
+            cursor: pointer;
         }
         .sub-mode-item:active {
             transform: translateY(3px);
@@ -248,15 +337,99 @@
             color: inherit;
             display: block;
         }
-
-        .footer-credit {
-            margin-top: 2rem; text-align: center; color: #6b8baa; font-weight: 600; font-size: 1rem;
+        .news-card .lesson-grid {
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 0.5rem;
+        }
+        .news-card .sub-mode-item {
+            flex: 1;
+            min-width: 100px;
         }
 
-        @media (max-width: 480px) {
-            .top-bar { flex-direction: column; align-items: stretch; }
-            .user-greeting, .quote-ticker, .stats { width: 100%; justify-content: center; }
-            .sub-mode-grid { grid-template-columns: repeat(3, 1fr); }
+        .footer-credit {
+            margin-top: 2rem;
+            text-align: center;
+            color: #6b8baa;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* 響應式斷點 */
+        @media (min-width: 768px) {
+            .app-container {
+                padding: 1.5rem 1.8rem 2rem;
+            }
+            .book-card {
+                padding: 1.8rem 1.8rem;
+            }
+            .sub-mode-grid {
+                gap: 1rem;
+            }
+            .podcast-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .books-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.8rem;
+            }
+            .news-link {
+                grid-column: span 2;
+            }
+            .top-bar {
+                flex-wrap: nowrap;
+            }
+            .podcast-grid {
+                grid-template-columns: repeat(6, 1fr);
+                gap: 1rem;
+            }
+        }
+
+        @media (min-width: 1280px) {
+            .app-container {
+                max-width: 1500px;
+                padding: 1.8rem 2.2rem 2.2rem;
+            }
+            .sub-mode-grid {
+                grid-template-columns: repeat(5, 1fr);
+            }
+        }
+
+        @media (max-width: 550px) {
+            .top-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .user-greeting, .quote-ticker, .stats {
+                justify-content: center;
+                width: 100%;
+            }
+            .sub-mode-section {
+                margin-left: 0.5rem;
+                padding-left: 0.8rem;
+            }
+            .sub-mode-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .podcast-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (hover: hover) {
+            .lesson-btn:hover {
+                background: #e4effa;
+                transform: translateY(-1px);
+            }
+            .sub-mode-item:hover, .podcast-btn:hover {
+                background: #eef3fc;
+                transform: translateY(-1px);
+            }
         }
     </style>
 </head>
@@ -265,8 +438,8 @@
     <div class="top-bar">
         <div class="user-greeting">
             <i class="fas fa-user-astronaut"></i>
-            <span>Hi, 小子!</span>
-            <span class="sub">🌟 小常識</span>
+            <span>Hi, 學習者!</span>
+            <span class="sub">🌟 常識學堂</span>
         </div>
         <div class="quote-ticker">
             <span class="quote-scroll" id="quoteSpan">
@@ -279,12 +452,58 @@
         </div>
     </div>
 
+    <!-- 🎙️ Podcast 專區 - 根據用戶要求顯示各課標題與小標題 -->
+    <div class="podcast-section">
+        <div class="podcast-header">
+            <i class="fas fa-podcast"></i>
+            <h3>🎧 常識Podcast · 聽出大智慧</h3>
+        </div>
+        <div class="podcast-grid">
+            <!-- 第一冊第3課 - 友情愛情 -->
+            <a href="#" class="podcast-btn" target="_blank">
+                <i class="fas fa-heart"></i>
+                <span class="podcast-title">第一冊第3課</span>
+                <span class="podcast-subtitle">友情愛情</span>
+            </a>
+            <!-- 第一冊第4課 - 情緒壓力 -->
+            <a href="#" class="podcast-btn" target="_blank">
+                <i class="fas fa-smile"></i>
+                <span class="podcast-title">第一冊第4課</span>
+                <span class="podcast-subtitle">情緒壓力</span>
+            </a>
+            <!-- 第三冊第1課 - 清朝盛亡 -->
+            <a href="#" class="podcast-btn" target="_blank">
+                <i class="fas fa-crown"></i>
+                <span class="podcast-title">第三冊第1課</span>
+                <span class="podcast-subtitle">清朝盛亡</span>
+            </a>
+            <!-- 第三冊第2課 - 內外戰爭 -->
+            <a href="#" class="podcast-btn" target="_blank">
+                <i class="fas fa-fist-raised"></i>
+                <span class="podcast-title">第三冊第2課</span>
+                <span class="podcast-subtitle">內外戰爭</span>
+            </a>
+            <!-- 第三冊第3課 - 改革前後 -->
+            <a href="#" class="podcast-btn" target="_blank">
+                <i class="fas fa-chart-line"></i>
+                <span class="podcast-title">第三冊第3課</span>
+                <span class="podcast-subtitle">改革前後</span>
+            </a>
+            <!-- 第三冊第4課 - 近年發展 -->
+            <a href="#" class="podcast-btn" target="_blank">
+                <i class="fas fa-city"></i>
+                <span class="podcast-title">第三冊第4課</span>
+                <span class="podcast-subtitle">近年發展</span>
+            </a>
+        </div>
+        <div class="podcast-sub">🎙️ 精選課程導讀 · 隨時隨地聆聽課堂重點</div>
+    </div>
+
     <div class="books-grid">
-        <!-- 第一冊 -->
+        <!-- 第一冊卡片 -->
         <div class="book-card" id="book1">
-            <div class="book-title"><i class="fas fa-shield-alt"></i> 第一冊::處變不驚</div>
-            <div class="book-sub">共 3 課</div>
-            
+            <div class="book-title"><i class="fas fa-shield-alt"></i> 第一冊 · 處變不驚</div>
+            <div class="book-sub">共 3 課 | 情緒智慧與人際關係</div>
             <div class="lesson-grid">
                 <!-- 第3課 - 兩性關係 -->
                 <button class="lesson-btn" data-lesson="lesson3" data-book="1">
@@ -299,7 +518,6 @@
                         <a href="1-3/notes.html" class="sub-mode-item"><i class="fas fa-book-open"></i> Notes</a>
                     </div>
                 </div>
-
                 <!-- 第4課 - 情緒和壓力 -->
                 <button class="lesson-btn" data-lesson="lesson4" data-book="1">
                     <i class="fas fa-smile"></i> 第4課 - 情緒和壓力
@@ -313,7 +531,6 @@
                         <a href="1-4/notes.html" class="sub-mode-item"><i class="fas fa-book-open"></i> Notes</a>
                     </div>
                 </div>
-
                 <!-- 第5課 - 活出彩虹 -->
                 <button class="lesson-btn" data-lesson="lesson5" data-book="1">
                     <i class="fas fa-rainbow"></i> 第5課 - 活出彩虹
@@ -330,13 +547,11 @@
             </div>
         </div>
 
-        <!-- 第三冊 -->
+        <!-- 第三冊卡片 -->
         <div class="book-card" id="book3">
-            <div class="book-title"><i class="fas fa-dragon"></i> 第三冊::中國的變遷</div>
-            <div class="book-sub">共 4 課</div>
-            
+            <div class="book-title"><i class="fas fa-dragon"></i> 第三冊 · 中國的變遷</div>
+            <div class="book-sub">共 4 課 | 歷史與現代發展</div>
             <div class="lesson-grid">
-                <!-- 第1課 - 最後的皇朝 -->
                 <button class="lesson-btn" data-lesson="lesson1" data-book="3">
                     <i class="fas fa-crown"></i> 第1課 - 最後的皇朝
                 </button>
@@ -349,8 +564,6 @@
                         <a href="3-1/notes.html" class="sub-mode-item"><i class="fas fa-book-open"></i> Notes</a>
                     </div>
                 </div>
-
-                <!-- 第2課 - 內外交困的時期 -->
                 <button class="lesson-btn" data-lesson="lesson2" data-book="3">
                     <i class="fas fa-fist-raised"></i> 第2課 - 內外交困的時期
                 </button>
@@ -363,8 +576,6 @@
                         <a href="3-2/notes.html" class="sub-mode-item"><i class="fas fa-book-open"></i> Notes</a>
                     </div>
                 </div>
-
-                <!-- 第3課 - 改革開放前後 -->
                 <button class="lesson-btn" data-lesson="lesson3" data-book="3">
                     <i class="fas fa-chart-line"></i> 第3課 - 改革開放前後
                 </button>
@@ -377,8 +588,6 @@
                         <a href="3-3/notes.html" class="sub-mode-item"><i class="fas fa-book-open"></i> Notes</a>
                     </div>
                 </div>
-
-                <!-- 第4課 - 中國近年發展 -->
                 <button class="lesson-btn" data-lesson="lesson4" data-book="3">
                     <i class="fas fa-city"></i> 第4課 - 中國近年發展
                 </button>
@@ -394,48 +603,51 @@
             </div>
         </div>
 
-        <!-- 時事新聞 (直接連結) -->
+        <!-- 時事新聞卡片 -->
         <a href="news/index.html" class="news-link">
-            <div class="book-card">
-                <div class="book-title"><i class="fas fa-newspaper"></i> 時事新聞</div>
-                <div class="book-sub">共 3 個主題</div>
-                <div class="lesson-grid" style="flex-direction:row; flex-wrap:wrap;">
-                    <a href="news.html" class="sub-mode-item"><i class="fas fa-layer-group"></i> 國際</a>
-                    <a href="news-local.html" class="sub-mode-item"><i class="fas fa-layer-group"></i> 本地</a>
+            <div class="book-card news-card">
+                <div class="book-title"><i class="fas fa-newspaper"></i> 📰 時事新聞 · 放眼世界</div>
+                <div class="book-sub">即時議題 | 國際 · 本地</div>
+                <div class="lesson-grid" style="flex-direction: row; flex-wrap: wrap;">
+                    <span class="sub-mode-item"><i class="fas fa-globe"></i> 國際新聞</span>
+                    <span class="sub-mode-item"><i class="fas fa-map-marker-alt"></i> 本地焦點</span>
+                    <span class="sub-mode-item"><i class="fas fa-chart-simple"></i> 經濟趨勢</span>
                 </div>
-            
             </div>
         </a>
     </div>
 
     <div class="footer-credit">
-        ⚡ 每日常識 · 小習慣大智慧
+        ⚡ 每日常識 · 小習慣大智慧 | 探索知識 培養韌性
     </div>
 </div>
 
 <script>
     (function() {
-        // 金句動畫
         const quoteSpan = document.getElementById('quoteSpan');
         let animCount = 0;
-        quoteSpan.addEventListener('animationiteration', () => {
-            animCount++;
-            if (animCount === 2) {
-                quoteSpan.style.animation = 'none';
-                quoteSpan.style.transform = 'translateX(0%)';
-            }
-        });
-        setTimeout(() => {
-            quoteSpan.style.animation = 'none';
-            quoteSpan.style.transform = 'translateX(0%)';
-        }, 18000);
+        if (quoteSpan) {
+            quoteSpan.addEventListener('animationiteration', () => {
+                animCount++;
+                if (animCount === 2) {
+                    quoteSpan.style.animation = 'none';
+                    quoteSpan.style.transform = 'translateX(0%)';
+                }
+            });
+            setTimeout(() => {
+                if (quoteSpan.style.animation !== 'none') {
+                    quoteSpan.style.animation = 'none';
+                    quoteSpan.style.transform = 'translateX(0%)';
+                }
+            }, 19000);
+        }
 
-        // 獲取所有課堂按鈕
         const lessonBtns = document.querySelectorAll('.lesson-btn[data-lesson]');
         
         lessonBtns.forEach(btn => {
             btn.addEventListener('click', function(e) {
                 e.preventDefault();
+                e.stopPropagation();
                 
                 const book = this.dataset.book;
                 const lesson = this.dataset.lesson;
@@ -446,16 +658,16 @@
                 
                 const isExpanded = targetSection.classList.contains('expanded');
                 
-                // 如果要展開，先關閉同一本書內的其他展開區塊
                 if (!isExpanded) {
                     const parentCard = this.closest('.book-card');
-                    const allSections = parentCard.querySelectorAll('.sub-mode-section');
-                    allSections.forEach(section => {
-                        section.classList.remove('expanded');
-                    });
-                    
-                    const allBtns = parentCard.querySelectorAll('.lesson-btn');
-                    allBtns.forEach(b => b.classList.remove('active'));
+                    if (parentCard) {
+                        const allSections = parentCard.querySelectorAll('.sub-mode-section');
+                        allSections.forEach(section => {
+                            section.classList.remove('expanded');
+                        });
+                        const allBtns = parentCard.querySelectorAll('.lesson-btn');
+                        allBtns.forEach(b => b.classList.remove('active'));
+                    }
                 }
                 
                 targetSection.classList.toggle('expanded');
