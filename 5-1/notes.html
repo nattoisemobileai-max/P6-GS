@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-HK">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>最後的皇朝 · 筆記</title>
+    <title>生物的分類 · 互動筆記 | 第五冊第1課</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -19,40 +19,39 @@
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            padding: 0;
-            font-size: 18px;
+            padding: 1rem;
         }
 
-        .notes-container {
-            max-width: 100%;
+        .notebook-wrapper {
+            max-width: 1300px;
             width: 100%;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(4px);
-            border-radius: 0;
-            box-shadow: none;
-            padding: 0.5rem 0.3rem;
-            border: none;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(3px);
+            border-radius: 40px;
+            padding: 1rem;
+            box-shadow: 0 25px 35px -12px rgba(0,0,0,0.3);
+            border: 2px solid rgba(255,255,255,0.8);
         }
 
-        .notes-header {
+        /* header */
+        .study-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
             background: white;
-            padding: 0.5rem 0.8rem;
-            border-radius: 40px;
-            margin-bottom: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 60px;
+            margin-bottom: 1.5rem;
             box-shadow: 0 4px 0 #bed0e3;
             flex-wrap: wrap;
             gap: 0.5rem;
         }
-
         .back-home {
             background: #f4d03f;
             border-radius: 40px;
             padding: 0.4rem 1rem;
-            font-weight: 700;
-            font-size: 1.1rem;
+            font-weight: 800;
+            font-size: 1rem;
             color: #1f3a4b;
             border: none;
             box-shadow: 0 3px 0 #b38f1c;
@@ -61,188 +60,88 @@
             align-items: center;
             gap: 6px;
             text-decoration: none;
-            white-space: nowrap;
         }
-        .back-home:active {
-            transform: translateY(3px);
-            box-shadow: 0 1px 0 #b38f1c;
-        }
-
-        .notes-title {
-            font-size: 1.4rem;
-            font-weight: 900;
+        .back-home:active { transform: translateY(2px); box-shadow: 0 1px 0 #b38f1c; }
+        .chapter-title {
             background: #eef5ff;
-            padding: 0.3rem 1.2rem;
+            padding: 0.3rem 1.5rem;
             border-radius: 40px;
-            color: #1a4972;
-            border: 2px solid #c1d9f0;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .notes-title i {
-            color: #3498db;
-            font-size: 1.2rem;
-        }
-
-        .notebook {
-            background: #f5faff;
-            border-radius: 25px;
-            padding: 1rem 0.8rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 6px 0 #9bb7d1, 0 8px 20px rgba(0,40,60,0.1);
-            border: 2px solid #c1d9f0;
-        }
-
-        .notebook-header {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.8rem;
-            border-bottom: 3px solid #9bb7d1;
-            flex-wrap: wrap;
-        }
-        .notebook-icon {
-            width: 50px;
-            height: 50px;
-            background: #3498db;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.8rem;
-            box-shadow: 0 3px 0 #1f5b8a;
-            flex-shrink: 0;
-        }
-        .notebook-title {
-            font-size: 1.6rem;
-            font-weight: 800;
-            color: #1a4972;
-            line-height: 1.3;
-            flex: 1;
-        }
-
-        
-        .keywords-title {
-            font-size: 1.4rem;
             font-weight: 900;
-            background: #eef5ff;
-            padding: 0.2rem 1.2rem;
-            border-radius: 40px;
+            font-size: 1.3rem;
             color: #1a4972;
             border: 2px solid #c1d9f0;
             display: flex;
             align-items: center;
             gap: 8px;
         }
-        .keywords-title i {
-            color: #9b59b6;
-        }
-
-        .keywords-container {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(4px);
-            border-radius: 32px;
-            padding: 1rem 0.8rem;
-            box-shadow: 0 20px 30px -10px rgba(0,40,60,0.4);
-        }
-
-        .keywords-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: white;
-            padding: 0.5rem 0.8rem;
-            border-radius: 40px;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 4px 0 #bed0e3;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-        .section-container {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-        .lesson-section {
-            background: white;
-            border-radius: 22px;
-            padding: 1.2rem 1rem;
-            border-left: 6px solid #3498db;
-            box-shadow: 0 4px 0 #bed0e3;
-        }
-        .section-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-        }
-        .section-icon {
-            width: 44px;
-            height: 44px;
-            background: #3498db;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .stats-badge {
+            background: #2b3c4e;
             color: white;
-            font-size: 1.4rem;
-            flex-shrink: 0;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
         }
-        .section-title {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: #1a4972;
-            line-height: 1.3;
+
+        /* 主內容卡片 */
+        .card-module {
+            background: #ffffffdd;
+            border-radius: 32px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+            border: 1px solid #cfe3fc;
+            box-shadow: 0 8px 12px rgba(0,0,0,0.05);
         }
-        .section-content {
-            color: #1f3a4b;
-            line-height: 1.8;
-            font-size: 1.1rem;
+        .card-header {
+            background: #e9f2fa;
+            padding: 1rem 1.2rem;
+            border-bottom: 3px solid #9bb7d1;
         }
-.keyword-list {
-            list-style: none;
-        }
-              .keyword-item {
-            background: #f5f9ff;
-            border: 2px solid #cad9eb;
-            border-radius: 50px;
-            padding: 0.8rem 1.5rem;
-            font-weight: 600;
-            color: #1f4973;
-            box-shadow: 0 4px 0 #9fbad0;
-            display: inline-flex;
+        .card-header h2 {
+            display: flex;
             align-items: center;
-            gap: 0.8rem;
-            font-size: 1.3rem;
-            /* 確保圖示和文字在同一行絕不分離 */
-            white-space: nowrap;
-        }
-        .keyword-item:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-        .keyword-term {
+            gap: 12px;
+            font-size: 1.6rem;
             font-weight: 800;
             color: #1a4972;
-            min-width: 120px;
-            font-size: 1.1rem;
         }
-        .keyword-def {
-            color: #1f3a4b;
-            line-height: 1.6;
-            font-size: 1rem;
+        .card-body {
+            padding: 1.2rem;
         }
-        .keyword-def i {
-            color: #f3b33d;
-            margin-right: 4px;
+
+        .info-note {
+            background: #fef6e0;
+            border-left: 6px solid #f3b33d;
+            padding: 0.8rem 1rem;
+            border-radius: 20px;
+            margin-bottom: 1.2rem;
+            font-weight: 600;
+            color: #2c4e6e;
         }
-        .table-wrap {
+
+        .grid-2col {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .feature-card {
+            background: #f8fafd;
+            border-radius: 24px;
+            padding: 1rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            border: 1px solid #e2edff;
+        }
+        .feature-card h3 {
+            background: #d9e9fb;
+            display: inline-block;
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .responsive-table {
             overflow-x: auto;
             margin: 1rem 0;
         }
@@ -250,413 +149,346 @@
             width: 100%;
             border-collapse: collapse;
             background: white;
-            border-radius: 16px;
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 3px 0 #bed0e3;
-            font-size: 1rem;
+            box-shadow: 0 2px 6px #bfd3e8;
+            font-size: 0.9rem;
         }
         th {
-            background: #3498db;
+            background: #2c7da0;
             color: white;
+            padding: 10px 8px;
             font-weight: 700;
-            padding: 0.6rem;
-            text-align: left;
         }
         td {
-            padding: 0.6rem;
-            border-bottom: 1px solid #e1edff;
+            padding: 8px 8px;
+            border-bottom: 1px solid #dee9f2;
         }
-        tr:last-child td {
-            border-bottom: none;
-        }
-
-        .bullet-list {
-            list-style: none;
-            margin-top: 0.5rem;
-        }
-        .bullet-list li {
-            padding: 0.4rem 0 0.4rem 1.8rem;
-            position: relative;
-            font-size: 1.1rem;
-        }
-        .bullet-list li:before {
-            content: "•";
-            color: #3498db;
-            font-weight: bold;
-            font-size: 1.6rem;
-            position: absolute;
-            left: 0;
-            top: -2px;
-        }
-
-        .highlight {
-            background: #fffacd;
-            padding: 0.1rem 0.3rem;
-            border-radius: 10px;
-            font-weight: 700;
-            color: #1e3f5a;
-            border: 1px solid #f3b33d;
-            display: inline-block;
-            margin: 0 0.1rem;
-            font-size: 1.1rem;
-        }
+        tr:last-child td { border-bottom: none; }
 
         .badge {
-            display: inline-block;
-            background: #f4d03f;
-            color: #1f3a4b;
-            padding: 0.2rem 0.9rem;
+            background: #3498db20;
             border-radius: 40px;
+            padding: 0.2rem 0.8rem;
             font-weight: 700;
-            font-size: 0.95rem;
-            margin-right: 0.3rem;
-            margin-bottom: 0.3rem;
-            border: 1px solid #e67e22;
+            font-size: 0.8rem;
+            color: #1f5b8a;
+            display: inline-block;
         }
-
-        .highlight-box {
-            background: #e1f0fa;
-            border-radius: 16px;
-            padding: 1rem;
-            margin: 1rem 0;
-            border: 2px dashed #9bb7d1;
-            font-size: 1.1rem;
-        }
-
-        .illustration-placeholder {
-            background: #f0f4fa;
-            border-radius: 16px;
-            padding: 0.8rem;
-            margin: 1.2rem 0 0.2rem;
-            text-align: center;
-            border: 2px dashed #7fa3c2;
-            color: #2c5a7a;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            flex-wrap: wrap;
-        }
-        .illustration-placeholder i {
-            font-size: 2rem;
-            color: #5a9ec2;
-        }
-        .illustration-placeholder img {
-            max-width: 100%;
-            height: auto;
+        .highlight {
+            background: #fcf4d9;
+            padding: 0.1rem 0.3rem;
             border-radius: 12px;
-            display: block;
-            margin: 0 auto;
+            font-weight: 700;
+            color: #b45f06;
         }
+        .keyword-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+        .keyword {
+            background: white;
+            border-radius: 60px;
+            padding: 0.5rem 1.2rem;
+            font-weight: 700;
+            border: 2px solid #bbd4f0;
+            color: #1a4972;
+            font-size: 0.9rem;
+            transition: 0.1s;
+            box-shadow: 0 2px 0 #c3d4e8;
+        }
+        .keyword i { margin-right: 6px; color: #f3b33d;}
 
-        .footer-note {
-            text-align: center;
+        .illust-placeholder {
+            background: #eef3fc;
+            border-radius: 24px;
+            padding: 1rem;
             margin-top: 1rem;
-            color: #6b8baa;
-            font-weight: 600;
+            text-align: center;
+            border: 2px dashed #9bb7d1;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 0.8rem;
+            gap: 16px;
             flex-wrap: wrap;
-            font-size: 1rem;
+            color: #2c5a7a;
+            font-weight: 600;
         }
-        .save-status {
-            background: #d4e6f5;
-            color: #1a4972;
-            padding: 0.3rem 0.8rem;
-            border-radius: 40px;
-            border: 1px solid #9bb7d1;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 1rem;
+        .illust-placeholder i {
+            font-size: 2.3rem;
+            color: #4a86b8;
         }
 
-        @media (max-width: 480px) {
-            .keywords-header { flex-direction: column; }
-            .keyword-item { flex-direction: column; gap: 0.2rem; }
-            .keyword-term { min-width: auto; }
-        }
-
-        @media (max-width: 380px) {
-            .notes-header {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .back-home, .notes-title {
-                justify-content: center;
-            }
-            .section-title {
-                font-size: 1.3rem;
-            }
+        @media (max-width: 600px) {
+            .card-header h2 { font-size: 1.2rem; }
+            .chapter-title { font-size: 1rem; }
         }
     </style>
 </head>
 <body>
-<div class="notes-container">
-    <div class="notes-header">
+<div class="notebook-wrapper">
+    <div class="study-header">
         <a href="../index.html" class="back-home"><i class="fas fa-arrow-left"></i> 返回主頁</a>
-        <span class="notes-title">
-            <i class="fas fa-smile-wink"></i> 第三冊第1課 · 康雍乾盛世筆記
-        </span>
+        <span class="chapter-title"><i class="fas fa-leaf"></i> 第五冊第1課 · 生物的分類</span>
+        <span class="stats-badge"><i class="fas fa-dna"></i> 動物．植物．分類學</span>
     </div>
-    
-<div class="notes-container">
-  <!-- 主要筆記本 -->
-    <div class="notebook">
-        <div class="notebook-header">
-            <div class="notebook-icon"><i class="fas fa-landmark"></i></div>
-            <div class="notebook-title">🏯 清朝早期的盛世與皇帝施政 [P4]</div>
+
+    <!-- 分類目的與依據 -->
+    <div class="card-module">
+        <div class="card-header">
+            <h2><i class="fas fa-search"></i> 為什麼要分類？</h2>
         </div>
-
-        <div class="section-container">
-            <!-- 盛世表格 -->
-            <div class="lesson-section">
-                <div class="section-header">
-                    <div class="section-icon"><i class="fas fa-crown"></i></div>
-                    <div class="section-title">康雍乾盛世</div>
+        <div class="card-body">
+            <div class="info-note">
+                <i class="fas fa-globe-asia"></i> 地球上的生物種類繁多，特徵、習性和環境各異。<br>
+                🧠 人類為了加深對生物的瞭解，<span class="highlight">對生物進行分類</span>，便於研究和溝通。
+            </div>
+            <div class="grid-2col">
+                <div class="feature-card">
+                    <h3><i class="fas fa-paw"></i> 動物分類依據</h3>
+                    <p>主要按其<span class="highlight">特徵和習性</span>進行分類。<br>
+                    ✅ 判斷類別時應優先考慮「<strong>獨有特徵</strong>」：<br>
+                    例如：海豚雖然水中生活，但用母乳餵養幼兒 → <strong>哺乳類</strong>（而非魚類）。</p>
                 </div>
-                <div class="section-content">
-                    <p>清朝是由<span class="highlight">滿族人</span>建立的中國最後一個皇朝。早期三位皇帝<span class="highlight">康熙、雍正、乾隆</span>在位時，國家呈現盛世局面。</p>
-                    <div class="table-wrap">
-                        <table>
-                            <thead><tr><th>皇帝</th><th>主要施政與作為</th><th>盛世原因分析</th></tr></thead>
-                            <tbody>
-                                <tr><td>康熙</td><td>嚴懲貪官；掃除貪污風氣；平定準噶爾叛亂</td><td>鞏固國家統治；穩定內部局勢；擴張版圖</td></tr>
-                                <tr><td>雍正</td><td>任用人才不分民族；提升行政效率</td><td>政策開明，促進社會穩定和經濟發展</td></tr>
-                                <tr><td>乾隆</td><td>六次南巡江南；大量花費</td><td>文化繁榮與國力強盛；但晚年開始出現揮霍與國力衰退</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="illustration-placeholder">
-                    <img src="images/img-part1.jpg" alt="康雍乾盛世插圖">
+                <div class="feature-card">
+                    <h3><i class="fas fa-seedling"></i> 植物分類依據</h3>
+                    <p><strong>① 繁殖方式</strong>：開花結果以種子繁殖 → <strong>有花植物</strong>；永不開花 → <strong>無花植物</strong>（孢子繁殖）。<br>
+                    <strong>② 生長環境</strong>：陸地 → <strong>陸生植物</strong>；水中 → <strong>水生植物</strong>。</p>
                 </div>
             </div>
-
-            <!-- 乾隆晚年衰退分析（已將總結移至表格下方） -->
-            <div class="lesson-section">
-                <div class="section-header">
-                    <div class="section-icon"><i class="fas fa-chart-line"></i></div>
-                    <div class="section-title">💥 乾隆晚年國勢轉弱原因分析[P4]</div>
-                </div>
-                <div class="section-content">
-                    <div class="table-wrap">
-                        <table>
-                            <thead><tr><th>影響因素</th><th>說明</th></tr></thead>
-                            <tbody>
-                                <tr><td>人口壓力</td><td>人口持續增加，但土地資源有限，造成糧食短缺</td></tr>
-                                <tr><td>政府財政問題</td><td>大量花費於乾隆南巡及宮廷生活，導致財政負擔加重</td></tr>
-                                <tr><td>貪污問題</td><td>朝廷貪污風氣猖獗，削弱政府執行力</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- 小總結放在表格下方 -->
-                    <div class="highlight-box">
-                        <span class="badge">小總結</span> 乾隆皇帝晚年，人口快速增加，但耕地不足，百姓生活艱苦，國勢開始轉弱。朝廷內部貪污問題未能根除，影響政務效率和社會穩定。
-                    </div>
-                </div>
-                <div class="illustration-placeholder">
-                    <img src="images/img-part2.jpg" alt="康雍乾盛世插圖">
-                </div>
+            <div class="illust-placeholder">
+                <i class="fas fa-chart-simple"></i> <span>生物分類基本架構：動物界 → 脊椎動物／無脊椎動物；植物界 → 有花／無花 或 陸生／水生</span>
             </div>
-
-            <!-- 鴉片戰爭 -->
-            <div class="lesson-section">
-                <div class="section-header">
-                    <div class="section-icon"><i class="fas fa-skull"></i></div>
-                    <div class="section-title">💀 鴉片戰爭的起因與影響[P5]</div>
-                </div>
-                <div class="section-content">
-                    <p>英國商人在中國販賣<span class="highlight">鴉片</span>，導致大量國民沉迷吸食，造成國家健康和軍事戰鬥力下降，經濟損失嚴重。</p>
-                    <p>鴉片是什麼嗎？鴉片是毒品，會危害健康，我們要向毒品說不。</p>
-                    <h3 style="font-size:1.2rem; margin:0.8rem 0 0.3rem;">鴉片的社會禍害</h3>
-                    <div class="table-wrap">
-                        <table>
-                            <thead><tr><th>影響層面</th><th>描述</th></tr></thead>
-                            <tbody>
-                                <tr><td>健康</td><td>國民吸食鴉片危害身體，影響生育和生活質量，無力工作。</td></tr>
-                                <tr><td>經濟</td><td>花費大量金錢購買鴉片，白銀流向外國，造成國庫空虛。（財政外流和貧困）</td></tr>
-                                <tr><td>軍事</td><td>吸食者體力和精神下降，軍隊戰鬥力減弱</td></tr>
-<tr><td>其他</td><td>官商勾結走私鴉片，遺政府日趨腐敗。</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="illustration-placeholder">
-                    <img src="images/img-part9.jpg" alt="康雍乾盛世插圖">
-                </div>
-                    <h3 style="font-size:1.2rem; margin:1rem 0 0.3rem;">清政府的鴉片政策與結果</h3>
-                    <ul class="bullet-list">
-                        <li>1839年，清政府派遣<span class="highlight">林則徐</span>到廣州查禁鴉片。</li>
-                        <li>林則徐在<span class="highlight">虎門銷毀</span>大量鴉片。</li>
-                        <li>英國不滿，於1840年發動<span class="highlight">鴉片戰爭</span>。</li>
-                    </ul>
-                    
-                    <h3 style="font-size:1.2rem; margin:1rem 0 0.3rem;">鴉片戰爭結果與不平等的《南京條約》</h3>
-                    <div class="table-wrap">
-                        <table>
-                            <thead><tr><th>結果</th><th>內容</th></tr></thead>
-                            <tbody>
-                                <tr><td>戰爭結果</td><td> 1842年，<u>清</u>政府戰敗</td></tr>
-                                <tr><td>《南京條約》條款</td><td>賠款<u>英國</u>大額銀兩；開放<u>廣州</u>、<u>上海</u>等五個通商口岸；<u>香港島</u>割讓<u>英國</u>管治</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="highlight-box">
-                        <span class="badge">不平等條約[P6-Q2]</span>「不平等條約」指的是列強強加於<u>清</u>政府的條約，條款對<u>中國</u>(清政府)極為不利，體現主權喪失與經濟剝削。
-                    </div>
-                </div>
-                <div class="illustration-placeholder">
-                    <img src="images/img-part4.jpg" alt="鴉片戰爭插圖">
-                </div>
-            </div>
-
-            <!-- 列強侵略與不平等條約 -->
-            <div class="lesson-section">
-                <div class="section-header">
-                    <div class="section-icon"><i class="fas fa-file-contract"></i></div>
-                    <div class="section-title">📜 列強侵略與更多不平等條約[P6~7]</div>
-                </div>
-                <div class="section-content">
-                    <div class="table-wrap">
-                        <table>
-                            <thead><tr>戰爭名稱<th></th><th>條約名稱</th><th>時間</th><th>主要內容與影響</th></tr></thead>
-                            <tbody>
-                                <tr><td>《北京條約》</td><td>英法聯軍之役</td><td>1856-1860年</td><td>增開<u>天津</u>為通商口岸，賠款<u>英法</u>聯軍，割讓<u>九龍半島</u>給<u>英國</u>管治。</td></tr>
-                                <tr><td>《馬關條約》</td><td>中日甲午戰爭</td><td>1894-1895年</td><td>向<u>日本</u>大額的賠款。割讓遼東半島、台灣及澎湖列島給日本。增開四個通商口岸。</td></tr>
-                                <tr><td>《辛丑和約》</td><td>八國聯軍之役</td><td>1900-1901年</td><td>向八國聯軍大額賠款，拆除<u>大沽口</u>到<u>北京</u>防禦炮台，並允許列強/聯軍駐軍［在<u>北京</u>至<u>山海關</u>一帶。</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <p>[P6-Q1]這些條約共同特點：</p>
-                    <ul class="bullet-list">
-                        <li>賠款巨額銀兩</li>
-                        <li>割地讓權</li>
-                        <li>擴大開放通商口岸</li>
-                        <li>允許外國軍隊駐紮</li>
-                    </ul>
-                    <h3 style="font-size:1.2rem; margin:1rem 0 0.3rem;">條約與香港的關係</h3>
-                    <div class="table-wrap">
-                        <table>
-                            <thead><tr><th>條約名稱</th><th>與香港相關的條款</th></tr></thead>
-                            <tbody>
-                                <tr><td>《南京條約》</td><td>將香港島割讓給<u>英國</u></td></tr>
-                                <tr><td>《北京條約》</td><td>將九龍半島割讓給英國</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <p>這些條約使中國主權嚴重受損，國勢愈加衰弱。</p>
-                </div>
-                <div class="illustration-placeholder">
-                    <img src="images/img-part8.jpg" alt="不平等條約插圖">
-                </div>
-            </div>
-
-            <!-- 清朝滅亡的內外因素 -->
-            <div class="lesson-section">
-                <div class="section-header">
-                    <div class="section-icon"><i class="fas fa-dizzy"></i></div>
-                    <div class="section-title">🙅‍♂️ 清朝滅亡的內外因[P8]</div>
-                </div>
-                <div class="section-content">
-                    <div class="table-wrap">
-                        <table>
-                            <thead><tr><th>類別</th><th>內容</th></tr></thead>
-                            <tbody>
-                                <tr><td>內部問題</td><td>政府腐敗無能，貪污盛行，無力解決社會經濟矛盾</td></tr>
-                                <tr><td>外部侵略</td><td>列強侵略連連，簽訂大量不平等條約，割地賠款，軍事被迫弱化</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <h3 style="font-size:1.2rem; margin:1rem 0 0.3rem;">孫中山與革命運動</h3>
-                    <ul class="bullet-list">
-                        <li>孫中山（原名孫文），廣東香山人，受過中學和大學教育。</li>
-                        <li>1905年成立<span class="highlight">同盟會</span>，組織海內外志士推動革命。</li>
-                        <li>發動多次起義，包括著名的「<span class="highlight">黃花崗之役</span>」。</li>
-                        <li>1911年<span class="highlight">武昌起義</span>成功，推翻清朝。</li>
-                        <li>1912年1月1日，<span class="highlight">中華民國</span>成立，孫中山被推舉為臨時大總統。</li>
-                    </ul>
-
-                    <h3 style="font-size:1.2rem; margin:1rem 0 0.3rem;">孫中山與香港的關係[P9]</h3>
-                    <p>孫中山在香港有密切歷史活動與革命組織。透過香港的國際環境和華人社群，推動革命事業。</p>
-                </div>
-                <div class="illustration-placeholder">
-                    <img src="images/img-part6.jpg" alt="康雍乾盛世插圖">
-                </div>
-            </div>
-
-            <!-- 本單元小結 -->
-            <div class="lesson-section">
-                <div class="section-header">
-                    <div class="section-icon"><i class="fas fa-clipboard-check"></i></div>
-                    <div class="section-title">📝 本單元小結</div>
-                </div>
-                <div class="section-content">
-                    <div class="table-wrap">
-                        <table>
-                            <thead><tr><th>時期</th><th>國勢狀況</th><th>主要原因與事件</th></tr></thead>
-                            <tbody>
-                                <tr><td>清朝早期</td><td>國勢強盛</td><td>康熙、雍正、乾隆三帝治國有方，內政穩定，版圖鞏固</td></tr>
-                                <tr><td>清朝中後期</td><td>國勢衰弱</td><td>鴉片問題嚴重，英國發動鴉片戰爭，清政府戰敗，被迫簽訂多項不平等條約</td></tr>
-                                <tr><td>清朝末年</td><td>滅亡</td><td>政府腐敗無能，列強侵略加劇，孫中山領導革命成功，建立中華民國</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    
-                </div>
-                 <div class="illustration-placeholder">
-                    <img src="images/img-summary.jpg" alt="課本總結">
-                </div>
-            </div>
-        </div> <!-- section-container -->
-       <div class="keywords-container">
-    <div class="keywords-header">
-        <span class="keywords-title">
-            <i class="fas fa-key"></i> 關鍵詞彙
-        </span>
-    </div>
-
-    <div class="keywords-card">
-        <div class="keyword-grid">
-            <span class="keyword-item"><i class="fas fa-tag">清朝</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 滿族</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 康熙</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 雍正</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 乾隆</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 盛世</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 鴉片戰爭</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 林則徐</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 虎門銷煙</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 賠款</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 南京條約</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 香港島</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 不平等條約</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 列強</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 北京條約</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 九龍半島</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 馬關條約</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 台灣</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 遼東半島</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 澎湖列島</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 八國聯軍</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 辛丑和約</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 慈禧太后</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 孫中山</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 中國同盟會</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 黃花崗之役</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 武昌起義</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 辛亥革命</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 中華民國</i></span>
         </div>
     </div>
-    </div> <!-- notebook -->
 
-    <!-- 頁尾 -->
-    
-</div> <!-- notes-container -->
+    <!-- 脊椎動物表格 + 主要類別 -->
+    <div class="card-module">
+        <div class="card-header">
+            <h2><i class="fas fa-dog"></i> 脊椎動物 · 特徵比較</h2>
+        </div>
+        <div class="card-body">
+            <p><span class="badge">定義</span> 脊椎動物 = 體內有<span class="highlight">脊椎骨</span>的動物，包含鳥類、魚類、哺乳類、爬行類、兩棲類。</p>
+            <div class="responsive-table">
+                <table>
+                    <thead><tr><th>類別</th><th>主要特徵</th><th>呼吸方式</th><th>皮膚／表面</th><th>例子</th></tr></thead>
+                    <tbody>
+                        <tr><td>🐦 鳥類</td><td>有喙；一對翅膀+一對腳</td><td>肺呼吸</td><td>全身羽毛</td><td>麻雀、烏鴉</td></tr>
+                        <tr><td>🐟 魚類</td><td>水中生活；用鰭游動</td><td>鰓呼吸</td><td>身體有鱗片</td><td>石斑魚、小丑魚</td></tr>
+                        <tr><td>🐕 哺乳類</td><td>身體有毛髮；用母乳餵養幼兒(多數胎生)</td><td>肺呼吸</td><td>皮膚乾燥有毛髮</td><td>狗、蝙蝠、海豚</td></tr>
+                        <tr><td>🐊 爬行類</td><td>皮膚乾燥；通常有兩對腳</td><td>肺呼吸</td><td>乾硬鱗片或殼</td><td>鱷魚、龜、蛇、變色龍</td></tr>
+                        <tr><td>🐸 兩棲類</td><td>皮膚濕潤；幼年水中生活，成體陸地生活</td><td>肺＋皮膚呼吸</td><td>無鱗片</td><td>青蛙、蠑螈</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="info-note">
+                <i class="fas fa-lightbulb"></i> 兩棲類重點：皮膚濕潤無鱗片，幼年(蝌蚪)水中生活，成體肺+皮膚呼吸。爬行類皮膚乾燥有鱗片，用肺呼吸。
+            </div>
+            <!-- 爬行類對照表 -->
+            <h3 style="margin-top: 0.8rem;">🐢 爬行類動物特徵對照</h3>
+            <div class="responsive-table">
+                <table>
+                    <thead><tr><th>動物</th><th>兩對腳</th><th>有殼</th><th>皮膚乾燥</th><th>鱗片</th><th>呼吸方式</th></tr></thead>
+                    <tbody>
+                        <tr><td>龜</td><td>無</td><td>✔️有</td><td>乾燥</td><td>有</td><td>肺呼吸</td></tr>
+                        <tr><td>蛇</td><td>無</td><td>無</td><td>乾燥</td><td>有</td><td>肺呼吸</td></tr>
+                        <tr><td>變色龍</td><td>✔️有</td><td>無</td><td>乾燥</td><td>有</td><td>肺呼吸</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="illust-placeholder">
+                <i class="fas fa-image"></i> [ 插圖 ] 鳥類羽毛 · 魚類鱗片 · 哺乳類毛髮 · 爬行類乾鱗 · 兩棲類濕潤皮膚
+            </div>
+        </div>
+    </div>
+
+    <!-- 無脊椎動物 + 昆蟲 -->
+    <div class="card-module">
+        <div class="card-header">
+            <h2><i class="fas fa-bug"></i> 無脊椎動物 · 昆蟲與多樣性</h2>
+        </div>
+        <div class="card-body">
+            <p><span class="badge">📊 佔全球動物種類95%</span> 無脊椎動物體內<span class="highlight">沒有脊椎骨</span>。昆蟲是其中重要類別。</p>
+            <div class="responsive-table">
+                <table>
+                    <thead><tr><th>類別</th><th>特徵</th><th>呼吸方式</th><th>例子</th></tr></thead>
+                    <tbody>
+                        <tr><td>🐞 昆蟲類</td><td>身體分頭、胸、腹；三對腳；部分有翅膀；有觸角</td><td>氣管呼吸</td><td>蜜蜂、蝴蝶</td></tr>
+                        <tr><td>其他無脊椎動物</td><td>無脊椎骨，體型多樣</td><td>多樣</td><td>水母、蟹、海星、蝦</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="grid-2col">
+                <div class="feature-card"><h3>脊椎 vs 無脊椎</h3><p>✔️ 脊椎動物：有脊椎骨，結構完整（鳥、魚、哺乳、爬行、兩棲）<br>✔️ 無脊椎動物：無脊椎骨，體型較小（昆蟲、甲殼類等）</p></div>
+                <div class="feature-card"><h3>🐜 昆蟲獨家</h3><p>三對腳＋身體分三節(頭胸腹)，多數有翅膀；氣管呼吸，適應陸地生活。</p></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 特殊案例討論 P7 核心 -->
+    <div class="card-module">
+        <div class="card-header">
+            <h2><i class="fas fa-brain"></i> 怎樣判斷動物所屬類別？・特殊案例</h2>
+        </div>
+        <div class="card-body">
+            <div class="responsive-table">
+                <table>
+                    <thead><tr><th>動物</th><th>特殊情況</th><th>分類判斷依據</th><th>判斷結果</th></tr></thead>
+                    <tbody>
+                        <tr><td>🦇 蝙蝠</td><td>有翅膀會飛</td><td>有毛髮、胎生、用母乳餵養幼兒</td><td class="highlight">哺乳類</td></tr>
+                        <tr><td>🐬 海豚</td><td>生活於海中，用鰭游動</td><td>用肺呼吸、用母乳餵養幼兒</td><td class="highlight">哺乳類</td></tr>
+                        <tr><td>🐢 海龜</td><td>生活在水中但能爬行陸地，有鱗片有殼</td><td>皮膚乾燥、有鱗片、用肺呼吸</td><td class="highlight">爬行類</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="info-note" style="margin-top: 1rem;">
+                <i class="fas fa-graduation-cap"></i> <strong>分類小技巧：</strong> 優先檢視「獨有特徵」— 用母乳餵養幼兒 ⇒ 哺乳類；全身羽毛 ⇒ 鳥類；乾燥鱗片＋肺呼吸 ⇒ 爬行類。
+            </div>
+            <div class="illust-placeholder">
+                <i class="fas fa-dolphin"></i> 海豚・蝙蝠・海龜 真實照片/示意圖：特徵標註「哺乳/爬行」
+            </div>
+        </div>
+    </div>
+
+    <!-- 植物分類 🌱 -->
+    <div class="card-module">
+        <div class="card-header">
+            <h2><i class="fas fa-tree"></i> 植物的分類 · 繁殖與環境</h2>
+        </div>
+        <div class="card-body">
+            <div class="grid-2col">
+                <div class="feature-card">
+                    <h3>🌸 有花植物</h3>
+                    <p>✔️ 有花朵，能結出果實<br>✔️ 以種子繁殖<br>🌼 例子：水仙、向日葵、玫瑰</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🍃 無花植物</h3>
+                    <p>✔️ 永不開花，無果實<br>✔️ 多以孢子繁殖<br>🌿 苔蘚類、蕨類、松柏類</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🌳 陸生植物</h3>
+                    <p>生長於陸地：鳳凰木、松柏類</p>
+                </div>
+                <div class="feature-card">
+                    <h3>💧 水生植物</h3>
+                    <p>生長於水中：睡蓮、荷花</p>
+                </div>
+            </div>
+            <div class="responsive-table">
+                <table>
+                    <thead><tr><th>分類方式</th><th>類別</th><th>特徵</th><th>例子</th></tr></thead>
+                    <tbody>
+                        <tr><td rowspan="2">依繁殖方式</td><td>有花植物</td><td>開花結果，種子繁殖</td><td>水仙、向日葵</td></tr>
+                        <tr><td>無花植物</td><td>孢子繁殖，不開花</td><td>蕨類、苔蘚</td></tr>
+                        <tr><td rowspan="2">依生長環境</td><td>陸生植物</td><td>根在土壤中，適應陸地</td><td>鳳凰木</td></tr>
+                        <tr><td>水生植物</td><td>葉片漂浮或沉水</td><td>睡蓮</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="illust-placeholder">
+                <i class="fas fa-water-lily"></i> 睡蓮(水生/有花) ＋ 鳳凰木(陸生/有花) ＋ 蕨類(無花)
+            </div>
+        </div>
+    </div>
+
+    <!-- 額外補充：兩棲類＆爬行類深入 -->
+    <div class="card-module">
+        <div class="card-header">
+            <h2><i class="fas fa-book-open"></i> 進階對比 · 兩棲類 vs 爬行類</h2>
+        </div>
+        <div class="card-body">
+            <div class="responsive-table">
+                <table>
+                    <thead><tr><th>特徵</th><th>兩棲類 (eg.青蛙)</th><th>爬行類 (eg.蜥蜴、蛇)</th></tr></thead>
+                    <tbody>
+                        <tr><td>皮膚</td><td>濕潤、無鱗片</td><td>乾燥、有角質鱗片或殼</td></tr>
+                        <tr><td>呼吸方式</td><td>幼年用鰓；成年用肺+皮膚</td><td>用肺呼吸</td></tr>
+                        <tr><td>繁殖與生活史</td><td>幼體水生(蝌蚪)，變態發育</td><td>直接陸生繁殖，無需水中幼年階段</td></tr>
+                        <tr><td>代表動物</td><td>青蛙、蠑螈、蟾蜍</td><td>龜、鱷魚、蛇、變色龍</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="info-note">
+                🌟 小測驗：鱷魚雖然常待在水裡，但牠用肺呼吸，皮膚乾燥有鱗片 ⇒ 歸類為爬行類。
+            </div>
+        </div>
+    </div>
+
+    <!-- 關鍵詞彙整合 -->
+    <div class="card-module">
+        <div class="card-header">
+            <h2><i class="fas fa-key"></i> 重點詞彙 · 溫習卡</h2>
+        </div>
+        <div class="card-body">
+            <div class="keyword-cloud">
+                <span class="keyword"><i class="fas fa-tag"></i> 脊椎動物</span>
+                <span class="keyword"><i class="fas fa-tag"></i> 無脊椎動物</span>
+                <span class="keyword"><i class="fas fa-tag"></i> 哺乳類</span>
+                <span class="keyword"><i class="fas fa-tag"></i> 鳥類</span>
+                <span class="keyword"><i class="fas fa-tag"></i> 爬行類</span>
+                <span class="keyword"><i class="fas fa-tag"></i> 兩棲類</span>
+                <span class="keyword"><i class="fas fa-tag"></i> 魚類</span>
+                <span class="keyword"><i class="fas fa-tag"></i> 昆蟲</span>
+                <span class="keyword"><i class="fas fa-tag"></i> 有花植物</span>
+                <span class="keyword"><i class="fas fa-tag"></i> 無花植物</span>
+                <span class="keyword"><i class="fas fa-tag"></i> 陸生植物</span>
+                <span class="keyword"><i class="fas fa-tag"></i> 水生植物</span>
+                <span class="keyword"><i class="fas fa-tag"></i> 孢子繁殖</span>
+                <span class="keyword"><i class="fas fa-tag"></i> 種子繁殖</span>
+                <span class="keyword"><i class="fas fa-tag"></i> 母乳餵養</span>
+                <span class="keyword"><i class="fas fa-tag"></i> 肺呼吸</span>
+                <span class="keyword"><i class="fas fa-tag"></i> 鰓呼吸</span>
+                <span class="keyword"><i class="fas fa-tag"></i> 皮膚呼吸</span>
+            </div>
+            <div class="illust-placeholder" style="justify-content: space-between;">
+                <span><i class="fas fa-dove"></i> 鳥類：羽毛＋肺</span>
+                <span><i class="fas fa-fish"></i> 魚類：鰓＋鱗片</span>
+                <span><i class="fas fa-frog"></i> 兩棲：濕皮膚＋變態</span>
+                <span><i class="fas fa-seedling"></i> 蕨類：無花孢子</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 小結 + 課本對應 -->
+    <div class="card-module">
+        <div class="card-header">
+            <h2><i class="fas fa-clipboard-list"></i> 單元總結</h2>
+        </div>
+        <div class="card-body">
+            <div class="grid-2col">
+                <div>
+                    <h3>🐕 動物分類關鍵</h3>
+                    <ul style="margin-left: 1.2rem;">
+                        <li>脊椎動物：有骨骼主幹 → 五大類</li>
+                        <li>無脊椎動物：佔95%，昆蟲三對腳</li>
+                        <li>獨有特徵決定分類 (例：哺乳=胎生+哺乳)</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>🌻 植物分類關鍵</h3>
+                    <ul style="margin-left: 1.2rem;">
+                        <li>有花植物：開花結果 → 種子繁殖</li>
+                        <li>無花植物：蕨類/苔蘚 → 孢子繁殖</li>
+                        <li>陸生/水生：依生長環境區分</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="info-note" style="margin-top: 1rem;">
+                <i class="fas fa-quote-left"></i> 分類法幫助我們認識生物多樣性，保育自然。記住「特徵為主，環境為輔」。
+            </div>
+            <div class="illust-placeholder">
+                <i class="fas fa-chalkboard-user"></i> 圖解：動物分類樹（脊椎動物五分支 + 無脊椎動物）<br>
+                🌿 植物分類樹（有花／無花，陸生／水生）
+            </div>
+        </div>
+    </div>
+
+    <div class="study-header" style="justify-content: center; margin-top: 0.5rem;">
+        <span style="color:#2c5f8a;"><i class="fas fa-edit"></i> 筆記對應第五冊第1課 P.4~P.9｜生物世界真有趣</span>
+    </div>
+</div>
 </body>
 </html>
