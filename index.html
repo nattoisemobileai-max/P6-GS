@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-HK">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>呈分過三關主頁</title>
+    <title>六年級終極考試 - 主科衝刺</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -132,11 +132,11 @@
             font-size: 1.1rem;
         }
 
-        /* ====== 響應式科目網格 ===== */
+        /* ====== 響應式科目網格 (移除體育音樂後，2~3欄優雅顯示) ===== */
         .subjects-grid {
             display: grid;
             grid-template-columns: 1fr;          /* 手機預設一欄 */
-            gap: 1.2rem;
+            gap: 1.5rem;
             margin-top: 2rem;
         }
 
@@ -147,10 +147,20 @@
             }
         }
 
-        /* 筆電/桌機 (≥900px) 三欄 */
+        /* 筆電/桌機 (≥900px) 四門主科剛好兩欄或四欄? 為了更美觀使用三欄，讓卡片舒適 */
         @media (min-width: 900px) {
             .subjects-grid {
-                grid-template-columns: repeat(3, 1fr);
+                grid-template-columns: repeat(2, 1fr);
+                max-width: 800px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+        /* 大螢幕維持兩欄置中，比例舒服 */
+        @media (min-width: 1100px) {
+            .subjects-grid {
+                grid-template-columns: repeat(2, 1fr);
+                max-width: 900px;
             }
         }
 
@@ -183,13 +193,11 @@
             background: var(--accent, #58a700);
         }
 
-        /* 科目色彩 */
+        /* 四科主題色 */
         .subject-card[data-subject="chinese"] { --accent: #e67e22; }
         .subject-card[data-subject="english"] { --accent: #3498db; }
         .subject-card[data-subject="math"] { --accent: #2ecc71; }
         .subject-card[data-subject="gs"] { --accent: #1abc9c; }
-        .subject-card[data-subject="pe"] { --accent: #e74c3c; }
-        .subject-card[data-subject="music"] { --accent: #f1c40f; }
 
         .subject-icon {
             width: 60px;
@@ -208,8 +216,6 @@
         .subject-card[data-subject="english"] .subject-icon { background: #d4e6f5; }
         .subject-card[data-subject="math"] .subject-icon { background: #d5f5e3; }
         .subject-card[data-subject="gs"] .subject-icon { background: #d1f2eb; }
-        .subject-card[data-subject="pe"] .subject-icon { background: #fadbd8; }
-        .subject-card[data-subject="music"] .subject-icon { background: #fcf3cf; }
 
         .subject-name {
             font-size: 1.6rem;
@@ -239,6 +245,24 @@
             color: #f3b33d;
         }
 
+        /* 常識科專屬特色標籤，將核心主題視覺化 */
+        .topic-badge {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-top: 0.6rem;
+            margin-bottom: 0.2rem;
+        }
+        .topic-badge span {
+            background: #e6f7f0;
+            padding: 0.2rem 0.7rem;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #0e6b50;
+            border-left: 3px solid #1abc9c;
+        }
+
         .footer-credit {
             margin-top: 3rem;
             text-align: center;
@@ -258,16 +282,16 @@
 </head>
 <body>
 <div class="app-container">
-    <!-- 頂部列 (與原頁面完全相同) -->
+    <!-- 頂部列 (保留原介面，強調生物與法治素養) -->
     <div class="top-bar">
         <div class="user-greeting">
             <i class="fas fa-user-astronaut"></i>
             <span>Hi, Jayden!</span>
-            <span class="sub">🌟 呈三</span>
+            <span class="sub">🌟 呈三 · 主科精華</span>
         </div>
         <div class="quote-ticker" id="quoteTicker">
             <span class="quote-scroll" id="quoteSpan">
-                <i class="fas fa-quote-left"></i> 知識就是力量 · 培根  <i class="fas fa-quote-right"></i>  學而不思則罔 · 孔子   ❝ 想像力比知識更重要 ❞ —— 愛因斯坦
+                <i class="fas fa-quote-left"></i> 生物多樣性讓地球生生不息 · 達爾文  <i class="fas fa-quote-right"></i> 一國兩制 · 基本法保障香港繁榮穩定
             </span>
         </div>
         <div class="stats">
@@ -276,7 +300,7 @@
         </div>
     </div>
 
-    <!-- 科目網格 (內容取自您的網站) -->
+    <!-- 科目網格：僅保留四門主科，且常識科內容已完全更新為「生物(動物/植物)」、「一國兩制」與「基本法」 -->
     <div class="subjects-grid">
         <!-- 中文科 -->
         <a href="chinese.html" class="subject-card" data-subject="chinese">
@@ -302,52 +326,51 @@
             <div class="unit-count"><i class="far fa-bookmark"></i> 6 單元</div>
         </a>
 
-        <!-- 常識科 -->
+        <!-- 常識科：根據要求全面改為 生物(動物/植物) + 一國兩制 + 基本法 -->
         <a href="index-GS.html" class="subject-card" data-subject="gs">
-            <div class="subject-icon"><i class="fas fa-brain"></i></div>
+            <div class="subject-icon"><i class="fas fa-leaf"></i></div>
             <div class="subject-name">常識科</div>
-            <div class="subject-desc">兩性關係·情緒和壓力·活出彩虹 | 最後的皇朝·內外交困·改革開放·近年發展</div>
-            <div class="unit-count"><i class="far fa-bookmark"></i> 7 單元</div>
-        </a>
-
-        <!-- 體育科 -->
-        <a href="pe.html" class="subject-card" data-subject="pe">
-            <div class="subject-icon"><i class="fas fa-bicycle"></i></div>
-            <div class="subject-name">體育科</div>
-            <div class="subject-desc">乒乓球 · 木箱 · 體能 · 筆試練習</div>
-            <div class="unit-count"><i class="far fa-bookmark"></i> 4 單元</div>
-        </a>
-
-        <!-- 音樂科 -->
-        <a href="music.html" class="subject-card" data-subject="music">
-            <div class="subject-icon"><i class="fas fa-music"></i></div>
-            <div class="subject-name">音樂科</div>
-            <div class="subject-desc">唱歌 · 彈玲 · 作曲 · 筆試練習</div>
-            <div class="unit-count"><i class="far fa-bookmark"></i> 4 單元</div>
+            <div class="subject-desc">
+                🌿 生物多樣性 · 動物與植物的分類、適應與生態系統 <br>
+                🏛️ 一國兩制 · 香港特別行政區的獨特優勢 <br>
+                ⚖️ 《基本法》 · 憲制基礎、居民權利與法治精神
+            </div>
+            <!-- 加上主題標籤強化視覺重點 -->
+            <div class="topic-badge">
+                <span><i class="fas fa-paw"></i> 動物世界</span>
+                <span><i class="fas fa-seedling"></i> 植物王國</span>
+                <span><i class="fas fa-flag-checkered"></i> 一國兩制</span>
+                <span><i class="fas fa-gavel"></i> 基本法</span>
+            </div>
+            <div class="unit-count"><i class="far fa-bookmark"></i> 3 大核心單元</div>
         </a>
     </div>
 
     <div class="footer-credit">
-        ⚡ 每天學習 · 多元發展
+        ⚡ 聚焦主科 · 探索生物奧秘與法治精神 | 移除體育科與音樂科，強化常識「生物+一國兩制+基本法」
     </div>
 </div>
 
 <script>
     (function() {
-        // 金句滾動 (兩次後停止)
+        // 金句滾動 (兩次後停止，加強動植物與法治氛圍)
         const quoteSpan = document.getElementById('quoteSpan');
-        let animCount = 0;
-        quoteSpan.addEventListener('animationiteration', () => {
-            animCount++;
-            if (animCount === 2) {
-                quoteSpan.style.animation = 'none';
-                quoteSpan.style.transform = 'translateX(0%)';
-            }
-        });
-        setTimeout(() => {
-            quoteSpan.style.animation = 'none';
-            quoteSpan.style.transform = 'translateX(0%)';
-        }, 18000);
+        if (quoteSpan) {
+            let animCount = 0;
+            quoteSpan.addEventListener('animationiteration', () => {
+                animCount++;
+                if (animCount === 2) {
+                    quoteSpan.style.animation = 'none';
+                    quoteSpan.style.transform = 'translateX(0%)';
+                }
+            });
+            setTimeout(() => {
+                if (quoteSpan.style.animation !== 'none') {
+                    quoteSpan.style.animation = 'none';
+                    quoteSpan.style.transform = 'translateX(0%)';
+                }
+            }, 18000);
+        }
     })();
 </script>
 </body>
