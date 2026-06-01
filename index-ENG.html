@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Duolingo Style – English Exam</title>
+  <link href="https://fonts.googleapis.com/css2?family=Circular+Std:wght@400;500;700&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(145deg, #dff9e8 0%, #c8f0e1 100%);
+      font-family: 'Nunito', 'Circular Std', system-ui, -apple-system, sans-serif;
+      padding: 2rem 1.5rem;
+      color: #1f2f3a;
+    }
+
+    /* main container – Duolingo card style */
+    .exam-container {
+      max-width: 1300px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      border-radius: 40px;
+      box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.25), 0 4px 12px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+      transition: all 0.2s ease;
+    }
+
+    /* header – Duo green energy */
+    .duo-header {
+      background: #58cc71;
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      border-bottom: 4px solid #3aa84b;
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .duo-icon {
+      background: #fff2cf;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .title h1 {
+      font-size: 1.7rem;
+      font-weight: 800;
+      color: white;
+      letter-spacing: -0.3px;
+      text-shadow: 0 2px 3px rgba(0,0,0,0.1);
+    }
+    .title p {
+      color: #f9f7d3;
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+
+    .score-badge {
+      background: #1e3932;
+      padding: 0.5rem 1.2rem;
+      border-radius: 60px;
+      color: #ffdf8c;
+      font-weight: 800;
+      font-size: 1.2rem;
+      box-shadow: inset 0 -1px 0 #3e8a5b, 0 6px 12px rgba(0,0,0,0.1);
+    }
+
+    /* main content */
+    .exam-content {
+      padding: 2rem 2rem 2rem 2rem;
+    }
+
+    /* section styling */
+    .section {
+      margin-bottom: 3rem;
+      background: #fefef7;
+      border-radius: 32px;
+      padding: 1.5rem 1.8rem;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.02), 0 2px 4px rgba(0, 0, 0, 0.05);
+      border: 1px solid #e9f0e6;
+    }
+
+    .section-title {
+      font-size: 1.7rem;
+      font-weight: 800;
+      color: #2b7a3e;
+      border-left: 7px solid #58cc71;
+      padding-left: 1rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title span {
+      background: #eef4e9;
+      font-size: 1rem;
+      padding: 0.2rem 0.7rem;
+      border-radius: 40px;
+      font-weight: 700;
+      color: #2c5a2e;
+    }
+
+    /* fill blanks sentences */
+    .sentence {
+      background: #ffffff;
+      border-radius: 28px;
+      padding: 1.2rem 1.4rem;
+      margin-bottom: 1.2rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03), 0 1px 2px rgba(0,0,0,0.05);
+      border: 1px solid #e2f0e2;
+      transition: all 0.2s;
+      font-size: 1.05rem;
+      line-height: 1.5;
+    }
+
+    .sentence:hover {
+      background: #fafef7;
+      border-color: #c8e0c8;
+    }
+
+    .vocab-input {
+      display: inline-block;
+      min-width: 140px;
+      padding: 0.3rem 0.9rem;
+      margin: 0 4px;
+      font-family: 'Nunito', monospace;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border: 2px solid #cde2cd;
+      border-radius: 50px;
+      background: #fffdf6;
+      transition: 0.1s linear;
+      text-align: center;
+      outline: none;
+    }
+
+    .vocab-input:focus {
+      border-color: #58cc71;
+      box-shadow: 0 0 0 3px rgba(88, 204, 113, 0.2);
+    }
+
+    .wrong-input {
+      border-color: #ff8a7a;
+      background-color: #fff3f0;
+      animation: shake 0.2s ease-in-out 0s 2;
+    }
+
+    .correct-input {
+      border-color: #58cc71;
+      background-color: #e9f9ec;
+    }
+
+    /* grammar part */
+    .grammar-input {
+      display: inline-block;
+      min-width: 130px;
+      padding: 0.2rem 0.7rem;
+      border: 2px solid #cde2cd;
+      border-radius: 40px;
+      font-weight: 600;
+      background: white;
+    }
+
+    /* multiple choice styles */
+    .mc-group {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      background: #f3f9ef;
+      padding: 0.3rem 1rem;
+      border-radius: 60px;
+      margin-left: 0.5rem;
+    }
+
+    .mc-option {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: white;
+      padding: 0.2rem 0.8rem;
+      border-radius: 30px;
+      border: 1px solid #cbdcc2;
+    }
+
+    .connective-select {
+      border: 2px solid #cde2cd;
+      border-radius: 2rem;
+      padding: 0.25rem 0.6rem;
+      font-weight: 600;
+      background: white;
+      margin: 0 5px;
+      font-family: inherit;
+    }
+
+    .btn-check {
+      background: #58cc71;
+      border: none;
+      color: white;
+      font-weight: 800;
+      font-size: 1.1rem;
+      padding: 0.9rem 2rem;
+      border-radius: 60px;
+      width: 100%;
+      margin-top: 1rem;
+      cursor: pointer;
+      transition: 0.1s linear;
+      box-shadow: 0 6px 0 #318a47;
+      font-family: inherit;
+    }
+
+    .btn-check:active {
+      transform: translateY(2px);
+      box-shadow: 0 3px 0 #318a47;
+    }
+
+    .result-area {
+      background: #edf7ec;
+      border-radius: 28px;
+      padding: 1rem 1.5rem;
+      margin-top: 2rem;
+      text-align: center;
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+
+    footer {
+      background: #f3f9ef;
+      padding: 1rem;
+      text-align: center;
+      font-size: 0.8rem;
+      color: #568b5e;
+      border-top: 1px solid #ddebe0;
+    }
+
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-3px); }
+      75% { transform: translateX(3px); }
+      100% { transform: translateX(0); }
+    }
+
+    @media (max-width: 700px) {
+      .exam-content {
+        padding: 1.2rem;
+      }
+      .vocab-input {
+        min-width: 110px;
+        font-size: 0.85rem;
+      }
+      .sentence {
+        font-size: 0.95rem;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="exam-container">
+  <div class="duo-header">
+    <div class="logo-area">
+      <div class="duo-icon">🦉</div>
+      <div class="title">
+        <h1>English Exam Challenge</h1>
+        <p>Vocabulary · Grammar · Connectives</p>
+      </div>
+    </div>
+    <div class="score-badge" id="liveScoreDisplay">0 / 50 pts</div>
+  </div>
+
+  <div class="exam-content">
+    <!-- PART A: VOCABULARY -->
+    <div class="section">
+      <div class="section-title">
+        📖 Part A: Vocabulary Fill-in-the-Blanks
+        <span>40 items · 1% each</span>
+      </div>
+      <div id="vocabSentencesContainer"></div>
+    </div>
+
+    <!-- PART B: GRAMMAR -->
+    <div class="section">
+      <div class="section-title">
+        ✍️ Part B: Grammar (Tenses, Infinitives & Ought To)
+        <span>5 questions</span>
+      </div>
+      <div id="grammarContainer"></div>
+    </div>
+
+    <!-- PART C: PRONOUNS & CONNECTIVES -->
+    <div class="section">
+      <div class="section-title">
+        🔗 Part C: Pronouns & Connectives
+        <span>5 multiple choice</span>
+      </div>
+      <div id="connectivesContainer"></div>
+    </div>
+
+    <button class="btn-check" id="checkAnswersBtn">✨ CHECK MY ANSWERS ✨</button>
+    <div id="resultMessage" class="result-area">✨ Ready to test your English? Fill in the blanks and click check! ✨</div>
+  </div>
+  <footer>🦉 Duolingo-style exam • Stay focused, keep learning!</footer>
+</div>
+
+<script>
+  // ------------------------------
+  //  CORRECT ANSWERS (VOCABULARY in order of appearance)
+  // ------------------------------
+  const vocabAnswers = [
+    "play tug of war", "go sailing", "go stargazing",          // sentence 1: (37),(32),(33)
+    "let passengers exit", "block the doors",                 // sentence 2: (19),(21)
+    "electric shock", "scissors", "a cotton wool ball", "a cut", "a bandage", // sentence 3: (7),(12),(13),(14),(10)
+    "hold the handrail", "lean against the grab poles",       // sentence 4: (18),(24)
+    "go orienteering", "a twisted ankle", "a swollen knee",   // sentence 5: (30),(4),(9)
+    "jump the queue", "queue up", "give your seats",          // sentence 6: (23),(20),(17)
+    "take up extra seats", "put your feet on the seats", "disturb others", "travel on public transport", // sentence 7: (26),(25),(22),(16)
+    "a sting", "a burn", "a broken arm", "a bruise",          // sentence 8: (5),(3),(1),(2)
+    "go canoeing", "go fishing", "go windsurfing", "go zorbing", "a blister", "a nosebleed", // sentence 9: (28),(29),(34),(35),(6),(8)
+    "injuries", "a plaster", "do archery", "go rock climbing", "play air hockey", "go birdwatching", "go bowling", "play squash"  // sentence 10: (15),(11),(27),(31),(36),(38),(39),(40)
+  ];
+
+  // Grammar answers (normalized)
+  const grammarAnswers = [
+    "ought to wear",   // You ought to wear
+    "exit",            // let passengers exit
+    "had already cleaned", // had already cleaned (alternative "had already cleaned" )
+    "are",             // If you are injured
+    "plan"             // plan to go bowling (accept plan / are planning)
+  ];
+
+  // Part C correct values: each item returns {first:value, second:value?} or single value
+  const connectivesCorrect = [
+    { first: "neither", second: "nor" },      // Q1 neither ... nor
+    { single: "yourselves" },                 // Q2 yourselves
+    { single: "another" },                    // Q3 another
+    { first: "neither", second: "nor" },      // Q4 Neither ... nor
+    { single: "themselves" }                  // Q5 themselves
+  ];
+
+  // Helper to build sentences with input fields (Part A)
+  function buildPartA() {
+    const sentencesData = [
+      { text: "During the sports day, the team tried to ______ play tug of war, but it was hard because they were tired from ______ go sailing and ______ go stargazing the night before.", blanks: 3 },
+      { text: "When the MTR train reached the station, the passengers waited patiently to ______ let passengers exit first instead of ______ block the doors.", blanks: 2 },
+      { text: "After the student suffered an ______ electric shock from a faulty plug, the teacher used ______ scissors and ______ a cotton wool ball to clean ______ a cut and apply ______ a bandage.", blanks: 5 },
+      { text: "To stay safe while the bus is moving, you should always ______ hold the handrail and never ______ lean against the grab poles.", blanks: 2 },
+      { text: "The hikers had to ______ go orienteering to find the lake, but it was difficult because one boy had ______ a twisted ankle and ______ a swollen knee.", blanks: 3 },
+      { text: "It is rude to ______ jump the queue; you must always ______ queue up and ______ give your seats to people in need.", blanks: 3 },
+      { text: "Do not ______ take up extra seats or ______ put your feet on the seats, and try not to ______ disturb others while you ______ travel on public transport.", blanks: 4 },
+      { text: "After getting ______ a sting from a wasp and ______ a burn from the campfire, he also had ______ a broken arm and ______ a bruise from a fall.", blanks: 4 },
+      { text: "He went ______ go canoeing, ______ go fishing, ______ go windsurfing, ______ go zorbing, but then he got ______ a blister and ______ a nosebleed.", blanks: 6 },
+      { text: "The teacher checked the students for ______ injuries and gave them ______ a plaster before they went to ______ do archery, ______ go rock climbing, ______ play air hockey, ______ go birdwatching, ______ go bowling, or ______ play squash.", blanks: 8 }
+    ];
+
+    let globalOffset = 0;
+    const container = document.getElementById('vocabSentencesContainer');
+    container.innerHTML = '';
+    sentencesData.forEach((sentence, idx) => {
+      const sentenceDiv = document.createElement('div');
+      sentenceDiv.className = 'sentence';
+      let parts = sentence.text.split(/(_{3,})/g);
+      let finalHtml = '';
+      let blankIndex = 0;
+      // reconstruct using regex pattern ______ as placeholder
+      let rawText = sentence.text;
+      let blankCounter = 0;
+      let resultHtml = '';
+      let segmentIndex = 0;
+      const placeholder = '______';
+      const segments = rawText.split(placeholder);
+      for (let i = 0; i < segments.length; i++) {
+        resultHtml += segments[i];
+        if (i < segments.length - 1) {
+          const ansIndex = globalOffset + blankCounter;
+          resultHtml += `<input type="text" class="vocab-input" data-vocab-idx="${ansIndex}" placeholder="answer ${blankCounter+1}" autocomplete="off">`;
+          blankCounter++;
+        }
+      }
+      globalOffset += sentence.blanks;
+      sentenceDiv.innerHTML = resultHtml;
+      container.appendChild(sentenceDiv);
+    });
+  }
+
+  // Build grammar part
+  function buildGrammar() {
+    const grammarQuestions = [
+      { text: "You ___________ (ought/to/wear) a bandage if you want your cut to heal properly.", correctIdx: 0 },
+      { text: "The teacher reminded us, \"You must let passengers ___________ (exit) the train before you step inside.\"", correctIdx: 1 },
+      { text: "By the time the doctor arrived, the nurse ___________ (already/clean) the student's wound.", correctIdx: 2 },
+      { text: "If you ___________ (be) injured, you should ask someone for a plaster immediately.", correctIdx: 3 },
+      { text: "We ___________ (plan) to go bowling tomorrow after school finishes.", correctIdx: 4 }
+    ];
+    const container = document.getElementById('grammarContainer');
+    container.innerHTML = '';
+    grammarQuestions.forEach((q, idx) => {
+      const div = document.createElement('div');
+      div.className = 'sentence';
+      div.innerHTML = `<span>${idx+1}. ${q.text.replace('___________', `<input type="text" class="vocab-input grammar-input" data-grammar-idx="${q.correctIdx}" placeholder="your answer">`)}</span>`;
+      container.appendChild(div);
+    });
+  }
+
+  // Build connectives (multiple choice)
+  function buildConnectives() {
+    const container = document.getElementById('connectivesContainer');
+    container.innerHTML = '';
+
+    // Q1: neither/either & nor/or
+    const q1 = document.createElement('div'); q1.className = 'sentence';
+    q1.innerHTML = `<strong>1.</strong> The two boys were 
+      <select class="connective-select" id="conn1_first">
+        <option value="neither">neither</option><option value="either">either</option>
+      </select> strong 
+      <select class="connective-select" id="conn1_second">
+        <option value="nor">nor</option><option value="or">or</option>
+      </select> fast enough to win the tug of war.`;
+
+    // Q2: yourself / yourselves
+    const q2 = document.createElement('div'); q2.className = 'sentence';
+    q2.innerHTML = `<strong>2.</strong> You should be very careful when you go rock climbing; do not hurt 
+      <select class="connective-select" id="conn2">
+        <option value="yourself">yourself</option><option value="yourselves">yourselves</option>
+      </select> !`;
+
+    // Q3: another / other
+    const q3 = document.createElement('div'); q3.className = 'sentence';
+    q3.innerHTML = `<strong>3.</strong> Harry and Ron decided to find 
+      <select class="connective-select" id="conn3">
+        <option value="another">another</option><option value="other">other</option>
+      </select> day to go birdwatching instead.`;
+
+    // Q4: Either/Neither + nor/or
+    const q4 = document.createElement('div'); q4.className = 'sentence';
+    q4.innerHTML = `<strong>4.</strong> 
+      <select class="connective-select" id="conn4_first">
+        <option value="Either">Either</option><option value="Neither">Neither</option>
+      </select> my sister 
+      <select class="connective-select" id="conn4_second">
+        <option value="nor">nor</option><option value="or">or</option>
+      </select> my brother wants to play squash with me today.`;
+
+    // Q5: themselves / ourselves
+    const q5 = document.createElement('div'); q5.className = 'sentence';
+    q5.innerHTML = `<strong>5.</strong> The children felt proud of 
+      <select class="connective-select" id="conn5">
+        <option value="themselves">themselves</option><option value="ourselves">ourselves</option>
+      </select> after they finished the orienteering course.`;
+
+    container.append(q1, q2, q3, q4, q5);
+  }
+
+  // Score calculation and UI update
+  function evaluateExam() {
+    let totalScore = 0;
+    const maxPoints = 50; // 40 vocab + 5 grammar + 5 connectives
+
+    // ----- Part A: Vocabulary (40 points) -----
+    const vocabInputs = document.querySelectorAll('.vocab-input[data-vocab-idx]');
+    vocabInputs.forEach(input => {
+      const idx = parseInt(input.getAttribute('data-vocab-idx'), 10);
+      const userAnswer = input.value.trim().toLowerCase().replace(/\s+/g, ' ').replace(/^\s+|\s+$/g, '');
+      const correctRaw = vocabAnswers[idx];
+      const correctNorm = correctRaw.toLowerCase().replace(/\s+/g, ' ').trim();
+      let isCorrect = (userAnswer === correctNorm);
+      // special flexible for some small variations? but keeping exact match
+      if (!isCorrect && (correctNorm === "a cotton wool ball" && userAnswer === "cotton wool ball")) isCorrect = true;
+      if (!isCorrect && (correctNorm === "let passengers exit" && userAnswer === "let passengers exit")) isCorrect = true;
+      if (!isCorrect && (correctNorm === "go stargazing" && userAnswer === "stargazing")) isCorrect = false; // enforce full phrase
+      // No extra fuzziness, but still encourage proper
+      if (isCorrect) {
+        totalScore += 1;
+        input.classList.add('correct-input');
+        input.classList.remove('wrong-input');
+      } else {
+        input.classList.add('wrong-input');
+        input.classList.remove('correct-input');
+      }
+    });
+
+    // ----- Part B: Grammar (5 points) -----
+    const grammarInputs = document.querySelectorAll('.grammar-input');
+    const grammarExpected = [...grammarAnswers];
+    grammarInputs.forEach((input, idx) => {
+      let userVal = input.value.trim().toLowerCase();
+      let expected = grammarExpected[idx].toLowerCase();
+      let correct = false;
+      if (idx === 4) { // special for "plan" / "are planning"
+        if (userVal === "plan" || userVal === "are planning" || userVal === "plan to go") correct = true;
+        else correct = (userVal === expected);
+      } else {
+        correct = (userVal === expected);
+      }
+      if (idx === 2 && (userVal === "had already cleaned" || userVal === "had already cleaned")) correct = true;
+      if (correct) {
+        totalScore += 1;
+        input.classList.add('correct-input');
+        input.classList.remove('wrong-input');
+      } else {
+        input.classList.add('wrong-input');
+        input.classList.remove('correct-input');
+      }
+    });
+
+    // ----- Part C: Connectives & Pronouns (5 points) -----
+    // Q1
+    const conn1_first = document.getElementById('conn1_first').value;
+    const conn1_second = document.getElementById('conn1_second').value;
+    if (conn1_first === connectivesCorrect[0].first && conn1_second === connectivesCorrect[0].second) totalScore += 1;
+    // Q2
+    if (document.getElementById('conn2').value === connectivesCorrect[1].single) totalScore += 1;
+    // Q3
+    if (document.getElementById('conn3').value === connectivesCorrect[2].single) totalScore += 1;
+    // Q4
+    const conn4_first = document.getElementById('conn4_first').value.toLowerCase();
+    const conn4_second = document.getElementById('conn4_second').value;
+    if (conn4_first === connectivesCorrect[3].first && conn4_second === connectivesCorrect[3].second) totalScore += 1;
+    // Q5
+    if (document.getElementById('conn5').value === connectivesCorrect[4].single) totalScore += 1;
+
+    // update display & message
+    const percent = Math.round((totalScore / maxPoints) * 100);
+    document.getElementById('liveScoreDisplay').innerHTML = `${totalScore} / ${maxPoints} pts`;
+    const resultDiv = document.getElementById('resultMessage');
+    if (totalScore === maxPoints) {
+      resultDiv.innerHTML = `🎉 PERFECT SCORE! ${totalScore}/${maxPoints} (${percent}%) – You're a language legend! 🦉✨`;
+      resultDiv.style.background = "#d4f2db";
+    } else if (totalScore >= 40) {
+      resultDiv.innerHTML = `🌟 Great job! ${totalScore}/${maxPoints} (${percent}%) – Almost fluent! Keep practicing. 🌟`;
+      resultDiv.style.background = "#e1f5e4";
+    } else if (totalScore >= 25) {
+      resultDiv.innerHTML = `👍 Good effort! ${totalScore}/${maxPoints} (${percent}%) – Review the vocabulary and try again! 💪`;
+      resultDiv.style.background = "#fef5e0";
+    } else {
+      resultDiv.innerHTML = `📘 Keep learning! ${totalScore}/${maxPoints} (${percent}%) – Check your answers and study the word bank. You've got this! 🦉`;
+      resultDiv.style.background = "#ffe8e0";
+    }
+
+    // Scroll to result smoothly
+    resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  // Add reset highlight functionality on new input
+  function attachLiveValidationReset() {
+    document.addEventListener('input', function(e) {
+      if (e.target.classList && e.target.classList.contains('vocab-input')) {
+        e.target.classList.remove('correct-input', 'wrong-input');
+      }
+      if (e.target.classList && e.target.classList.contains('grammar-input')) {
+        e.target.classList.remove('correct-input', 'wrong-input');
+      }
+    });
+  }
+
+  // also prefill with empty, set button
+  window.addEventListener('DOMContentLoaded', () => {
+    buildPartA();
+    buildGrammar();
+    buildConnectives();
+    attachLiveValidationReset();
+    const checkBtn = document.getElementById('checkAnswersBtn');
+    checkBtn.addEventListener('click', evaluateExam);
+  });
+</script>
+</body>
+</html>
