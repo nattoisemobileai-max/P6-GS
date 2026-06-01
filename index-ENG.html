@@ -286,7 +286,7 @@
     <!-- dynamic content -->
   </div>
 
-  <footer>✔️ Select an answer, then click "Next" to continue. Switch tabs to practice different sections.</footer>
+  <footer>✔️ Switch tabs to practice different sections. Select an answer, then click "Next".</footer>
 </div>
 
 <script>
@@ -440,6 +440,7 @@
       `;
     });
     
+    // Only show feedback if the question has been answered
     let feedbackHtml = '';
     if (isAnswered) {
       const isCurrCorrect = (selected === q.correct);
@@ -450,9 +451,8 @@
         const correctText = q.options[q.correct];
         feedbackHtml = `<div class="feedback-message wrong">❌ Incorrect. The correct answer is ${correctLetter}. ${escapeHtml(correctText)}</div>`;
       }
-    } else {
-      feedbackHtml = `<div class="feedback-message">📌 Select an answer, then click "Next".</div>`;
     }
+    // No default feedback message when unanswered — removed per user request
     
     const totalInSection = sec.questions.length;
     const html = `
