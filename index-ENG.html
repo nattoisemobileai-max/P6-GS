@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>Duolingo Exam • One by One • 50 questions</title>
+  <title>Duolingo Exam • One by One • Full Sentences</title>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800;900&display=swap" rel="stylesheet">
   <style>
     * {
@@ -21,13 +21,12 @@
       padding: 1.5rem;
     }
     .duo-card {
-      max-width: 750px;
+      max-width: 800px;
       width: 100%;
       background: white;
       border-radius: 48px;
       box-shadow: 0 30px 45px -12px rgba(0, 0, 0, 0.35);
       overflow: hidden;
-      transition: all 0.2s;
     }
     .duo-header {
       background: #58cc71;
@@ -88,12 +87,24 @@
       box-shadow: 0 8px 18px rgba(0,0,0,0.05);
       border: 1px solid #e2efdf;
     }
-    .question-text {
-      font-size: 1.25rem;
-      font-weight: 700;
-      line-height: 1.4;
-      margin-bottom: 1.8rem;
+    .full-sentence {
+      font-size: 1.1rem;
+      line-height: 1.5;
+      font-weight: 600;
       color: #1f2f3a;
+      margin-bottom: 1.8rem;
+      background: #f9fff7;
+      padding: 1rem;
+      border-radius: 24px;
+      border-left: 5px solid #58cc71;
+    }
+    .blank-highlight {
+      display: inline-block;
+      background: #fff2cf;
+      border-radius: 20px;
+      padding: 0.1rem 0.6rem;
+      font-weight: 800;
+      color: #c46d1a;
     }
     .answer-zone {
       margin: 1.5rem 0;
@@ -176,8 +187,8 @@
       .question-area {
         padding: 1.2rem;
       }
-      .question-text {
-        font-size: 1rem;
+      .full-sentence {
+        font-size: 0.95rem;
       }
     }
   </style>
@@ -187,7 +198,7 @@
   <div class="duo-header">
     <div class="logo">
       <h2>🦉 ENGLISH EXAM</h2>
-      <p>one question at a time · 50 questions</p>
+      <p>one full sentence per blank · 50 questions</p>
     </div>
     <div class="score-progress" id="scoreDisplay">0 / 50 pts</div>
   </div>
@@ -201,407 +212,11 @@
     </div>
     <div id="dynamicContent"></div>
   </div>
-  <footer>✔️ Each blank or multiple choice — submit one by one. Keep going!</footer>
+  <footer>📖 Each vocabulary blank shows the complete sentence. Type or choose the missing word.</footer>
 </div>
 
 <script>
-  // ---------- BUILD ALL 50 QUESTIONS (Vocab blanks + grammar + connectives) ----------
-  // PART A: Vocabulary blanks (40 items) based on original correct list
-  const vocabCorrectArray = [
-    "play tug of war", "go sailing", "go stargazing",
-    "let passengers exit", "block the doors",
-    "electric shock", "scissors", "a cotton wool ball", "a cut", "a bandage",
-    "hold the handrail", "lean against the grab poles",
-    "go orienteering", "a twisted ankle", "a swollen knee",
-    "jump the queue", "queue up", "give your seats",
-    "take up extra seats", "put your feet on the seats", "disturb others", "travel on public transport",
-    "a sting", "a burn", "a broken arm", "a bruise",
-    "go canoeing", "go fishing", "go windsurfing", "go zorbing", "a blister", "a nosebleed",
-    "injuries", "a plaster", "do archery", "go rock climbing", "play air hockey", "go birdwatching", "go bowling", "play squash"
-  ];
-  
-  // Indices where we use 4-option dropdown instead of text (same as before)
-  const mcIndices = [0, 2, 5, 7, 13, 16, 20, 24, 28, 31, 35, 38];
-  
-  function generateOptions(correct) {
-    const distractorMap = {
-      "play tug of war": ["pull the rope", "play rope war", "tug the rope", "play tug of war"],
-      "go stargazing": ["watch stars", "star hunting", "night sky watch", "go stargazing"],
-      "electric shock": ["power shock", "electrical hit", "current shock", "electric shock"],
-      "scissors": ["a scissor", "cutting shears", "blade tool", "scissors"],
-      "go orienteering": ["map racing", "compass walk", "terrain run", "go orienteering"],
-      "jump the queue": ["skip the line", "push ahead", "cut in line", "jump the queue"],
-      "take up extra seats": ["occupy seats", "reserve seats", "grab seats", "take up extra seats"],
-      "a sting": ["a prick", "a wasp bite", "a venom hit", "a sting"],
-      "go canoeing": ["paddle boating", "canoe trip", "kayaking", "go canoeing"],
-      "go zorbing": ["sphere rolling", "orb ball", "zorb rolling", "go zorbing"],
-      "go birdwatching": ["bird observing", "bird spotting", "ornithology walk", "go birdwatching"],
-      "play squash": ["squash game", "racket ball", "squash match", "play squash"]
-    };
-    if (distractorMap[correct]) {
-      let opts = [...distractorMap[correct]];
-      if (!opts.includes(correct)) opts[3] = correct;
-      for (let i = opts.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [opts[i], opts[j]] = [opts[j], opts[i]];
-      }
-      return opts;
-    }
-    return [correct, "option a", "option b", "option c"];
-  }
-  
-  // Create vocab questions array (40 items)
-  let vocabQuestions = [];
-  for (let i = 0; i < vocabCorrectArray.length; i++) {
-    const correct = vocabCorrectArray[i];
-    const type = mcIndices.includes(i) ? 'select' : 'text';
-    let options = type === 'select' ? generateOptions(correct) : [];
-    // Build a contextual sentence snippet for each blank? We'll embed a descriptive phrase.
-    // To make it meaningful, we'll show a short phrase that indicates the missing word.
-    let context = "";
-    // map some helpful context (simplified)
-    const contextMap = {
-      0: "During sports day, the team tried to ______ (play tug of war)",
-      1: "tired from ______ (go sailing)",
-      2: "and ______ the night before (go stargazing)",
-      3: "passengers waited patiently to ______ first (let passengers exit)",
-      4: "instead of ______ (block the doors)",
-      5: "suffered an ______ from a faulty plug (electric shock)",
-      6: "teacher used ______ (scissors)",
-      7: "and ______ to clean (a cotton wool ball)",
-      8: "clean ______ (a cut)",
-      9: "apply ______ (a bandage)",
-      10: "always ______ (hold the handrail)",
-      11: "never ______ (lean against the grab poles)",
-      12: "hikers had to ______ (go orienteering)",
-      13: "one boy had ______ (a twisted ankle)",
-      14: "and ______ (a swollen knee)",
-      15: "rude to ______ (jump the queue)",
-      16: "must always ______ (queue up)",
-      17: "and ______ to people in need (give your seats)",
-      18: "Do not ______ (take up extra seats)",
-      19: "or ______ (put your feet on the seats)",
-      20: "try not to ______ (disturb others)",
-      21: "while you ______ (travel on public transport)",
-      22: "getting ______ from a wasp (a sting)",
-      23: "and ______ from campfire (a burn)",
-      24: "also had ______ (a broken arm)",
-      25: "and ______ (a bruise)",
-      26: "He went ______ (go canoeing)",
-      27: "______ (go fishing)",
-      28: "______ (go windsurfing)",
-      29: "______ (go zorbing)",
-      30: "got ______ (a blister)",
-      31: "and ______ (a nosebleed)",
-      32: "checked for ______ (injuries)",
-      33: "gave them ______ (a plaster)",
-      34: "went to ______ (do archery)",
-      35: "______ (go rock climbing)",
-      36: "______ (play air hockey)",
-      37: "______ (go birdwatching)",
-      38: "______ (go bowling)",
-      39: "or ______ (play squash)"
-    };
-    context = contextMap[i] || `Fill in: ${correct}`;
-    vocabQuestions.push({
-      id: i,
-      type: 'vocab',
-      correct: correct,
-      inputType: type,
-      options: options,
-      prompt: context,
-      answered: false,
-      userAnswer: null,
-      isCorrect: false
-    });
-  }
-  
-  // PART B: Grammar questions (5 items, each with 4 options)
-  const grammarData = [
-    { prompt: "You ___________ a bandage if you want your cut to heal properly.", correct: "ought to wear", options: ["ought to wear", "must to wear", "should wearing", "ought wear"] },
-    { prompt: "The teacher reminded us, \"You must let passengers ___________ the train before you step inside.\"", correct: "exit", options: ["to exit", "exiting", "exit", "exited"] },
-    { prompt: "By the time the doctor arrived, the nurse ___________ the student's wound.", correct: "had already cleaned", options: ["already cleaned", "had already cleaned", "has already cleaned", "was cleaning"] },
-    { prompt: "If you ___________ injured, you should ask someone for a plaster immediately.", correct: "are", options: ["are", "is", "were", "be"] },
-    { prompt: "We ___________ to go bowling tomorrow after school finishes.", correct: "plan", options: ["plan", "are plan", "planning", "plans"] }
-  ];
-  let grammarQuestions = grammarData.map((g, idx) => ({
-    id: idx + 40,
-    type: 'grammar',
-    correct: g.correct,
-    inputType: 'select',
-    options: g.options,
-    prompt: g.prompt,
-    answered: false,
-    userAnswer: null,
-    isCorrect: false
-  }));
-  
-  // PART C: Connectives (5 items, multiple choice)
-  const connectivesRaw = [
-    { prompt: "The two boys were (neither / either) strong (nor / or) fast enough to win the tug of war.", correct: { first: "neither", second: "nor" }, isDouble: true, optionsFirst: ["neither","either"], optionsSecond: ["nor","or"] },
-    { prompt: "You should be very careful when you go rock climbing; do not hurt (yourself / yourselves) !", correct: "yourselves", isDouble: false, options: ["yourself","yourselves"] },
-    { prompt: "Harry and Ron decided to find (another / other) day to go birdwatching instead.", correct: "another", isDouble: false, options: ["another","other"] },
-    { prompt: "(Either / Neither) my sister (nor / or) my brother wants to play squash with me today.", correct: { first: "Neither", second: "nor" }, isDouble: true, optionsFirst: ["Either","Neither"], optionsSecond: ["nor","or"] },
-    { prompt: "The children felt proud of (themselves / ourselves) after they finished the orienteering course.", correct: "themselves", isDouble: false, options: ["themselves","ourselves"] }
-  ];
-  let connectiveQuestions = connectivesRaw.map((c, idx) => ({
-    id: idx + 45,
-    type: 'connective',
-    isDouble: c.isDouble,
-    correct: c.correct,
-    inputType: 'double-select',
-    optionsFirst: c.optionsFirst,
-    optionsSecond: c.optionsSecond,
-    prompt: c.prompt,
-    answered: false,
-    userAnswer: null,
-    isCorrect: false
-  }));
-  
-  // Merge all 50 questions: 40 vocab + 5 grammar + 5 connectives
-  let allQuestions = [...vocabQuestions, ...grammarQuestions, ...connectiveQuestions];
-  const TOTAL_QS = allQuestions.length; // = 50
-  
-  // State
-  let currentIndex = 0;
-  let score = 0; // accumulated correct answers
-  let answersRecord = new Array(TOTAL_QS).fill(null); // store user's answer (string or object)
-  let questionStatus = new Array(TOTAL_QS).fill(false); // true if correctly answered
-  
-  // DOM elements
-  const dynamicDiv = document.getElementById('dynamicContent');
-  const qCounterSpan = document.getElementById('qCounter');
-  const pointsEarnedSpan = document.getElementById('pointsEarned');
-  const scoreDisplaySpan = document.getElementById('scoreDisplay');
-  const progressFill = document.getElementById('progressFill');
-  
-  function updateUIProgress() {
-    const answeredCount = questionStatus.filter(v => v === true).length;
-    const percent = (answeredCount / TOTAL_QS) * 100;
-    progressFill.style.width = `${percent}%`;
-    qCounterSpan.innerText = `Question ${currentIndex+1} / ${TOTAL_QS}`;
-    pointsEarnedSpan.innerText = `⭐ Score: ${score}`;
-    scoreDisplaySpan.innerText = `${score} / ${TOTAL_QS} pts`;
-  }
-  
-  // Render current question
-  function renderCurrentQuestion() {
-    const q = allQuestions[currentIndex];
-    if (!q) return;
-    
-    let html = `<div class="question-card"><div class="question-text">${q.prompt}</div><div class="answer-zone">`;
-    
-    if (q.type === 'vocab' && q.inputType === 'text') {
-      html += `<input type="text" id="answerInput" class="answer-input" placeholder="Type your answer..." autocomplete="off" value="${q.userAnswer || ''}">`;
-    } 
-    else if ((q.type === 'vocab' && q.inputType === 'select') || q.type === 'grammar') {
-      html += `<select id="answerSelect" class="answer-select">`;
-      html += `<option value="">-- select an option --</option>`;
-      (q.options || []).forEach(opt => {
-        const selected = (q.userAnswer === opt) ? 'selected' : '';
-        html += `<option value="${opt.replace(/"/g, '&quot;')}" ${selected}>${opt}</option>`;
-      });
-      html += `</select>`;
-    }
-    else if (q.type === 'connective' && q.isDouble) {
-      // two selects
-      const firstVal = (q.userAnswer && q.userAnswer.first) ? q.userAnswer.first : '';
-      const secondVal = (q.userAnswer && q.userAnswer.second) ? q.userAnswer.second : '';
-      html += `<div style="display:flex; gap:12px; flex-wrap:wrap;">`;
-      html += `<select id="connFirst" class="answer-select" style="flex:1">`;
-      html += `<option value="">choose first</option>`;
-      q.optionsFirst.forEach(opt => {
-        html += `<option value="${opt}" ${firstVal===opt ? 'selected':''}>${opt}</option>`;
-      });
-      html += `</select>`;
-      html += `<select id="connSecond" class="answer-select" style="flex:1">`;
-      html += `<option value="">choose second</option>`;
-      q.optionsSecond.forEach(opt => {
-        html += `<option value="${opt}" ${secondVal===opt ? 'selected':''}>${opt}</option>`;
-      });
-      html += `</select>`;
-      html += `</div>`;
-    }
-    else if (q.type === 'connective' && !q.isDouble) {
-      html += `<select id="answerSelect" class="answer-select">`;
-      html += `<option value="">-- select --</option>`;
-      q.options.forEach(opt => {
-        const selected = (q.userAnswer === opt) ? 'selected' : '';
-        html += `<option value="${opt}" ${selected}>${opt}</option>`;
-      });
-      html += `</select>`;
-    }
-    
-    html += `</div>`;
-    if (q.answered) {
-      const feedbackClass = q.isCorrect ? 'correct' : 'wrong';
-      let feedbackMsg = q.isCorrect ? '✅ Correct! Well done.' : `❌ Incorrect. The correct answer is: ${formatCorrectAnswer(q)}`;
-      html += `<div class="feedback ${feedbackClass}">${feedbackMsg}</div>`;
-    }
-    html += `<button id="submitBtn" class="btn">✔️ SUBMIT ANSWER</button>`;
-    if (currentIndex < TOTAL_QS - 1 && q.answered) {
-      html += `<button id="nextBtn" class="btn next-btn">➡️ NEXT QUESTION</button>`;
-    } else if (currentIndex === TOTAL_QS - 1 && q.answered) {
-      html += `<button id="finishBtn" class="btn next-btn">🏁 SEE FINAL SCORE</button>`;
-    }
-    if (currentIndex > 0 && q.answered) {
-      html += `<button id="prevBtn" class="btn" style="background:#a0c0a0; box-shadow:none; margin-top:0.5rem;">⬅️ PREVIOUS</button>`;
-    }
-    html += `</div>`;
-    dynamicDiv.innerHTML = html;
-    
-    // attach listeners
-    const submitBtn = document.getElementById('submitBtn');
-    if (submitBtn) submitBtn.addEventListener('click', submitAnswer);
-    const nextBtn = document.getElementById('nextBtn');
-    if (nextBtn) nextBtn.addEventListener('click', goToNext);
-    const finishBtn = document.getElementById('finishBtn');
-    if (finishBtn) finishBtn.addEventListener('click', showFinalScore);
-    const prevBtn = document.getElementById('prevBtn');
-    if (prevBtn) prevBtn.addEventListener('click', goToPrev);
-  }
-  
-  function formatCorrectAnswer(q) {
-    if (q.type === 'connective' && q.isDouble) {
-      return `${q.correct.first} ... ${q.correct.second}`;
-    }
-    return q.correct;
-  }
-  
-  function getCurrentUserAnswer() {
-    const q = allQuestions[currentIndex];
-    if (q.type === 'vocab' && q.inputType === 'text') {
-      const input = document.getElementById('answerInput');
-      return input ? input.value.trim().toLowerCase().replace(/\s+/g, ' ') : '';
-    } 
-    else if ((q.type === 'vocab' && q.inputType === 'select') || q.type === 'grammar') {
-      const select = document.getElementById('answerSelect');
-      return select ? select.value : '';
-    }
-    else if (q.type === 'connective' && q.isDouble) {
-      const first = document.getElementById('connFirst')?.value;
-      const second = document.getElementById('connSecond')?.value;
-      if (!first || !second) return null;
-      return { first, second };
-    }
-    else if (q.type === 'connective' && !q.isDouble) {
-      const select = document.getElementById('answerSelect');
-      return select ? select.value : '';
-    }
-    return null;
-  }
-  
-  function checkAnswer(q, userAnswer) {
-    if (userAnswer === null || userAnswer === '') return false;
-    if (q.type === 'connective' && q.isDouble) {
-      return (userAnswer.first === q.correct.first && userAnswer.second === q.correct.second);
-    }
-    if (q.type === 'grammar') {
-      let userStr = userAnswer.toLowerCase().trim();
-      let correctStr = q.correct.toLowerCase();
-      if (q.id === 44 && userStr === "plan") return true; // question 45 (plan)
-      if (q.id === 42 && userStr === "had already cleaned") return true;
-      return userStr === correctStr;
-    }
-    // vocab
-    let userNorm = userAnswer.toLowerCase().trim().replace(/\s+/g, ' ');
-    let correctNorm = q.correct.toLowerCase().replace(/\s+/g, ' ');
-    if (!userNorm || userNorm === '') return false;
-    if (correctNorm === "a cotton wool ball" && userNorm === "cotton wool ball") return true;
-    return userNorm === correctNorm;
-  }
-  
-  function submitAnswer() {
-    const q = allQuestions[currentIndex];
-    if (q.answered) {
-      // already answered, but allow resubmit? better to prevent re-score
-      // but we can allow to change answer? we'll implement: if already answered, we can update but must adjust score.
-      // we'll implement re-submission logic: remove previous score if it was correct, then re-evaluate.
-      const wasCorrect = q.isCorrect;
-      if (wasCorrect) {
-        score--;
-        questionStatus[currentIndex] = false;
-        q.answered = false;
-        q.isCorrect = false;
-      }
-    }
-    const userAnswer = getCurrentUserAnswer();
-    if (!userAnswer || (typeof userAnswer === 'string' && userAnswer === '')) {
-      alert('Please provide an answer before submitting.');
-      return;
-    }
-    const isCorrect = checkAnswer(q, userAnswer);
-    q.userAnswer = userAnswer;
-    q.answered = true;
-    q.isCorrect = isCorrect;
-    if (isCorrect) {
-      if (!questionStatus[currentIndex]) {
-        score++;
-        questionStatus[currentIndex] = true;
-      }
-    } else {
-      if (questionStatus[currentIndex]) {
-        score--;
-        questionStatus[currentIndex] = false;
-      }
-    }
-    updateUIProgress();
-    renderCurrentQuestion(); // re-render to show feedback & next button
-  }
-  
-  function goToNext() {
-    if (currentIndex < TOTAL_QS - 1) {
-      currentIndex++;
-      renderCurrentQuestion();
-      updateUIProgress();
-    } else {
-      showFinalScore();
-    }
-  }
-  
-  function goToPrev() {
-    if (currentIndex > 0) {
-      currentIndex--;
-      renderCurrentQuestion();
-      updateUIProgress();
-    }
-  }
-  
-  function showFinalScore() {
-    const totalCorrect = score;
-    const percent = Math.round((totalCorrect / TOTAL_QS) * 100);
-    let message = `🎉 Exam completed! Your score: ${totalCorrect} / ${TOTAL_QS} (${percent}%). `;
-    if (totalCorrect === TOTAL_QS) message += "Perfect! Duolingo champion! 🦉🏆";
-    else if (totalCorrect >= 40) message += "Great job! Keep practicing to reach 50/50! 🌟";
-    else if (totalCorrect >= 25) message += "Good effort! Review the mistakes and try again. 💪";
-    else message += "Don't worry! Study the vocabulary and grammar, then retake the exam. 📘";
-    
-    dynamicDiv.innerHTML = `
-      <div class="question-card" style="text-align:center;">
-        <div class="question-text" style="font-size:1.5rem;">✨ FINAL RESULT ✨</div>
-        <div style="font-size:2rem; font-weight:800; margin:1rem 0;">${totalCorrect}/${TOTAL_QS}</div>
-        <div style="margin-bottom:1rem;">${message}</div>
-        <button id="restartBtn" class="btn restart-btn">🔄 RESTART EXAM</button>
-      </div>
-    `;
-    const restartBtn = document.getElementById('restartBtn');
-    if (restartBtn) restartBtn.addEventListener('click', () => location.reload());
-  }
-  
-  // Initial render
-  function init() {
-    currentIndex = 0;
-    score = 0;
-    questionStatus.fill(false);
-    allQuestions.forEach((q, idx) => {
-      q.answered = false;
-      q.isCorrect = false;
-      q.userAnswer = null;
-    });
-    updateUIProgress();
-    renderCurrentQuestion();
-  }
-  init();
-</script>
-</body>
-</html>
+  // ---------- ORIGINAL FULL SENTENCES FOR PART A (VOCABULARY) ----------
+  // We'll map each blank index (0-39) to a full sentence that contains that blank.
+  // The 10 original sentences with blanks marked as '______' (exactly as in exam)
+  const rawSentences = [
