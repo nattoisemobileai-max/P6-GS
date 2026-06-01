@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>Duolingo Exam • Vocab + Grammar MC • 4 options</title>
+  <title>Duolingo Exam • Part A one‑by‑one | Grammar MC</title>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800;900&display=swap" rel="stylesheet">
   <style>
     * {
@@ -12,7 +12,7 @@
       box-sizing: border-box;
     }
     body {
-      background: linear-gradient(145deg, #dcf5e3 0%, #c0e0d0 100%);
+      background: linear-gradient(135deg, #dcf5e3 0%, #c0e0d0 100%);
       font-family: 'Nunito', system-ui, sans-serif;
       padding: 2rem 1rem;
     }
@@ -89,22 +89,20 @@
       background: #fefef7;
       border-radius: 28px;
       padding: 1.2rem 1.5rem;
-      margin-bottom: 1.2rem;
+      margin-bottom: 1.5rem;
       border: 1px solid #e2efdf;
       box-shadow: 0 2px 6px rgba(0,0,0,0.03);
     }
-    .question-text {
+    .sentence-text {
       font-size: 1rem;
       line-height: 1.5;
       font-weight: 600;
       color: #1f2f3a;
-      margin-bottom: 0.6rem;
+      margin-bottom: 1rem;
     }
-    .blank-input {
+    .blank-input, .select-blank {
       display: inline-block;
       margin: 0 4px;
-    }
-    input.text-blank, select.select-blank {
       padding: 0.4rem 1rem;
       border-radius: 60px;
       border: 2px solid #cde2cd;
@@ -114,9 +112,8 @@
       background: white;
       min-width: 150px;
       outline: none;
-      cursor: pointer;
     }
-    input.text-blank:focus, select.select-blank:focus {
+    .blank-input:focus, .select-blank:focus {
       border-color: #58cc71;
       box-shadow: 0 0 0 3px rgba(88,204,113,0.2);
     }
@@ -128,7 +125,30 @@
       border-color: #ff8a7a !important;
       background-color: #fff0ed !important;
     }
-    .btn-check {
+    .btn-sm {
+      background: #58cc71;
+      border: none;
+      padding: 0.5rem 1.2rem;
+      border-radius: 40px;
+      font-weight: 800;
+      color: white;
+      font-family: inherit;
+      cursor: pointer;
+      margin-top: 0.8rem;
+      transition: 0.1s;
+      box-shadow: 0 3px 0 #318a47;
+    }
+    .btn-sm:active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 #318a47;
+    }
+    .sentence-feedback {
+      margin-top: 0.6rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #2c5a2e;
+    }
+    .btn-check-global {
       background: #58cc71;
       width: 100%;
       border: none;
@@ -141,9 +161,8 @@
       cursor: pointer;
       font-family: inherit;
       box-shadow: 0 6px 0 #318a47;
-      transition: 0.05s linear;
     }
-    .btn-check:active {
+    .btn-check-global:active {
       transform: translateY(2px);
       box-shadow: 0 3px 0 #318a47;
     }
@@ -172,7 +191,7 @@
       margin-left: 10px;
     }
     @media (max-width: 700px) {
-      input.text-blank, select.select-blank {
+      .blank-input, .select-blank {
         min-width: 110px;
         font-size: 0.8rem;
       }
@@ -188,40 +207,42 @@
   <div class="duo-header">
     <div class="logo">
       <h1>🦉 ENGLISH EXAM</h1>
-      <p>Vocabulary · Grammar (4 options) · Connectives</p>
+      <p>Part A: one‑by‑one • Grammar (4 options) • Connectives</p>
     </div>
     <div class="score-area" id="liveScoreDisplay">0 / 50 pts</div>
   </div>
 
   <div class="tabs">
-    <button class="tab active" data-tab="partA">📘 Part A: Vocabulary</button>
+    <button class="tab active" data-tab="partA">📘 Part A: Vocabulary (submit sentence by sentence)</button>
     <button class="tab" data-tab="partB">🎓 Part B: Grammar (4 options)</button>
     <button class="tab" data-tab="partC">🔗 Part C: Pronouns & Connectives</button>
   </div>
 
-  <!-- PART A - mix of text inputs and 4-option dropdowns -->
+  <!-- PART A - each sentence has its own check button -->
   <div id="partA" class="tab-pane active">
-    <div style="margin-bottom: 12px;"><span class="badge">40 items · 1% each</span> Some blanks are text, some have 4 choices.</div>
-    <div id="vocabContainer"></div>
+    <div style="margin-bottom: 12px;"><span class="badge">40 points total (each sentence worth its blanks)</span> ✅ Check each sentence individually → points are saved once all blanks are correct.</div>
+    <div id="vocabSentencesContainer"></div>
   </div>
 
-  <!-- PART B - Grammar with 4-option multiple choice (select) -->
+  <!-- PART B - Grammar with 4-option multiple choice (global check) -->
   <div id="partB" class="tab-pane">
     <div><span class="badge">5 grammar questions · 4 options each</span></div>
     <div id="grammarContainer"></div>
+    <button class="btn-check-global" id="checkGrammarBtn">✔️ CHECK PART B (GRAMMAR)</button>
   </div>
 
-  <!-- PART C - Pronouns & Connectives -->
+  <!-- PART C - Pronouns & Connectives (global check) -->
   <div id="partC" class="tab-pane">
     <div><span class="badge">5 questions · multiple choice</span></div>
     <div id="connectivesContainer"></div>
+    <button class="btn-check-global" id="checkConnectivesBtn">✔️ CHECK PART C (CONNECTIVES)</button>
   </div>
 
   <div style="padding: 0 2rem 1rem 2rem;">
-    <button class="btn-check" id="checkExamBtn">✨ CHECK MY ANSWERS ✨</button>
-    <div id="resultMessage" class="result-area">💡 Fill each blank or select the correct option. Then click check!</div>
+    <button class="btn-check-global" id="checkFullExamBtn">✨ CHECK FULL EXAM (ALL SECTIONS) ✨</button>
+    <div id="resultMessage" class="result-area">💡 Part A: complete each sentence one by one. Part B/C: use buttons above or final check.</div>
   </div>
-  <footer>🦉 One by one blank — some with 4 options. Keep your streak!</footer>
+  <footer>🦉 One by one for Part A – each sentence gives points when fully correct. No double counting.</footer>
 </div>
 
 <script>
@@ -243,7 +264,6 @@
   // Indices where we want a 4-option dropdown instead of text input (12 blanks become MC)
   const mcIndices = [0, 2, 5, 7, 13, 16, 20, 24, 28, 31, 35, 38];
   
-  // Helper to generate 4 plausible options for a given correct answer
   function generateOptions(correct) {
     const distractorMap = {
       "play tug of war": ["pull the rope", "play rope war", "tug the rope", "play tug of war"],
@@ -262,7 +282,6 @@
     if (distractorMap[correct]) {
       let opts = [...distractorMap[correct]];
       if (!opts.includes(correct)) opts[3] = correct;
-      // shuffle to avoid correct always last
       for (let i = opts.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [opts[i], opts[j]] = [opts[j], opts[i]];
@@ -281,53 +300,127 @@
     vocabBlanks.push({ correct, type, options });
   }
   
-  // Sentences structure with start indices
+  // Sentences structure with start indices and number of blanks
   const sentencesVocab = [
-    { text: "During the sports day, the team tried to ______, but it was hard because they were tired from ______ and ______ the night before.", startIdx: 0, hints: [] },
-    { text: "When the MTR train reached the station, the passengers waited patiently to ______ first instead of ______.", startIdx: 3 },
-    { text: "After the student suffered an ______ from a faulty plug, the teacher used ______ and ______ to clean ______ and apply ______.", startIdx: 5 },
-    { text: "To stay safe while the bus is moving, you should always ______ and never ______.", startIdx: 10 },
-    { text: "The hikers had to ______ to find the lake, but it was difficult because one boy had ______ and ______.", startIdx: 12 },
-    { text: "It is rude to ______; you must always ______ and ______ to people in need.", startIdx: 15 },
-    { text: "Do not ______ or ______, and try not to ______ while you ______.", startIdx: 18 },
-    { text: "After getting ______ from a wasp and ______ from the campfire, he also had ______ and ______ from a fall.", startIdx: 22 },
-    { text: "He went ______, ______, ______, ______, but then he got ______ and ______.", startIdx: 26 },
-    { text: "The teacher checked the students for ______ and gave them ______ before they went to ______, ______, ______, ______, ______, or ______.", startIdx: 32 }
+    { text: "During the sports day, the team tried to ______, but it was hard because they were tired from ______ and ______ the night before.", startIdx: 0, blankCount: 3 },
+    { text: "When the MTR train reached the station, the passengers waited patiently to ______ first instead of ______.", startIdx: 3, blankCount: 2 },
+    { text: "After the student suffered an ______ from a faulty plug, the teacher used ______ and ______ to clean ______ and apply ______.", startIdx: 5, blankCount: 5 },
+    { text: "To stay safe while the bus is moving, you should always ______ and never ______.", startIdx: 10, blankCount: 2 },
+    { text: "The hikers had to ______ to find the lake, but it was difficult because one boy had ______ and ______.", startIdx: 12, blankCount: 3 },
+    { text: "It is rude to ______; you must always ______ and ______ to people in need.", startIdx: 15, blankCount: 3 },
+    { text: "Do not ______ or ______, and try not to ______ while you ______.", startIdx: 18, blankCount: 4 },
+    { text: "After getting ______ from a wasp and ______ from the campfire, he also had ______ and ______ from a fall.", startIdx: 22, blankCount: 4 },
+    { text: "He went ______, ______, ______, ______, but then he got ______ and ______.", startIdx: 26, blankCount: 6 },
+    { text: "The teacher checked the students for ______ and gave them ______ before they went to ______, ______, ______, ______, ______, or ______.", startIdx: 32, blankCount: 8 }
   ];
   
+  // Track which sentences have been awarded points (to avoid double counting)
+  let partASentenceAwarded = new Array(sentencesVocab.length).fill(false);
+  let partAScore = 0;     // accumulated from sentences
+  let partBScore = 0;
+  let partCScore = 0;
+  
+  function updateTotalScoreDisplay() {
+    const total = partAScore + partBScore + partCScore;
+    document.getElementById('liveScoreDisplay').innerHTML = `${total} / 50 pts`;
+    return total;
+  }
+  
+  // Build Part A with per-sentence check buttons
   function buildPartA() {
-    const container = document.getElementById('vocabContainer');
+    const container = document.getElementById('vocabSentencesContainer');
     container.innerHTML = '';
-    let globalBlankCounter = 0;
-    sentencesVocab.forEach((sent, idx) => {
-      const div = document.createElement('div');
-      div.className = 'question-card';
+    sentencesVocab.forEach((sent, sentIdx) => {
+      const card = document.createElement('div');
+      card.className = 'question-card';
+      card.id = `sentenceCard_${sentIdx}`;
       let raw = sent.text;
       const placeholder = "______";
       const parts = raw.split(placeholder);
-      let finalHtml = `<div class="question-text">${idx+1}. `;
+      let sentenceHtml = `<div class="sentence-text"><strong>${sentIdx+1}.</strong> `;
       for (let i = 0; i < parts.length; i++) {
-        finalHtml += parts[i];
+        sentenceHtml += parts[i];
         if (i < parts.length - 1) {
           const blankIdx = sent.startIdx + i;
           const blankData = vocabBlanks[blankIdx];
           const uniqueId = `vocab_${blankIdx}`;
           if (blankData.type === 'select') {
-            let selectHtml = `<select class="select-blank" data-vocab-idx="${blankIdx}" id="${uniqueId}">`;
+            let selectHtml = `<select class="select-blank" data-sentence="${sentIdx}" data-blankidx="${blankIdx}" id="${uniqueId}">`;
             blankData.options.forEach(opt => {
               selectHtml += `<option value="${opt.replace(/"/g, '&quot;')}">${opt}</option>`;
             });
             selectHtml += `</select>`;
-            finalHtml += selectHtml;
+            sentenceHtml += selectHtml;
           } else {
-            finalHtml += `<input type="text" class="text-blank" data-vocab-idx="${blankIdx}" id="${uniqueId}" placeholder="type answer" autocomplete="off">`;
+            sentenceHtml += `<input type="text" class="blank-input" data-sentence="${sentIdx}" data-blankidx="${blankIdx}" id="${uniqueId}" placeholder="type answer" autocomplete="off">`;
           }
         }
       }
-      finalHtml += `</div>`;
-      div.innerHTML = finalHtml;
-      container.appendChild(div);
+      sentenceHtml += `</div>`;
+      sentenceHtml += `<div class="sentence-feedback" id="feedback_${sentIdx}"></div>`;
+      sentenceHtml += `<button class="btn-sm" data-check-sentence="${sentIdx}">✅ Check this sentence</button>`;
+      card.innerHTML = sentenceHtml;
+      container.appendChild(card);
     });
+    
+    // attach event listeners to each sentence check button
+    document.querySelectorAll('[data-check-sentence]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const sentIdx = parseInt(btn.getAttribute('data-check-sentence'), 10);
+        checkSentence(sentIdx);
+      });
+    });
+  }
+  
+  function checkSentence(sentIdx) {
+    const sent = sentencesVocab[sentIdx];
+    const start = sent.startIdx;
+    const blankCount = sent.blankCount;
+    let allCorrect = true;
+    // gather all inputs/selects belonging to this sentence
+    for (let i = 0; i < blankCount; i++) {
+      const globalIdx = start + i;
+      const blankData = vocabBlanks[globalIdx];
+      let element = document.getElementById(`vocab_${globalIdx}`);
+      if (!element) continue;
+      let userValue = '';
+      if (blankData.type === 'select') {
+        userValue = element.value.trim().toLowerCase();
+      } else {
+        userValue = element.value.trim().toLowerCase().replace(/\s+/g, ' ');
+      }
+      const correctAns = blankData.correct.toLowerCase();
+      let isCorrect = (userValue === correctAns);
+      // small flexible matches
+      if (!isCorrect && correctAns === "a cotton wool ball" && userValue === "cotton wool ball") isCorrect = true;
+      if (!isCorrect && correctAns === "hold the handrail" && userValue === "hold handrail") isCorrect = false;
+      if (isCorrect) {
+        element.classList.add('correct-highlight');
+        element.classList.remove('wrong-highlight');
+      } else {
+        element.classList.add('wrong-highlight');
+        element.classList.remove('correct-highlight');
+        allCorrect = false;
+      }
+    }
+    
+    const feedbackDiv = document.getElementById(`feedback_${sentIdx}`);
+    if (allCorrect) {
+      if (!partASentenceAwarded[sentIdx]) {
+        // award points for this sentence
+        partASentenceAwarded[sentIdx] = true;
+        partAScore += blankCount;
+        updateTotalScoreDisplay();
+        feedbackDiv.innerHTML = `✅ Correct! You earned ${blankCount} point(s) for this sentence.`;
+        feedbackDiv.style.color = "#2b6e3c";
+      } else {
+        feedbackDiv.innerHTML = `✓ All blanks correct (points already awarded).`;
+        feedbackDiv.style.color = "#2c5a2e";
+      }
+    } else {
+      feedbackDiv.innerHTML = `❌ Some answers are wrong. Check highlights and try again.`;
+      feedbackDiv.style.color = "#c23b22";
+    }
   }
   
   // -------------------- PART B: GRAMMAR with 4 options each --------------------
@@ -345,18 +438,45 @@
     grammarQuestions.forEach((q, idx) => {
       const div = document.createElement('div');
       div.className = 'question-card';
-      let selectHtml = `<select class="select-blank" data-grammar-idx="${idx}" id="grammar_${idx}">`;
+      let selectHtml = `<select class="select-blank grammar-select" data-grammar-idx="${idx}" id="grammar_${idx}">`;
       q.options.forEach(opt => {
         selectHtml += `<option value="${opt}">${opt}</option>`;
       });
       selectHtml += `</select>`;
       const questionText = q.text.replace('___________', selectHtml);
-      div.innerHTML = `<div class="question-text">${idx+1}. ${questionText}</div>`;
+      div.innerHTML = `<div class="sentence-text">${idx+1}. ${questionText}</div>`;
       container.appendChild(div);
     });
   }
   
-  // -------------------- PART C: PRONOUNS & CONNECTIVES (multiple choice) --------------------
+  function evaluateGrammarOnly() {
+    let score = 0;
+    for (let i = 0; i < grammarQuestions.length; i++) {
+      const selectElem = document.getElementById(`grammar_${i}`);
+      if (selectElem) {
+        const userChoice = selectElem.value.trim().toLowerCase();
+        const correctAns = grammarQuestions[i].base.toLowerCase();
+        let ok = (userChoice === correctAns);
+        if (i === 4 && userChoice === "plan") ok = true;
+        if (i === 2 && userChoice === "had already cleaned") ok = true;
+        if (ok) {
+          score++;
+          selectElem.classList.add('correct-highlight');
+          selectElem.classList.remove('wrong-highlight');
+        } else {
+          selectElem.classList.add('wrong-highlight');
+          selectElem.classList.remove('correct-highlight');
+        }
+      }
+    }
+    partBScore = score;
+    updateTotalScoreDisplay();
+    const total = partAScore + partBScore + partCScore;
+    document.getElementById('resultMessage').innerHTML = `📘 Part B score: ${score}/5. Total so far: ${total}/50.`;
+    return score;
+  }
+  
+  // -------------------- PART C: PRONOUNS & CONNECTIVES --------------------
   const partCData = [
     { text: "The two boys were ( neither / either ) strong ( nor / or ) fast enough to win the tug of war.", correct: { first: "neither", second: "nor" }, type: "double" },
     { text: "You should be very careful when you go rock climbing; do not hurt ( yourself / yourselves ) !", correct: { single: "yourselves" }, type: "single" },
@@ -371,19 +491,16 @@
     partCData.forEach((item, idx) => {
       const div = document.createElement('div');
       div.className = 'question-card';
-      let inner = `<div class="question-text">${idx+1}. `;
+      let inner = `<div class="sentence-text">${idx+1}. `;
       if (item.type === 'double') {
-        let firstOpts = item.text.includes("neither / either") ? ['neither','either'] : ['Either','Neither'];
-        let secondOpts = item.text.includes("nor / or") ? ['nor','or'] : ['nor','or'];
-        inner += `The two boys were <select id="conn_${idx}_first" class="select-blank">${firstOpts.map(o=>`<option value="${o}">${o}</option>`).join('')}</select> strong `;
-        inner += `<select id="conn_${idx}_second" class="select-blank">${secondOpts.map(o=>`<option value="${o}">${o}</option>`).join('')}</select> fast enough to win the tug of war.`;
-        if (idx === 3) {
-          inner = `<div class="question-text">${idx+1}. <select id="conn_3_first" class="select-blank"><option value="Either">Either</option><option value="Neither">Neither</option></select> my sister <select id="conn_3_second" class="select-blank"><option value="nor">nor</option><option value="or">or</option></select> my brother wants to play squash with me today.</div>`;
-        }
         if (idx === 0) {
-          inner = `<div class="question-text">${idx+1}. The two boys were <select id="conn_0_first" class="select-blank"><option value="neither">neither</option><option value="either">either</option></select> strong <select id="conn_0_second" class="select-blank"><option value="nor">nor</option><option value="or">or</option></select> fast enough to win the tug of war.</div>`;
+          inner += `The two boys were <select id="conn_0_first" class="select-blank"><option value="neither">neither</option><option value="either">either</option></select> strong `;
+          inner += `<select id="conn_0_second" class="select-blank"><option value="nor">nor</option><option value="or">or</option></select> fast enough to win the tug of war.`;
+        } else if (idx === 3) {
+          inner = `<div class="sentence-text">${idx+1}. <select id="conn_3_first" class="select-blank"><option value="Either">Either</option><option value="Neither">Neither</option></select> my sister <select id="conn_3_second" class="select-blank"><option value="nor">nor</option><option value="or">or</option></select> my brother wants to play squash with me today.</div>`;
+        } else {
+          inner += `placeholder double`; // fallback (not used)
         }
-        div.innerHTML = inner;
       } else {
         let selectHtml = '';
         if (idx === 1) selectHtml = `<select id="conn_single_1" class="select-blank"><option value="yourself">yourself</option><option value="yourselves">yourselves</option></select>`;
@@ -391,101 +508,84 @@
         else if (idx === 4) selectHtml = `<select id="conn_single_4" class="select-blank"><option value="themselves">themselves</option><option value="ourselves">ourselves</option></select>`;
         const rawText = item.text;
         const finalText = rawText.replace(/\([^)]+\)/, selectHtml);
-        div.innerHTML = `<div class="question-text">${idx+1}. ${finalText}</div>`;
+        inner = `<div class="sentence-text">${idx+1}. ${finalText}</div>`;
       }
+      div.innerHTML = inner;
       container.appendChild(div);
     });
   }
   
-  // -------------------- SCORING ENGINE --------------------
-  function evaluateAll() {
-    let totalScore = 0;
-    const maxPoints = 50;
-    
-    // PART A (40 points)
-    const textInputs = document.querySelectorAll('.text-blank[data-vocab-idx]');
-    const selectInputs = document.querySelectorAll('.select-blank[data-vocab-idx]');
-    textInputs.forEach(input => {
-      const idx = parseInt(input.getAttribute('data-vocab-idx'), 10);
-      const userAns = input.value.trim().toLowerCase().replace(/\s+/g, ' ');
-      const correctAns = vocabBlanks[idx].correct.toLowerCase();
-      let isCorrect = (userAns === correctAns);
-      // small flexible matches
-      if (!isCorrect && correctAns === "a cotton wool ball" && userAns === "cotton wool ball") isCorrect = true;
-      if (!isCorrect && correctAns === "hold the handrail" && userAns === "hold handrail") isCorrect = false;
-      if (isCorrect) {
-        totalScore += 1;
-        input.classList.add('correct-highlight');
-        input.classList.remove('wrong-highlight');
-      } else {
-        input.classList.add('wrong-highlight');
-        input.classList.remove('correct-highlight');
-      }
-    });
-    selectInputs.forEach(select => {
-      const idx = parseInt(select.getAttribute('data-vocab-idx'), 10);
-      const selectedVal = select.value.trim().toLowerCase();
-      const correctVal = vocabBlanks[idx].correct.toLowerCase();
-      if (selectedVal === correctVal) {
-        totalScore += 1;
-        select.classList.add('correct-highlight');
-        select.classList.remove('wrong-highlight');
-      } else {
-        select.classList.add('wrong-highlight');
-        select.classList.remove('correct-highlight');
-      }
-    });
-    
-    // PART B Grammar (5 points) - 4 options each
-    for (let i = 0; i < grammarQuestions.length; i++) {
-      const selectElem = document.getElementById(`grammar_${i}`);
-      if (selectElem) {
-        const userChoice = selectElem.value.trim().toLowerCase();
-        const correctAns = grammarQuestions[i].base.toLowerCase();
-        let ok = (userChoice === correctAns);
-        if (i === 4 && userChoice === "plan") ok = true;
-        if (i === 2 && userChoice === "had already cleaned") ok = true;
-        if (ok) {
-          totalScore += 1;
-          selectElem.classList.add('correct-highlight');
-          selectElem.classList.remove('wrong-highlight');
-        } else {
-          selectElem.classList.add('wrong-highlight');
-          selectElem.classList.remove('correct-highlight');
-        }
-      }
-    }
-    
-    // PART C (5 points)
+  function evaluateConnectivesOnly() {
+    let score = 0;
     // Q1
     const q1_first = document.getElementById('conn_0_first')?.value;
     const q1_second = document.getElementById('conn_0_second')?.value;
-    if (q1_first === 'neither' && q1_second === 'nor') totalScore += 1;
+    if (q1_first === 'neither' && q1_second === 'nor') score++;
     // Q2
     const q2_val = document.getElementById('conn_single_1')?.value;
-    if (q2_val === 'yourselves') totalScore += 1;
+    if (q2_val === 'yourselves') score++;
     // Q3
     const q3_val = document.getElementById('conn_single_2')?.value;
-    if (q3_val === 'another') totalScore += 1;
+    if (q3_val === 'another') score++;
     // Q4
     const q4_first = document.getElementById('conn_3_first')?.value;
     const q4_second = document.getElementById('conn_3_second')?.value;
-    if (q4_first === 'Neither' && q4_second === 'nor') totalScore += 1;
+    if (q4_first === 'Neither' && q4_second === 'nor') score++;
     // Q5
     const q5_val = document.getElementById('conn_single_4')?.value;
-    if (q5_val === 'themselves') totalScore += 1;
+    if (q5_val === 'themselves') score++;
     
-    document.getElementById('liveScoreDisplay').innerHTML = `${totalScore} / ${maxPoints} pts`;
-    const percent = Math.round((totalScore / maxPoints) * 100);
-    const resultDiv = document.getElementById('resultMessage');
-    if (totalScore === maxPoints) resultDiv.innerHTML = `🎉 PERFECT SCORE! ${totalScore}/${maxPoints} (${percent}%) – You're a Duolingo master! 🦉✨`;
-    else if (totalScore >= 42) resultDiv.innerHTML = `🌟 Excellent! ${totalScore}/${maxPoints} (${percent}%) – Keep shining! 🌟`;
-    else if (totalScore >= 30) resultDiv.innerHTML = `👍 Good effort! ${totalScore}/${maxPoints} (${percent}%) – Review some words and try again! 💪`;
-    else resultDiv.innerHTML = `📘 Keep learning! ${totalScore}/${maxPoints} (${percent}%) – Fill each blank one by one. You'll improve! 🦉`;
-    window.scrollTo({ top: document.querySelector('.result-area').offsetTop - 70, behavior: 'smooth' });
+    partCScore = score;
+    updateTotalScoreDisplay();
+    const total = partAScore + partBScore + partCScore;
+    document.getElementById('resultMessage').innerHTML = `🔗 Part C score: ${score}/5. Total so far: ${total}/50.`;
+    return score;
   }
   
-  // ----- tab switching & live reset styles -----
+  function evaluateFullExam() {
+    // evaluate all sentences in Part A that are not yet awarded, but we don't auto-award without checking.
+    // Instead we show a summary. But to keep consistent, we force re-check all Part A sentences and award if not yet awarded.
+    for (let i = 0; i < sentencesVocab.length; i++) {
+      // trigger sentence check (which will award points if all correct and not awarded)
+      checkSentence(i);
+    }
+    evaluateGrammarOnly();
+    evaluateConnectivesOnly();
+    const total = partAScore + partBScore + partCScore;
+    const percent = Math.round((total / 50) * 100);
+    let msg = `✨ Full exam score: ${total}/50 (${percent}%). `;
+    if (total === 50) msg += "Perfect! 🎉🦉";
+    else if (total >= 40) msg += "Great work! 🌟";
+    else if (total >= 30) msg += "Good effort, keep practicing! 💪";
+    else msg += "Review the answers and try again! 📘";
+    document.getElementById('resultMessage').innerHTML = msg;
+  }
+  
+  // Helper: remove highlight on change
+  function attachLiveReset() {
+    document.addEventListener('change', (e) => {
+      if (e.target.classList && (e.target.classList.contains('blank-input') || e.target.classList.contains('select-blank'))) {
+        e.target.classList.remove('correct-highlight', 'wrong-highlight');
+        // also clear sentence feedback for that sentence
+        const sent = e.target.getAttribute('data-sentence');
+        if (sent !== null) {
+          const fb = document.getElementById(`feedback_${sent}`);
+          if (fb) fb.innerHTML = '';
+        }
+      }
+    });
+    document.addEventListener('input', (e) => {
+      if (e.target.classList && e.target.classList.contains('blank-input')) {
+        e.target.classList.remove('correct-highlight', 'wrong-highlight');
+        const sent = e.target.getAttribute('data-sentence');
+        if (sent !== null) {
+          const fb = document.getElementById(`feedback_${sent}`);
+          if (fb) fb.innerHTML = '';
+        }
+      }
+    });
+  }
+  
   function initTabs() {
     const tabs = document.querySelectorAll('.tab');
     const panes = document.querySelectorAll('.tab-pane');
@@ -500,26 +600,17 @@
     });
   }
   
-  function attachLiveClear() {
-    document.addEventListener('change', (e) => {
-      if (e.target.classList && (e.target.classList.contains('text-blank') || e.target.classList.contains('select-blank'))) {
-        e.target.classList.remove('correct-highlight', 'wrong-highlight');
-      }
-    });
-    document.addEventListener('input', (e) => {
-      if (e.target.classList && e.target.classList.contains('text-blank')) {
-        e.target.classList.remove('correct-highlight', 'wrong-highlight');
-      }
-    });
-  }
-  
   window.addEventListener('DOMContentLoaded', () => {
     buildPartA();
     buildGrammar();
     buildPartC();
     initTabs();
-    attachLiveClear();
-    document.getElementById('checkExamBtn').addEventListener('click', evaluateAll);
+    attachLiveReset();
+    document.getElementById('checkGrammarBtn').addEventListener('click', evaluateGrammarOnly);
+    document.getElementById('checkConnectivesBtn').addEventListener('click', evaluateConnectivesOnly);
+    document.getElementById('checkFullExamBtn').addEventListener('click', evaluateFullExam);
+    // initial total display
+    updateTotalScoreDisplay();
   });
 </script>
 </body>
