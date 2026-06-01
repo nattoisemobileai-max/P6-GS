@@ -22,7 +22,6 @@
       padding: 2rem;
     }
 
-    /* main card – exactly like the image style */
     .exam-card {
       max-width: 880px;
       width: 100%;
@@ -30,10 +29,8 @@
       border-radius: 32px;
       box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.25);
       overflow: hidden;
-      transition: all 0.2s;
     }
 
-    /* header with title and stats */
     .exam-header {
       background: #58cc71;
       padding: 1.2rem 2rem;
@@ -70,7 +67,6 @@
       color: #ffb6a0;
     }
 
-    /* progress area */
     .progress-area {
       padding: 1rem 2rem 0.5rem 2rem;
       background: white;
@@ -97,7 +93,6 @@
       transition: width 0.3s ease;
     }
 
-    /* question container */
     .question-container {
       padding: 1.8rem 2rem 2rem 2rem;
     }
@@ -176,7 +171,6 @@
       color: #1f2f3a;
       flex: 1;
     }
-    /* navigation */
     .nav-buttons {
       display: flex;
       justify-content: space-between;
@@ -250,15 +244,15 @@
       <p>Vocabulary · Grammar · Usage</p>
     </div>
     <div class="stats">
-      <span class="correct" id="correctCount">0</span> 正确 · 
-      <span class="wrong" id="wrongCount">0</span> 错误<br>
+      <span class="correct" id="correctCount">0</span> Correct · 
+      <span class="wrong" id="wrongCount">0</span> Wrong<br>
       <span id="percentScore">0</span>%
     </div>
   </div>
   <div class="progress-area">
     <div class="progress-stats">
-      <span>📊 整体进度</span>
-      <span id="progressFraction">0/20 题</span>
+      <span>📊 Overall Progress</span>
+      <span id="progressFraction">0/20 questions</span>
     </div>
     <div class="progress-bar-bg">
       <div class="progress-fill" id="progressFill"></div>
@@ -267,109 +261,108 @@
   <div class="question-container" id="questionContainer">
     <!-- dynamic content -->
   </div>
-  <footer>✅ 选择一个选项，然后点击「下一题」自动记录答案。所有题目完成后可复查。</footer>
+  <footer>✅ Select an answer, then click "Next" to continue. All answers are saved automatically.</footer>
 </div>
 
 <script>
-  // ---------- ENGLISH EXAM QUESTIONS (20 total) ----------
-  // Mix of vocabulary in context, grammar, and usage, all multiple choice (A-D)
+  // 20 English exam questions (multiple choice)
   const questions = [
-    { // 1
+    {
       text: "During the sports day, the team tried to play tug of war, but they were exhausted because they had spent the night ______.",
       options: ["go sailing and go stargazing", "sailing and stargazing", "to sail and stargaze", "sailed and stargazed"],
-      correct: 1   // index 0-based: "sailing and stargazing"
+      correct: 1
     },
-    { // 2
+    {
       text: "When the MTR train arrives, polite passengers always ______ before entering.",
       options: ["let passengers exit", "exit passengers first", "allow exiting passengers", "let passengers to exit"],
       correct: 0
     },
-    { // 3
+    {
       text: "After suffering an electric shock, the first aid response includes using ______ to clean a cut.",
       options: ["scissors and a cotton wool ball", "a bandage and plaster", "cotton and tweezers", "antiseptic wipes"],
       correct: 0
     },
-    { // 4
+    {
       text: "To stay safe on a moving bus, you should always ______ and never lean against the grab poles.",
       options: ["hold the handrail", "hold handrail", "holding handrail", "held the handrail"],
       correct: 0
     },
-    { // 5
+    {
       text: "The hikers had to go orienteering, but one boy struggled because he had ______.",
       options: ["a twisted ankle and a swollen knee", "twisted ankle and swollen knee", "a twist ankle and a swell knee", "twisting ankle and swelling knee"],
       correct: 0
     },
-    { // 6
+    {
       text: "It is considered extremely rude to ______; you must always queue up.",
       options: ["jump the queue", "skip the line", "cut in front", "push ahead"],
       correct: 0
     },
-    { // 7
+    {
       text: "Public transport etiquette: do not ______ or put your feet on the seats.",
       options: ["take up extra seats", "occupy seats", "reserve multiple seats", "take extra places"],
       correct: 0
     },
-    { // 8
+    {
       text: "After the camping trip, he had a burn, a sting, a broken arm, and ______ from a fall.",
       options: ["a bruise", "bruise", "a swelling", "a cut"],
       correct: 0
     },
-    { // 9
+    {
       text: "He tried many activities: canoeing, fishing, windsurfing, zorbing, but ended up with ______.",
       options: ["a blister and a nosebleed", "blister and nosebleed", "blisters and nose bleeds", "a blister and nose bleed"],
       correct: 0
     },
-    { // 10
+    {
       text: "The teacher checked the students for injuries and gave them ______ before they went rock climbing.",
       options: ["a plaster", "plaster", "band-aid", "first aid"],
       correct: 0
     },
-    { // 11 - grammar
+    {
       text: "You ______ a bandage if you want your cut to heal properly.",
       options: ["ought to wear", "must to wear", "should wearing", "ought wear"],
       correct: 0
     },
-    { // 12
+    {
       text: "The teacher reminded us, \"You must let passengers ______ the train before you step inside.\"",
       options: ["exit", "to exit", "exiting", "exited"],
       correct: 0
     },
-    { // 13
+    {
       text: "By the time the doctor arrived, the nurse ______ the student's wound.",
       options: ["had already cleaned", "already cleaned", "has already cleaned", "was cleaning"],
       correct: 0
     },
-    { // 14
+    {
       text: "If you ______ injured, you should ask someone for a plaster immediately.",
       options: ["are", "is", "were", "be"],
       correct: 0
     },
-    { // 15
+    {
       text: "We ______ to go bowling tomorrow after school finishes.",
       options: ["plan", "are plan", "planning", "plans"],
       correct: 0
     },
-    { // 16 - pronouns & connectives
+    {
       text: "The two boys were ______ strong ______ fast enough to win the tug of war.",
       options: ["neither / nor", "either / or", "neither / or", "either / nor"],
       correct: 0
     },
-    { // 17
+    {
       text: "You should be careful when rock climbing; do not hurt ______!",
       options: ["yourselves", "yourself", "your self", "yours"],
       correct: 0
     },
-    { // 18
+    {
       text: "Harry and Ron decided to find ______ day to go birdwatching instead.",
       options: ["another", "other", "the other", "others"],
       correct: 0
     },
-    { // 19
+    {
       text: "______ my sister ______ my brother wants to play squash with me today.",
       options: ["Neither / nor", "Either / or", "Neither / or", "Either / nor"],
       correct: 0
     },
-    { // 20
+    {
       text: "The children felt proud of ______ after they finished the orienteering course.",
       options: ["themselves", "ourselves", "yourselves", "theirselves"],
       correct: 0
@@ -377,11 +370,10 @@
   ];
 
   const TOTAL = questions.length;
-  let userAnswers = new Array(TOTAL).fill(null);        // stores selected option index (0-3)
-  let answerStatus = new Array(TOTAL).fill(false);      // true = correctly answered (scored)
-  let currentIndex = 0;                                 // 0-based
+  let userAnswers = new Array(TOTAL).fill(null);
+  let answerStatus = new Array(TOTAL).fill(false);
+  let currentIndex = 0;
 
-  // DOM elements
   const correctSpan = document.getElementById('correctCount');
   const wrongSpan = document.getElementById('wrongCount');
   const percentSpan = document.getElementById('percentScore');
@@ -389,7 +381,6 @@
   const progressFill = document.getElementById('progressFill');
   const questionContainer = document.getElementById('questionContainer');
 
-  // Helper: update stats (correct count based on answerStatus)
   function updateStats() {
     let correct = answerStatus.filter(v => v === true).length;
     let attempted = userAnswers.filter(a => a !== null).length;
@@ -398,41 +389,30 @@
     wrongSpan.innerText = wrong;
     let percent = attempted === 0 ? 0 : Math.round((correct / TOTAL) * 100);
     percentSpan.innerText = percent;
-    // progress fraction
-    progressFraction.innerText = `${attempted}/${TOTAL} 题`;
+    progressFraction.innerText = `${attempted}/${TOTAL} questions`;
     let fillPercent = (attempted / TOTAL) * 100;
     progressFill.style.width = `${fillPercent}%`;
   }
 
-  // Check if current selected answer is correct and update status
   function evaluateCurrentAnswer(selectedIdx) {
     const q = questions[currentIndex];
     const isCorrect = (selectedIdx === q.correct);
     const prevAnswer = userAnswers[currentIndex];
     const prevWasCorrect = (prevAnswer !== null && prevAnswer === q.correct);
     
-    // Update user answer
     userAnswers[currentIndex] = selectedIdx;
     
-    // Update answerStatus
     if (isCorrect && !answerStatus[currentIndex]) {
       answerStatus[currentIndex] = true;
     } else if (!isCorrect && answerStatus[currentIndex]) {
       answerStatus[currentIndex] = false;
-    } else if (isCorrect && answerStatus[currentIndex]) {
-      // remains true
-    } else if (!isCorrect && !answerStatus[currentIndex]) {
-      // remains false
     }
-    // if previously correct but now changed to wrong
     if (prevWasCorrect && !isCorrect) {
       answerStatus[currentIndex] = false;
     }
-    // if previously wrong but now correct
     if (!prevWasCorrect && isCorrect && prevAnswer !== null) {
       answerStatus[currentIndex] = true;
     }
-    // Edge: first time answering
     if (prevAnswer === null && isCorrect) {
       answerStatus[currentIndex] = true;
     }
@@ -440,14 +420,12 @@
     return isCorrect;
   }
 
-  // Render current question with highlight of selected option
   function renderQuestion() {
     const q = questions[currentIndex];
     const selected = userAnswers[currentIndex];
     const isAnswered = (selected !== null);
-    // build options html
-    let optionsHtml = '';
     const letters = ['A', 'B', 'C', 'D'];
+    let optionsHtml = '';
     q.options.forEach((opt, idx) => {
       const isSelected = (selected === idx);
       const selectedClass = isSelected ? 'selected' : '';
@@ -463,45 +441,42 @@
     if (isAnswered) {
       const isCurrCorrect = (selected === q.correct);
       if (isCurrCorrect) {
-        feedbackHtml = `<div class="feedback-message correct">✅ 正确！ 答案正确。</div>`;
+        feedbackHtml = `<div class="feedback-message correct">✅ Correct! Well done.</div>`;
       } else {
         const correctLetter = String.fromCharCode(65 + q.correct);
         const correctText = q.options[q.correct];
-        feedbackHtml = `<div class="feedback-message wrong">❌ 错误。正确答案是 ${correctLetter}. ${escapeHtml(correctText)}</div>`;
+        feedbackHtml = `<div class="feedback-message wrong">❌ Incorrect. The correct answer is ${correctLetter}. ${escapeHtml(correctText)}</div>`;
       }
     } else {
-      feedbackHtml = `<div class="feedback-message">📌 选择一个答案，然后点击「下一题」保存并继续。</div>`;
+      feedbackHtml = `<div class="feedback-message">📌 Select an answer, then click "Next".</div>`;
     }
     
     const html = `
       <div class="question-header">
-        <div class="q-counter">第 ${currentIndex+1}/${TOTAL} 题</div>
-        <div style="font-size:0.75rem; color:#6b8c6e;">${isAnswered ? '已作答' : '未作答'}</div>
+        <div class="q-counter">Question ${currentIndex+1}/${TOTAL}</div>
+        <div style="font-size:0.75rem; color:#6b8c6e;">${isAnswered ? 'Answered' : 'Not answered'}</div>
       </div>
       <div class="question-text">${escapeHtml(q.text)}</div>
       <div class="options-list" id="optionsList">
         ${optionsHtml}
       </div>
       <div class="nav-buttons">
-        <button class="nav-btn" id="prevBtn" ${currentIndex === 0 ? 'disabled style="opacity:0.5;"' : ''}>◀ 上一题</button>
-        <button class="nav-btn nav-btn-primary" id="nextBtn">${currentIndex === TOTAL-1 ? '完成考试' : '下一题 ▶'}</button>
+        <button class="nav-btn" id="prevBtn" ${currentIndex === 0 ? 'disabled style="opacity:0.5;"' : ''}>◀ Previous</button>
+        <button class="nav-btn nav-btn-primary" id="nextBtn">${currentIndex === TOTAL-1 ? 'Finish Exam' : 'Next ▶'}</button>
       </div>
       ${feedbackHtml}
     `;
     
     questionContainer.innerHTML = html;
     
-    // attach event listeners to options
     document.querySelectorAll('.option').forEach(optDiv => {
       optDiv.addEventListener('click', (e) => {
         const idx = parseInt(optDiv.getAttribute('data-opt-index'), 10);
-        // when user clicks an option, we immediately update the answer and re-evaluate
         evaluateCurrentAnswer(idx);
-        renderQuestion(); // re-render to show selection and feedback
+        renderQuestion();
       });
     });
     
-    // attach prev/next
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
     if (prevBtn) prevBtn.addEventListener('click', () => {
@@ -512,13 +487,11 @@
     });
     if (nextBtn) {
       nextBtn.addEventListener('click', () => {
-        // if current question has no answer selected, we warn but still allow? Better to require selection.
         if (userAnswers[currentIndex] === null) {
-          alert('请先选择一个答案，然后再继续。');
+          alert('Please select an answer before continuing.');
           return;
         }
         if (currentIndex === TOTAL - 1) {
-          // finish exam
           finishExam();
         } else {
           currentIndex++;
@@ -529,17 +502,14 @@
   }
   
   function finishExam() {
-    // final summary
     const correctCount = answerStatus.filter(v => v === true).length;
-    const totalScore = correctCount;
     const percent = Math.round((correctCount / TOTAL) * 100);
     let message = '';
-    if (correctCount === TOTAL) message = '🏆 完美！全对！ 🎉🦉';
-    else if (correctCount >= 16) message = '🌟 优秀！继续加油。 🌟';
-    else if (correctCount >= 10) message = '👍 不错！复习一下错题吧。 💪';
-    else message = '📘 再努力一次！多做练习会进步。 ✨';
+    if (correctCount === TOTAL) message = '🏆 Perfect! All answers correct! 🎉🦉';
+    else if (correctCount >= 16) message = '🌟 Excellent! Keep up the good work. 🌟';
+    else if (correctCount >= 10) message = '👍 Good effort! Review the mistakes and try again. 💪';
+    else message = '📘 Keep practicing! You will improve. ✨';
     
-    // build result view inside same container
     let wrongListHtml = '';
     let wrongCount = 0;
     for (let i = 0; i < TOTAL; i++) {
@@ -550,8 +520,8 @@
         wrongListHtml += `
           <div style="border-bottom:1px solid #e2efdf; padding:0.8rem 0;">
             <strong>${i+1}. ${escapeHtml(questions[i].text)}</strong><br>
-            <span style="color:#c23b22;">你的答案: ${userLetter}. ${escapeHtml(questions[i].options[userAnswers[i]])}</span><br>
-            <span style="color:#2b6e3c;">正确答案: ${correctLetter}. ${escapeHtml(questions[i].options[questions[i].correct])}</span>
+            <span style="color:#c23b22;">Your answer: ${userLetter}. ${escapeHtml(questions[i].options[userAnswers[i]])}</span><br>
+            <span style="color:#2b6e3c;">Correct answer: ${correctLetter}. ${escapeHtml(questions[i].options[questions[i].correct])}</span>
           </div>
         `;
       }
@@ -559,18 +529,18 @@
     
     const resultHtml = `
       <div class="question-header">
-        <div class="q-counter">📊 考试结果</div>
+        <div class="q-counter">📊 Exam Results</div>
       </div>
       <div class="question-text" style="text-align:center; font-size:1.4rem;">
-        ${correctCount} / ${TOTAL} 正确 (${percent}%)<br>
+        ${correctCount} / ${TOTAL} correct (${percent}%)<br>
         ${message}
       </div>
       ${wrongCount > 0 ? `<div style="margin: 1.5rem 0; max-height: 300px; overflow-y: auto; background:#fefef5; border-radius: 28px; padding: 1rem;">
-        <strong>❌ 错题回顾 (${wrongCount} 题):</strong>
+        <strong>❌ Review incorrect answers (${wrongCount} questions):</strong>
         ${wrongListHtml}
-      </div>` : '<div style="margin:1rem 0; text-align:center;">✨ 所有题目都正确！完美！ ✨</div>'}
+      </div>` : '<div style="margin:1rem 0; text-align:center;">✨ All questions correct! Perfect score! ✨</div>'}
       <div class="nav-buttons">
-        <button class="nav-btn" id="restartExamBtn">🔄 重新开始考试</button>
+        <button class="nav-btn" id="restartExamBtn">🔄 Restart Exam</button>
       </div>
     `;
     questionContainer.innerHTML = resultHtml;
@@ -588,19 +558,15 @@
     renderQuestion();
   }
   
-  // helper to escape HTML
   function escapeHtml(str) {
     return str.replace(/[&<>]/g, function(m) {
       if (m === '&') return '&amp;';
       if (m === '<') return '&lt;';
       if (m === '>') return '&gt;';
       return m;
-    }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
-      return c;
     });
   }
   
-  // initial render
   updateStats();
   renderQuestion();
 </script>
