@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>English Exam · Duolingo Style</title>
+  <title>English Exam · Duolingo Style · 3 Sections</title>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     * {
@@ -23,7 +23,7 @@
     }
 
     .exam-card {
-      max-width: 880px;
+      max-width: 900px;
       width: 100%;
       background: #ffffff;
       border-radius: 32px;
@@ -33,13 +33,12 @@
 
     .exam-header {
       background: #58cc71;
-      padding: 1.2rem 2rem;
+      padding: 1rem 1.8rem;
       display: flex;
       justify-content: space-between;
       align-items: baseline;
       flex-wrap: wrap;
       gap: 0.8rem;
-      border-bottom: 3px solid #3aa84b;
     }
     .title-section h2 {
       color: white;
@@ -54,21 +53,43 @@
     }
     .stats {
       background: #1e3932;
-      padding: 0.5rem 1.2rem;
+      padding: 0.4rem 1rem;
       border-radius: 60px;
       text-align: center;
       color: #ffdf8c;
       font-weight: 800;
+      font-size: 0.9rem;
     }
-    .stats .correct {
-      color: #b3ffcf;
+    .stats .correct { color: #b3ffcf; }
+    .stats .wrong { color: #ffb6a0; }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      background: #f2faf0;
+      border-bottom: 2px solid #d1e0cc;
     }
-    .stats .wrong {
-      color: #ffb6a0;
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 0.9rem 0;
+      font-weight: 800;
+      font-size: 1rem;
+      cursor: pointer;
+      background: transparent;
+      border: none;
+      font-family: inherit;
+      color: #3c7842;
+      transition: 0.2s;
+    }
+    .tab.active {
+      background: white;
+      color: #2b7a3e;
+      border-bottom: 3px solid #58cc71;
     }
 
     .progress-area {
-      padding: 1rem 2rem 0.5rem 2rem;
+      padding: 1rem 1.8rem 0.5rem;
       background: white;
     }
     .progress-stats {
@@ -94,30 +115,30 @@
     }
 
     .question-container {
-      padding: 1.8rem 2rem 2rem 2rem;
+      padding: 1.5rem 1.8rem 2rem;
+      min-height: 380px;
     }
     .question-header {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
-      margin-bottom: 1.2rem;
+      margin-bottom: 1rem;
       flex-wrap: wrap;
-      gap: 0.5rem;
     }
     .q-counter {
       background: #f0f7ed;
-      padding: 0.3rem 1rem;
+      padding: 0.25rem 1rem;
       border-radius: 60px;
       font-weight: 800;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       color: #2b7a3e;
     }
     .question-text {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       font-weight: 700;
       line-height: 1.4;
       color: #1f2f3a;
-      margin: 1rem 0 1.8rem 0;
+      margin: 1rem 0 1.5rem;
       background: #fefef5;
       padding: 0.8rem 1rem;
       border-radius: 24px;
@@ -126,8 +147,8 @@
     .options-list {
       display: flex;
       flex-direction: column;
-      gap: 0.9rem;
-      margin: 1.5rem 0 2rem;
+      gap: 0.8rem;
+      margin: 1.2rem 0 1.5rem;
     }
     .option {
       display: flex;
@@ -136,9 +157,9 @@
       background: #f9fbf8;
       border: 2px solid #e2efdf;
       border-radius: 60px;
-      padding: 0.7rem 1.2rem;
+      padding: 0.6rem 1.2rem;
       cursor: pointer;
-      transition: all 0.1s ease;
+      transition: 0.1s;
     }
     .option:hover {
       background: #f1f9ef;
@@ -147,14 +168,13 @@
     .option.selected {
       background: #e6f5e8;
       border-color: #58cc71;
-      box-shadow: 0 2px 8px rgba(88,204,113,0.2);
     }
     .option-letter {
       font-weight: 900;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       background: #eef3ea;
-      width: 36px;
-      height: 36px;
+      width: 32px;
+      height: 32px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -167,7 +187,7 @@
     }
     .option-text {
       font-weight: 600;
-      font-size: 1rem;
+      font-size: 0.95rem;
       color: #1f2f3a;
       flex: 1;
     }
@@ -175,18 +195,17 @@
       display: flex;
       justify-content: space-between;
       gap: 1rem;
-      margin-top: 1rem;
+      margin-top: 0.5rem;
     }
     .nav-btn {
       background: #eef3ea;
       border: none;
-      padding: 0.8rem 1.5rem;
+      padding: 0.7rem 1.2rem;
       border-radius: 60px;
       font-weight: 800;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       color: #3a7844;
       cursor: pointer;
-      transition: 0.1s;
       font-family: inherit;
       flex: 1;
     }
@@ -199,16 +218,13 @@
       transform: translateY(2px);
       box-shadow: 0 1px 0 #318a47;
     }
-    .nav-btn:active {
-      transform: translateY(1px);
-    }
     .feedback-message {
-      margin-top: 1.2rem;
-      padding: 0.7rem;
+      margin-top: 1rem;
+      padding: 0.6rem;
       border-radius: 60px;
       text-align: center;
       font-weight: 700;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       background: #f4f9f2;
       color: #3a6b42;
     }
@@ -223,16 +239,15 @@
     footer {
       background: #f2faf0;
       text-align: center;
-      padding: 0.8rem;
+      padding: 0.6rem;
       font-size: 0.7rem;
       color: #56835e;
       border-top: 1px solid #ddebe0;
     }
     @media (max-width: 600px) {
       body { padding: 1rem; }
-      .question-text { font-size: 1rem; }
-      .option-text { font-size: 0.9rem; }
-      .nav-btn { padding: 0.6rem 1rem; }
+      .question-text { font-size: 0.95rem; }
+      .option-text { font-size: 0.85rem; }
     }
   </style>
 </head>
@@ -241,190 +256,178 @@
   <div class="exam-header">
     <div class="title-section">
       <h2>🦉 English Exam</h2>
-      <p>Vocabulary · Grammar · Usage</p>
+      <p>Vocabulary · Grammar · Connectives</p>
     </div>
-    <div class="stats">
-      <span class="correct" id="correctCount">0</span> Correct · 
-      <span class="wrong" id="wrongCount">0</span> Wrong<br>
-      <span id="percentScore">0</span>%
+    <div class="stats" id="globalStats">
+      <span class="correct" id="totalCorrect">0</span> Correct · 
+      <span class="wrong" id="totalWrong">0</span> Wrong<br>
+      <span id="totalPercent">0</span>%
     </div>
   </div>
-  <div class="progress-area">
+
+  <!-- Tabs for 3 sections -->
+  <div class="tabs" id="tabsContainer">
+    <button class="tab active" data-section="vocab">📖 Part A: Vocabulary</button>
+    <button class="tab" data-section="grammar">✍️ Part B: Grammar</button>
+    <button class="tab" data-section="connective">🔗 Part C: Connectives</button>
+  </div>
+
+  <div class="progress-area" id="progressArea">
     <div class="progress-stats">
-      <span>📊 Overall Progress</span>
-      <span id="progressFraction">0/20 questions</span>
+      <span id="sectionProgressLabel">Vocabulary Progress</span>
+      <span id="sectionFraction">0/10 questions</span>
     </div>
     <div class="progress-bar-bg">
-      <div class="progress-fill" id="progressFill"></div>
+      <div class="progress-fill" id="sectionProgressFill"></div>
     </div>
   </div>
+
   <div class="question-container" id="questionContainer">
     <!-- dynamic content -->
   </div>
-  <footer>✅ Select an answer, then click "Next" to continue. All answers are saved automatically.</footer>
+
+  <footer>✔️ Select an answer, then click "Next" to continue. Switch tabs to practice different sections.</footer>
 </div>
 
 <script>
-  // 20 English exam questions (multiple choice)
-  const questions = [
-    {
-      text: "During the sports day, the team tried to play tug of war, but they were exhausted because they had spent the night ______.",
-      options: ["go sailing and go stargazing", "sailing and stargazing", "to sail and stargaze", "sailed and stargazed"],
-      correct: 1
-    },
-    {
-      text: "When the MTR train arrives, polite passengers always ______ before entering.",
-      options: ["let passengers exit", "exit passengers first", "allow exiting passengers", "let passengers to exit"],
-      correct: 0
-    },
-    {
-      text: "After suffering an electric shock, the first aid response includes using ______ to clean a cut.",
-      options: ["scissors and a cotton wool ball", "a bandage and plaster", "cotton and tweezers", "antiseptic wipes"],
-      correct: 0
-    },
-    {
-      text: "To stay safe on a moving bus, you should always ______ and never lean against the grab poles.",
-      options: ["hold the handrail", "hold handrail", "holding handrail", "held the handrail"],
-      correct: 0
-    },
-    {
-      text: "The hikers had to go orienteering, but one boy struggled because he had ______.",
-      options: ["a twisted ankle and a swollen knee", "twisted ankle and swollen knee", "a twist ankle and a swell knee", "twisting ankle and swelling knee"],
-      correct: 0
-    },
-    {
-      text: "It is considered extremely rude to ______; you must always queue up.",
-      options: ["jump the queue", "skip the line", "cut in front", "push ahead"],
-      correct: 0
-    },
-    {
-      text: "Public transport etiquette: do not ______ or put your feet on the seats.",
-      options: ["take up extra seats", "occupy seats", "reserve multiple seats", "take extra places"],
-      correct: 0
-    },
-    {
-      text: "After the camping trip, he had a burn, a sting, a broken arm, and ______ from a fall.",
-      options: ["a bruise", "bruise", "a swelling", "a cut"],
-      correct: 0
-    },
-    {
-      text: "He tried many activities: canoeing, fishing, windsurfing, zorbing, but ended up with ______.",
-      options: ["a blister and a nosebleed", "blister and nosebleed", "blisters and nose bleeds", "a blister and nose bleed"],
-      correct: 0
-    },
-    {
-      text: "The teacher checked the students for injuries and gave them ______ before they went rock climbing.",
-      options: ["a plaster", "plaster", "band-aid", "first aid"],
-      correct: 0
-    },
-    {
-      text: "You ______ a bandage if you want your cut to heal properly.",
-      options: ["ought to wear", "must to wear", "should wearing", "ought wear"],
-      correct: 0
-    },
-    {
-      text: "The teacher reminded us, \"You must let passengers ______ the train before you step inside.\"",
-      options: ["exit", "to exit", "exiting", "exited"],
-      correct: 0
-    },
-    {
-      text: "By the time the doctor arrived, the nurse ______ the student's wound.",
-      options: ["had already cleaned", "already cleaned", "has already cleaned", "was cleaning"],
-      correct: 0
-    },
-    {
-      text: "If you ______ injured, you should ask someone for a plaster immediately.",
-      options: ["are", "is", "were", "be"],
-      correct: 0
-    },
-    {
-      text: "We ______ to go bowling tomorrow after school finishes.",
-      options: ["plan", "are plan", "planning", "plans"],
-      correct: 0
-    },
-    {
-      text: "The two boys were ______ strong ______ fast enough to win the tug of war.",
-      options: ["neither / nor", "either / or", "neither / or", "either / nor"],
-      correct: 0
-    },
-    {
-      text: "You should be careful when rock climbing; do not hurt ______!",
-      options: ["yourselves", "yourself", "your self", "yours"],
-      correct: 0
-    },
-    {
-      text: "Harry and Ron decided to find ______ day to go birdwatching instead.",
-      options: ["another", "other", "the other", "others"],
-      correct: 0
-    },
-    {
-      text: "______ my sister ______ my brother wants to play squash with me today.",
-      options: ["Neither / nor", "Either / or", "Neither / or", "Either / nor"],
-      correct: 0
-    },
-    {
-      text: "The children felt proud of ______ after they finished the orienteering course.",
-      options: ["themselves", "ourselves", "yourselves", "theirselves"],
-      correct: 0
-    }
+  // ---------- SECTION DATA ----------
+  // Part A: Vocabulary (10 questions)
+  const vocabQuestions = [
+    { text: "During the sports day, the team tried to play tug of war, but they were exhausted because they had spent the night ______.", options: ["go sailing and go stargazing", "sailing and stargazing", "to sail and stargaze", "sailed and stargazed"], correct: 1 },
+    { text: "When the MTR train arrives, polite passengers always ______ before entering.", options: ["let passengers exit", "exit passengers first", "allow exiting passengers", "let passengers to exit"], correct: 0 },
+    { text: "After suffering an electric shock, the first aid response includes using ______ to clean a cut.", options: ["scissors and a cotton wool ball", "a bandage and plaster", "cotton and tweezers", "antiseptic wipes"], correct: 0 },
+    { text: "To stay safe on a moving bus, you should always ______ and never lean against the grab poles.", options: ["hold the handrail", "hold handrail", "holding handrail", "held the handrail"], correct: 0 },
+    { text: "The hikers had to go orienteering, but one boy struggled because he had ______.", options: ["a twisted ankle and a swollen knee", "twisted ankle and swollen knee", "a twist ankle and a swell knee", "twisting ankle and swelling knee"], correct: 0 },
+    { text: "It is considered extremely rude to ______; you must always queue up.", options: ["jump the queue", "skip the line", "cut in front", "push ahead"], correct: 0 },
+    { text: "Public transport etiquette: do not ______ or put your feet on the seats.", options: ["take up extra seats", "occupy seats", "reserve multiple seats", "take extra places"], correct: 0 },
+    { text: "After the camping trip, he had a burn, a sting, a broken arm, and ______ from a fall.", options: ["a bruise", "bruise", "a swelling", "a cut"], correct: 0 },
+    { text: "He tried many activities: canoeing, fishing, windsurfing, zorbing, but ended up with ______.", options: ["a blister and a nosebleed", "blister and nosebleed", "blisters and nose bleeds", "a blister and nose bleed"], correct: 0 },
+    { text: "The teacher checked the students for injuries and gave them ______ before they went rock climbing.", options: ["a plaster", "plaster", "band-aid", "first aid"], correct: 0 }
   ];
 
-  const TOTAL = questions.length;
-  let userAnswers = new Array(TOTAL).fill(null);
-  let answerStatus = new Array(TOTAL).fill(false);
-  let currentIndex = 0;
+  // Part B: Grammar (5 questions)
+  const grammarQuestions = [
+    { text: "You ______ a bandage if you want your cut to heal properly.", options: ["ought to wear", "must to wear", "should wearing", "ought wear"], correct: 0 },
+    { text: "The teacher reminded us, \"You must let passengers ______ the train before you step inside.\"", options: ["exit", "to exit", "exiting", "exited"], correct: 0 },
+    { text: "By the time the doctor arrived, the nurse ______ the student's wound.", options: ["had already cleaned", "already cleaned", "has already cleaned", "was cleaning"], correct: 0 },
+    { text: "If you ______ injured, you should ask someone for a plaster immediately.", options: ["are", "is", "were", "be"], correct: 0 },
+    { text: "We ______ to go bowling tomorrow after school finishes.", options: ["plan", "are plan", "planning", "plans"], correct: 0 }
+  ];
 
-  const correctSpan = document.getElementById('correctCount');
-  const wrongSpan = document.getElementById('wrongCount');
-  const percentSpan = document.getElementById('percentScore');
-  const progressFraction = document.getElementById('progressFraction');
-  const progressFill = document.getElementById('progressFill');
-  const questionContainer = document.getElementById('questionContainer');
+  // Part C: Connectives / Pronouns (5 questions)
+  const connectiveQuestions = [
+    { text: "The two boys were ______ strong ______ fast enough to win the tug of war.", options: ["neither / nor", "either / or", "neither / or", "either / nor"], correct: 0 },
+    { text: "You should be careful when rock climbing; do not hurt ______!", options: ["yourselves", "yourself", "your self", "yours"], correct: 0 },
+    { text: "Harry and Ron decided to find ______ day to go birdwatching instead.", options: ["another", "other", "the other", "others"], correct: 0 },
+    { text: "______ my sister ______ my brother wants to play squash with me today.", options: ["Neither / nor", "Either / or", "Neither / or", "Either / nor"], correct: 0 },
+    { text: "The children felt proud of ______ after they finished the orienteering course.", options: ["themselves", "ourselves", "yourselves", "theirselves"], correct: 0 }
+  ];
 
-  function updateStats() {
-    let correct = answerStatus.filter(v => v === true).length;
-    let attempted = userAnswers.filter(a => a !== null).length;
-    let wrong = attempted - correct;
-    correctSpan.innerText = correct;
-    wrongSpan.innerText = wrong;
-    let percent = attempted === 0 ? 0 : Math.round((correct / TOTAL) * 100);
-    percentSpan.innerText = percent;
-    progressFraction.innerText = `${attempted}/${TOTAL} questions`;
-    let fillPercent = (attempted / TOTAL) * 100;
-    progressFill.style.width = `${fillPercent}%`;
+  // Combine sections data
+  const sections = {
+    vocab: { name: "Vocabulary", questions: vocabQuestions, userAnswers: [], answerStatus: [], currentIndex: 0, totalCorrect: 0, totalAttempted: 0 },
+    grammar: { name: "Grammar", questions: grammarQuestions, userAnswers: [], answerStatus: [], currentIndex: 0, totalCorrect: 0, totalAttempted: 0 },
+    connective: { name: "Connectives", questions: connectiveQuestions, userAnswers: [], answerStatus: [], currentIndex: 0, totalCorrect: 0, totalAttempted: 0 }
+  };
+
+  // Initialize each section's arrays
+  for (let sec in sections) {
+    let qLen = sections[sec].questions.length;
+    sections[sec].userAnswers = new Array(qLen).fill(null);
+    sections[sec].answerStatus = new Array(qLen).fill(false);
+    sections[sec].currentIndex = 0;
+    sections[sec].totalCorrect = 0;
+    sections[sec].totalAttempted = 0;
   }
 
-  function evaluateCurrentAnswer(selectedIdx) {
-    const q = questions[currentIndex];
+  let currentSectionId = "vocab";   // vocab, grammar, connective
+
+  // DOM elements
+  const totalCorrectSpan = document.getElementById('totalCorrect');
+  const totalWrongSpan = document.getElementById('totalWrong');
+  const totalPercentSpan = document.getElementById('totalPercent');
+  const sectionProgressLabel = document.getElementById('sectionProgressLabel');
+  const sectionFractionSpan = document.getElementById('sectionFraction');
+  const sectionProgressFill = document.getElementById('sectionProgressFill');
+  const questionContainer = document.getElementById('questionContainer');
+
+  // Helper: update global stats (sum over all sections)
+  function updateGlobalStats() {
+    let totalCor = 0;
+    let totalAtt = 0;
+    for (let sec in sections) {
+      totalCor += sections[sec].totalCorrect;
+      totalAtt += sections[sec].userAnswers.filter(a => a !== null).length;
+    }
+    let totalWrong = totalAtt - totalCor;
+    totalCorrectSpan.innerText = totalCor;
+    totalWrongSpan.innerText = totalWrong;
+    let percent = totalAtt === 0 ? 0 : Math.round((totalCor / (vocabQuestions.length + grammarQuestions.length + connectiveQuestions.length)) * 100);
+    totalPercentSpan.innerText = percent;
+  }
+
+  // Update section progress UI
+  function updateSectionProgress() {
+    const sec = sections[currentSectionId];
+    const totalQs = sec.questions.length;
+    const answered = sec.userAnswers.filter(a => a !== null).length;
+    const correct = sec.totalCorrect;
+    sectionProgressLabel.innerText = `${sec.name} Progress`;
+    sectionFractionSpan.innerText = `${answered}/${totalQs} questions`;
+    const fillPercent = (answered / totalQs) * 100;
+    sectionProgressFill.style.width = `${fillPercent}%`;
+  }
+
+  // Evaluate and update score for a specific question in current section
+  function evaluateAndUpdate(sectionId, qIndex, selectedIdx) {
+    const sec = sections[sectionId];
+    const q = sec.questions[qIndex];
     const isCorrect = (selectedIdx === q.correct);
-    const prevAnswer = userAnswers[currentIndex];
+    const prevAnswer = sec.userAnswers[qIndex];
     const prevWasCorrect = (prevAnswer !== null && prevAnswer === q.correct);
     
-    userAnswers[currentIndex] = selectedIdx;
+    // store answer
+    sec.userAnswers[qIndex] = selectedIdx;
     
-    if (isCorrect && !answerStatus[currentIndex]) {
-      answerStatus[currentIndex] = true;
-    } else if (!isCorrect && answerStatus[currentIndex]) {
-      answerStatus[currentIndex] = false;
+    // update answerStatus and totals
+    let oldStatus = sec.answerStatus[qIndex];
+    if (isCorrect && !oldStatus) {
+      sec.answerStatus[qIndex] = true;
+      sec.totalCorrect++;
+    } else if (!isCorrect && oldStatus) {
+      sec.answerStatus[qIndex] = false;
+      sec.totalCorrect--;
+    } else if (isCorrect && oldStatus) {
+      // remains true
+    } else if (!isCorrect && !oldStatus) {
+      // remains false
     }
+    // handle change from correct to wrong or wrong to correct when re-answering
     if (prevWasCorrect && !isCorrect) {
-      answerStatus[currentIndex] = false;
+      sec.answerStatus[qIndex] = false;
+      sec.totalCorrect--;
     }
     if (!prevWasCorrect && isCorrect && prevAnswer !== null) {
-      answerStatus[currentIndex] = true;
+      sec.answerStatus[qIndex] = true;
+      sec.totalCorrect++;
     }
     if (prevAnswer === null && isCorrect) {
-      answerStatus[currentIndex] = true;
+      sec.answerStatus[qIndex] = true;
+      sec.totalCorrect++;
     }
-    updateStats();
+    updateGlobalStats();
+    updateSectionProgress();
     return isCorrect;
   }
 
-  function renderQuestion() {
-    const q = questions[currentIndex];
-    const selected = userAnswers[currentIndex];
+  // Render current question for active section
+  function renderCurrentQuestion() {
+    const sec = sections[currentSectionId];
+    const q = sec.questions[sec.currentIndex];
+    const selected = sec.userAnswers[sec.currentIndex];
     const isAnswered = (selected !== null);
     const letters = ['A', 'B', 'C', 'D'];
+    
     let optionsHtml = '';
     q.options.forEach((opt, idx) => {
       const isSelected = (selected === idx);
@@ -451,9 +454,10 @@
       feedbackHtml = `<div class="feedback-message">📌 Select an answer, then click "Next".</div>`;
     }
     
+    const totalInSection = sec.questions.length;
     const html = `
       <div class="question-header">
-        <div class="q-counter">Question ${currentIndex+1}/${TOTAL}</div>
+        <div class="q-counter">Question ${sec.currentIndex+1}/${totalInSection}</div>
         <div style="font-size:0.75rem; color:#6b8c6e;">${isAnswered ? 'Answered' : 'Not answered'}</div>
       </div>
       <div class="question-text">${escapeHtml(q.text)}</div>
@@ -461,67 +465,78 @@
         ${optionsHtml}
       </div>
       <div class="nav-buttons">
-        <button class="nav-btn" id="prevBtn" ${currentIndex === 0 ? 'disabled style="opacity:0.5;"' : ''}>◀ Previous</button>
-        <button class="nav-btn nav-btn-primary" id="nextBtn">${currentIndex === TOTAL-1 ? 'Finish Exam' : 'Next ▶'}</button>
+        <button class="nav-btn" id="prevBtn" ${sec.currentIndex === 0 ? 'disabled style="opacity:0.5;"' : ''}>◀ Previous</button>
+        <button class="nav-btn nav-btn-primary" id="nextBtn">${sec.currentIndex === totalInSection-1 ? 'Finish Section' : 'Next ▶'}</button>
       </div>
       ${feedbackHtml}
     `;
     
     questionContainer.innerHTML = html;
     
+    // Attach option click handlers
     document.querySelectorAll('.option').forEach(optDiv => {
       optDiv.addEventListener('click', (e) => {
         const idx = parseInt(optDiv.getAttribute('data-opt-index'), 10);
-        evaluateCurrentAnswer(idx);
-        renderQuestion();
+        evaluateAndUpdate(currentSectionId, sec.currentIndex, idx);
+        renderCurrentQuestion(); // re-render to show selection and feedback
       });
     });
     
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
-    if (prevBtn) prevBtn.addEventListener('click', () => {
-      if (currentIndex > 0) {
-        currentIndex--;
-        renderQuestion();
-      }
-    });
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => {
+        if (sec.currentIndex > 0) {
+          sec.currentIndex--;
+          renderCurrentQuestion();
+        }
+      });
+    }
     if (nextBtn) {
       nextBtn.addEventListener('click', () => {
-        if (userAnswers[currentIndex] === null) {
+        if (sec.userAnswers[sec.currentIndex] === null) {
           alert('Please select an answer before continuing.');
           return;
         }
-        if (currentIndex === TOTAL - 1) {
-          finishExam();
+        if (sec.currentIndex === sec.questions.length - 1) {
+          finishSection();
         } else {
-          currentIndex++;
-          renderQuestion();
+          sec.currentIndex++;
+          renderCurrentQuestion();
         }
       });
     }
   }
   
-  function finishExam() {
-    const correctCount = answerStatus.filter(v => v === true).length;
-    const percent = Math.round((correctCount / TOTAL) * 100);
+  function finishSection() {
+    const sec = sections[currentSectionId];
+    const totalQs = sec.questions.length;
+    const answeredCount = sec.userAnswers.filter(a => a !== null).length;
+    if (answeredCount < totalQs) {
+      alert(`You have not answered all ${totalQs} questions in this section. Please complete them before finishing.`);
+      return;
+    }
+    const correctCount = sec.totalCorrect;
+    const percent = Math.round((correctCount / totalQs) * 100);
     let message = '';
-    if (correctCount === TOTAL) message = '🏆 Perfect! All answers correct! 🎉🦉';
-    else if (correctCount >= 16) message = '🌟 Excellent! Keep up the good work. 🌟';
-    else if (correctCount >= 10) message = '👍 Good effort! Review the mistakes and try again. 💪';
-    else message = '📘 Keep practicing! You will improve. ✨';
+    if (correctCount === totalQs) message = '🏆 Perfect! All answers correct in this section! 🎉';
+    else if (correctCount >= totalQs-2) message = '🌟 Excellent! Great work.';
+    else if (correctCount >= totalQs/2) message = '👍 Good effort. Review the mistakes.';
+    else message = '📘 Keep practicing! Try again.';
     
+    // Build review of wrong answers
     let wrongListHtml = '';
     let wrongCount = 0;
-    for (let i = 0; i < TOTAL; i++) {
-      if (userAnswers[i] !== null && userAnswers[i] !== questions[i].correct) {
+    for (let i = 0; i < totalQs; i++) {
+      if (sec.userAnswers[i] !== null && sec.userAnswers[i] !== sec.questions[i].correct) {
         wrongCount++;
-        const userLetter = String.fromCharCode(65 + userAnswers[i]);
-        const correctLetter = String.fromCharCode(65 + questions[i].correct);
+        const userLetter = String.fromCharCode(65 + sec.userAnswers[i]);
+        const correctLetter = String.fromCharCode(65 + sec.questions[i].correct);
         wrongListHtml += `
-          <div style="border-bottom:1px solid #e2efdf; padding:0.8rem 0;">
-            <strong>${i+1}. ${escapeHtml(questions[i].text)}</strong><br>
-            <span style="color:#c23b22;">Your answer: ${userLetter}. ${escapeHtml(questions[i].options[userAnswers[i]])}</span><br>
-            <span style="color:#2b6e3c;">Correct answer: ${correctLetter}. ${escapeHtml(questions[i].options[questions[i].correct])}</span>
+          <div style="border-bottom:1px solid #e2efdf; padding:0.6rem 0;">
+            <strong>${i+1}. ${escapeHtml(sec.questions[i].text)}</strong><br>
+            <span style="color:#c23b22;">Your answer: ${userLetter}. ${escapeHtml(sec.questions[i].options[sec.userAnswers[i]])}</span><br>
+            <span style="color:#2b6e3c;">Correct: ${correctLetter}. ${escapeHtml(sec.questions[i].options[sec.questions[i].correct])}</span>
           </div>
         `;
       }
@@ -529,35 +544,58 @@
     
     const resultHtml = `
       <div class="question-header">
-        <div class="q-counter">📊 Exam Results</div>
+        <div class="q-counter">🏁 Section Completed: ${sec.name}</div>
       </div>
-      <div class="question-text" style="text-align:center; font-size:1.4rem;">
-        ${correctCount} / ${TOTAL} correct (${percent}%)<br>
+      <div class="question-text" style="text-align:center; font-size:1.2rem;">
+        ${correctCount} / ${totalQs} correct (${percent}%)<br>
         ${message}
       </div>
-      ${wrongCount > 0 ? `<div style="margin: 1.5rem 0; max-height: 300px; overflow-y: auto; background:#fefef5; border-radius: 28px; padding: 1rem;">
-        <strong>❌ Review incorrect answers (${wrongCount} questions):</strong>
+      ${wrongCount > 0 ? `<div style="margin: 1.2rem 0; max-height: 280px; overflow-y: auto; background:#fefef5; border-radius: 24px; padding: 0.8rem;">
+        <strong>❌ Incorrect answers (${wrongCount}):</strong>
         ${wrongListHtml}
-      </div>` : '<div style="margin:1rem 0; text-align:center;">✨ All questions correct! Perfect score! ✨</div>'}
+      </div>` : '<div style="margin:1rem 0; text-align:center;">✨ All correct! Perfect section! ✨</div>'}
       <div class="nav-buttons">
-        <button class="nav-btn" id="restartExamBtn">🔄 Restart Exam</button>
+        <button class="nav-btn" id="backToSectionBtn">◀ Back to questions</button>
+        <button class="nav-btn nav-btn-primary" id="resetSectionBtn">⟳ Restart this section</button>
       </div>
     `;
     questionContainer.innerHTML = resultHtml;
-    document.getElementById('restartExamBtn')?.addEventListener('click', () => {
-      resetExam();
-      renderQuestion();
+    document.getElementById('backToSectionBtn')?.addEventListener('click', () => {
+      renderCurrentQuestion();
+    });
+    document.getElementById('resetSectionBtn')?.addEventListener('click', () => {
+      resetSection();
+      renderCurrentQuestion();
     });
   }
   
-  function resetExam() {
-    userAnswers.fill(null);
-    answerStatus.fill(false);
-    currentIndex = 0;
-    updateStats();
-    renderQuestion();
+  function resetSection() {
+    const sec = sections[currentSectionId];
+    const qLen = sec.questions.length;
+    sec.userAnswers = new Array(qLen).fill(null);
+    sec.answerStatus = new Array(qLen).fill(false);
+    sec.totalCorrect = 0;
+    sec.currentIndex = 0;
+    updateGlobalStats();
+    updateSectionProgress();
   }
   
+  function switchSection(sectionId) {
+    currentSectionId = sectionId;
+    // Update active tab style
+    document.querySelectorAll('.tab').forEach(tab => {
+      if (tab.getAttribute('data-section') === sectionId) {
+        tab.classList.add('active');
+      } else {
+        tab.classList.remove('active');
+      }
+    });
+    // Update progress label and re-render
+    updateSectionProgress();
+    renderCurrentQuestion();
+  }
+  
+  // Helper
   function escapeHtml(str) {
     return str.replace(/[&<>]/g, function(m) {
       if (m === '&') return '&amp;';
@@ -567,8 +605,24 @@
     });
   }
   
-  updateStats();
-  renderQuestion();
+  // Initialize tabs event listeners
+  function initTabs() {
+    const tabs = document.querySelectorAll('.tab');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const section = tab.getAttribute('data-section');
+        if (section && sections[section]) {
+          switchSection(section);
+        }
+      });
+    });
+  }
+  
+  // Initial render
+  updateGlobalStats();
+  updateSectionProgress();
+  initTabs();
+  renderCurrentQuestion();
 </script>
 </body>
 </html>
