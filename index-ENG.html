@@ -3,74 +3,90 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>Duolingo Exam • One by One • Full Sentences</title>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800;900&display=swap" rel="stylesheet">
+  <title>English Exam · Duolingo Style</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
+
     body {
-      background: linear-gradient(145deg, #dcf5e3 0%, #b8dcca 100%);
-      font-family: 'Nunito', system-ui, sans-serif;
+      background: linear-gradient(145deg, #e0f2e8 0%, #c8e0d4 100%);
+      font-family: 'Nunito', system-ui, -apple-system, sans-serif;
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 1.5rem;
+      padding: 2rem;
     }
-    .duo-card {
-      max-width: 800px;
+
+    /* main card – exactly like the image style */
+    .exam-card {
+      max-width: 880px;
       width: 100%;
-      background: white;
-      border-radius: 48px;
-      box-shadow: 0 30px 45px -12px rgba(0, 0, 0, 0.35);
+      background: #ffffff;
+      border-radius: 32px;
+      box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.25);
       overflow: hidden;
+      transition: all 0.2s;
     }
-    .duo-header {
+
+    /* header with title and stats */
+    .exam-header {
       background: #58cc71;
-      padding: 1.2rem 1.8rem;
+      padding: 1.2rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: baseline;
       flex-wrap: wrap;
       gap: 0.8rem;
+      border-bottom: 3px solid #3aa84b;
     }
-    .logo h2 {
+    .title-section h2 {
       color: white;
-      font-weight: 900;
+      font-weight: 800;
       font-size: 1.5rem;
+      letter-spacing: -0.3px;
     }
-    .logo p {
+    .title-section p {
       color: #fff5c4;
       font-weight: 600;
       font-size: 0.8rem;
     }
-    .score-progress {
+    .stats {
       background: #1e3932;
-      padding: 0.4rem 1rem;
+      padding: 0.5rem 1.2rem;
       border-radius: 60px;
+      text-align: center;
       color: #ffdf8c;
       font-weight: 800;
-      text-align: center;
     }
-    .question-area {
-      padding: 2rem 2rem 1.5rem;
+    .stats .correct {
+      color: #b3ffcf;
     }
-    .progress-text {
+    .stats .wrong {
+      color: #ffb6a0;
+    }
+
+    /* progress area */
+    .progress-area {
+      padding: 1rem 2rem 0.5rem 2rem;
+      background: white;
+    }
+    .progress-stats {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 1rem;
       font-weight: 700;
       color: #3a6b42;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
+      margin-bottom: 0.5rem;
     }
     .progress-bar-bg {
       background: #e0f0e3;
       border-radius: 30px;
-      height: 10px;
-      margin-bottom: 2rem;
+      height: 8px;
       overflow: hidden;
     }
     .progress-fill {
@@ -78,145 +94,515 @@
       width: 0%;
       height: 100%;
       border-radius: 30px;
-      transition: width 0.25s ease;
+      transition: width 0.3s ease;
     }
-    .question-card {
-      background: #fefef5;
-      border-radius: 32px;
-      padding: 1.8rem;
-      box-shadow: 0 8px 18px rgba(0,0,0,0.05);
-      border: 1px solid #e2efdf;
+
+    /* question container */
+    .question-container {
+      padding: 1.8rem 2rem 2rem 2rem;
     }
-    .full-sentence {
-      font-size: 1.1rem;
-      line-height: 1.5;
-      font-weight: 600;
+    .question-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 1.2rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .q-counter {
+      background: #f0f7ed;
+      padding: 0.3rem 1rem;
+      border-radius: 60px;
+      font-weight: 800;
+      font-size: 0.85rem;
+      color: #2b7a3e;
+    }
+    .question-text {
+      font-size: 1.2rem;
+      font-weight: 700;
+      line-height: 1.4;
       color: #1f2f3a;
-      margin-bottom: 1.8rem;
-      background: #f9fff7;
-      padding: 1rem;
+      margin: 1rem 0 1.8rem 0;
+      background: #fefef5;
+      padding: 0.8rem 1rem;
       border-radius: 24px;
       border-left: 5px solid #58cc71;
     }
-    .blank-highlight {
-      display: inline-block;
-      background: #fff2cf;
-      border-radius: 20px;
-      padding: 0.1rem 0.6rem;
-      font-weight: 800;
-      color: #c46d1a;
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      margin: 1.5rem 0 2rem;
     }
-    .answer-zone {
-      margin: 1.5rem 0;
-    }
-    input.answer-input, select.answer-select {
-      width: 100%;
-      padding: 0.9rem 1.2rem;
-      font-size: 1rem;
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: #f9fbf8;
+      border: 2px solid #e2efdf;
       border-radius: 60px;
-      border: 2px solid #cde2cd;
-      font-family: 'Nunito', monospace;
-      font-weight: 600;
-      background: white;
-      outline: none;
-    }
-    select.answer-select {
+      padding: 0.7rem 1.2rem;
       cursor: pointer;
+      transition: all 0.1s ease;
     }
-    input.answer-input:focus, select.answer-select:focus {
+    .option:hover {
+      background: #f1f9ef;
+      border-color: #bcddb2;
+    }
+    .option.selected {
+      background: #e6f5e8;
       border-color: #58cc71;
-      box-shadow: 0 0 0 3px rgba(88,204,113,0.2);
+      box-shadow: 0 2px 8px rgba(88,204,113,0.2);
     }
-    .feedback {
+    .option-letter {
+      font-weight: 900;
+      font-size: 1.2rem;
+      background: #eef3ea;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      color: #2b7a3e;
+    }
+    .option.selected .option-letter {
+      background: #58cc71;
+      color: white;
+    }
+    .option-text {
+      font-weight: 600;
+      font-size: 1rem;
+      color: #1f2f3a;
+      flex: 1;
+    }
+    /* navigation */
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
       margin-top: 1rem;
-      font-weight: 700;
-      padding: 0.6rem;
-      border-radius: 40px;
-      text-align: center;
-      background: #f4f9f2;
     }
-    .feedback.correct {
+    .nav-btn {
+      background: #eef3ea;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 60px;
+      font-weight: 800;
+      font-size: 0.95rem;
+      color: #3a7844;
+      cursor: pointer;
+      transition: 0.1s;
+      font-family: inherit;
+      flex: 1;
+    }
+    .nav-btn-primary {
+      background: #58cc71;
+      color: white;
+      box-shadow: 0 3px 0 #318a47;
+    }
+    .nav-btn-primary:active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 #318a47;
+    }
+    .nav-btn:active {
+      transform: translateY(1px);
+    }
+    .feedback-message {
+      margin-top: 1.2rem;
+      padding: 0.7rem;
+      border-radius: 60px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+      background: #f4f9f2;
+      color: #3a6b42;
+    }
+    .feedback-message.correct {
       background: #e1f7e6;
       color: #2b6e3c;
     }
-    .feedback.wrong {
+    .feedback-message.wrong {
       background: #fff0ed;
       color: #c23b22;
-    }
-    .btn {
-      background: #58cc71;
-      border: none;
-      width: 100%;
-      padding: 0.9rem;
-      font-size: 1.1rem;
-      font-weight: 800;
-      color: white;
-      border-radius: 60px;
-      margin-top: 1.5rem;
-      cursor: pointer;
-      font-family: inherit;
-      transition: 0.05s linear;
-      box-shadow: 0 5px 0 #318a47;
-    }
-    .btn:active {
-      transform: translateY(2px);
-      box-shadow: 0 2px 0 #318a47;
-    }
-    .btn:disabled {
-      opacity: 0.6;
-      transform: none;
-      cursor: not-allowed;
-    }
-    .next-btn {
-      background: #2b7a3e;
-      box-shadow: 0 5px 0 #1b5729;
-    }
-    .restart-btn {
-      background: #ffa845;
-      box-shadow: 0 5px 0 #c46d1a;
-      margin-top: 1rem;
     }
     footer {
       background: #f2faf0;
       text-align: center;
-      padding: 1rem;
-      font-size: 0.75rem;
+      padding: 0.8rem;
+      font-size: 0.7rem;
       color: #56835e;
+      border-top: 1px solid #ddebe0;
     }
-    @media (max-width: 550px) {
-      .question-area {
-        padding: 1.2rem;
-      }
-      .full-sentence {
-        font-size: 0.95rem;
-      }
+    @media (max-width: 600px) {
+      body { padding: 1rem; }
+      .question-text { font-size: 1rem; }
+      .option-text { font-size: 0.9rem; }
+      .nav-btn { padding: 0.6rem 1rem; }
     }
   </style>
 </head>
 <body>
-<div class="duo-card" id="app">
-  <div class="duo-header">
-    <div class="logo">
-      <h2>🦉 ENGLISH EXAM</h2>
-      <p>one full sentence per blank · 50 questions</p>
+<div class="exam-card" id="examApp">
+  <div class="exam-header">
+    <div class="title-section">
+      <h2>🦉 English Exam</h2>
+      <p>Vocabulary · Grammar · Usage</p>
     </div>
-    <div class="score-progress" id="scoreDisplay">0 / 50 pts</div>
+    <div class="stats">
+      <span class="correct" id="correctCount">0</span> 正确 · 
+      <span class="wrong" id="wrongCount">0</span> 错误<br>
+      <span id="percentScore">0</span>%
+    </div>
   </div>
-  <div class="question-area">
-    <div class="progress-text">
-      <span id="qCounter">Question 1 / 50</span>
-      <span id="pointsEarned">⭐ Score: 0</span>
+  <div class="progress-area">
+    <div class="progress-stats">
+      <span>📊 整体进度</span>
+      <span id="progressFraction">0/20 题</span>
     </div>
     <div class="progress-bar-bg">
       <div class="progress-fill" id="progressFill"></div>
     </div>
-    <div id="dynamicContent"></div>
   </div>
-  <footer>📖 Each vocabulary blank shows the complete sentence. Type or choose the missing word.</footer>
+  <div class="question-container" id="questionContainer">
+    <!-- dynamic content -->
+  </div>
+  <footer>✅ 选择一个选项，然后点击「下一题」自动记录答案。所有题目完成后可复查。</footer>
 </div>
 
 <script>
-  // ---------- ORIGINAL FULL SENTENCES FOR PART A (VOCABULARY) ----------
-  // We'll map each blank index (0-39) to a full sentence that contains that blank.
-  // The 10 original sentences with blanks marked as '______' (exactly as in exam)
-  const rawSentences = [
+  // ---------- ENGLISH EXAM QUESTIONS (20 total) ----------
+  // Mix of vocabulary in context, grammar, and usage, all multiple choice (A-D)
+  const questions = [
+    { // 1
+      text: "During the sports day, the team tried to play tug of war, but they were exhausted because they had spent the night ______.",
+      options: ["go sailing and go stargazing", "sailing and stargazing", "to sail and stargaze", "sailed and stargazed"],
+      correct: 1   // index 0-based: "sailing and stargazing"
+    },
+    { // 2
+      text: "When the MTR train arrives, polite passengers always ______ before entering.",
+      options: ["let passengers exit", "exit passengers first", "allow exiting passengers", "let passengers to exit"],
+      correct: 0
+    },
+    { // 3
+      text: "After suffering an electric shock, the first aid response includes using ______ to clean a cut.",
+      options: ["scissors and a cotton wool ball", "a bandage and plaster", "cotton and tweezers", "antiseptic wipes"],
+      correct: 0
+    },
+    { // 4
+      text: "To stay safe on a moving bus, you should always ______ and never lean against the grab poles.",
+      options: ["hold the handrail", "hold handrail", "holding handrail", "held the handrail"],
+      correct: 0
+    },
+    { // 5
+      text: "The hikers had to go orienteering, but one boy struggled because he had ______.",
+      options: ["a twisted ankle and a swollen knee", "twisted ankle and swollen knee", "a twist ankle and a swell knee", "twisting ankle and swelling knee"],
+      correct: 0
+    },
+    { // 6
+      text: "It is considered extremely rude to ______; you must always queue up.",
+      options: ["jump the queue", "skip the line", "cut in front", "push ahead"],
+      correct: 0
+    },
+    { // 7
+      text: "Public transport etiquette: do not ______ or put your feet on the seats.",
+      options: ["take up extra seats", "occupy seats", "reserve multiple seats", "take extra places"],
+      correct: 0
+    },
+    { // 8
+      text: "After the camping trip, he had a burn, a sting, a broken arm, and ______ from a fall.",
+      options: ["a bruise", "bruise", "a swelling", "a cut"],
+      correct: 0
+    },
+    { // 9
+      text: "He tried many activities: canoeing, fishing, windsurfing, zorbing, but ended up with ______.",
+      options: ["a blister and a nosebleed", "blister and nosebleed", "blisters and nose bleeds", "a blister and nose bleed"],
+      correct: 0
+    },
+    { // 10
+      text: "The teacher checked the students for injuries and gave them ______ before they went rock climbing.",
+      options: ["a plaster", "plaster", "band-aid", "first aid"],
+      correct: 0
+    },
+    { // 11 - grammar
+      text: "You ______ a bandage if you want your cut to heal properly.",
+      options: ["ought to wear", "must to wear", "should wearing", "ought wear"],
+      correct: 0
+    },
+    { // 12
+      text: "The teacher reminded us, \"You must let passengers ______ the train before you step inside.\"",
+      options: ["exit", "to exit", "exiting", "exited"],
+      correct: 0
+    },
+    { // 13
+      text: "By the time the doctor arrived, the nurse ______ the student's wound.",
+      options: ["had already cleaned", "already cleaned", "has already cleaned", "was cleaning"],
+      correct: 0
+    },
+    { // 14
+      text: "If you ______ injured, you should ask someone for a plaster immediately.",
+      options: ["are", "is", "were", "be"],
+      correct: 0
+    },
+    { // 15
+      text: "We ______ to go bowling tomorrow after school finishes.",
+      options: ["plan", "are plan", "planning", "plans"],
+      correct: 0
+    },
+    { // 16 - pronouns & connectives
+      text: "The two boys were ______ strong ______ fast enough to win the tug of war.",
+      options: ["neither / nor", "either / or", "neither / or", "either / nor"],
+      correct: 0
+    },
+    { // 17
+      text: "You should be careful when rock climbing; do not hurt ______!",
+      options: ["yourselves", "yourself", "your self", "yours"],
+      correct: 0
+    },
+    { // 18
+      text: "Harry and Ron decided to find ______ day to go birdwatching instead.",
+      options: ["another", "other", "the other", "others"],
+      correct: 0
+    },
+    { // 19
+      text: "______ my sister ______ my brother wants to play squash with me today.",
+      options: ["Neither / nor", "Either / or", "Neither / or", "Either / nor"],
+      correct: 0
+    },
+    { // 20
+      text: "The children felt proud of ______ after they finished the orienteering course.",
+      options: ["themselves", "ourselves", "yourselves", "theirselves"],
+      correct: 0
+    }
+  ];
+
+  const TOTAL = questions.length;
+  let userAnswers = new Array(TOTAL).fill(null);        // stores selected option index (0-3)
+  let answerStatus = new Array(TOTAL).fill(false);      // true = correctly answered (scored)
+  let currentIndex = 0;                                 // 0-based
+
+  // DOM elements
+  const correctSpan = document.getElementById('correctCount');
+  const wrongSpan = document.getElementById('wrongCount');
+  const percentSpan = document.getElementById('percentScore');
+  const progressFraction = document.getElementById('progressFraction');
+  const progressFill = document.getElementById('progressFill');
+  const questionContainer = document.getElementById('questionContainer');
+
+  // Helper: update stats (correct count based on answerStatus)
+  function updateStats() {
+    let correct = answerStatus.filter(v => v === true).length;
+    let attempted = userAnswers.filter(a => a !== null).length;
+    let wrong = attempted - correct;
+    correctSpan.innerText = correct;
+    wrongSpan.innerText = wrong;
+    let percent = attempted === 0 ? 0 : Math.round((correct / TOTAL) * 100);
+    percentSpan.innerText = percent;
+    // progress fraction
+    progressFraction.innerText = `${attempted}/${TOTAL} 题`;
+    let fillPercent = (attempted / TOTAL) * 100;
+    progressFill.style.width = `${fillPercent}%`;
+  }
+
+  // Check if current selected answer is correct and update status
+  function evaluateCurrentAnswer(selectedIdx) {
+    const q = questions[currentIndex];
+    const isCorrect = (selectedIdx === q.correct);
+    const prevAnswer = userAnswers[currentIndex];
+    const prevWasCorrect = (prevAnswer !== null && prevAnswer === q.correct);
+    
+    // Update user answer
+    userAnswers[currentIndex] = selectedIdx;
+    
+    // Update answerStatus
+    if (isCorrect && !answerStatus[currentIndex]) {
+      answerStatus[currentIndex] = true;
+    } else if (!isCorrect && answerStatus[currentIndex]) {
+      answerStatus[currentIndex] = false;
+    } else if (isCorrect && answerStatus[currentIndex]) {
+      // remains true
+    } else if (!isCorrect && !answerStatus[currentIndex]) {
+      // remains false
+    }
+    // if previously correct but now changed to wrong
+    if (prevWasCorrect && !isCorrect) {
+      answerStatus[currentIndex] = false;
+    }
+    // if previously wrong but now correct
+    if (!prevWasCorrect && isCorrect && prevAnswer !== null) {
+      answerStatus[currentIndex] = true;
+    }
+    // Edge: first time answering
+    if (prevAnswer === null && isCorrect) {
+      answerStatus[currentIndex] = true;
+    }
+    updateStats();
+    return isCorrect;
+  }
+
+  // Render current question with highlight of selected option
+  function renderQuestion() {
+    const q = questions[currentIndex];
+    const selected = userAnswers[currentIndex];
+    const isAnswered = (selected !== null);
+    // build options html
+    let optionsHtml = '';
+    const letters = ['A', 'B', 'C', 'D'];
+    q.options.forEach((opt, idx) => {
+      const isSelected = (selected === idx);
+      const selectedClass = isSelected ? 'selected' : '';
+      optionsHtml += `
+        <div class="option ${selectedClass}" data-opt-index="${idx}">
+          <div class="option-letter">${letters[idx]}</div>
+          <div class="option-text">${escapeHtml(opt)}</div>
+        </div>
+      `;
+    });
+    
+    let feedbackHtml = '';
+    if (isAnswered) {
+      const isCurrCorrect = (selected === q.correct);
+      if (isCurrCorrect) {
+        feedbackHtml = `<div class="feedback-message correct">✅ 正确！ 答案正确。</div>`;
+      } else {
+        const correctLetter = String.fromCharCode(65 + q.correct);
+        const correctText = q.options[q.correct];
+        feedbackHtml = `<div class="feedback-message wrong">❌ 错误。正确答案是 ${correctLetter}. ${escapeHtml(correctText)}</div>`;
+      }
+    } else {
+      feedbackHtml = `<div class="feedback-message">📌 选择一个答案，然后点击「下一题」保存并继续。</div>`;
+    }
+    
+    const html = `
+      <div class="question-header">
+        <div class="q-counter">第 ${currentIndex+1}/${TOTAL} 题</div>
+        <div style="font-size:0.75rem; color:#6b8c6e;">${isAnswered ? '已作答' : '未作答'}</div>
+      </div>
+      <div class="question-text">${escapeHtml(q.text)}</div>
+      <div class="options-list" id="optionsList">
+        ${optionsHtml}
+      </div>
+      <div class="nav-buttons">
+        <button class="nav-btn" id="prevBtn" ${currentIndex === 0 ? 'disabled style="opacity:0.5;"' : ''}>◀ 上一题</button>
+        <button class="nav-btn nav-btn-primary" id="nextBtn">${currentIndex === TOTAL-1 ? '完成考试' : '下一题 ▶'}</button>
+      </div>
+      ${feedbackHtml}
+    `;
+    
+    questionContainer.innerHTML = html;
+    
+    // attach event listeners to options
+    document.querySelectorAll('.option').forEach(optDiv => {
+      optDiv.addEventListener('click', (e) => {
+        const idx = parseInt(optDiv.getAttribute('data-opt-index'), 10);
+        // when user clicks an option, we immediately update the answer and re-evaluate
+        evaluateCurrentAnswer(idx);
+        renderQuestion(); // re-render to show selection and feedback
+      });
+    });
+    
+    // attach prev/next
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    if (prevBtn) prevBtn.addEventListener('click', () => {
+      if (currentIndex > 0) {
+        currentIndex--;
+        renderQuestion();
+      }
+    });
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => {
+        // if current question has no answer selected, we warn but still allow? Better to require selection.
+        if (userAnswers[currentIndex] === null) {
+          alert('请先选择一个答案，然后再继续。');
+          return;
+        }
+        if (currentIndex === TOTAL - 1) {
+          // finish exam
+          finishExam();
+        } else {
+          currentIndex++;
+          renderQuestion();
+        }
+      });
+    }
+  }
+  
+  function finishExam() {
+    // final summary
+    const correctCount = answerStatus.filter(v => v === true).length;
+    const totalScore = correctCount;
+    const percent = Math.round((correctCount / TOTAL) * 100);
+    let message = '';
+    if (correctCount === TOTAL) message = '🏆 完美！全对！ 🎉🦉';
+    else if (correctCount >= 16) message = '🌟 优秀！继续加油。 🌟';
+    else if (correctCount >= 10) message = '👍 不错！复习一下错题吧。 💪';
+    else message = '📘 再努力一次！多做练习会进步。 ✨';
+    
+    // build result view inside same container
+    let wrongListHtml = '';
+    let wrongCount = 0;
+    for (let i = 0; i < TOTAL; i++) {
+      if (userAnswers[i] !== null && userAnswers[i] !== questions[i].correct) {
+        wrongCount++;
+        const userLetter = String.fromCharCode(65 + userAnswers[i]);
+        const correctLetter = String.fromCharCode(65 + questions[i].correct);
+        wrongListHtml += `
+          <div style="border-bottom:1px solid #e2efdf; padding:0.8rem 0;">
+            <strong>${i+1}. ${escapeHtml(questions[i].text)}</strong><br>
+            <span style="color:#c23b22;">你的答案: ${userLetter}. ${escapeHtml(questions[i].options[userAnswers[i]])}</span><br>
+            <span style="color:#2b6e3c;">正确答案: ${correctLetter}. ${escapeHtml(questions[i].options[questions[i].correct])}</span>
+          </div>
+        `;
+      }
+    }
+    
+    const resultHtml = `
+      <div class="question-header">
+        <div class="q-counter">📊 考试结果</div>
+      </div>
+      <div class="question-text" style="text-align:center; font-size:1.4rem;">
+        ${correctCount} / ${TOTAL} 正确 (${percent}%)<br>
+        ${message}
+      </div>
+      ${wrongCount > 0 ? `<div style="margin: 1.5rem 0; max-height: 300px; overflow-y: auto; background:#fefef5; border-radius: 28px; padding: 1rem;">
+        <strong>❌ 错题回顾 (${wrongCount} 题):</strong>
+        ${wrongListHtml}
+      </div>` : '<div style="margin:1rem 0; text-align:center;">✨ 所有题目都正确！完美！ ✨</div>'}
+      <div class="nav-buttons">
+        <button class="nav-btn" id="restartExamBtn">🔄 重新开始考试</button>
+      </div>
+    `;
+    questionContainer.innerHTML = resultHtml;
+    document.getElementById('restartExamBtn')?.addEventListener('click', () => {
+      resetExam();
+      renderQuestion();
+    });
+  }
+  
+  function resetExam() {
+    userAnswers.fill(null);
+    answerStatus.fill(false);
+    currentIndex = 0;
+    updateStats();
+    renderQuestion();
+  }
+  
+  // helper to escape HTML
+  function escapeHtml(str) {
+    return str.replace(/[&<>]/g, function(m) {
+      if (m === '&') return '&amp;';
+      if (m === '<') return '&lt;';
+      if (m === '>') return '&gt;';
+      return m;
+    }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+      return c;
+    });
+  }
+  
+  // initial render
+  updateStats();
+  renderQuestion();
+</script>
+</body>
+</html>
