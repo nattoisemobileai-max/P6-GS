@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-HK">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>小常識 · 測驗 · 第三冊-第1課::最後的皇朝</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>小常識 · 測驗 · 第三冊-第1課::權利與義務</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* 樣式與前相同，僅在底部新增按鈕容器樣式 */
+        /* ========= 完整保留原有外觀風格，並確保手機滿版 ========= */
         * {
             margin: 0;
             padding: 0;
@@ -20,23 +20,26 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 0.3rem;
-            font-size: 16px;
+            padding: 0.8rem;
+        }
+
+        .main-app {
+            max-width: 550px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
         }
 
         .test-container {
-            max-width: 500px;
-            width: 100%;
-            height: 98vh;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(4px);
             border-radius: 32px;
             box-shadow: 0 20px 30px -10px rgba(0,40,60,0.4);
             padding: 0.8rem;
             border: 2px solid rgba(255,255,255,0.8);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
+            width: 100%;
         }
 
         .test-header {
@@ -48,7 +51,8 @@
             border-radius: 40px;
             margin-bottom: 0.5rem;
             box-shadow: 0 3px 0 #bed0e3;
-            flex-shrink: 0;
+            flex-wrap: wrap;
+            gap: 0.3rem;
         }
 
         .back-home {
@@ -56,26 +60,27 @@
             border-radius: 40px;
             padding: 0.3rem 0.8rem;
             font-weight: 700;
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             color: #1f3a4b;
             border: none;
             box-shadow: 0 3px 0 #b38f1c;
             cursor: pointer;
-            display: flex;
+            display: inline-flex;
             align-items: center;
-            gap: 4px;
+            gap: 6px;
             text-decoration: none;
         }
         .back-home:active { transform: translateY(3px); box-shadow: 0 1px 0 #b38f1c; }
 
         .test-title {
-            font-size: 1.2rem;
+            font-size: 1rem;
             font-weight: 900;
             background: #eef5ff;
-            padding: 0.2rem 1rem;
+            padding: 0.2rem 0.8rem;
             border-radius: 40px;
             color: #1a4972;
             border: 2px solid #c1d9f0;
+            white-space: nowrap;
         }
 
         .test-stats {
@@ -86,13 +91,12 @@
             border-radius: 40px;
             color: white;
             font-weight: 600;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             align-items: center;
         }
 
         .progress-section {
             margin-bottom: 0.5rem;
-            flex-shrink: 0;
         }
         .progress-info {
             display: flex;
@@ -100,10 +104,10 @@
             margin-bottom: 0.2rem;
             font-weight: 600;
             color: #2c5a7a;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
         }
         .progress-bar-bg {
-            height: 16px;
+            height: 12px;
             background: #e2eaf3;
             border-radius: 30px;
             overflow: hidden;
@@ -112,16 +116,16 @@
         .progress-correct {
             height: 100%;
             background: #58cc71;
-            transition: width 0.3s;
+            transition: width 0.2s;
             width: 0%;
             border-radius: 30px;
         }
 
         .scrollable-content {
-            flex: 1;
+            max-height: 58vh;
             overflow-y: auto;
             padding-right: 2px;
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.5rem;
         }
 
         .question-card {
@@ -136,7 +140,7 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.6rem;
             flex-wrap: wrap;
         }
         .question-number {
@@ -145,7 +149,7 @@
             padding: 0.1rem 0.8rem;
             border-radius: 40px;
             font-weight: 700;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
         }
         .subtopic-badge {
             background: #f4d03f;
@@ -153,18 +157,15 @@
             padding: 0.1rem 0.8rem;
             border-radius: 40px;
             font-weight: 700;
-            font-size: 0.8rem;
-            display: flex;
-            align-items: center;
-            gap: 4px;
+            font-size: 0.7rem;
         }
 
         .question-text {
-            font-size: 1.2rem;
+            font-size: 1.05rem;
             font-weight: 700;
             color: #1e3f5a;
             margin-bottom: 1rem;
-            line-height: 1.3;
+            line-height: 1.35;
             padding-left: 0.3rem;
             border-left: 4px solid #f3b33d;
         }
@@ -172,14 +173,14 @@
         .options-grid {
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 0.6rem;
         }
         .option-btn {
             background: #f5f9ff;
             border: 2px solid #cad9eb;
             border-radius: 40px;
-            padding: 0.7rem 1rem;
-            font-size: 1rem;
+            padding: 0.6rem 1rem;
+            font-size: 0.9rem;
             font-weight: 600;
             color: #1f4973;
             text-align: left;
@@ -187,78 +188,106 @@
             box-shadow: 0 3px 0 #9fbad0;
             display: flex;
             align-items: center;
-            gap: 0.6rem;
+            gap: 0.8rem;
             width: 100%;
-            transition: all 0.1s;
+            transition: 0.05s linear;
         }
         .option-btn:active:not(:disabled) { transform: translateY(3px); box-shadow: 0 1px 0 #9fbad0; }
-        .option-btn.selected { background: #c1e5c0; border-color: #58a700; box-shadow: 0 3px 0 #3e7a00; }
-        .option-btn.correct { background: #a5d6a5; border-color: #2e7d32; box-shadow: 0 3px 0 #1b5e20; }
-        .option-btn.incorrect { background: #ffcdd2; border-color: #c62828; box-shadow: 0 3px 0 #8b0000; }
-        .option-btn:disabled { opacity: 0.8; cursor: default; }
+        .option-btn.selected { background: #c1e5c0; border-color: #58a700; }
+        .option-btn.correct { background: #a5d6a5; border-color: #2e7d32; }
+        .option-btn.incorrect { background: #ffcdd2; border-color: #c62828; }
         .option-prefix {
             background: #2b5f8a;
             color: white;
-            width: 30px;
-            height: 30px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
             font-weight: 800;
             flex-shrink: 0;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
         }
 
-        .feedback-pop {
-            background: #333;
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 40px;
-            font-weight: 600;
-            margin-top: 0.8rem;
-            text-align: center;
-            animation: fadeInOut 2s;
-            position: sticky;
-            bottom: 10px;
-            z-index: 10;
+        .tf-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
         }
-        @keyframes fadeInOut { 0%{opacity:0} 20%{opacity:1} 80%{opacity:1} 100%{opacity:0} }
+        .tf-btn {
+            flex: 1;
+            background: #eef2fa;
+            border: 2px solid #bbd2e8;
+            border-radius: 60px;
+            padding: 0.6rem;
+            font-weight: 800;
+            font-size: 0.95rem;
+            cursor: pointer;
+            text-align: center;
+            box-shadow: 0 3px 0 #9fbad0;
+        }
+        .fill-area {
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+            margin: 0.8rem 0;
+        }
+        .fill-input {
+            padding: 0.6rem 1rem;
+            border-radius: 60px;
+            border: 2px solid #cad9eb;
+            font-size: 0.9rem;
+            background: white;
+            width: 100%;
+        }
+        .fill-submit {
+            background: #58a700;
+            border: none;
+            color: white;
+            font-weight: 700;
+            padding: 0.5rem;
+            border-radius: 40px;
+            cursor: pointer;
+            box-shadow: 0 3px 0 #3e7a00;
+        }
+        .explanation-box {
+            background: #fff9e6;
+            border-left: 6px solid #f3b33d;
+            border-radius: 12px;
+            padding: 0.6rem;
+            margin-top: 0.8rem;
+            font-size: 0.8rem;
+        }
 
         .nav-buttons {
             display: flex;
             justify-content: space-between;
             align-items: center;
             gap: 0.5rem;
-            margin-top: 0.3rem;
-            flex-shrink: 0;
+            margin-top: 0.2rem;
         }
         .nav-btn {
             background: white;
             border: none;
-            padding: 0.5rem 1rem;
+            padding: 0.4rem 0.8rem;
             border-radius: 40px;
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 0.85rem;
             color: #1f4973;
             box-shadow: 0 3px 0 #9fbad0;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 4px;
             flex: 1;
-            justify-content: center;
+            text-align: center;
         }
-        .nav-btn:active:not(:disabled) { transform: translateY(3px); box-shadow: 0 1px 0 #9fbad0; }
         .nav-btn.primary { background: #58a700; color: white; box-shadow: 0 3px 0 #3e7a00; }
         .nav-btn:disabled { opacity: 0.5; cursor: not-allowed; }
         .question-indicator {
             background: #e1edff;
-            padding: 0.2rem 0.8rem;
+            padding: 0.2rem 0.6rem;
             border-radius: 40px;
             font-weight: 600;
-            color: #1a4972;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             white-space: nowrap;
         }
 
@@ -267,624 +296,562 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100%;
-            gap: 1.5rem;
+            gap: 1rem;
+            padding: 1rem;
         }
         .start-btn {
             background: #58a700;
             border: none;
             color: white;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: 800;
-            padding: 1rem 2rem;
+            padding: 0.8rem 1.5rem;
             border-radius: 60px;
             box-shadow: 0 6px 0 #3e7a00;
             cursor: pointer;
             width: 80%;
             text-align: center;
         }
-        .start-btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #3e7a00; }
 
         .summary-screen {
             padding: 0.5rem;
         }
         .summary-title {
-            font-size: 1.8rem;
+            font-size: 1.4rem;
             font-weight: 900;
             color: #1a4972;
             text-align: center;
             margin-bottom: 1rem;
-            text-shadow: 2px 2px 0 #c1d9f0;
         }
-        .overall-stats {
-            background: white;
-            border-radius: 24px;
-            padding: 1rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 5px 0 #a0b9cf;
-            border: 2px solid #fff6cf;
-        }
-        .overall-labels {
-            display: flex;
-            justify-content: space-between;
-            font-weight: 700;
-            color: #2c5a7a;
-            margin-bottom: 0.5rem;
-        }
-        .overall-bar {
-            height: 36px;
-            background: #e2eaf3;
-            border-radius: 30px;
-            overflow: hidden;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
-        }
-        .bar-correct {
-            height: 100%;
-            background: linear-gradient(145deg, #58cc71, #2e9b5c);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 800;
-            font-size: 1.1rem;
-            transition: width 0.3s;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
-        }
-
-        .section-card {
-            background: white;
-            border-radius: 24px;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            box-shadow: 0 5px 0 #a0b9cf;
-            border: 2px solid #fff6cf;
-            transition: transform 0.1s;
-        }
-        .section-card:hover {
-            transform: translateY(-2px);
-        }
-        .section-header {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 0.8rem;
-        }
-        .section-icon {
-            width: 40px;
-            height: 40px;
-            background: #3498db;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.2rem;
-        }
-        .section-name {
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: #1a4972;
-            flex: 1;
-        }
-        .section-percent {
-            font-size: 1.5rem;
-            font-weight: 900;
-            color: #2c5a7a;
-        }
-        .progress-bg {
-            height: 16px;
-            background: #e2eaf3;
-            border-radius: 30px;
-            margin: 0.5rem 0;
-            overflow: hidden;
-        }
-        .progress-fill-section {
-            height: 100%;
-            background: linear-gradient(90deg, #f4d03f, #f39c12);
-            border-radius: 30px;
-            width: 0%;
-            transition: width 0.3s;
-        }
-        .section-stats {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 0.5rem;
-            color: #4f6f8f;
-            font-weight: 600;
-        }
-        .stat-item {
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-        }
-        .stat-item i {
-            font-size: 1.2rem;
-        }
-        .fa-check-circle { color: #58cc71; }
-        .fa-times-circle { color: #e74c3c; }
-        .fa-file-alt { color: #3498db; }
-
-        /* 答錯題目回顧樣式 */
         .wrong-questions-section {
             background: white;
             border-radius: 24px;
             padding: 1rem;
-            margin-top: 1.5rem;
-            box-shadow: 0 5px 0 #a0b9cf;
-            border: 2px solid #fff6cf;
-        }
-        .wrong-title {
-            font-size: 1.3rem;
-            font-weight: 800;
-            color: #c62828;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            margin: 1rem 0;
+            max-height: 50vh;
+            overflow-y: auto;
         }
         .wrong-item {
-            background: #fff9f9;
             border-left: 4px solid #c62828;
+            padding: 0.6rem;
+            margin-bottom: 0.8rem;
+            background: #fff9f9;
             border-radius: 16px;
-            padding: 0.8rem;
-            margin-bottom: 1rem;
         }
-        .wrong-question {
-            font-weight: 700;
-            color: #1e3f5a;
-            margin-bottom: 0.5rem;
-        }
-        .wrong-answer {
-            color: #c62828;
-            font-size: 0.95rem;
-            margin-bottom: 0.3rem;
-        }
-        .correct-answer {
-            color: #2e7d32;
-            font-size: 0.95rem;
-            margin-bottom: 0.3rem;
-        }
-        .correct-tag {
-            display: inline-block;
-            background: #58cc71;
-            color: white;
-            padding: 0.2rem 0.8rem;
-            border-radius: 40px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            margin-top: 0.3rem;
-        }
-
-        /* 總結頁面雙按鈕容器 */
         .summary-buttons {
             display: flex;
             gap: 1rem;
             justify-content: center;
-            margin-top: 1.5rem;
+            margin: 1rem 0;
         }
         .summary-btn {
             background: #48b5a5;
-            border: none;
-            color: white;
-            font-size: 1.2rem;
-            font-weight: 700;
-            padding: 0.8rem 1.5rem;
+            padding: 0.6rem 1rem;
             border-radius: 60px;
-            box-shadow: 0 5px 0 #1c6b5e;
+            text-align: center;
+            font-weight: bold;
             cursor: pointer;
             flex: 1;
-            transition: 0.1s;
-            text-align: center;
+            box-shadow: 0 3px 0 #1c6b5e;
         }
-        .summary-btn.wrong-btn {
-            background: #e67e22;
-            box-shadow: 0 5px 0 #b85e0f;
+        .feedback-pop {
+            position: fixed;
+            bottom: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            z-index: 1100;
+            animation: fadeOut 1.5s forwards;
+            font-weight: 600;
+            white-space: nowrap;
         }
-        .summary-btn:active {
-            transform: translateY(4px);
-            box-shadow: 0 1px 0 #1c6b5e;
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            70% { opacity: 1; }
+            100% { opacity: 0; visibility: hidden; }
         }
-        .summary-btn.wrong-btn:active {
-            box-shadow: 0 1px 0 #b85e0f;
-        }
-
         .hidden { display: none; }
+
+        /* 彈出式遊戲視窗 */
+        .game-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0.2s, opacity 0.2s;
+        }
+        .game-modal.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        .game-card {
+            background: #1f3a2f;
+            border-radius: 48px;
+            max-width: 520px;
+            width: 90%;
+            border: 4px solid #ffd966;
+            box-shadow: 0 25px 40px black;
+            overflow: hidden;
+            animation: bounceIn 0.3s ease;
+        }
+        @keyframes bounceIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .game-header {
+            background: #2c3e2f;
+            padding: 0.6rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            color: #ffd966;
+            font-weight: 800;
+            font-size: 1rem;
+        }
+        .game-canvas-wrapper {
+            background: #18281c;
+            display: flex;
+            justify-content: center;
+            padding: 0.8rem;
+        }
+        canvas {
+            background: #2b5e3b;
+            border-radius: 28px;
+            display: block;
+            width: 100%;
+            max-width: 480px;
+            height: auto;
+            border: 3px solid #f3b33d;
+            cursor: none;
+        }
+        .game-status {
+            display: flex;
+            justify-content: space-between;
+            background: #1f2a1b;
+            padding: 0.5rem 1rem;
+            color: #ffec9e;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        .close-game-btn {
+            background: #f4d03f;
+            border: none;
+            border-radius: 60px;
+            padding: 0.4rem 1rem;
+            margin: 0.6rem auto 0.8rem;
+            width: fit-content;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 3px 0 #b38f1c;
+        }
     </style>
 </head>
 <body>
-<div class="test-container">
-    <div class="test-header">
-        <a href="../index-GS.html" class="back-home"><i class="fas fa-arrow-left"></i> 返回</a>
-        <span class="test-title">第三冊第1課·最後的皇朝</span>
-        <div class="test-stats">
-            <span><i class="fas fa-star"></i> <span id="earnedPoints">0</span>/<span id="totalPoints">0</span></span>
+<div class="main-app">
+    <div class="test-container">
+        <div class="test-header">
+            <div class="back-home" id="resetMainBtn"><i class="fas fa-arrow-left"></i> 返回</div>
+            <span class="test-title">第三冊第1課·權利與義務</span>
+            <div class="test-stats"><i class="fas fa-star"></i> <span id="earnedPoints">0</span>/<span id="totalPoints">75</span></div>
+        </div>
+
+        <div class="progress-section">
+            <div class="progress-info">
+                <span><span id="correctCount">0</span> 正確 · <span id="wrongCount">0</span> 錯誤</span>
+                <span id="completionPercent">0%</span>
+            </div>
+            <div class="progress-bar-bg"><div class="progress-correct" id="progressCorrect"></div></div>
+        </div>
+
+        <div class="scrollable-content" id="contentArea">
+            <div id="startScreen" class="start-screen">
+                <div class="start-btn" id="btnStartQuiz">📖 開始15題測驗</div>
+                <div style="font-size:0.75rem; background:#fff3cf; border-radius:40px; padding:6px 10px; text-align:center;">🎁 答對10題以上，解鎖獎勵小遊戲！</div>
+            </div>
+            <div id="questionArea" class="hidden"></div>
+            <div id="summaryArea" class="hidden summary-screen"></div>
+        </div>
+
+        <div class="nav-buttons hidden" id="navButtons">
+            <button class="nav-btn" id="prevBtn" disabled><i class="fas fa-chevron-left"></i> 上一題</button>
+            <span class="question-indicator" id="questionIndicator">1/0</span>
+            <button class="nav-btn primary" id="nextBtn">下一題 <i class="fas fa-chevron-right"></i></button>
+            <button class="nav-btn primary hidden" id="showResultsBtn">📊 查看結果</button>
         </div>
     </div>
+</div>
 
-    <div class="progress-section">
-        <div class="progress-info">
-            <span><span id="correctCount">0</span> 正確 · <span id="wrongCount">0</span> 錯誤</span>
-            <span id="completionPercent">0%</span>
+<!-- 獎勵遊戲彈窗 -->
+<div id="gameModal" class="game-modal">
+    <div class="game-card">
+        <div class="game-header">
+            <span><i class="fas fa-car-side"></i> 🎉 獎勵遊戲：極速金幣車</span>
+            <span><i class="fas fa-coins"></i> 金幣: <span id="gameCoin">0</span></span>
         </div>
-        <div class="progress-bar-bg">
-            <div class="progress-correct" id="progressCorrect" style="width:0%"></div>
+        <div class="game-canvas-wrapper">
+            <canvas id="gameCanvas" width="480" height="260" style="aspect-ratio:480/260; max-width:100%;"></canvas>
         </div>
-    </div>
-
-    <div class="scrollable-content" id="contentArea">
-        <div id="startScreen" class="start-screen">
-            <div class="start-btn" id="btnRandom20">隨機20題</div>
-            <div class="start-btn" id="btnAll">全部題目</div>
+        <div class="game-status">
+            <span>🏁 移動滑鼠/手指 接金幣！</span>
+            <span class="bonus-coin" id="bonusMsg">⭐ 挑戰高分 ⭐</span>
         </div>
-        <div id="questionArea" class="hidden"></div>
-        <div id="summaryArea" class="hidden summary-screen"></div>
-    </div>
-
-    <div class="nav-buttons hidden" id="navButtons">
-        <button class="nav-btn" id="prevBtn" disabled><i class="fas fa-chevron-left"></i> 上一題</button>
-        <span class="question-indicator" id="questionIndicator">1/0</span>
-        <button class="nav-btn primary" id="nextBtn">下一題 <i class="fas fa-chevron-right"></i></button>
-        <button class="nav-btn primary hidden" id="showResultsBtn">查看結果</button>
+        <div style="display: flex; justify-content: center;">
+            <button class="close-game-btn" id="closeGameBtn"><i class="fas fa-times-circle"></i> 關閉遊戲</button>
+        </div>
     </div>
 </div>
 
 <script>
-(function() {
-    let fullTestData = null;
-    let currentSet = [];
+    // ======================= 完整15題題庫 =======================
+    const QUESTIONS_DATA = [
+        { id:1, type:"truefalse", question:"社會規範的訂立是為了確保每個人行為都在合理範圍內，以保障社會運作順暢。", correctAnswer:true, explanation:"社會比喻為齒輪系統，訂立規則保障整體順暢。", subtopic:"齒輪系統" },
+        { id:2, type:"fill", question:"《基本法》保障香港居民享有各種權利，同時也規定居民應履行相應的義務，以維護______。", correctAnswer:"社會整體利益", altAnswers:["社會整體利益","社会整体利益","整體利益"], explanation:"維護社會整體利益是義務的核心。", subtopic:"基本法" },
+        { id:3, type:"truefalse", question:"履行公民義務的其中一個重要作用，是能具體地協助保障每個人的權利不受侵害。", correctAnswer:true, explanation:"權利與義務相互制約。", subtopic:"權利義務" },
+        { id:4, type:"fill", question:"若大家都不履行公民義務，社會將會失去______，並產生混亂和不公平。", correctAnswer:"秩序", altAnswers:["秩序","社會秩序"], explanation:"失去秩序導致混亂。", subtopic:"社會後果" },
+        { id:5, type:"mc", question:"筆記將社會比喻為「齒輪系統」，這個比喻主要旨在說明什麼概念？", options:["社會階級由齒輪組成，各留其位","法律規則如燃料支撐系統","完全服從政府指令","每個人的行為都會對社會產生連帶影響，需透過規範確保順暢"], correctAnswer:3, explanation:"齒輪比喻個體影響整體。", subtopic:"齒輪系統" },
+        { id:6, type:"fill", question:"根據香港居民的權利清單，居民享有出境、入境及______的自由。", correctAnswer:"遷徙", altAnswers:["遷徙","迁徙","遷移"], explanation:"出入境及遷徙自由。", subtopic:"香港權利" },
+        { id:7, type:"truefalse", question:"在香港行使言論自由或自由表達意見時，為了保障資訊流通，可以不受限制地傳播任何消息。", correctAnswer:false, explanation:"不得散播假消息或誹謗他人。", subtopic:"言論自由" },
+        { id:8, type:"fill", question:"在行使權利的平衡原則中，強調權利並非______，個人自由有時會受到合理限制。", correctAnswer:"絕對的", altAnswers:["絕對的","绝对的","絕對"], explanation:"權利不是絕對的。", subtopic:"權利平衡" },
+        { id:9, type:"mc", question:"根據「不履行義務」可能產生的影響，下列哪一個情境最符合筆記中所描述的後果？", options:["法律自動失效","政府增加福利","社會秩序失去制衡，權利受侵犯並產生混亂","更自由且提升品質"], correctAnswer:2, explanation:"不履行義務導致混亂不公平。", subtopic:"義務後果" },
+        { id:10, type:"mc", question:"根據筆記中有關「權利與義務平衡」的論點，下列哪一項最準確地描述了權利的性質？", options:["權利僅限法律明文","權利並非絕對，為了維護社會整體利益與公共秩序，個人自由受合理限制","權利義務完全獨立","權利絕對不可侵犯"], correctAnswer:1, explanation:"權利受合理限制以維護公共利益。", subtopic:"權利平衡" },
+        { id:11, type:"fill", question:"在社會運作的比喻中，社會被形容為一個______，意指每個人的行為都會影響整個系統的運作。", correctAnswer:"齒輪系統", altAnswers:["齒輪系統","齿轮系统"], explanation:"齒輪系統整體連動。", subtopic:"齒輪系統" },
+        { id:12, type:"truefalse", question:"根據《基本法》，香港居民享有的權利與自由是絕對的，在任何情況下都不受限制。", correctAnswer:false, explanation:"權利並非絕對。", subtopic:"基本法權利" },
+        { id:13, type:"mc", question:"關於法律面前人人平等的權利，下列哪項解釋最符合其重要性？", options:["賦予政府限制特定群體","強制履行完全相同義務","確保所有居民在法律上享有同等的地位和保護","確保政府補貼"], correctAnswer:2, explanation:"同等地位與保護是平等核心。", subtopic:"平等權" },
+        { id:14, type:"mc", question:"若一位居民主張行使「言論自由」，卻散布了關於他人的虛假消息，這違反了筆記中的哪項原則？", options:["言論限政治議題","行使權利時應同時考慮義務，避免侵害他人隱私或名譽","義務唯一基礎","出入境自由優於言論自由"], correctAnswer:1, explanation:"不得散播假消息，尊重他人權益。", subtopic:"權利義務" },
+        { id:15, type:"truefalse", question:"若香港居民不履行法律規定的公民義務，可能會導致社會矛盾加劇並影響生活品質。", correctAnswer:true, explanation:"失去秩序導致生活品質下降。", subtopic:"義務重要性" }
+    ];
+
+    // ---------- 測驗全域 ----------
+    let currentSetIndices = [];
     let userAnswers = [];
     let questionStatus = [];
     let earnedPoints = 0;
-    const pointsPerQuestion = 5;
-    let currentIndex = 0;
+    let currentQIndex = 0;
+    let quizAllFinished = false;      // 題目是否全部作答完畢
+    let summaryShown = false;         // 結果頁面是否已顯示過
+    let gameRewardTriggered = false;  // 是否已經觸發過獎勵遊戲
 
-    const startScreen = document.getElementById('startScreen');
-    const questionArea = document.getElementById('questionArea');
-    const summaryArea = document.getElementById('summaryArea');
-    const navButtons = document.getElementById('navButtons');
+    // DOM 元素
+    const startScreenDiv = document.getElementById('startScreen');
+    const questionAreaDiv = document.getElementById('questionArea');
+    const summaryAreaDiv = document.getElementById('summaryArea');
+    const navButtonsDiv = document.getElementById('navButtons');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
     const showResultsBtn = document.getElementById('showResultsBtn');
     const questionIndicator = document.getElementById('questionIndicator');
-    const earnedPointsSpan = document.getElementById('earnedPoints');
-    const totalPointsSpan = document.getElementById('totalPoints');
-    const correctCountSpan = document.getElementById('correctCount');
-    const wrongCountSpan = document.getElementById('wrongCount');
-    const progressCorrect = document.getElementById('progressCorrect');
-    const completionPercent = document.getElementById('completionPercent');
-    const btnRandom20 = document.getElementById('btnRandom20');
-    const btnAll = document.getElementById('btnAll');
+    const correctSpan = document.getElementById('correctCount');
+    const wrongSpan = document.getElementById('wrongCount');
+    const progressFill = document.getElementById('progressCorrect');
+    const completionSpan = document.getElementById('completionPercent');
+    const earnedSpan = document.getElementById('earnedPoints');
+    const totalSpan = document.getElementById('totalPoints');
+    const resetBtn = document.getElementById('resetMainBtn');
+    const btnStart = document.getElementById('btnStartQuiz');
 
-    async function loadFullData() {
-        try {
-            const res = await fetch('test-data.json');
-            if (!res.ok) throw new Error('無法載入題庫');
-            const data = await res.json();
-            data.questions = data.questions.map(q => ({ type: 'multiple-choice', ...q }));
-            fullTestData = data;
-            console.log('題庫載入成功，共', fullTestData.questions.length, '題');
-        } catch (e) {
-            alert('載入失敗：' + e.message);
-        }
+    // 遊戲模態框
+    const gameModal = document.getElementById('gameModal');
+    const closeGameBtn = document.getElementById('closeGameBtn');
+    let gameLoopId = null, gameActive = true;
+    let canvas, ctx, gameCoins = 0, coinsArray = [], frameCount = 0;
+    let carX = 200, mouseXPos = 200;
+    const CAR_W = 48, CAR_H = 48;
+
+    // 輔助函數
+    function normalize(s){ return s.trim().toLowerCase().replace(/[・\s]/g,''); }
+    function isFillCorrect(q, ans){
+        if(normalize(q.correctAnswer) === normalize(ans)) return true;
+        if(q.altAnswers) return q.altAnswers.some(alt => normalize(alt) === normalize(ans));
+        return false;
     }
 
-    // 通用開始測驗函數：可指定題目索引數組，或根據模式隨機/全部
-    function startTestWithSet(set) {
-        if (!fullTestData) return;
-
-        currentSet = set;
-        userAnswers = new Array(currentSet.length).fill(null);
-        questionStatus = new Array(currentSet.length).fill('unanswered');
-        earnedPoints = 0;
-        currentIndex = 0;
-
-        earnedPointsSpan.textContent = earnedPoints;
-        totalPointsSpan.textContent = currentSet.length * pointsPerQuestion;
-        updateProgressBar();
-
-        startScreen.classList.add('hidden');
-        questionArea.classList.remove('hidden');
-        navButtons.classList.remove('hidden');
-
-        loadQuestion(0);
+    function updateStatsUI(){
+        const total = currentSetIndices.length;
+        const correct = questionStatus.filter(s=>s==='correct').length;
+        const wrong = questionStatus.filter(s=>s==='incorrect').length;
+        correctSpan.innerText = correct;
+        wrongSpan.innerText = wrong;
+        const percent = total ? (correct/total)*100 : 0;
+        progressFill.style.width = percent+'%';
+        const answered = correct+wrong;
+        completionSpan.innerText = Math.round((answered/total)*100)+'%';
+        earnedSpan.innerText = earnedPoints;
     }
 
-    async function startTest(mode) {
-        if (!fullTestData) await loadFullData();
-        if (!fullTestData) return;
-
-        const total = fullTestData.questions.length;
-        let indices;
-        if (mode === 'random') {
-            const n = Math.min(20, total);
-            const set = new Set();
-            while (set.size < n) set.add(Math.floor(Math.random() * total));
-            indices = Array.from(set);
-        } else { // 'all'
-            indices = Array.from({ length: total }, (_, i) => i);
-        }
-        startTestWithSet(indices);
+    function showToast(msg, bg){
+        let t = document.createElement('div'); t.className='feedback-pop'; t.textContent=msg; t.style.backgroundColor=bg;
+        document.body.appendChild(t);
+        setTimeout(()=>t.remove(), 1500);
     }
 
-    function startWrongTest(wrongIndices) {
-        startTestWithSet(wrongIndices);
-    }
+    // 提交答案
+    function submitAnswer(idx, answerVal){
+        if(questionStatus[idx] !== 'unanswered') return;
+        const q = QUESTIONS_DATA[currentSetIndices[idx]];
+        let isCor = false;
+        if(q.type === 'truefalse') { isCor = (answerVal === q.correctAnswer); userAnswers[idx]=answerVal; }
+        else if(q.type === 'fill') { isCor = isFillCorrect(q, answerVal); userAnswers[idx]=answerVal; }
+        else if(q.type === 'mc') { isCor = (answerVal === q.correctAnswer); userAnswers[idx]=answerVal; }
+        questionStatus[idx] = isCor ? 'correct' : 'incorrect';
+        if(isCor) earnedPoints += 5;
+        updateStatsUI();
+        loadCurrentQuestion();
 
-    function loadQuestion(index) {
-        if (!fullTestData) return;
-        currentIndex = index;
-        const qIdx = currentSet[index];
-        const q = fullTestData.questions[qIdx];
-
-        const letters = ['A', 'B', 'C', 'D'];
-        let optionsHtml = '';
-        q.options.forEach((opt, optIdx) => {
-            let cls = '';
-            if (questionStatus[index] !== 'unanswered') {
-                if (optIdx === q.correctAnswer) cls = 'correct';
-                else if (optIdx === userAnswers[index]) cls = 'incorrect';
-            } else if (userAnswers[index] === optIdx) cls = 'selected';
-
-            optionsHtml += `
-                <button class="option-btn ${cls}" onclick="window.selectAnswer(${index}, ${optIdx})" ${questionStatus[index] !== 'unanswered' ? 'disabled' : ''}>
-                    <span class="option-prefix">${letters[optIdx]}</span> ${opt}
-                </button>
-            `;
-        });
-
-        let html = `
-            <div class="question-card">
-                <div class="question-header">
-                    <span class="question-number">第 ${index+1}/${currentSet.length} 題</span>
-                    <span class="subtopic-badge"><i class="fas fa-tag"></i> ${q.subtopic || '一般'}</span>
-                </div>
-                <div class="question-text">${q.question}</div>
-                <div class="options-grid">${optionsHtml}</div>
-        `;
-
-        if (questionStatus[index] !== 'unanswered') {
-            html += `<div class="explanation-box" style="background:#fff9e6; border-left:6px solid #f3b33d; border-radius:12px; padding:0.6rem; margin-top:0.8rem;">
-                <i class="fas fa-info-circle"></i> ${q.explanation || ''}
-            </div>`;
-        }
-
-        html += `</div>`;
-        questionArea.innerHTML = html;
-
-        questionIndicator.textContent = `${index+1}/${currentSet.length}`;
-        updateNavButtons();
-    }
-
-    window.selectAnswer = function(setIdx, optIdx) {
-        if (questionStatus[setIdx] !== 'unanswered') return;
-        const qIdx = currentSet[setIdx];
-        const q = fullTestData.questions[qIdx];
-        const correct = (optIdx === q.correctAnswer);
-
-        userAnswers[setIdx] = optIdx;
-        questionStatus[setIdx] = correct ? 'correct' : 'incorrect';
-
-        if (correct) {
-            earnedPoints += pointsPerQuestion;
-            showFeedback('✅ 正確！ +5 XP', '#2e7d32');
-        } else {
-            const correctLetter = String.fromCharCode(65 + q.correctAnswer);
-            showFeedback(`❌ 錯誤！ 正確答案是 ${correctLetter}`, '#c62828');
-        }
-
-        earnedPointsSpan.textContent = earnedPoints;
-        updateProgressBar();
-        loadQuestion(setIdx);
-
-        // 如果所有題目都已答完，顯示結果按鈕
-        if (questionStatus.every(s => s !== 'unanswered')) {
-            showResultsBtn.classList.remove('hidden');
-        }
-    };
-
-    function showFeedback(msg, color) {
-        const fb = document.createElement('div');
-        fb.className = 'feedback-pop';
-        fb.textContent = msg;
-        fb.style.backgroundColor = color;
-        questionArea.appendChild(fb);
-        setTimeout(() => fb.remove(), 2000);
-    }
-
-    function updateProgressBar() {
-        const total = currentSet.length;
-        const correct = questionStatus.filter(s => s === 'correct').length;
-        const wrong = questionStatus.filter(s => s === 'incorrect').length;
-
-        correctCountSpan.textContent = correct;
-        wrongCountSpan.textContent = wrong;
-
-        const correctPercent = total ? (correct / total) * 100 : 0;
-        progressCorrect.style.width = correctPercent + '%';
-
-        const percentComplete = total ? Math.round(((correct + wrong) / total) * 100) : 0;
-        completionPercent.textContent = percentComplete + '%';
-    }
-
-    function updateNavButtons() {
-        prevBtn.disabled = (currentIndex === 0);
-        const last = (currentIndex === currentSet.length - 1);
-        const allAnswered = questionStatus.every(s => s !== 'unanswered');
-
-        if (last && allAnswered) {
+        const allDone = questionStatus.every(s => s !== 'unanswered');
+        if(allDone && !quizAllFinished){
+            quizAllFinished = true;
+            // 所有題目答完，隱藏下一題按鈕，顯示「查看結果」
             nextBtn.classList.add('hidden');
             showResultsBtn.classList.remove('hidden');
-        } else {
-            nextBtn.classList.remove('hidden');
-            showResultsBtn.classList.add('hidden');
         }
+        showToast(isCor ? '✅ 正確！ +5分' : '❌ 錯誤', isCor ? '#2e7d32' : '#c62828');
     }
 
-    function showSummary() {
-        console.log('顯示總結畫面');
-        questionArea.classList.add('hidden');
-        navButtons.classList.add('hidden');
-        summaryArea.classList.remove('hidden');
-
-        const totalCorrect = questionStatus.filter(s => s === 'correct').length;
-        const totalWrong = questionStatus.filter(s => s === 'incorrect').length;
-        const totalQuestions = currentSet.length;
-
-        const correctPercent = totalQuestions ? (totalCorrect / totalQuestions) * 100 : 0;
-
-        // 收集答錯的題目索引和細節
-        const wrongIndices = [];
-        const wrongQuestions = [];
-        for (let i = 0; i < currentSet.length; i++) {
-            if (questionStatus[i] === 'incorrect') {
-                wrongIndices.push(currentSet[i]); // 儲存原始題庫索引
-                const qIdx = currentSet[i];
-                const q = fullTestData.questions[qIdx];
-                const userAnswerIdx = userAnswers[i];
-                const correctAnswerIdx = q.correctAnswer;
-                const userAnswerLetter = String.fromCharCode(65 + userAnswerIdx);
-                const correctAnswerLetter = String.fromCharCode(65 + correctAnswerIdx);
-                wrongQuestions.push({
-                    question: q.question,
-                    userAnswer: q.options[userAnswerIdx],
-                    userLetter: userAnswerLetter,
-                    correctAnswer: q.options[correctAnswerIdx],
-                    correctLetter: correctAnswerLetter
-                });
-            }
-        }
-
-        // 小節名稱（可根據實際 subtopic 調整）
-        const sectionNames = [
-            '清朝早期的盛世',
-            '清朝中期的衰落',
-            '鴉片問題',
-            '列強侵略與國勢衰弱',
-            '清朝的滅亡與中華民國成立'
-        ];
-
-        const sectionStats = {};
-        sectionNames.forEach(name => { sectionStats[name] = { total: 0, correct: 0, wrong: 0 }; });
-
-        for (let i = 0; i < currentSet.length; i++) {
-            const qIdx = currentSet[i];
-            const q = fullTestData.questions[qIdx];
-            const sub = q.subtopic || '一般';
-            if (sectionStats.hasOwnProperty(sub)) {
-                sectionStats[sub].total++;
-                if (questionStatus[i] === 'correct') sectionStats[sub].correct++;
-                else if (questionStatus[i] === 'incorrect') sectionStats[sub].wrong++;
-            }
-        }
-
-        // 建立總結 HTML
-        let html = `
-            <div class="summary-title">📊 測驗總結</div>
-            <div class="overall-stats">
-                <div class="overall-labels">
-                    <span><i class="fas fa-check-circle" style="color:#58cc71;"></i> 正確 ${totalCorrect}</span>
-                    <span><i class="fas fa-times-circle" style="color:#e74c3c;"></i> 錯誤 ${totalWrong}</span>
-                </div>
-                <div class="overall-bar">
-                    <div class="bar-correct" style="width: ${correctPercent}%;">${totalCorrect}</div>
-                </div>
+    function loadCurrentQuestion(){
+        const idx = currentQIndex;
+        const realIdx = currentSetIndices[idx];
+        const q = QUESTIONS_DATA[realIdx];
+        const isAnswered = questionStatus[idx] !== 'unanswered';
+        const saved = userAnswers[idx];
+        let html = `<div class="question-card">
+            <div class="question-header">
+                <span class="question-number">第 ${idx+1}/${currentSetIndices.length} 題</span>
+                <span class="subtopic-badge"><i class="fas fa-tag"></i> ${q.subtopic}</span>
             </div>
-        `;
+            <div class="question-text">${q.question}</div>`;
 
-        const icons = ['fas fa-crown', 'fas fa-chart-line', 'fas fa-exclamation-triangle', 'fas fa-shield-alt', 'fas fa-flag'];
-
-        sectionNames.forEach((name, idx) => {
-            const stat = sectionStats[name] || { total: 0, correct: 0, wrong: 0 };
-            const percent = stat.total ? Math.round((stat.correct / stat.total) * 100) : 0;
-            html += `
-                <div class="section-card">
-                    <div class="section-header">
-                        <div class="section-icon"><i class="${icons[idx]}"></i></div>
-                        <div class="section-name">${name}</div>
-                        <div class="section-percent">${percent}%</div>
-                    </div>
-                    <div class="progress-bg">
-                        <div class="progress-fill-section" style="width: ${percent}%;"></div>
-                    </div>
-                    <div class="section-stats">
-                        <span class="stat-item"><i class="fas fa-check-circle"></i> ${stat.correct}</span>
-                        <span class="stat-item"><i class="fas fa-times-circle"></i> ${stat.wrong}</span>
-                        <span class="stat-item"><i class="fas fa-file-alt"></i> ${stat.total}</span>
-                    </div>
-                </div>
-            `;
-        });
-
-        // 加入答錯題目回顧
-        if (wrongQuestions.length > 0) {
-            html += `<div class="wrong-questions-section">`;
-            html += `<div class="wrong-title"><i class="fas fa-exclamation-triangle"></i> ❌ 答錯題目回顧 (${wrongQuestions.length} 題)</div>`;
-
-            wrongQuestions.forEach((item, index) => {
-                html += `
-                    <div class="wrong-item">
-                        <div class="wrong-question">${index+1}. ${item.question}</div>
-                        <div class="wrong-answer"><i class="fas fa-times-circle" style="color:#c62828;"></i> 你的答案：${item.userLetter}. ${item.userAnswer}</div>
-                        <div class="correct-answer"><i class="fas fa-check-circle" style="color:#2e7d32;"></i> 正確答案：${item.correctLetter}. ${item.correctAnswer}</div>
-                        <span class="correct-tag">✅ 正確！</span>
-                    </div>
-                `;
+        if(q.type === 'truefalse'){
+            html += `<div class="tf-group"><button class="tf-btn" id="tfTrueBtn" ${isAnswered ? 'disabled' : ''}>✔️ 正確</button><button class="tf-btn" id="tfFalseBtn" ${isAnswered ? 'disabled' : ''}>❌ 錯誤</button></div>`;
+        } else if(q.type === 'fill'){
+            html += `<div class="fill-area"><input type="text" id="fillInput" class="fill-input" placeholder="請輸入答案" ${isAnswered ? 'disabled' : ''} value="${isAnswered ? (saved||'') : ''}"><button id="fillSubmitBtn" class="fill-submit" ${isAnswered ? 'disabled' : ''}>提交答案</button></div>`;
+        } else if(q.type === 'mc'){
+            html += `<div class="options-grid">`;
+            q.options.forEach((opt, i)=>{
+                let cls = '';
+                if(isAnswered && i===q.correctAnswer) cls='correct';
+                else if(isAnswered && i===saved) cls='incorrect';
+                else if(!isAnswered && i===saved) cls='selected';
+                html += `<button class="option-btn ${cls}" onclick="window.mcSelect(${i})" ${isAnswered?'disabled':''}><span class="option-prefix">${String.fromCharCode(65+i)}</span> ${opt}</button>`;
             });
-
             html += `</div>`;
         }
+        if(isAnswered) html += `<div class="explanation-box"><i class="fas fa-info-circle"></i> ${q.explanation}</div>`;
+        html += `</div>`;
+        questionAreaDiv.innerHTML = html;
 
-        // 按鈕區：如果沒有錯題，只顯示「重新測驗」；否則顯示兩個按鈕
-        if (wrongIndices.length > 0) {
-            html += `<div class="summary-buttons">`;
-            html += `<button class="summary-btn wrong-btn" id="redoWrongBtn">🔁 重做錯題</button>`;
-            html += `<button class="summary-btn" id="restartFromSummary">🔄 重新測驗</button>`;
-            html += `</div>`;
-        } else {
-            html += `<button class="summary-btn" id="restartFromSummary">🔄 重新測驗</button>`;
+        if(q.type === 'truefalse' && !isAnswered){
+            document.getElementById('tfTrueBtn').onclick = () => submitAnswer(idx, true);
+            document.getElementById('tfFalseBtn').onclick = () => submitAnswer(idx, false);
         }
+        if(q.type === 'fill' && !isAnswered){
+            document.getElementById('fillSubmitBtn').onclick = () => {
+                let val = document.getElementById('fillInput').value.trim();
+                if(val) submitAnswer(idx, val);
+                else showToast('請輸入答案', '#e67e22');
+            };
+        }
+        questionIndicator.innerText = `${idx+1}/${currentSetIndices.length}`;
+        prevBtn.disabled = (idx === 0);
+    }
 
-        summaryArea.innerHTML = html;
+    window.mcSelect = (opt) => { submitAnswer(currentQIndex, opt); };
 
-        // 綁定重新測驗按鈕
-        document.getElementById('restartFromSummary').addEventListener('click', () => {
-            summaryArea.classList.add('hidden');
-            startScreen.classList.remove('hidden');
-        });
-
-        // 綁定重做錯題按鈕
-        if (wrongIndices.length > 0) {
-            document.getElementById('redoWrongBtn').addEventListener('click', () => {
-                summaryArea.classList.add('hidden');
-                startWrongTest(wrongIndices);
-            });
+    // 顯示測驗總結 (結果頁面)
+    function showSummary(){
+        // 隱藏題目區及導航
+        questionAreaDiv.classList.add('hidden');
+        navButtonsDiv.classList.add('hidden');
+        summaryAreaDiv.classList.remove('hidden');
+        
+        const correctCnt = questionStatus.filter(s=>s==='correct').length;
+        const totalQ = currentSetIndices.length;
+        const percent = Math.round((correctCnt/totalQ)*100);
+        
+        let html = `<div class="summary-title">📊 測驗總結</div>
+                    <div style="text-align:center; font-size:1.2rem; margin:0.5rem 0;">✅ 正確率: ${percent}% (${correctCnt}/${totalQ})</div>`;
+        
+        // 列出所有題目（正確與錯誤詳情）
+        html += `<div class="wrong-questions-section"><div style="font-weight:800; margin-bottom:8px;">📋 詳細答案對照：</div>`;
+        for(let i=0; i<currentSetIndices.length; i++){
+            const qq = QUESTIONS_DATA[currentSetIndices[i]];
+            const isCorrect = (questionStatus[i] === 'correct');
+            let userAnsShow = "";
+            if(qq.type === 'truefalse') userAnsShow = userAnswers[i] ? "✔️ 正確" : "❌ 錯誤";
+            else if(qq.type === 'fill') userAnsShow = `「${userAnswers[i] || "未作答"}」`;
+            else if(qq.type === 'mc') userAnsShow = `${String.fromCharCode(65+userAnswers[i])}. ${qq.options[userAnswers[i]]}`;
+            
+            let correctShow = "";
+            if(qq.type === 'truefalse') correctShow = qq.correctAnswer ? "✔️ 正確" : "❌ 錯誤";
+            else if(qq.type === 'fill') correctShow = qq.correctAnswer;
+            else correctShow = `${String.fromCharCode(65+qq.correctAnswer)}. ${qq.options[qq.correctAnswer]}`;
+            
+            const statusIcon = isCorrect ? '✅' : '❌';
+            html += `<div class="wrong-item" style="border-left-color: ${isCorrect ? '#2e7d32' : '#c62828'}">
+                        <strong>${statusIcon} ${qq.question}</strong><br>
+                        📝 你的答案：${userAnsShow}<br>
+                        📖 正確答案：${correctShow}
+                    </div>`;
+        }
+        html += `</div>`;
+        html += `<div class="summary-buttons"><div class="summary-btn" id="restartSummaryBtn">🔄 重新測驗</div></div>`;
+        summaryAreaDiv.innerHTML = html;
+        document.getElementById('restartSummaryBtn')?.addEventListener('click', fullReset);
+        
+        // 判斷是否答對10題以上 (>=10) 且還未觸發過獎勵遊戲
+        if(!gameRewardTriggered && correctCnt >= 10){
+            gameRewardTriggered = true;
+            showGameModalAsReward();
+        } else if(correctCnt < 10 && !gameRewardTriggered){
+            // 未達標提示
+            showToast("📢 答對10題以上才能解鎖獎勵遊戲，再接再厲！", "#e67e22");
         }
     }
 
-    btnRandom20.addEventListener('click', () => startTest('random'));
-    btnAll.addEventListener('click', () => startTest('all'));
+    // 彈出遊戲視窗獎勵
+    function showGameModalAsReward(){
+        if(gameLoopId) cancelAnimationFrame(gameLoopId);
+        gameActive = true;
+        gameCoins = 0;
+        document.getElementById('gameCoin').innerText = "0";
+        coinsArray = [];
+        frameCount = 0;
+        gameModal.classList.add('active');
+        setTimeout(() => {
+            initAndStartRewardGame();
+        }, 100);
+    }
 
-    prevBtn.addEventListener('click', () => {
-        if (currentIndex > 0) {
-            currentIndex--;
-            loadQuestion(currentIndex);
+    function initAndStartRewardGame(){
+        canvas = document.getElementById('gameCanvas');
+        if(!canvas) return;
+        ctx = canvas.getContext('2d');
+        carX = canvas.width/2 - CAR_W/2;
+        mouseXPos = carX;
+        gameActive = true;
+        
+        const handleMove = (e) => {
+            if(!gameActive) return;
+            const rect = canvas.getBoundingClientRect();
+            let clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            let relativeX = (clientX - rect.left) * (canvas.width / rect.width);
+            let newX = relativeX - CAR_W/2;
+            newX = Math.min(Math.max(newX, 5), canvas.width - CAR_W - 5);
+            mouseXPos = newX;
+        };
+        canvas.removeEventListener('mousemove', handleMove);
+        canvas.removeEventListener('touchmove', handleMove);
+        canvas.addEventListener('mousemove', handleMove);
+        canvas.addEventListener('touchmove', handleMove);
+        
+        function updateGame(){
+            if(!gameActive) return;
+            carX = mouseXPos;
+            if(frameCount % 28 === 0){
+                let coinX = 15 + Math.random() * (canvas.width - 45);
+                coinsArray.push({ x: coinX, y: -15, r: 12, collected: false });
+            }
+            for(let i=0;i<coinsArray.length;i++){
+                coinsArray[i].y += 4.8;
+                if(!coinsArray[i].collected && 
+                   coinsArray[i].x+coinsArray[i].r > carX && coinsArray[i].x-coinsArray[i].r < carX+CAR_W &&
+                   coinsArray[i].y+coinsArray[i].r > canvas.height-55 && coinsArray[i].y-coinsArray[i].r < canvas.height-7){
+                    coinsArray[i].collected = true;
+                    gameCoins++;
+                    document.getElementById('gameCoin').innerText = gameCoins;
+                }
+            }
+            coinsArray = coinsArray.filter(c => c.y < canvas.height+40 && !c.collected);
+            frameCount++;
+            drawCanvas();
+            gameLoopId = requestAnimationFrame(updateGame);
         }
-    });
-
-    nextBtn.addEventListener('click', () => {
-        if (currentIndex < currentSet.length - 1) {
-            currentIndex++;
-            loadQuestion(currentIndex);
+        function drawCanvas(){
+            if(!ctx) return;
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            ctx.fillStyle = '#2a6b47';
+            ctx.fillRect(0,0,canvas.width,canvas.height);
+            for(let i=0;i<3;i++){ ctx.fillStyle='#ffcf4a'; ctx.fillRect(canvas.width/2-15 + (i%2===0? -25:25), (frameCount*4 + i*70)%canvas.height, 8, 22); }
+            ctx.fillStyle = '#e34d4d';
+            ctx.fillRect(carX, canvas.height-55, CAR_W, CAR_H);
+            ctx.fillStyle = '#f4d03f';
+            ctx.fillRect(carX+12, canvas.height-65, 24, 12);
+            for(let c of coinsArray){
+                ctx.fillStyle = '#f7d44a';
+                ctx.beginPath(); ctx.arc(c.x, c.y, c.r, 0, Math.PI*2); ctx.fill();
+                ctx.fillStyle = '#e9b10e';
+                ctx.beginPath(); ctx.arc(c.x, c.y, c.r-3, 0, Math.PI*2); ctx.fill();
+                ctx.fillStyle = 'gold'; ctx.font = "bold 12px monospace"; ctx.fillText("$", c.x-5, c.y+4);
+            }
         }
-    });
+        updateGame();
+    }
 
-    showResultsBtn.addEventListener('click', () => {
-        console.log('結果按鈕被點擊');
-        showSummary();
-    });
+    function closeGameModal(){
+        if(gameLoopId) cancelAnimationFrame(gameLoopId);
+        gameModal.classList.remove('active');
+        gameActive = false;
+    }
 
-    loadFullData();
-})();
+    // 重置全部 (回到開始畫面)
+    function fullReset(){
+        startScreenDiv.classList.remove('hidden');
+        questionAreaDiv.classList.add('hidden');
+        navButtonsDiv.classList.add('hidden');
+        summaryAreaDiv.classList.add('hidden');
+        summaryShown = false;
+        quizAllFinished = false;
+        gameRewardTriggered = false;
+        if(gameModal.classList.contains('active')) closeGameModal();
+        currentSetIndices = [];
+        userAnswers = [];
+        questionStatus = [];
+        earnedPoints = 0;
+        updateStatsUI();
+        // 重置導航按鈕顯示
+        nextBtn.classList.remove('hidden');
+        showResultsBtn.classList.add('hidden');
+    }
+
+    function startQuiz(){
+        const allIndices = QUESTIONS_DATA.map((_,i)=>i);
+        currentSetIndices = [...allIndices];
+        userAnswers = new Array(currentSetIndices.length).fill(null);
+        questionStatus = new Array(currentSetIndices.length).fill('unanswered');
+        earnedPoints = 0;
+        currentQIndex = 0;
+        quizAllFinished = false;
+        summaryShown = false;
+        gameRewardTriggered = false;
+        updateStatsUI();
+        startScreenDiv.classList.add('hidden');
+        questionAreaDiv.classList.remove('hidden');
+        navButtonsDiv.classList.remove('hidden');
+        summaryAreaDiv.classList.add('hidden');
+        showResultsBtn.classList.add('hidden');
+        nextBtn.classList.remove('hidden');
+        loadCurrentQuestion();
+        if(gameModal.classList.contains('active')) closeGameModal();
+    }
+
+    // 綁定事件
+    btnStart.addEventListener('click', startQuiz);
+    resetBtn.addEventListener('click', fullReset);
+    prevBtn.addEventListener('click', ()=>{ if(currentQIndex>0){ currentQIndex--; loadCurrentQuestion(); } });
+    nextBtn.addEventListener('click', ()=>{ if(currentQIndex+1 < currentSetIndices.length){ currentQIndex++; loadCurrentQuestion(); } });
+    showResultsBtn.addEventListener('click', showSummary);
+    closeGameBtn.addEventListener('click', closeGameModal);
+    totalSpan.innerText = "75";
 </script>
 </body>
 </html>
