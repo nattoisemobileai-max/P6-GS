@@ -1,1630 +1,441 @@
-
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>皮卡丘的常識時事闖關大冒險</title>
-    <!-- Tailwind CSS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>皮卡超的常識時事闖關大冒險 | 寶可夢問答挑戰</title>
+    <!-- Tailwind CSS + Animate.css -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Animate.css for active animations -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;700&family=Noto+Sans+TC:wght@400;700;900&display=swap');
+        * {
+            user-select: none; /* 避免拖拽干擾點擊 */
+        }
         body {
-            font-family: 'Noto Sans TC', sans-serif;
-            background-color: #fcf6d6;
-            background-image: radial-gradient(#f7e8a4 1.5px, transparent 1.5px), radial-gradient(#f7e8a4 1.5px, #fcf6d6 1.5px);
-            background-size: 30px 30px;
-            background-position: 0 0, 15px 15px;
+            font-family: 'Noto Sans TC', 'Chakra Petch', sans-serif;
+            background-color: #fcf3cf;
+            background-image: radial-gradient(#ffeaa7 2px, transparent 2px);
+            background-size: 32px 32px;
         }
         .pokemon-font {
             font-family: 'Chakra Petch', 'Noto Sans TC', sans-serif;
         }
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #f1c40f;
-            border-radius: 10px;
-        }
-        /* Pixel borders and retro styling */
         .retro-border {
-            border: 4px solid #2d3748;
+            border: 4px solid #1e293b;
+            box-shadow: 6px 6px 0px rgba(0,0,0,0.1);
         }
-        .shaking {
-            animation: shake 0.5s infinite;
+        .shake-animation {
+            animation: shakePop 0.3s ease-in-out;
         }
-        @keyframes shake {
-            0% { transform: translate(1px, 1px) rotate(0deg); }
-            10% { transform: translate(-1px, -2px) rotate(-1deg); }
-            20% { transform: translate(-3px, 0px) rotate(1deg); }
-            30% { transform: translate(0px, 2px) rotate(0deg); }
-            40% { transform: translate(1px, -1px) rotate(1deg); }
-            50% { transform: translate(-1px, 2px) rotate(-1deg); }
-            60% { transform: translate(-3px, 1px) rotate(0deg); }
-            70% { transform: translate(2px, 1px) rotate(-1deg); }
-            80% { transform: translate(-1px, -1px) rotate(1deg); }
-            90% { transform: translate(2px, 2px) rotate(0deg); }
-            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        @keyframes shakePop {
+            0% { transform: scale(1);}
+            50% { transform: scale(1.05); background-color: #fef9c3;}
+            100% { transform: scale(1);}
+        }
+        /* 自定義捲軸 */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #fde68a; border-radius: 12px; }
+        ::-webkit-scrollbar-thumb { background: #b45309; border-radius: 12px; }
+        .mole-hole {
+            cursor: pointer;
+            transition: 0.1s linear;
+        }
+        .mole-hole:active {
+            transform: scale(0.96);
+        }
+        .click-feedback {
+            transition: 0.05s linear;
+        }
+        .click-feedback:active {
+            transform: scale(0.96);
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between overflow-x-hidden text-slate-800">
+<body class="min-h-screen flex flex-col relative">
 
-    <!-- Top Navigation / Stats Bar -->
-    <header class="bg-amber-400 border-b-4 border-slate-800 p-4 sticky top-0 z-50 shadow-md">
+    <!-- 頂部狀態列 皮卡超公仔真實圖 -->
+    <header class="bg-gradient-to-r from-amber-400 to-yellow-500 border-b-4 border-slate-800 p-3 sticky top-0 z-50 shadow-lg">
         <div class="max-w-4xl mx-auto flex justify-between items-center">
-            <button onclick="goToStart()" class="flex items-center space-x-2">
-                <!-- Pokéball SVG Icon -->
-                <svg class="w-8 h-8 animate-spin" style="animation-duration: 5s;" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="50" cy="50" r="45" fill="white" stroke="#2d3748" stroke-width="8"/>
-                    <path d="M 5,50 A 45,45 0 0,1 95,50 Z" fill="#ef4444" stroke="#2d3748" stroke-width="8"/>
-                    <line x1="5" y1="50" x2="95" y2="50" stroke="#2d3748" stroke-width="8"/>
-                    <circle cx="50" cy="50" r="15" fill="white" stroke="#2d3748" stroke-width="8"/>
-                    <circle cx="50" cy="50" r="6" fill="#cbd5e1"/>
-                </svg>
-                <span class="font-black text-lg md:text-2xl tracking-wide pokemon-font text-slate-900">寶可夢時事闖關</span>
-            </button>
-            
             <div class="flex items-center space-x-3">
-                <!-- Gold Coin Display -->
-                <div class="bg-slate-900 text-amber-300 font-bold px-3 py-1.5 rounded-full border-2 border-slate-700 flex items-center space-x-1 shadow-inner text-sm md:text-base">
-                    <span>🪙</span>
-                    <span id="coin-count" class="font-black text-amber-400">0</span>
-                    <span class="text-[10px] text-white">金幣</span>
+                <!-- 真實寶可夢皮卡超圖片 (官方藝術風格) -->
+                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png" 
+                     alt="皮卡超" class="w-12 h-12 drop-shadow-md hover:animate-bounce transition cursor-pointer" 
+                     title="皮卡超 皮卡皮卡！">
+                <div class="leading-tight">
+                    <h1 class="font-black text-sm md:text-xl tracking-wide text-slate-900 bg-white/30 px-2 py-0.5 rounded-full">⚡ 皮卡超時事闖關</h1>
+                    <p class="text-[10px] font-bold text-slate-700 hidden md:block">高頻時事 × 寶可夢夥伴</p>
                 </div>
-
-                <!-- Shop Button -->
-                <button onclick="openShop()" class="bg-rose-500 hover:bg-rose-600 text-white font-bold px-3 py-1.5 rounded-full border-2 border-slate-800 shadow transition transform hover:scale-105 flex items-center space-x-1 text-xs md:text-sm">
-                    <span>🛍️</span>
-                    <span class="hidden md:inline">寶可夢商店</span>
+            </div>
+            <div class="flex items-center space-x-2">
+                <div class="bg-slate-900 text-amber-300 font-bold px-3 py-1.5 rounded-full border-2 border-slate-700 flex items-center gap-1 shadow-inner">
+                    <span>🪙</span>
+                    <span id="coin-count" class="font-black text-amber-400 text-base">0</span>
+                </div>
+                <button onclick="openShop()" class="bg-rose-500 hover:bg-rose-600 text-white font-bold px-3 py-1.5 rounded-full border-2 border-slate-800 transition transform hover:scale-105 flex items-center gap-1 text-sm shadow-md">
+                    <span>🛍️</span><span class="hidden sm:inline">商店</span>
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- Main Game Container -->
-    <main class="flex-grow max-w-4xl w-full mx-auto p-4 flex flex-col justify-center">
+    <main class="flex-grow max-w-4xl w-full mx-auto p-3 md:p-4 flex flex-col justify-center">
         
-        <!-- CUSTOM NOTICE MODAL (No alerts rule) -->
-        <div id="custom-alert" class="hidden fixed inset-0 bg-slate-900/70 z-50 flex items-center justify-center p-4">
-            <div class="bg-white rounded-3xl p-6 retro-border max-w-sm w-full text-center animate__animated animate__bounceIn">
-                <span id="alert-emoji" class="text-5xl mb-2 inline-block">⚠️</span>
-                <h3 id="alert-title" class="text-xl font-black text-slate-900 mb-2">提示</h3>
-                <p id="alert-message" class="text-slate-600 text-sm mb-4 leading-relaxed font-semibold">這是提示內容。</p>
-                <button onclick="closeAlert()" class="bg-slate-950 hover:bg-slate-900 text-white font-bold px-6 py-2 rounded-xl text-sm w-full">
-                    好，我知道了！
-                </button>
+        <!-- 自定義提示模態框 (取代alert) -->
+        <div id="custom-alert" class="hidden fixed inset-0 bg-slate-900/80 z-[60] flex items-center justify-center p-4">
+            <div class="bg-white rounded-2xl retro-border max-w-sm w-full p-5 text-center animate__animated animate__zoomIn">
+                <span id="alert-emoji" class="text-5xl inline-block mb-2">⚠️</span>
+                <h3 id="alert-title" class="text-xl font-black text-slate-800">提示</h3>
+                <p id="alert-message" class="text-slate-600 text-sm my-3">訊息內容</p>
+                <button onclick="closeCustomAlert()" class="bg-slate-900 text-white font-bold px-5 py-2 rounded-xl w-full">我知道了！</button>
             </div>
         </div>
 
-        <!-- START SCREEN (STAGE SELECTION) -->
-        <section id="start-screen" class="bg-white rounded-3xl retro-border p-5 md:p-8 shadow-xl animate__animated animate__fadeIn">
-            <div class="text-center mb-6">
-                <div class="relative inline-block mb-2">
-                    <!-- Pikachu SVG Head Graphic -->
-                    <svg class="w-28 h-28 mx-auto" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M 38,44 C 20,20 12,5 24,2 C 34,0 44,22 44,38 Z" fill="#facc15" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/>
-                        <path d="M 17,10 C 13,5 24,2 29,8 Z" fill="#1e293b"/>
-                        <path d="M 82,44 C 100,20 108,5 96,2 C 86,0 76,22 76,38 Z" fill="#facc15" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/>
-                        <path d="M 103,10 C 107,5 96,2 91,8 Z" fill="#1e293b"/>
-                        <path d="M 24,70 C 22,50 35,42 60,42 C 85,42 98,50 96,70 C 94,92 84,102 60,102 C 36,102 26,92 24,70 Z" fill="#facc15" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/>
-                        <circle cx="32" cy="80" r="10" fill="#ef4444" stroke="#1e293b" stroke-width="3"/>
-                        <circle cx="88" cy="80" r="10" fill="#ef4444" stroke="#1e293b" stroke-width="3"/>
-                        <circle cx="44" cy="64" r="7" fill="#1e293b"/>
-                        <circle cx="42" cy="61" r="3" fill="white"/>
-                        <circle cx="76" cy="64" r="7" fill="#1e293b"/>
-                        <circle cx="74" cy="61" r="3" fill="white"/>
-                        <polygon points="58,70 62,70 60,73" fill="#1e293b"/>
-                        <path d="M 52,76 Q 56,80 60,76 Q 64,80 68,76" fill="none" stroke="#1e293b" stroke-width="3.5" stroke-linecap="round"/>
-                        <path d="M 56,78 Q 60,88 64,78 Z" fill="#f43f5e" stroke="#1e293b" stroke-width="2.5"/>
-                    </svg>
-                    <div class="absolute -bottom-2 -right-4 bg-amber-400 text-xs font-bold px-2 py-1 rounded-md border-2 border-slate-800 rotate-12">時事通！</div>
-                </div>
-                
-                <h1 class="text-2xl md:text-3xl font-black text-slate-900">皮卡丘的常識時事闖關大冒險</h1>
-                <p class="text-slate-500 text-xs md:text-sm max-w-xl mx-auto mt-1 leading-relaxed">
-                    精選 50 道最新常識與 2026 年時事題，按<b>出題機率從高到低排定</b>。每關答對 <span class="text-indigo-600 font-bold">7 題或以上</span>，並完成解鎖小遊戲才能開啟下一關唷！
-                </p>
-            </div>
-
-            <!-- LEVEL SELECTION CONTAINER -->
-            <div class="space-y-3 mb-6 max-h-[360px] overflow-y-auto pr-1">
-                <!-- Stage 1 -->
-                <div id="stage-card-1" class="p-4 rounded-2xl border-4 border-slate-800 bg-amber-50 flex flex-col md:flex-row items-start md:items-center justify-between shadow-md transition duration-150">
-                    <div class="flex items-start space-x-3">
-                        <span class="text-3xl p-2 bg-amber-200 rounded-xl">⭐ 5</span>
-                        <div>
-                            <div class="flex items-center space-x-2">
-                                <h3 class="font-black text-slate-900 text-base">第一關：香港核心民生時事</h3>
-                                <span class="bg-red-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full">高頻必考</span>
-                            </div>
-                            <p class="text-slate-500 text-xs mt-1 leading-relaxed">的士電子支付、公院急症室收費、電子煙管有禁令、最低工資、國安日、0班收生。</p>
-                        </div>
-                    </div>
-                    <button onclick="selectAndStartStage(1)" class="w-full md:w-auto mt-3 md:mt-0 bg-slate-900 hover:bg-slate-800 text-amber-300 font-extrabold text-sm py-2 px-6 rounded-xl border-2 border-slate-800 whitespace-nowrap shadow transform hover:scale-105 transition-all">
-                        開始挑戰
-                    </button>
-                </div>
-
-                <!-- Stage 2 -->
-                <div id="stage-card-2" class="p-4 rounded-2xl border-4 border-slate-300 bg-white flex flex-col md:flex-row items-start md:items-center justify-between shadow-md transition duration-150">
-                    <div class="flex items-start space-x-3">
-                        <span id="stage-icon-2" class="text-3xl p-2 bg-slate-100 rounded-xl">🔒</span>
-                        <div>
-                            <div class="flex items-center space-x-2">
-                                <h3 id="stage-title-2" class="font-black text-slate-400 text-base">第二關：國際體育與大眾常識</h3>
-                                <span class="bg-orange-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full">次高頻</span>
-                            </div>
-                            <p class="text-slate-400 text-xs mt-1 leading-relaxed">FIFA世界盃聯合主辦、冬季奧運會、世界衛生日、維園花卉展主題花、血月全食、張敬軒青年推廣。</p>
-                        </div>
-                    </div>
-                    <button id="stage-btn-2" onclick="selectAndStartStage(2)" disabled class="w-full md:w-auto mt-3 md:mt-0 bg-slate-200 text-slate-400 font-extrabold text-sm py-2 px-6 rounded-xl border-2 border-slate-300 whitespace-nowrap cursor-not-allowed">
-                        未解鎖
-                    </button>
-                </div>
-
-                <!-- Stage 3 -->
-                <div id="stage-card-3" class="p-4 rounded-2xl border-4 border-slate-300 bg-white flex flex-col md:flex-row items-start md:items-center justify-between shadow-md transition duration-150">
-                    <div class="flex items-start space-x-3">
-                        <span id="stage-icon-3" class="text-3xl p-2 bg-slate-100 rounded-xl">🔒</span>
-                        <div>
-                            <div class="flex items-center space-x-2">
-                                <h3 id="stage-title-3" class="font-black text-slate-400 text-base">第三關：國際焦點與外交形勢</h3>
-                                <span class="bg-indigo-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full">中高頻</span>
-                            </div>
-                            <p class="text-slate-400 text-xs mt-1 leading-relaxed">兩會法治、外交藍皮書將華降級、美台貿易、霍爾木茲海峽危機、阿提米絲四號、巴國訪華。</p>
-                        </div>
-                    </div>
-                    <button id="stage-btn-3" onclick="selectAndStartStage(3)" disabled class="w-full md:w-auto mt-3 md:mt-0 bg-slate-200 text-slate-400 font-extrabold text-sm py-2 px-6 rounded-xl border-2 border-slate-300 whitespace-nowrap cursor-not-allowed">
-                        未解鎖
-                    </button>
-                </div>
-
-                <!-- Stage 4 -->
-                <div id="stage-card-4" class="p-4 rounded-2xl border-4 border-slate-300 bg-white flex flex-col md:flex-row items-start md:items-center justify-between shadow-md transition duration-150">
-                    <div class="flex items-start space-x-3">
-                        <span id="stage-icon-4" class="text-3xl p-2 bg-slate-100 rounded-xl">🔒</span>
-                        <div>
-                            <div class="flex items-center space-x-2">
-                                <h3 id="stage-title-4" class="font-black text-slate-400 text-base">第四關：科技與財經社會</h3>
-                                <span class="bg-blue-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full">實用常識</span>
-                            </div>
-                            <p class="text-slate-400 text-xs mt-1 leading-relaxed">AI代理框架OpenClaw、Lululemon調查、Google Gemini解禁開放、雅虎香港結束新聞、煞停籃球博彩。</p>
-                        </div>
-                    </div>
-                    <button id="stage-btn-4" onclick="selectAndStartStage(4)" disabled class="w-full md:w-auto mt-3 md:mt-0 bg-slate-200 text-slate-400 font-extrabold text-sm py-2 px-6 rounded-xl border-2 border-slate-300 whitespace-nowrap cursor-not-allowed">
-                        未解鎖
-                    </button>
-                </div>
-
-                <!-- Stage 5 -->
-                <div id="stage-card-5" class="p-4 rounded-2xl border-4 border-slate-300 bg-white flex flex-col md:flex-row items-start md:items-center justify-between shadow-md transition duration-150">
-                    <div class="flex items-start space-x-3">
-                        <span id="stage-icon-5" class="text-3xl p-2 bg-slate-100 rounded-xl">🔒</span>
-                        <div>
-                            <div class="flex items-center space-x-2">
-                                <h3 id="stage-title-5" class="font-black text-slate-400 text-base">第五關：本地民生與社會趣聞</h3>
-                                <span class="bg-gray-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full">基礎民生</span>
-                            </div>
-                            <p class="text-slate-400 text-xs mt-1 leading-relaxed">房委會創業2.0、露天餐飲會審、廣州早茶時限、港足代表隊、樂隊五月天退票事件、孫燕姿演唱會。</p>
-                        </div>
-                    </div>
-                    <button id="stage-btn-5" onclick="selectAndStartStage(5)" disabled class="w-full md:w-auto mt-3 md:mt-0 bg-slate-200 text-slate-400 font-extrabold text-sm py-2 px-6 rounded-xl border-2 border-slate-300 whitespace-nowrap cursor-not-allowed">
-                        未解鎖
-                    </button>
-                </div>
-            </div>
-
-            <!-- Big Core Start Button -->
+        <!-- 起始畫面 關卡選擇 -->
+        <section id="start-screen" class="bg-white rounded-3xl retro-border p-5 shadow-xl animate__animated animate__fadeIn">
             <div class="text-center">
-                <button onclick="startGame()" class="bg-slate-900 hover:bg-slate-800 text-amber-300 font-black text-lg px-12 py-3.5 rounded-2xl border-4 border-slate-900 shadow-[4px_4px_0px_0px_rgba(241,196,15,1)] transition-all duration-150 transform hover:-translate-y-0.5 active:translate-y-0 active:shadow-none">
-                    開始挑戰！皮卡！
+                <div class="flex justify-center gap-2 mb-3">
+                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png" class="w-16 h-16 inline-block drop-shadow" alt="皮卡超">
+                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/133.png" class="w-14 h-14 inline-block" alt="伊布">
+                </div>
+                <h2 class="text-2xl md:text-3xl font-black text-slate-900">⚡ 皮卡超常識時事冒險</h2>
+                <p class="text-slate-500 text-xs max-w-md mx-auto mt-1">精選50道高頻時事 + 常識題 • 每關答對7題解鎖小遊戲 → 開啟下一關！</p>
+            </div>
+            <!-- 關卡列表容器 -->
+            <div id="stage-list-container" class="space-y-3 my-5 max-h-[400px] overflow-y-auto pr-1">
+                <!-- 動態js渲染關卡 避免html重複bug-->
+            </div>
+            <div class="text-center mt-4">
+                <button id="global-start-btn" class="bg-slate-900 hover:bg-slate-800 text-amber-300 font-black text-lg px-10 py-3 rounded-2xl border-4 border-slate-800 shadow-[4px_4px_0px_#facc15] transition transform hover:-translate-y-0.5 active:translate-y-0">
+                    開始冒險！皮卡～
                 </button>
             </div>
         </section>
 
-        <!-- GAMEPLAY SCREEN -->
-        <section id="game-screen" class="hidden bg-white rounded-3xl retro-border p-5 md:p-8 shadow-xl flex-col relative animate__animated animate__fadeIn">
-            <!-- Progress indicator -->
-            <div class="flex justify-between items-center mb-4">
-                <span class="bg-amber-100 text-amber-800 text-xs md:text-sm font-bold px-3 py-1 rounded-full border border-amber-300 flex items-center space-x-1">
-                    <span>🏆</span> <span><span id="current-stage-title">關卡</span> : 題 <span id="current-question-num">1</span> / 10</span>
-                </span>
-                <div class="flex-grow mx-4 h-3 bg-slate-100 rounded-full border border-slate-300 overflow-hidden">
-                    <div id="progress-bar" class="h-full bg-amber-400 transition-all duration-300" style="width: 10%;"></div>
-                </div>
-                <span id="category-badge" class="bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded border border-indigo-200">香港時事</span>
+        <!-- 問答主畫面 -->
+        <section id="game-screen" class="hidden bg-white rounded-3xl retro-border p-5 shadow-xl flex-col animate__animated animate__fadeIn">
+            <div class="flex justify-between items-center mb-3">
+                <span class="bg-amber-100 text-amber-800 text-xs font-bold px-3 py-1 rounded-full"><span id="current-stage-title">第一關</span> 題目 <span id="current-question-num">1</span>/10</span>
+                <div class="flex-1 mx-3 h-2 bg-slate-200 rounded-full overflow-hidden"><div id="progress-bar" class="h-full bg-amber-500 w-0 transition-all"></div></div>
+                <span id="category-badge" class="bg-indigo-100 text-indigo-700 text-xs px-2 py-1 rounded-full">時事焦點</span>
             </div>
-
-            <!-- Question and Scenario Card -->
-            <div class="bg-slate-50 rounded-2xl p-5 border-2 border-dashed border-slate-300 mb-4 relative overflow-hidden">
-                <p id="scenario-text" class="text-slate-500 text-xs md:text-sm font-medium mb-1 flex items-center space-x-1">
-                    <span>⚡ 皮卡丘在播報新聞：</span>
-                </p>
-                <h2 id="question-text" class="text-slate-900 text-base md:text-lg font-bold leading-relaxed">
-                    這裡將顯示小學六年級常識與最新時事題目？
-                </h2>
-                
-                <!-- SOURCE MARKER -->
-                <div class="mt-4 border-t pt-2 flex items-center text-[11px] text-indigo-600 font-semibold">
-                    <span class="mr-1">🏫</span>
-                    <span>題目來源：</span>
-                    <span id="question-source-text" class="bg-indigo-50 px-2 py-0.5 rounded text-indigo-800 ml-1">載入中...</span>
-                </div>
+            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 mb-4">
+                <p id="scenario-text" class="text-amber-700 text-sm font-bold">⚡ 皮卡超好奇地問：</p>
+                <h2 id="question-text" class="text-slate-800 font-bold text-base md:text-lg mt-1 leading-relaxed">題目載入中...</h2>
+                <div class="mt-3 flex items-center text-[11px] text-indigo-600 gap-1"><span>📚 來源：</span><span id="question-source-text" class="bg-indigo-50 px-2 py-0.5 rounded">風穎教育</span></div>
             </div>
-
-            <!-- Options Grid -->
-            <div id="options-container" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                <!-- Dynamic options generated in JS -->
-            </div>
-
-            <!-- Bottom Panel: Result, Explanation, and Actions -->
-            <div id="feedback-panel" class="hidden border-t-2 border-slate-100 pt-5 mt-2 animate__animated">
-                <div class="flex items-start space-x-4">
-                    <div id="feedback-icon" class="text-4xl">🎉</div>
-                    <div class="flex-grow">
-                        <h3 id="feedback-title" class="font-bold text-lg text-slate-900">非常正確！</h3>
-                        <p id="feedback-text" class="text-slate-600 text-sm mt-1">獲得了 5 個金幣！</p>
-                        
-                        <!-- Toggleable Explanation Area -->
-                        <div class="mt-3">
-                            <button onclick="toggleExplanation()" class="text-indigo-600 hover:text-indigo-800 text-xs font-bold underline flex items-center space-x-1">
-                                <span>💡</span> <span id="explain-btn-text">查看詳盡解釋</span>
-                            </button>
-                            <div id="explanation-box" class="hidden mt-2 bg-indigo-50 border border-indigo-100 text-indigo-900 rounded-lg p-3 text-xs md:text-sm leading-relaxed">
-                                這裡會顯示本題的知識點解釋。
-                            </div>
-                        </div>
+            <div id="options-container" class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-5"></div>
+            <div id="feedback-panel" class="hidden border-t pt-4 mt-1 animate__animated">
+                <div class="flex items-start gap-3">
+                    <div id="feedback-icon" class="text-3xl">🎉</div>
+                    <div class="flex-1">
+                        <h3 id="feedback-title" class="font-bold text-slate-800">答對啦！</h3>
+                        <p id="feedback-text" class="text-slate-500 text-sm">獲得5金幣</p>
+                        <button onclick="toggleExplanationInline()" class="text-indigo-500 text-xs underline mt-1">📖 查看詳解</button>
+                        <div id="explanation-box" class="hidden mt-2 bg-indigo-50 p-2 rounded-lg text-slate-700 text-xs leading-relaxed"></div>
                     </div>
                 </div>
-
-                <div class="flex justify-end mt-5">
-                    <button id="next-btn" onclick="nextStep()" class="bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold px-6 py-2.5 rounded-xl border-2 border-slate-800 shadow transition-all duration-150 transform hover:scale-105 flex items-center space-x-2">
-                        <span id="next-btn-text">下一關</span>
-                        <span>➡️</span>
-                    </button>
-                </div>
+                <div class="flex justify-end mt-3"><button id="next-btn" onclick="nextStepAction()" class="bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold px-5 py-2 rounded-xl border-2 border-slate-800 shadow transition">下一關 ➡️</button></div>
             </div>
         </section>
 
-        <!-- MINI GAME CONTAINER -->
-        <section id="minigame-screen" class="hidden bg-white rounded-3xl retro-border p-6 shadow-xl text-center flex-col items-center animate__animated animate__zoomIn">
-            <div class="bg-purple-100 text-purple-800 font-bold text-sm px-3 py-1 rounded-full border border-purple-300 inline-block mb-2">關卡解鎖前哨戰</div>
-            <h2 id="minigame-title" class="text-2xl md:text-3xl font-black text-slate-900 mb-2">精靈莓果大作戰！</h2>
-            <p id="minigame-desc" class="text-slate-600 text-sm md:text-base max-w-md mx-auto mb-4">
-                在限定時間內點擊隨機出現的藍莓，每點中一個可獲得 1 個額外金幣！
-            </p>
-            
-            <div class="flex justify-center items-center space-x-4 mb-4 font-bold">
-                <div class="bg-red-50 text-red-600 px-4 py-1.5 rounded-lg border border-red-200">
-                    倒數計時：<span id="minigame-timer" class="text-xl">15</span> 秒
-                </div>
-                <div class="bg-amber-50 text-amber-600 px-4 py-1.5 rounded-lg border border-amber-200">
-                    獲得獎金：+<span id="minigame-score" class="text-xl">0</span>
-                </div>
+        <!-- 小遊戲畫面 (解鎖關鍵) -->
+        <section id="minigame-screen" class="hidden bg-white rounded-3xl retro-border p-5 shadow-xl text-center flex-col items-center">
+            <h2 id="minigame-title" class="text-2xl font-black text-slate-800">🍓 莓果大作戰</h2>
+            <p id="minigame-desc" class="text-slate-500 text-sm">點擊出現的莓果！每顆+1金幣！</p>
+            <div class="flex justify-center gap-5 my-3">
+                <div class="bg-red-50 px-4 py-1 rounded-xl"><span class="font-bold">⏱️ </span><span id="minigame-timer">15</span>秒</div>
+                <div class="bg-amber-50 px-4 py-1 rounded-xl"><span class="font-bold">💰 +</span><span id="minigame-score">0</span></div>
             </div>
-
-            <!-- Mini Game Play Field -->
-            <div id="minigame-canvas-container" class="relative w-full h-80 bg-slate-900 rounded-2xl overflow-hidden border-4 border-slate-800 cursor-crosshair">
-                <div id="minigame-intro-overlay" class="absolute inset-0 bg-slate-900 bg-opacity-95 flex flex-col justify-center items-center p-4">
-                    <span id="minigame-ready-emoji" class="text-5xl mb-3">🍓</span>
-                    <button onclick="startMiniGamePlay()" class="bg-purple-500 hover:bg-purple-600 text-white font-extrabold text-lg px-8 py-3 rounded-xl border-2 border-white shadow-lg animate-bounce">
-                        點擊開始挑戰！
-                    </button>
+            <div id="minigame-play-field" class="relative w-full h-80 bg-slate-900 rounded-2xl overflow-hidden border-4 border-slate-800 cursor-pointer">
+                <div id="minigame-overlay" class="absolute inset-0 bg-black/80 flex flex-col items-center justify-center z-10">
+                    <span class="text-6xl mb-2">🎮</span>
+                    <button id="start-minigame-btn" class="bg-purple-500 text-white font-bold px-6 py-2 rounded-xl text-xl animate-bounce">開始挑戰！</button>
                 </div>
-                
-                <!-- Whack a mole grids -->
-                <div id="minigame2-grid" class="hidden grid grid-cols-3 grid-rows-3 gap-2 p-2 h-full w-full">
-                    <div class="relative bg-emerald-800 rounded-lg overflow-hidden flex items-center justify-center border-2 border-emerald-950 mole-hole" onclick="hitMole(0)">
-                        <div id="mole-0" class="absolute bottom-0 w-16 h-16 transition-all duration-100 translate-y-16 pointer-events-none">🐱</div>
-                    </div>
-                    <div class="relative bg-emerald-800 rounded-lg overflow-hidden flex items-center justify-center border-2 border-emerald-950 mole-hole" onclick="hitMole(1)">
-                        <div id="mole-1" class="absolute bottom-0 w-16 h-16 transition-all duration-100 translate-y-16 pointer-events-none">🐱</div>
-                    </div>
-                    <div class="relative bg-emerald-800 rounded-lg overflow-hidden flex items-center justify-center border-2 border-emerald-950 mole-hole" onclick="hitMole(2)">
-                        <div id="mole-2" class="absolute bottom-0 w-16 h-16 transition-all duration-100 translate-y-16 pointer-events-none">🐱</div>
-                    </div>
-                    <div class="relative bg-emerald-800 rounded-lg overflow-hidden flex items-center justify-center border-2 border-emerald-950 mole-hole" onclick="hitMole(3)">
-                        <div id="mole-3" class="absolute bottom-0 w-16 h-16 transition-all duration-100 translate-y-16 pointer-events-none">🐱</div>
-                    </div>
-                    <div class="relative bg-emerald-800 rounded-lg overflow-hidden flex items-center justify-center border-2 border-emerald-950 mole-hole" onclick="hitMole(4)">
-                        <div id="mole-4" class="absolute bottom-0 w-16 h-16 transition-all duration-100 translate-y-16 pointer-events-none">🐱</div>
-                    </div>
-                    <div class="relative bg-emerald-800 rounded-lg overflow-hidden flex items-center justify-center border-2 border-emerald-950 mole-hole" onclick="hitMole(5)">
-                        <div id="mole-5" class="absolute bottom-0 w-16 h-16 transition-all duration-100 translate-y-16 pointer-events-none">🐱</div>
-                    </div>
-                    <div class="relative bg-emerald-800 rounded-lg overflow-hidden flex items-center justify-center border-2 border-emerald-950 mole-hole" onclick="hitMole(6)">
-                        <div id="mole-6" class="absolute bottom-0 w-16 h-16 transition-all duration-100 translate-y-16 pointer-events-none">🐱</div>
-                    </div>
-                    <div class="relative bg-emerald-800 rounded-lg overflow-hidden flex items-center justify-center border-2 border-emerald-950 mole-hole" onclick="hitMole(7)">
-                        <div id="mole-7" class="absolute bottom-0 w-16 h-16 transition-all duration-100 translate-y-16 pointer-events-none">🐱</div>
-                    </div>
-                    <div class="relative bg-emerald-800 rounded-lg overflow-hidden flex items-center justify-center border-2 border-emerald-950 mole-hole" onclick="hitMole(8)">
-                        <div id="mole-8" class="absolute bottom-0 w-16 h-16 transition-all duration-100 translate-y-16 pointer-events-none">🐱</div>
-                    </div>
-                </div>
+                <div id="minigame-grid-mole" class="hidden grid grid-cols-3 gap-2 p-3 h-full w-full"></div>
             </div>
         </section>
 
-        <!-- END SCREEN -->
-        <section id="end-screen" class="hidden bg-white rounded-3xl retro-border p-6 md:p-8 text-center shadow-xl animate__animated animate__fadeIn">
-            <span class="text-6xl mb-4 inline-block animate-bounce">👑</span>
-            <h1 class="text-2xl md:text-4xl font-extrabold mb-2 text-slate-900">恭喜你全破大冒險！</h1>
-            <p class="text-slate-500 mb-6 font-medium">你答對了所有高頻必考常識題！</p>
-            
-            <div class="max-w-md mx-auto grid grid-cols-2 gap-4 mb-6">
-                <div class="bg-amber-50 rounded-2xl p-4 border border-amber-200">
-                    <p class="text-xs text-slate-500 font-bold uppercase">最終金幣</p>
-                    <p id="end-coins" class="text-2xl font-black text-amber-600">0</p>
-                </div>
-                <div class="bg-indigo-50 rounded-2xl p-4 border border-indigo-200">
-                    <p class="text-xs text-slate-500 font-bold uppercase">總答對題數</p>
-                    <p id="end-correct" class="text-2xl font-black text-indigo-600">0 / 50</p>
-                </div>
+        <!-- 最終破關畫面 -->
+        <section id="end-screen" class="hidden bg-white rounded-3xl retro-border p-6 text-center shadow-xl">
+            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png" class="w-20 mx-auto mb-2 animate-bounce" alt="皮卡超">
+            <h2 class="text-3xl font-black text-slate-800">🎉 全破大冒險！ 🎉</h2>
+            <p class="text-slate-500">你成為時事大師，寶可夢夥伴都為你喝采！</p>
+            <div class="grid grid-cols-2 gap-3 max-w-xs mx-auto my-4">
+                <div class="bg-amber-100 p-3 rounded-2xl"><p class="text-xs">🏅 最終金幣</p><p id="end-coins" class="text-2xl font-black">0</p></div>
+                <div class="bg-indigo-100 p-3 rounded-2xl"><p class="text-xs">✅ 總答對</p><p id="end-correct" class="text-2xl font-black">50/50</p></div>
             </div>
-
-            <p class="text-slate-600 text-sm max-w-sm mx-auto mb-6 leading-relaxed">
-                快去<span class="text-rose-500 font-bold">寶可夢商店</span>，把賺到的金幣買些好吃的零食，與皮卡丘、伊布牠們分享，增加你們的親密默契值吧！
-            </p>
-
-            <div class="flex flex-col sm:flex-row justify-center space-y-3 sm:space-y-0 sm:space-x-4">
-                <button onclick="openShop()" class="bg-rose-500 hover:bg-rose-600 text-white font-bold text-lg px-8 py-3 rounded-xl border-2 border-slate-800 shadow transition transform hover:-translate-y-0.5">
-                    🛍️ 前往商店買零食
-                </button>
-                <button onclick="goToStart()" class="bg-slate-800 hover:bg-slate-900 text-white font-bold text-lg px-8 py-3 rounded-xl border-2 border-slate-700 shadow transition transform hover:-translate-y-0.5">
-                    🔄 重選關卡挑戰
-                </button>
-            </div>
+            <div class="flex gap-3 justify-center"><button onclick="openShop()" class="bg-rose-500 text-white px-5 py-2 rounded-xl font-bold">🛍️ 商店買零食</button><button onclick="resetToStart()" class="bg-slate-800 text-white px-5 py-2 rounded-xl">🔄 重選關卡</button></div>
         </section>
 
+        <!-- 商店模態框 -->
+        <div id="shop-modal" class="hidden fixed inset-0 bg-black/70 z-[70] flex items-center justify-center p-4">
+            <div class="bg-white rounded-3xl retro-border max-w-lg w-full p-5 relative max-h-[90vh] overflow-y-auto">
+                <button onclick="closeShopModal()" class="absolute top-3 right-3 text-2xl">✕</button>
+                <h3 class="text-xl font-black flex items-center gap-2">🛍️ 寶可夢零食鋪 <span id="shop-coin" class="bg-slate-800 text-amber-300 text-sm px-2 py-0.5 rounded-full ml-2">🪙0</span></h3>
+                <div class="space-y-2 my-4">
+                    <div class="flex justify-between items-center bg-amber-50 p-2 rounded-xl"><span><span class="text-2xl">🍬</span> 雷電能量糖</span><button onclick="buyStoreItem('雷電能量糖',10,'🍬')" class="bg-amber-400 px-3 py-1 rounded-lg font-bold text-sm">10🪙 買</button></div>
+                    <div class="flex justify-between items-center bg-amber-50 p-2 rounded-xl"><span><span class="text-2xl">🧁</span> 美味寶芬</span><button onclick="buyStoreItem('美味寶芬',15,'🧁')" class="bg-amber-400 px-3 py-1 rounded-lg font-bold text-sm">15🪙 買</button></div>
+                    <div class="flex justify-between items-center bg-amber-50 p-2 rounded-xl"><span><span class="text-2xl">🍯</span> 蜂蜜罐</span><button onclick="buyStoreItem('蜂蜜罐',20,'🍯')" class="bg-amber-400 px-3 py-1 rounded-lg font-bold text-sm">20🪙 買</button></div>
+                    <div class="flex justify-between items-center bg-amber-50 p-2 rounded-xl"><span><span class="text-2xl">🍪</span> 樹果脆餅</span><button onclick="buyStoreItem('樹果脆餅',25,'🍪')" class="bg-amber-400 px-3 py-1 rounded-lg font-bold text-sm">25🪙 買</button></div>
+                </div>
+                <div class="border-t pt-2"><p class="text-xs font-bold">🎒 背包（點擊分享給寶可夢）</p><div id="backpack-list" class="flex flex-wrap gap-2 mt-2 text-sm"></div></div>
+            </div>
+        </div>
+
+        <!-- 分享模態框 -->
+        <div id="share-modal" class="hidden fixed inset-0 bg-black/70 z-[80] items-center justify-center p-4">
+            <div class="bg-white rounded-2xl p-5 max-w-xs w-full text-center"><span id="share-item-emoji" class="text-4xl">🍬</span><p class="font-bold">分享<span id="share-item-name"></span>給哪位夥伴？</p>
+                <div class="grid grid-cols-2 gap-2 my-3">
+                    <button onclick="shareToPokemon('皮卡超','⚡ 皮卡超開心放電！友好度++')" class="bg-yellow-100 p-2 rounded-xl">⚡ 皮卡超</button>
+                    <button onclick="shareToPokemon('伊布','🦊 伊布蹭蹭你的腿！好開心！')" class="bg-amber-100 p-2 rounded-xl">🦊 伊布</button>
+                    <button onclick="shareToPokemon('傑尼龜','🐢 傑尼龜噴水花跳舞～')" class="bg-blue-100 p-2 rounded-xl">🐢 傑尼龜</button>
+                    <button onclick="shareToPokemon('小火龍','🔥 小火龍尾巴火焰變得更亮了')" class="bg-orange-100 p-2 rounded-xl">🔥 小火龍</button>
+                </div>
+                <button onclick="closeShareModal()" class="text-xs text-slate-400">取消</button>
+            </div>
+        </div>
+        <div id="reaction-modal" class="hidden fixed inset-0 bg-black/70 z-[80] items-center justify-center p-4"><div class="bg-white p-5 rounded-2xl text-center"><span class="text-5xl">💛</span><p id="reaction-message" class="my-2">寶可夢很開心！</p><button onclick="closeReactionModal()" class="bg-slate-800 text-white px-4 py-1 rounded-xl">繼續冒險</button></div></div>
     </main>
 
-    <!-- SHOP MODAL -->
-    <div id="shop-modal" class="hidden fixed inset-0 bg-slate-900 bg-opacity-75 z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl retro-border max-w-lg w-full p-6 animate__animated animate__bounceIn relative">
-            <button onclick="closeShop()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-2xl font-bold">✕</button>
-            
-            <div class="flex items-center space-x-2 mb-4 border-b pb-3">
-                <span class="text-3xl">🛍️</span>
-                <h2 class="text-2xl font-black text-slate-900">寶可夢零食小鋪</h2>
-            </div>
-            
-            <div class="bg-amber-100 border border-amber-300 text-amber-900 rounded-xl p-3 flex justify-between items-center mb-4">
-                <span class="text-sm font-bold">你有足夠的金幣購買好吃的零食嗎？</span>
-                <div class="flex items-center space-x-1 bg-slate-900 text-amber-400 px-3 py-1 rounded-full border-2 border-slate-700">
-                    <span>🪙</span>
-                    <span id="shop-coin-count" class="font-bold">0</span>
-                </div>
-            </div>
+    <footer class="bg-slate-900 text-slate-400 text-center text-[10px] py-2">© 2026 皮卡超時事闖關 | 高頻必考 50 題</footer>
 
-            <!-- Shop Items List -->
-            <div class="space-y-3 max-h-60 overflow-y-auto pr-1 mb-4">
-                <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-200 hover:border-amber-300 transition-all">
-                    <div class="flex items-center space-x-3">
-                        <span class="text-3xl">🍬</span>
-                        <div>
-                            <h3 class="font-bold text-sm text-slate-900">雷電能量糖果</h3>
-                            <p class="text-slate-500 text-xs">皮卡丘的最愛！吃了會劈啪放電。</p>
-                        </div>
-                    </div>
-                    <button onclick="buyItem('雷電能量糖果', 10, '🍬')" class="bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold text-xs py-2 px-3 rounded-lg border border-slate-800 shadow-sm whitespace-nowrap">
-                        10 🪙 購買
-                    </button>
-                </div>
-                <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-200 hover:border-amber-300 transition-all">
-                    <div class="flex items-center space-x-3">
-                        <span class="text-3xl">🧁</span>
-                        <div>
-                            <h3 class="font-bold text-sm text-slate-900">美味寶芬蛋糕</h3>
-                            <p class="text-slate-500 text-xs">口感豐富，伊布聞到就會開心地跳舞。</p>
-                        </div>
-                    </div>
-                    <button onclick="buyItem('美味寶芬蛋糕', 15, '🧁')" class="bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold text-xs py-2 px-3 rounded-lg border border-slate-800 shadow-sm whitespace-nowrap">
-                        15 🪙 購買
-                    </button>
-                </div>
-                <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-200 hover:border-amber-300 transition-all">
-                    <div class="flex items-center space-x-3">
-                        <span class="text-3xl">🍯</span>
-                        <div>
-                            <h3 class="font-bold text-sm text-slate-900">三蜜蜂黃金蜂蜜</h3>
-                            <p class="text-slate-500 text-xs">極為香甜，所有寶可夢都拒絕不了的美味。</p>
-                        </div>
-                    </div>
-                    <button onclick="buyItem('三蜜蜂黃金蜂蜜', 20, '🍯')" class="bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold text-xs py-2 px-3 rounded-lg border border-slate-800 shadow-sm whitespace-nowrap">
-                        20 🪙 購買
-                    </button>
-                </div>
-                <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-200 hover:border-amber-300 transition-all">
-                    <div class="flex items-center space-x-3">
-                        <span class="text-3xl">🍪</span>
-                        <div>
-                            <h3 class="font-bold text-sm text-slate-900">森之樹果脆餅</h3>
-                            <p class="text-slate-500 text-xs">小火龍與妙蛙種子都喜歡，嘎嘣脆！</p>
-                        </div>
-                    </div>
-                    <button onclick="buyItem('森之樹果脆餅', 25, '🍪')" class="bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold text-xs py-2 px-3 rounded-lg border border-slate-800 shadow-sm whitespace-nowrap">
-                        25 🪙 購買
-                    </button>
-                </div>
-            </div>
-
-            <!-- My Bag -->
-            <div class="border-t pt-3">
-                <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">我的背包 (已買零食)：</h4>
-                <div id="backpack-inventory" class="flex flex-wrap gap-2 text-sm text-slate-600">
-                    <span class="text-xs text-slate-400">背囊裡空空的，快去答題賺金幣購買吧！</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- SHARE DIALOG -->
-    <div id="share-modal" class="hidden fixed inset-0 bg-slate-900 bg-opacity-75 z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl retro-border max-w-sm w-full p-6 animate__animated animate__bounceIn text-center relative">
-            <button onclick="closeShare()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-xl font-bold">✕</button>
-            <span id="sharing-item-emoji" class="text-5xl mb-2 inline-block">🍬</span>
-            <h3 class="text-xl font-black text-slate-900 mb-1">要把 <span id="sharing-item-name" class="text-amber-500">零食</span> 分享給誰？</h3>
-            <p class="text-slate-500 text-xs mb-4">選一個你的寶可夢好夥伴，看牠們的反應吧！</p>
-            
-            <div class="grid grid-cols-2 gap-3 mb-4">
-                <button onclick="executeShare('皮卡丘', '⚡ 皮卡丘開心得尾巴直搖，發出「皮卡皮卡！」的歡呼！友好度上升了！')" class="p-3 bg-yellow-50 hover:bg-yellow-100 rounded-xl border border-yellow-200 text-xs font-bold flex flex-col items-center">
-                    <span class="text-2xl mb-1">⚡</span>皮卡丘
-                </button>
-                <button onclick="executeShare('伊布', '🦊 伊布輕快地跳了一支舞，親昵地在你的腿上蹭了蹭！友好度上升了！')" class="p-3 bg-amber-50 hover:bg-amber-100 rounded-xl border border-amber-200 text-xs font-bold flex flex-col items-center">
-                    <span class="text-2xl mb-1">🦊</span>伊布
-                </button>
-                <button onclick="executeShare('波加曼', '🐧 波加曼高高抬起頭，拍拍小翅膀，神氣地叫了一聲！友好度上升了！')" class="p-3 bg-blue-50 hover:bg-blue-100 rounded-xl border border-blue-200 text-xs font-bold flex flex-col items-center">
-                    <span class="text-2xl mb-1">🐧</span>波加曼
-                </button>
-                <button onclick="executeShare('小火龍', '🦎 小火龍高興地吐出了小火花，尾巴的火焰更亮了！友好度上升了！')" class="p-3 bg-orange-50 hover:bg-orange-100 rounded-xl border border-orange-200 text-xs font-bold flex flex-col items-center">
-                    <span class="text-2xl mb-1">🔥</span>小火龍
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- SHARED REACTION SUCCESS MESSAGE -->
-    <div id="reaction-modal" class="hidden fixed inset-0 bg-slate-900 bg-opacity-75 z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl retro-border max-w-sm w-full p-6 animate__animated animate__jackInTheBox text-center">
-            <span class="text-5xl mb-3 inline-block">💖</span>
-            <h3 id="reaction-title" class="text-xl font-black text-slate-900 mb-2">牠好高興！</h3>
-            <p id="reaction-desc" class="text-slate-600 text-sm leading-relaxed mb-4">寶可夢反饋</p>
-            <button onclick="closeReaction()" class="bg-slate-950 hover:bg-slate-900 text-white font-bold px-6 py-2 rounded-xl text-sm">
-                不客氣，繼續冒險！
-            </button>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer class="bg-slate-900 border-t-4 border-slate-800 text-slate-400 py-3 text-center text-xs">
-        <p>© 2026 寶可夢常識時事闖關大冒險 | 緊貼時事・掌握未來</p>
-    </footer>
-
-    <!-- Game Engine & Sourced PDF database (50 Questions sorted by exam importance) -->
     <script>
-        // Highly curated, filtered & ordered database directly matched to uploaded PDFs
-        const questionsDatabase = [
-            // ================== STAGE 1: 香港核心民生時事 ==================
-            {
-                stage: 1,
-                category: "香港時事",
-                scenario: "🚕 傑尼龜攔截了一部紅色計程車：",
-                question: "的士自 2026 年 4 月 1 日起，規定在車廂內必須提供至少多少種電子支付方式？",
-                options: ["1種", "2種", "3種", "4種"],
-                correct: 1,
-                explain: "根據運輸署新規，的士由4月1日起必須提供最少2種電子支付方式（例如八達通及電子二維碼），為市民及旅客提供方便。",
-                source: "風穎教育答案版 第25題"
-            },
-            {
-                stage: 1,
-                category: "醫療政策",
-                scenario: "🐧 波加曼在急症室告示板前排隊登記：",
-                question: "香港公立醫院急症室收費已由原來的港幣180元調整至多少元？",
-                options: ["220元", "300元", "400元", "500元"],
-                correct: 2,
-                explain: "醫院管理局宣布公立醫院急症室收費已由 180 元大幅上調至 400 元，希望打擊濫用、分流非緊急患者。",
-                source: "風穎教育答案版 第4題"
-            },
-            {
-                stage: 1,
-                category: "香港禁煙政策",
-                scenario: "🔥 小火龍看到宣導標誌，提醒市民不要觸犯禁令：",
-                question: "自 2026 年 4 月 30 日起，本港法例禁止在任何公眾地方管有以下哪一類吸煙產品？",
-                options: ["傳統捲煙", "打火機", "電子煙等另類煙產品", "香煙濾嘴"],
-                correct: 2,
-                explain: "香港於4月30日全面實施禁止公眾地方管有電子煙、加熱煙等另類吸煙產品，加強保護公眾免受新型煙草危害。",
-                source: "風穎教育答案版 第15題"
-            },
-            {
-                stage: 1,
-                category: "香港民生經濟",
-                scenario: "⚡ 皮卡丘在看最新的薪酬調整指引：",
-                question: "香港政府宣布法定最低工資自5月1日起，將會上調至每小時港幣多少元？",
-                options: ["37.5元", "40.0元", "43.1元", "45.5元"],
-                correct: 2,
-                explain: "香港法定最低工資自2026年5月1日起正式調升至每小時 43.1 元，保障基層僱員薪酬權益。",
-                source: "風穎教育答案版 第31題"
-            },
-            {
-                stage: 1,
-                category: "國家安全教育",
-                scenario: "🍃 妙蛙花在參加政府的安全日遊學展覽：",
-                question: "2026年4月15日是香港特區第幾個「全民國家安全教育日」？",
-                options: ["第9個", "第10個", "第11個", "第12個"],
-                correct: 2,
-                explain: "香港自國家安全法實施以來積極推廣國家安全，4月15日是第 11 個「全民國家安全教育日」。",
-                source: "風穎教育答案版 第20題"
-            },
-            {
-                stage: 1,
-                category: "教育政策",
-                scenario: "⚡ 皮卡丘在查閱學童入學統計表：",
-                question: "受人口結構變化影響，教育局宣布下學年全港共有多少間資助小學因收生不足獲派「0班」？",
-                options: ["5間", "10間", "15間", "20間"],
-                correct: 2,
-                explain: "教育局在小一派位結果公佈中宣布，下學年有 15 間小學因收生情況不達標而獲派「0班」停辦小一。",
-                source: "風穎教育答案版 第18題"
-            },
-            {
-                stage: 1,
-                category: "香港醫療發展",
-                scenario: "🏥 小火龍看到了即將投入運營的大型新建綜合醫院：",
-                question: "新建位於東九龍的哪一家大型醫院，預計於 2026 年 10 月起分階段投入服務？",
-                options: ["香港中醫醫院", "啟德醫院", "廣華醫院新大樓", "天水圍醫院"],
-                correct: 1,
-                explain: "新建位於啟德發展區的「啟德醫院」是一所超大型急症全科公立醫院，預計10月起正式分階段運作。",
-                source: "風穎教育答案版 第26題"
-            },
-            {
-                stage: 1,
-                category: "香港環保與廚餘",
-                scenario: "🍃 妙蛙種子正在宣傳環保回收的新方案：",
-                question: "政府計劃於 2025 年 10 月起，將智能廚餘回收桶的安裝申請門檻降低至多少戶？",
-                options: ["100戶", "200戶", "300戶", "400戶"],
-                correct: 1,
-                explain: "為進一步推廣垃圾分類，政府計劃在10月將智能廚餘回收桶的樓宇申請門檻下調至 200 戶，提高回收覆蓋面。",
-                source: "學而思4月百寶箱 練習第12題"
-            },
-            {
-                stage: 1,
-                category: "香港政治結構",
-                scenario: "⚡ 皮卡丘看見立法會主席在宣布大會決議：",
-                question: "根據最新任期，現任香港立法會主席是以下哪一位？",
-                options: ["梁君彥", "李慧琼", "陳健波", "李家超"],
-                correct: 1,
-                explain: "根據風穎教育常識時事題標準答案手冊，現任立法會主席是李慧琼。",
-                source: "風穎教育答案版 第19題"
-            },
-            {
-                stage: 1,
-                category: "融入大灣區發展",
-                scenario: "⚡ 皮卡丘正在查閱北部都會區規劃地圖：",
-                question: "未來將成為香港融入國家大都市發展大局的創科和重要發展橋頭堡，指的是哪一個科技城？",
-                options: ["數碼港", "科學園", "新田科技城", "前海創科城"],
-                correct: 2,
-                explain: "緊鄰深圳河的「新田科技城」是北部都會區發展中，香港與大灣區融合並引領科創發展的戰略重地。",
-                source: "風穎教育答案版 第46題"
-            },
-
-            // ================== STAGE 2: 國際體育與大眾常識 ==================
-            {
-                stage: 2,
-                category: "國際體育大賽",
-                scenario: "⚽ 傑尼龜換上了守門員服裝，準備參加世界最大賽事：",
-                question: "2026 年 FIFA 足球世界盃將由哪三個國家聯合主辦？",
-                options: [
-                    "日本、韓國及中國",
-                    "美國、加拿大及墨西哥",
-                    "英國、法國及德國",
-                    "巴西、阿根廷及智利"
-                ],
-                correct: 1,
-                explain: "2026年世界盃是由美國、加拿大及墨西哥三個北美洲國家首次聯合主辦，也是有史以來最大規模的一屆。",
-                source: "風穎教育答案版 第40-42題"
-            },
-            {
-                stage: 2,
-                category: "國際體育大賽",
-                scenario: "❄️ 穿山鼠在冰天雪地上練習滑雪：",
-                question: "2026 年冬季奧林匹克運動會將由意大利的哪兩個城市共同主辦？",
-                options: [
-                    "羅馬與都靈",
-                    "米蘭與科爾蒂納丹佩佐",
-                    "威尼斯與米蘭",
-                    "佛羅倫斯與羅馬"
-                ],
-                correct: 1,
-                explain: "2026年冬季奧運會由意大利時尚之都「米蘭」與滑雪勝地「科爾蒂納丹佩佐」聯合承辦。",
-                source: "風穎教育答案版 第38題"
-            },
-            {
-                stage: 2,
-                category: "國際健康常識",
-                scenario: "🐧 波加曼在看衛生福利手冊上的重要紀念日：",
-                question: "聯合國在每年的 4 月 7 日訂為哪一個重要節日？",
-                options: ["世界地球日", "世界衛生日", "世界環境日", "世界無煙日"],
-                correct: 1,
-                explain: "聯合國將每年的 4 月 7 日定為「世界衛生日」，旨在喚醒全球對公共健康和基本醫療保障的重視。",
-                source: "風穎教育答案版 第33題"
-            },
-            {
-                stage: 2,
-                category: "國際多元語言",
-                scenario: "📚 皮卡丘高高舉起毛筆寫了一個大大的「中」字：",
-                question: "聯合國將每年的哪一天定為「聯合國中文日」，以推廣多元語言和多元文化？",
-                options: ["3月12日", "4月15日", "4月20日", "5月1日"],
-                correct: 2,
-                explain: "每年的4月20日是聯合國訂立的「中文日」，這一天也是二十四節氣中紀念倉頡造字的「穀雨」。",
-                source: "風穎教育答案版 第45題"
-            },
-            {
-                stage: 2,
-                category: "香港美麗校園",
-                scenario: "🦊 伊布翻閱了國際建築設計排行榜：",
-                question: "在國際知名設計雜誌最新公布的「世界最美麗大學校園」排行榜中，香港哪所大學位列亞洲最高排名？",
-                options: ["香港大學", "香港中文大學", "香港科技大學", "香港理工大學"],
-                correct: 2,
-                explain: "坐擁清水灣優美海岸線的香港科技大學（HKUST），在世界最美大學校園評選中榮登亞洲區首位。",
-                source: "風穎教育第21題 / 學而思第19題"
-            },
-            {
-                stage: 2,
-                category: "香港本地盛事",
-                scenario: "🌸 妙蛙種子在草地上興奮地數著紫色和白色的漂亮花草：",
-                question: "每年3月在維多利亞公園展開的香港花卉展覽，今年的「主題花」是以下哪種植物？",
-                options: ["鬱金香", "洋紫荊", "紫羅蘭", "玫瑰花"],
-                correct: 2,
-                explain: "維園花展為香港市民帶來盛大春日綠化體驗，2026年花展的主題花特別指定為高雅精緻的「紫羅蘭」。",
-                source: "風穎教育答案版 第24題"
-            },
-            {
-                stage: 2,
-                category: "香港大型體育盛事",
-                scenario: "🏉 腕力在練習抱著橄欖球奔跑衝刺：",
-                question: "本港春季舉辦的哪項大型國際體育盛事獲頒授「M」品牌地位，並於4月17至19日成功舉行？",
-                options: ["香港網球公開賽", "香港馬拉松", "香港七人欖球賽", "維港渡海泳"],
-                correct: 2,
-                explain: "享譽國際的「香港七人欖球賽」在政府支持下獲頒授「M」品牌大賽地位，也是香港一年一度體育嘉年華。",
-                source: "風穎教育答案版 第47題"
-            },
-            {
-                stage: 2,
-                category: "天文氣象常識",
-                scenario: "🦉 貓頭夜鷹在月光下架設了一架專業天文望遠鏡：",
-                question: "香港天文台於3月3日晚間觀測並記錄到以下哪一種引人矚目的天文異常現象？",
-                options: ["雙星伴月", "日全食", "血月(月全食)", "流星雨"],
-                correct: 2,
-                explain: "香港天文台在3月3日夜間成功記錄到極為罕見、月盤呈現暗紅古銅色的「血月（月全食）」天象。",
-                source: "風穎教育答案版 第27題"
-            },
-            {
-                stage: 2,
-                category: "氣候與環保",
-                scenario: "🍃 妙蛙種子看到水庫水位偏低，發起節水倡議：",
-                question: "天文台公布今年 3 月天氣出現什麼異常，並因此呼籲市民必須積極節約用水？",
-                options: [
-                    "異常溫暖且暴雨偏多",
-                    "極度寒冷且乾旱",
-                    "氣溫正常但連日大霧",
-                    "受到多個寒潮與颱風襲擊"
-                ],
-                correct: 1,
-                explain: "天文台數據顯示今年3月天氣極度寒冷且乾旱，水庫降水量不足，因此當局強烈呼籲全民節約用水。",
-                source: "學而思4月百寶箱 練習第2題"
-            },
-            {
-                stage: 2,
-                category: "香港青年推廣",
-                scenario: "🎤 皮卡丘與傑尼龜在演唱會上揮舞著螢光棒：",
-                question: "哪位香港歌手擔任保安局「正向引導」計劃導師及分享嘉賓，協助推廣青年教育工作？",
-                options: ["陳奕迅", "張敬軒", "張學友", "郭富城"],
-                correct: 1,
-                explain: "歌手張敬軒獲保安局誠意邀請，積極加入「正向引導」計劃，擔任導師分享正能量故事，推動青年工作。",
-                source: "風穎教育第1題 / 學而思第16題"
-            },
-
-            // ================== STAGE 3: 國際焦點與外交形勢 ==================
-            {
-                stage: 3,
-                category: "國家法治建設",
-                scenario: "📚 妙蛙種子在閱讀新聞簡報：",
-                question: "全國「兩會」於3月在北京召開，會上宣佈制定以下哪一部法律以加強法治建設？",
-                options: ["《國家安全法》", "《反跨境腐敗法》", "《反不當競爭法》", "《反壟斷法》"],
-                correct: 1,
-                explain: "全國兩會上宣布推動制定《反跨境腐敗法》，旨在進一步完善中國打擊跨境腐敗與國際執法合作機制。",
-                source: "風穎教育答案版 第13題"
-            },
-            {
-                stage: 3,
-                category: "中日外交時事",
-                scenario: "⚡ 皮卡丘聽見國際局勢大師的專題解讀：",
-                question: "日本外務省發布的 2026 年《外交藍皮書》中，將哪一個國家從「最重要雙邊關係」降級為「重要鄰國」？",
-                options: ["中國", "韓國", "美國", "英國"],
-                correct: 0,
-                explain: "日本在外交規劃中微調了與周邊各國的關係，在最新的《外交藍皮書》中將「中國」定位降為重要鄰國。",
-                source: "風穎教育第11題 / 學而思第21題"
-            },
-            {
-                stage: 3,
-                category: "國際能源形勢",
-                scenario: "🔥 小火龍在看新聞播報的原油價格暴漲資訊：",
-                question: "受中東地區伊朗與美以衝突衝突影響，哪一個海峽的嚴重受阻與關閉，直接引發了原油危機？",
-                options: ["馬六甲海峽", "霍爾木茲海峽", "直布羅陀海峽", "英吉利海峽"],
-                correct: 1,
-                explain: "霍爾木茲海峽是全球最關鍵的海上石油運輸大動脈，因衝突導致該海峽關閉或受阻會引發原油暴漲危機。",
-                source: "風穎教育答案版 第16題"
-            },
-            {
-                stage: 3,
-                category: "美台貿易時事",
-                scenario: "⚡ 皮卡丘看見兩岸對外經貿新聞快報：",
-                question: "美國與台灣簽訂全新貿易協議，未來台灣輸美貨物的關稅將會調降至多少？",
-                options: ["5%", "10%", "15%", "20%"],
-                correct: 2,
-                explain: "根據最新簽訂的美台關稅與貿易細則協議，台灣輸美主要商品的平均關稅壁壘將會降至 15%。",
-                source: "風穎教育答案版 第2題"
-            },
-            {
-                stage: 3,
-                category: "國際娛樂旅遊",
-                scenario: "🐧 波加曼在看迪士尼探險號巨型郵輪的首航倒數：",
-                question: "迪士尼首艘進駐亞洲的巨型「迪士尼探險號」郵輪，於今年 3 月在以下哪一個地區正式啟航首運？",
-                options: ["香港", "新加坡", "東京", "上海"],
-                correct: 1,
-                explain: "「迪士尼探險號」郵輪以「新加坡」作為其在亞洲地區的第一個大型長期母港，並在3月盛大首航。",
-                source: "風穎教育答案版 第12題"
-            },
-            {
-                stage: 3,
-                category: "中東與國際政治",
-                scenario: "🦉 貓頭夜鷹在月光下分析兩國談判的進度報告：",
-                question: "美伊談判在 4 月初出現了以下哪種最新進展？",
-                options: [
-                    "雙方順利簽署並履行歷史性核子協議",
-                    "談判過程出現了嚴重問題，但國際社會仍強烈希望並極力推動對話解決",
-                    "雙方代表撕毀談判書，正式宣佈開戰",
-                    "雙方均同意將下一階段談判地點轉移至東南亞"
-                ],
-                correct: 1,
-                explain: "4月初美伊談判陷入僵持與瓶頸，但中俄、歐洲及聯合國仍強烈居中斡旋，希望能維持對話軌道解決紛爭。",
-                source: "學而思4月百寶箱 練習第4題"
-            },
-            {
-                stage: 3,
-                category: "中東局勢調停",
-                scenario: "🦊 伊布看到了伊朗代表在新聞發布會上的發言：",
-                question: "伊朗在近期談判態度有所改變與緩和後，對哪一個國家的外交調解努力表示特別感謝？",
-                options: ["俄羅斯", "美國", "中國", "法國"],
-                correct: 2,
-                explain: "伊朗官方在記者會上明確對「中國」在推動中東局勢緩和、中東與大國對話的卓越外交貢獻表示感謝。",
-                source: "學而思4月百寶箱 練習第5題"
-            },
-            {
-                stage: 3,
-                category: "載人月球任務",
-                scenario: "🚀 小火龍在查閱 NASA 阿提米絲太空計劃的最新進度：",
-                question: "美國太空總署表示載人月球表面任務（Artemis IV / 阿提米絲四號）現時預計將推遲至幾年進行？",
-                options: ["2026年", "2027年", "2028年初", "2030年"],
-                correct: 2,
-                explain: "NASA由於推進器和系統測試技術等原因，正式宣佈阿提米絲四號 (Artemis IV) 的目標推遲至 2028 年初。",
-                source: "風穎教育答案版 第22題"
-            },
-            {
-                stage: 3,
-                category: "兩岸與外事時事",
-                scenario: "⚡ 皮卡丘翻看一週時事熱點彙報：",
-                question: "在4月初，赴中國展開為期六天和平與經濟訪問的台灣國民黨主席是誰？",
-                options: ["鄭麗文", "朱立倫", "馬英九", "韓國瑜"],
-                correct: 0,
-                explain: "根據風穎教育時事常識答案手冊，本題指定的答案人物為國民黨主席鄭麗文在4月赴陸展開訪問。",
-                source: "風穎教育答案版 第28題 / 學而思第15題"
-            },
-            {
-                stage: 3,
-                category: "國際外交訪問",
-                scenario: "🦉 貓頭夜鷹在守護中外首腦會晤的新聞簡報：",
-                question: "以下哪一個國家的總統於4月對中國進行了重要國事訪問，雙方重申共同構建更緊密的命運共同體？",
-                options: ["巴基斯坦", "俄羅斯", "阿根廷", "南非"],
-                correct: 0,
-                explain: "巴基斯坦總統在4月對北京進行友好國事訪問，中巴兩國重申了鋼鐵般情誼，擴大一帶一路多維度合作。",
-                source: "風穎教育答案版 第44題"
-            },
-
-            // ================== STAGE 4: 科技與財經社會 ==================
-            {
-                stage: 4,
-                category: "科技與生活",
-                scenario: "⚡ 皮卡丘迫不及待地想要安裝、體驗 Google 最新的 Gemini 智慧功能：",
-                question: "Google 開發的人工智慧助手 Gemini 於何時開始逐步解禁、全面對香港用戶直接開放？",
-                options: [
-                    "2026年1月至2月",
-                    "2026年3月中至5月間",
-                    "2026年6月至7月",
-                    "2026年12月起"
-                ],
-                correct: 1,
-                explain: "Google Gemini 於 2026 年 3 月中至 5 月間分批釋出並逐步全面對香港地區用戶解除使用限制。",
-                source: "風穎教育答案版 第10題 / 學而思第20題"
-            },
-            {
-                stage: 4,
-                category: "人工智慧發展",
-                scenario: "⚡ 皮卡丘在大力推廣一個中文互聯網熱門的開源 AI 智慧軟體：",
-                question: "在2026年初爆紅的開源 AI 代理(Agent)框架，其名稱是什麼？（俗稱小龍蝦）",
-                options: ["OpenClaw", "Siri AI", "DeepL Pro", "Crayfish Agent"],
-                correct: 0,
-                explain: "這款引發大批工程師關注的自主 AI 框架名為 OpenClaw，因為音譯而被形象地俗稱為「小龍蝦」。",
-                source: "風穎教育答案版 第8題"
-            },
-            {
-                stage: 4,
-                category: "國際化學監管",
-                scenario: "🦊 伊布看到了衣服與健身裝裝備含有害物質的調查報告：",
-                question: "哪一間加拿大高檔運動品牌因其主打產品疑含有高致癌風險的 PFAS / 永久化學物質而遭到美國調查？",
-                options: ["Lululemon", "Nike", "Adidas", "Reebok"],
-                correct: 0,
-                explain: "加拿大知名的瑜珈與中高檔運動品牌 Lululemon 因涉嫌在其產品內添加 PFAS 致癌物，在美國德州面臨執法調查。",
-                source: "風穎教育答案版 第6題 / 學而思第14題"
-            },
-            {
-                stage: 4,
-                category: "國際商業併購",
-                scenario: "🎥 妙蛙花在看好萊塢影視帝國大合併的股市行情：",
-                question: "哪一間影視媒體公司於今年宣佈達成協議，擬以高達1100億美元的代價巨資併購「華納兄弟探索」公司？",
-                options: [
-                    "迪士尼集團",
-                    "派拉盟天舞公司 (Paramount Skydance)",
-                    "Netflix 網飛",
-                    "索尼影業"
-                ],
-                correct: 1,
-                explain: "派拉蒙天舞公司（Paramount Skydance）在2026年春宣布與華納兄弟達成合併重組並進行巨資收購。",
-                source: "風穎教育第23題 / 學而思第20題"
-            },
-            {
-                stage: 4,
-                category: "全球財經時事",
-                scenario: "⚡ 皮卡丘翻看最新一期的《福布斯》富豪排行榜：",
-                question: "美國《福布斯》公佈最新年度全球億萬富豪榜，誰蟬聯了世界首富榜首，身家再度突破8000億美元？",
-                options: ["馬斯克", "比爾蓋茲", "貝佐斯", "巴菲特"],
-                correct: 0,
-                explain: "憑藉其特斯拉、SpaceX、AI創科產品股價的大幅上揚，馬斯克（Elon Musk）蟬聯了《福布斯》全球富豪榜榜首。",
-                source: "風穎教育答案版 第35題"
-            },
-            {
-                stage: 4,
-                category: "香港傳媒動態",
-                scenario: "⚡ 皮卡丘點擊電腦瀏覽器，看見首頁業務暫停公告：",
-                question: "哪一家傳統大型網路資訊平台宣佈自 4 月起分階段正式結束在香港的「新聞業務」？",
-                options: ["Yahoo HK", "Google HK", "新浪香港", "鳳凰網"],
-                correct: 0,
-                explain: "雅虎香港（Yahoo HK）宣布結束其在香港本地經營多年的新聞業務線，轉向其其他核心商業網路板塊。",
-                source: "風穎教育答案版 第3題"
-            },
-            {
-                stage: 4,
-                category: "香港博彩管理",
-                scenario: "🐢 傑尼龜看見體育賽事相關的投注煞停政策：",
-                question: "為了加強引導市民，平衡社會風氣，特區政府近期正式宣佈「煞停」以下哪一項博彩投注項目的推行計劃？",
-                options: ["足球博彩", "籃球投注項目", "網球投注", "方程式賽車投注"],
-                correct: 1,
-                explain: "特區政府最終拒絕並煞停了在港推廣籃球投注項目的提議，避免進一步擴大賭博管道和引發家庭問題。",
-                source: "風穎教育第9題 / 學而思第24題"
-            },
-            {
-                stage: 4,
-                category: "奧斯卡與影視",
-                scenario: "🎬 波加曼看到了第98屆奧斯卡金像獎的獲獎名單：",
-                question: "以韓國 K-pop 流行文化為核心題材的哪一部動畫電影，在奧斯卡頒獎禮上榮獲「最佳動畫片」獎？",
-                options: [
-                    "《Kpop獵魔女團》",
-                    "《貓貓的奇幻漂流》",
-                    "《Kpop之星夢工廠》",
-                    "《首爾熱舞大賽》"
-                ],
-                correct: 0,
-                explain: "在第98屆奧斯卡金像獎中，備受好評的《Kpop獵魔女團》（以Kpop女團魔力與戰鬥為題材）奪得最佳動畫片大獎。",
-                source: "風穎教育答案版 第5題"
-            },
-            {
-                stage: 4,
-                category: "香港科技盛事",
-                scenario: "⚡ 皮卡丘在會展中心門口看見大幅區塊鏈宣傳橫幅：",
-                question: "香港大型創科活動「香港 Web3節（Web3嘉年華）」於 4 月 20 至 23 日召開，其核心探討的是？",
-                options: [
-                    "5G通訊基建",
-                    "區塊鏈技術發展",
-                    "虛擬實境元宇宙教育",
-                    "量子計算機硬體"
-                ],
-                correct: 1,
-                explain: "一年一度的香港 Web3 嘉年華在港舉辦，旨在研究區塊鏈底層、數字金融以及Web3在香港合法落地與繁榮。",
-                source: "風穎教育答案版 第37題"
-            },
-            {
-                stage: 4,
-                category: "香港藝術盛事",
-                scenario: "🎨 伊布看到了港鐵站裡宣傳頂尖藝術展的海報：",
-                question: "世界頂尖國際大型藝術展「Art Basel (巴塞爾藝術展)」於 3 月在以下哪一個地標場館回歸展出？",
-                options: [
-                    "香港文化中心",
-                    "香港會議展覽中心",
-                    "西九龍文化區 M+",
-                    "亞洲國際博覽館"
-                ],
-                correct: 1,
-                explain: "Art Basel 於3月如期重歸灣仔香港會議展覽中心，吸引大批世界各地名媛、藝術收藏家以及大眾觀賞。",
-                source: "風穎教育答案版 第39題"
-            },
-
-            // ================== STAGE 5: 本地民生與社會趣聞 ==================
-            {
-                stage: 5,
-                category: "香港商鋪與民生",
-                scenario: "⚡ 皮卡丘正在查閱房屋委員會扶助本地青年的創業計劃：",
-                question: "香港房委會推出的「共築・創業家2.0」青年計劃，提供的商鋪規模和数量是首階段的幾倍？",
-                options: ["兩倍", "三倍", "五倍", "七倍"],
-                correct: 1,
-                explain: "在第一階段取得成功後，房委會為了扶持更多本地青年創業，將第二階段提供的商鋪規模和資源擴大至「三倍」。",
-                source: "學而思4月百寶箱 練習第10題"
-            },
-            {
-                stage: 5,
-                category: "香港露天餐飲",
-                scenario: "☕ 傑尼龜看見茶餐廳老闆在為申請露天餐飲座位辦理手續：",
-                question: "在食環署推行的新會審機制下，簡單直接的食肆露天座位申請預計多久可獲得原則上批准？",
-                options: ["一個星期內", "約一個月內", "三個月內", "半年內"],
-                correct: 1,
-                explain: "食環署改革審查制度，推出跨部門聯合機制，將普通食肆露天座位申請的原則審核期壓縮在「約一個月內」。",
-                source: "學而思4月百寶箱 練習第11題"
-            },
-            {
-                stage: 5,
-                category: "早茶食品安全",
-                scenario: "😴 胖丁與皮卡丘在點蒸籠燒賣，驚喜地看到了新規章：",
-                question: "廣州政府為了保護非遺茶點文化，規定茶點從「製作完成」至「上桌食用」時間不得超過多少小時？",
-                options: ["12小時", "24小時", "36小時", "48小時"],
-                correct: 1,
-                explain: "新規規定早茶點心的時限不能超過 24 小時，以強制保障食品的新鮮程度與口感，也是早茶點心的品質標準。",
-                source: "風穎教育答案版 第17題"
-            },
-            {
-                stage: 5,
-                category: "香港公共交通",
-                scenario: "🚋 妙蛙種子配合乘務員在電車站張貼二維碼海報：",
-                question: "香港哪一種歷史悠久的交通工具，在近期推出了全新的官方手機應用程式以提供預計到站與終點站資訊？",
-                options: ["電車 (Tramways)", "天星小輪", "新大嶼山巴士", "山頂纜車"],
-                correct: 0,
-                explain: "香港電車首次推出全新智慧手機應用程式，運用GPS技術提供全港乘客電車到站和線路實時預計等服務。",
-                source: "風穎教育第14題 / 學而思第18題"
-            },
-            {
-                stage: 5,
-                category: "香港體育大賽",
-                scenario: "⚽ 傑尼龜在為香港足球隊的精彩對決加油助威：",
-                question: "2026 年 3 月底，香港男子足球代表隊在「亞洲盃外圍賽」中，在香港大球場主場對陣哪一支代表隊？",
-                options: ["泰國隊", "印度隊", "新加坡隊", "日本隊"],
-                correct: 1,
-                explain: "2026年3月底，香港男子足球隊在亞洲盃外圍賽中，於主場激戰來訪的「印度」男子足球代表隊。",
-                source: "風穎教育答案版 第29題"
-            },
-            {
-                stage: 5,
-                category: "香港消委會與演出",
-                scenario: "⚡ 皮卡丘在網上看到了許多歌迷投訴退票的新聞：",
-                question: "哪一支台灣天團級樂隊因不可抗力取消了在香港的第一場演唱會，引發消委會接獲超過 190 宗投訴？",
-                options: ["五月天", "蘇打綠", "告五人", "動力火車"],
-                correct: 0,
-                explain: "樂隊五月天因極端惡劣天氣和臨時舞台技術故障取消了香港首場演唱會，票務賠償與處理引發了消委會投訴潮。",
-                source: "風穎教育答案版 第30題"
-            },
-            {
-                stage: 5,
-                category: "啟德體育園盛事",
-                scenario: "🎤 小火龍看到了即將建成的體育場館的宣傳海報：",
-                question: "哪位亞洲知名華語女歌手宣布在「啟德體育園」舉行演唱會，成為該體育館啟用後的重要盛事？",
-                options: ["蔡依林", "孫燕姿", "張惠妹", "鄧紫棋"],
-                correct: 1,
-                explain: "歌手孫燕姿獲邀在全新啟用的啟德體育園萬人主場館舉辦盛大演唱會，吸引大批樂迷，成為本地藝文熱點。",
-                source: "風穎教育答案版 第36題"
-            },
-            {
-                stage: 5,
-                category: "國際領土與言論",
-                scenario: "⚡ 皮卡丘看到了一篇有趣的國際地緣政治新聞：",
-                question: "特朗普在演講與政策訪談中多次語出驚人地表示，哪一個世界最大島嶼應該被納入美國版圖的一部分？",
-                options: ["格陵蘭", "冰島", "馬達加斯加", "新幾內亞"],
-                correct: 0,
-                explain: "特朗普在任內和後續發言中多次表達希望能向丹麥政府買下「格陵蘭島」並納入美國版圖，曾引發國際外交議論。",
-                source: "風穎教育答案版 第32題"
-            },
-            {
-                stage: 5,
-                category: "香港潮流嘉年華",
-                scenario: "🧢 妙蛙種子穿上了非常帥氣的運動潮流連帽衫：",
-                question: "亞洲首個、規模宏大的大型潮流時尚盛事「ComplexCon」，今年春季在香港哪一個展館盛大開幕？",
-                options: [
-                    "香港文化中心",
-                    "亞洲國際博覽館",
-                    "九龍灣國際展貿中心",
-                    "灣仔會議展覽中心"
-                ],
-                correct: 1,
-                explain: "世界級流行街頭文化盛事 ComplexCon 選擇在赤鱲角亞洲國際博覽館隆重開幕，結合時尚、球鞋及音樂會。",
-                source: "風穎教育答案版 第34題"
-            },
-            {
-                stage: 5,
-                category: "校園法治與安全",
-                scenario: "👮 傑尼龜走進校園，為中學生作法規普及演講：",
-                question: "關於某校發生的男中學生在校園內多次「偷竊」同學財物的嚴重事件，校方為警醒並教育學生，最終採取了什麼行動？",
-                options: [
-                    "僅給予嚴厲口頭警告",
-                    "配合進行校內家長調解",
-                    "直接勒令其退學",
-                    "報警處理"
-                ],
-                correct: 3,
-                explain: "根據家長幫學而思4月百寶箱教材，為強調校園守法、保護財物，校方在查明偷竊事实後採取了「報警處理」。",
-                source: "學而思4月百寶箱 練習第8題"
-            }
+        // ---------- 完整50題資料庫 (依stage分類/每關10題) 已收錄風穎學而思來源 ----------
+        const QUESTION_SET = [
+            // stage 1 (10題)
+            {stage:1,category:"香港民生",scenario:"🚕 傑尼龜攔了計程車",question:"的士自2026年4月1日起，車內必須提供至少幾種電子支付？",options:["1種","2種","3種","4種"],correct:1,explain:"運輸署規定至少2種電子支付，方便乘客。",source:"風穎P25"},
+            {stage:1,category:"醫療",scenario:"🏥 波加曼排急診",question:"公立醫院急症室收費由180元調至多少元？",options:["220元","300元","400元","500元"],correct:2,explain:"由180元大幅上調至400元，減少濫用。",source:"風穎P4"},
+            {stage:1,category:"禁煙",scenario:"🔥 小火龍見禁煙標誌",question:"4月30日起，禁止公眾地方管有哪類產品？",options:["傳統捲煙","打火機","電子煙等另類煙","煙斗"],correct:2,explain:"電子煙、加熱煙全面禁止。",source:"風穎P15"},
+            {stage:1,category:"最低工資",scenario:"⚡ 皮卡超看薪資",question:"5月1日起最低工資上調至每小時多少元？",options:["37.5","40.0","43.1","45.5"],correct:2,explain:"每小時43.1元，保障勞工。",source:"風穎P31"},
+            {stage:1,category:"國安教育",scenario:"🍃 妙蛙種子參展",question:"2026年4月15日是第幾個全民國家安全教育日？",options:["第9","第10","第11","第12"],correct:2,explain:"第11個國家安全教育日。",source:"風穎P20"},
+            {stage:1,category:"教育政策",scenario:"📚 皮卡超看新聞",question:"下學年全港多少間小學獲派「0班」？",options:["5間","10間","15間","20間"],correct:2,explain:"因收生不足，15間小學停辦小一。",source:"風穎P18"},
+            {stage:1,category:"醫療建設",scenario:"🏥 啟德醫院",question:"預計2026年10月分階段啟用的東九龍大型醫院是？",options:["香港中醫醫院","啟德醫院","廣華新樓","天水圍醫院"],correct:1,explain:"啟德醫院超大型急症醫院。",source:"風穎P26"},
+            {stage:1,category:"環保",scenario:"♻️ 妙蛙種子回收",question:"智能廚餘回收桶申請門檻下調至多少戶？",options:["100戶","200戶","300戶","400戶"],correct:1,explain:"門檻降至200戶，增加回收點。",source:"學而思P12"},
+            {stage:1,category:"立法會",scenario:"⚡ 立會主席",question:"現任香港立法會主席是哪位？",options:["梁君彥","李慧琼","陳健波","李家超"],correct:1,explain:"李慧琼現任立會主席。",source:"風穎P19"},
+            {stage:1,category:"北部都會區",scenario:"🌆 科技城",question:"北部都會區創科發展橋頭堡是哪個科技城？",options:["數碼港","科學園","新田科技城","前海"],correct:2,explain:"新田科技城融入大灣區。",source:"風穎P46"},
+            // stage 2 (國際體育大眾)
+            {stage:2,category:"世界盃",scenario:"⚽ 傑尼龜守門",question:"2026世界盃由哪三國聯合主辦？",options:["美加墨","日韓中","英法德","巴阿智"],correct:0,explain:"美國、加拿大、墨西哥合辦。",source:"風穎P40"},
+            {stage:2,category:"冬奧",scenario:"❄️ 穿山鼠滑雪",question:"2026冬奧由義大利哪兩個城市舉辦？",options:["米蘭/科爾蒂納","羅馬/都靈","威尼斯/米蘭","佛羅倫斯"],correct:0,explain:"米蘭與科爾蒂納丹佩佐。",source:"風穎P38"},
+            {stage:2,category:"世界衛生日",scenario:"🐧 衛生節日",question:"4月7日是聯合國什麼節日？",options:["地球日","衛生日","環境日","無煙日"],correct:1,explain:"世界衛生日，重視公共健康。",source:"風穎P33"},
+            {stage:2,category:"中文日",scenario:"📖 書法",question:"聯合國中文日是哪一天？",options:["3/12","4/15","4/20","5/1"],correct:2,explain:"4月20日穀雨節氣。",source:"風穎P45"},
+            {stage:2,category:"最美校園",scenario:"🏫 科大",question:"香港最美大學校園亞洲最高排名？",options:["港大","中大","科大","理大"],correct:2,explain:"香港科技大學清水灣校園亞洲第一。",source:"風穎P21"},
+            {stage:2,category:"花展",scenario:"🌸 維園花展",question:"2026年香港花卉展覽主題花是？",options:["鬱金香","洋紫荊","紫羅蘭","玫瑰"],correct:2,explain:"主題花為紫羅蘭。",source:"風穎P24"},
+            {stage:2,category:"七欖",scenario:"🏉 七人欖球",question:"4月舉辦的國際M品牌賽事？",options:["網球公開賽","馬拉松","香港七欖","渡海泳"],correct:2,explain:"香港七人欖球賽。",source:"風穎P47"},
+            {stage:2,category:"血月",scenario:"🌕 天文台",question:"3月3日香港觀測到什麼天文現象？",options:["雙星伴月","日全食","血月","流星雨"],correct:2,explain:"月全食血月奇景。",source:"風穎P27"},
+            {stage:2,category:"寒冷乾旱",scenario:"💧 節水呼籲",question:"今年3月天氣異常為何？",options:["溫暖多雨","極度寒冷乾旱","大霧","颱風"],correct:1,explain:"極度寒冷乾旱，呼籲節水。",source:"學而思P2"},
+            {stage:2,category:"張敬軒",scenario:"🎤 歌手",question:"哪位歌手任保安局正向計劃導師？",options:["陳奕迅","張敬軒","張學友","郭富城"],correct:1,explain:"張敬軒推廣青年正向引導。",source:"風穎P1"},
+            // stage 3 (外交國際)
+            {stage:3,category:"兩會",scenario:"📜 法治",question:"全國兩會宣布制定哪部新法？",options:["反跨境腐敗法","國家安全法","反壟斷法","數據安全法"],correct:0,explain:"制定反跨境腐敗法。",source:"風穎P13"},
+            {stage:3,category:"外交藍皮書",scenario:"🇯🇵 日本",question:"日本外交藍皮書將哪國降級？",options:["中國","韓國","美國","英國"],correct:0,explain:"將中國從最重要降為重要鄰國。",source:"風穎P11"},
+            {stage:3,category:"原油危機",scenario:"🛢️ 霍爾木茲",question:"哪個海峽受阻引發原油危機？",options:["馬六甲","霍爾木茲","直布羅陀","英吉利"],correct:1,explain:"霍爾木茲海峽石油要道。",source:"風穎P16"},
+            {stage:3,category:"美台貿易",scenario:"🇺🇸 關稅",question:"台灣輸美貨物關稅調降至？",options:["5%","10%","15%","20%"],correct:2,explain:"平均關稅降至15%。",source:"風穎P2"},
+            {stage:3,category:"迪士尼探險號",scenario:"🚢 郵輪",question:"迪士尼探險號亞洲母港在哪？",options:["香港","新加坡","東京","上海"],correct:1,explain:"新加坡為首個亞洲母港。",source:"風穎P12"},
+            {stage:3,category:"美伊談判",scenario:"🕊️ 外交",question:"4月初美伊談判進展？",options:["簽署協議","陷入僵持但國際推動對話","宣戰","轉東南亞"],correct:1,explain:"談判困難但各方極力斡旋。",source:"學而思P4"},
+            {stage:3,category:"伊朗感謝",scenario:"🇨🇳 中國",question:"伊朗感謝哪國調解？",options:["俄羅斯","美國","中國","法國"],correct:2,explain:"感謝中國推動和緩局勢。",source:"學而思P5"},
+            {stage:3,category:"阿提米絲",scenario:"🚀 NASA",question:"Artemis IV載人登月推遲至？",options:["2026","2027","2028年初","2030"],correct:2,explain:"推遲至2028年初。",source:"風穎P22"},
+            {stage:3,category:"國民黨主席",scenario:"🇹🇼 訪問",question:"4月初赴陸訪問的國民黨主席？",options:["鄭麗文","朱立倫","馬英九","韓國瑜"],correct:0,explain:"鄭麗文展開和平訪問。",source:"風穎P28"},
+            {stage:3,category:"巴基斯坦",scenario:"🇵🇰 國事訪問",question:"哪國總統4月訪華重申命運共同體？",options:["巴基斯坦","俄羅斯","阿根廷","南非"],correct:0,explain:"巴基斯坦總統訪華。",source:"風穎P44"},
+            // stage 4 (科技財經)
+            {stage:4,category:"Gemini",scenario:"🤖 AI",question:"Google Gemini何時對香港解禁？",options:["1-2月","3月中至5月","6-7月","12月"],correct:1,explain:"2026年3月中至5月分批開放。",source:"風穎P10"},
+            {stage:4,category:"OpenClaw",scenario:"🦞 AI框架",question:"爆紅開源AI代理框架名稱？",options:["OpenClaw","Siri AI","DeepL","Crayfish"],correct:0,explain:"OpenClaw俗稱小龍蝦。",source:"風穎P8"},
+            {stage:4,category:"Lululemon",scenario:"🧘 運動品牌",question:"哪品牌因PFAS致癌物遭調查？",options:["Lululemon","Nike","Adidas","Reebok"],correct:0,explain:"加拿大Lululemon被調查。",source:"風穎P6"},
+            {stage:4,category:"影視併購",scenario:"🎬 華納",question:"哪公司擬1100億併購華納兄弟探索？",options:["迪士尼","派拉蒙天舞","Netflix","索尼"],correct:1,explain:"Paramount Skydance巨資併購。",source:"學而思P20"},
+            {stage:4,category:"福布斯首富",scenario:"💰 富豪榜",question:"蟬聯世界首富的是？",options:["馬斯克","比爾蓋茲","貝佐斯","巴菲特"],correct:0,explain:"馬斯克身家再破紀錄。",source:"風穎P35"},
+            {stage:4,category:"Yahoo HK",scenario:"📰 新聞",question:"哪平台4月結束香港新聞業務？",options:["Yahoo HK","Google HK","新浪香港","鳳凰網"],correct:0,explain:"雅虎香港終止新聞服務。",source:"風穎P3"},
+            {stage:4,category:"煞停籃球博彩",scenario:"🏀 賭博",question:"政府煞停哪項投注計劃？",options:["足球","籃球","網球","賽車"],correct:1,explain:"煞停籃球博彩項目。",source:"風穎P9"},
+            {stage:4,category:"奧斯卡動畫",scenario:"🎬 Kpop",question:"哪部動畫獲最佳動畫片？",options:["Kpop獵魔女團","貓貓奇幻漂流","Kpop之星","首爾熱舞"],correct:0,explain:"Kpop獵魔女團獲獎。",source:"風穎P5"},
+            {stage:4,category:"Web3節",scenario:"⛓️ 區塊鏈",question:"香港Web3嘉年華核心探討？",options:["5G","區塊鏈","元宇宙教育","量子電腦"],correct:1,explain:"區塊鏈及數字金融。",source:"風穎P37"},
+            {stage:4,category:"Art Basel",scenario:"🎨 藝術展",question:"巴塞爾藝術展3月在哪舉行？",options:["文化中心","會展中心","M+","亞博館"],correct:1,explain:"灣仔會展中心。",source:"風穎P39"},
+            // stage5 民生趣聞
+            {stage:5,category:"創業家計劃",scenario:"🏪 房委會",question:"創業家2.0商鋪規模是首階段幾倍？",options:["兩倍","三倍","五倍","七倍"],correct:1,explain:"擴大至三倍。",source:"學而思P10"},
+            {stage:5,category:"露天座位",scenario:"☕ 食肆",question:"露天座位申請原則上多久批准？",options:["1週","約一個月","三個月","半年"],correct:1,explain:"約一個月內審批。",source:"學而思P11"},
+            {stage:5,category:"廣州早茶",scenario:"🥟 點心",question:"茶點從製作到上桌不得超過多少小時？",options:["12","24","36","48"],correct:1,explain:"不得超過24小時。",source:"風穎P17"},
+            {stage:5,category:"電車App",scenario:"🚃 電車",question:"哪種交通工具推出官方App到站預報？",options:["電車","天星小輪","巴士","山頂纜車"],correct:0,explain:"香港電車推即時到站App。",source:"學而思P18"},
+            {stage:5,category:"港足",scenario:"⚽ 亞洲盃",question:"港隊3月底主場對陣哪國？",options:["泰國","印度","新加坡","日本"],correct:1,explain:"對戰印度隊。",source:"風穎P29"},
+            {stage:5,category:"五月天",scenario:"🎸 樂團",question:"哪樂團取消演唱會引發百宗投訴？",options:["五月天","蘇打綠","告五人","動力火車"],correct:0,explain:"五月天因天災取消。",source:"風穎P30"},
+            {stage:5,category:"孫燕姿",scenario:"🎤 啟德",question:"哪位歌手將在啟德體育園開唱？",options:["蔡依林","孫燕姿","張惠妹","鄧紫棋"],correct:1,explain:"孫燕姿舉辦大型演唱會。",source:"風穎P36"},
+            {stage:5,category:"格陵蘭",scenario:"🗺️ 特朗普",question:"特朗普想買下哪個島嶼？",options:["格陵蘭","冰島","馬達加斯加","新幾內亞"],correct:0,explain:"格陵蘭島。",source:"風穎P32"},
+            {stage:5,category:"ComplexCon",scenario:"👟 潮流盛事",question:"ComplexCon在香港哪個場館舉行？",options:["文化中心","亞博館","九展","會展"],correct:1,explain:"亞洲國際博覽館。",source:"風穎P34"},
+            {stage:5,category:"校園偷竊",scenario:"👮 法治",question:"校方處理偷竊事件的最終行動？",options:["口頭警告","家長調解","勒令退學","報警"],correct:3,explain:"報警處理以作警惕。",source:"學而思P8"}
         ];
 
-        // Global States (Thoroughly declared and initialized)
-        let coins = 0;
-        let currentStageIdx = 1; 
-        let activeStageList = [];
-        let currentQuestionIdxInStage = 0; 
-        let selectedOptionIdx = null;
-        let inventory = []; 
-        let isAnswered = false;
-        let correctInCurrentStage = 0;
-        let moleTimers = []; 
+        // 全域變數
+        let coins = 0, inventory = [];
+        let unlockedStages = {1:true,2:false,3:false,4:false,5:false};
+        let currentStage = 1, currentStageQuestions = [], qIndex = 0, correctInStage = 0, isAnsweredFlag = false, selectedIdx = null;
+        let minigameActive = false, minigameInterval = null, minigameSec = 15, minigamePoints = 0, berryInterval = null, moleTimeouts = [];
+        let currentShareIndex = null;
 
-        let unlockedStages = {
-            1: true,
-            2: false,
-            3: false,
-            4: false,
-            5: false
-        };
-
-        // Custom Modal Alert System
-        function triggerCustomAlert(emoji, title, message) {
-            document.getElementById('alert-emoji').innerText = emoji;
-            document.getElementById('alert-title').innerText = title;
-            document.getElementById('alert-message').innerText = message;
-            document.getElementById('custom-alert').classList.remove('hidden');
-        }
-
-        function closeAlert() {
-            playSound('click');
-            document.getElementById('custom-alert').classList.add('hidden');
-        }
-
-        // Initialize start screen stages list styles based on unlock states
-        function updateStartScreenLevelsUI() {
-            for (let i = 2; i <= 5; i++) {
-                const card = document.getElementById(`stage-card-${i}`);
-                const btn = document.getElementById(`stage-btn-${i}`);
-                const icon = document.getElementById(`stage-icon-${i}`);
-                const title = document.getElementById(`stage-title-${i}`);
-
-                if (unlockedStages[i]) {
-                    card.className = "p-4 rounded-2xl border-4 border-slate-800 bg-amber-50 flex flex-col md:flex-row items-start md:items-center justify-between shadow-md transition duration-150";
-                    btn.className = "w-full md:w-auto mt-3 md:mt-0 bg-slate-900 hover:bg-slate-800 text-amber-300 font-extrabold text-sm py-2 px-6 rounded-xl border-2 border-slate-800 whitespace-nowrap shadow cursor-pointer transform hover:scale-105";
-                    btn.removeAttribute('disabled');
-                    btn.innerText = "開始挑戰";
-                    icon.innerText = `⭐ ${i+3}`; // stage ratings
-                    icon.className = "text-3xl p-2 bg-amber-200 rounded-xl";
-                    title.className = "font-black text-slate-900 text-base";
-                } else {
-                    card.className = "p-4 rounded-2xl border-4 border-slate-300 bg-white flex flex-col md:flex-row items-start md:items-center justify-between shadow-md opacity-70";
-                    btn.className = "w-full md:w-auto mt-3 md:mt-0 bg-slate-200 text-slate-400 font-extrabold text-sm py-2 px-6 rounded-xl border-2 border-slate-300 whitespace-nowrap cursor-not-allowed";
-                    btn.setAttribute('disabled', 'true');
-                    btn.innerText = "未解鎖";
-                    icon.innerText = "🔒";
-                    icon.className = "text-3xl p-2 bg-slate-100 rounded-xl";
-                    title.className = "font-black text-slate-400 text-base";
-                }
+        // 輔助函數
+        function updateCoinUI() { document.getElementById('coin-count').innerText = coins; if(document.getElementById('shop-coin')) document.getElementById('shop-coin').innerText = coins; }
+        function showAlert(emoji,title,msg){ let a=document.getElementById('custom-alert'); document.getElementById('alert-emoji').innerText=emoji; document.getElementById('alert-title').innerText=title; document.getElementById('alert-message').innerText=msg; a.classList.remove('hidden'); }
+        function closeCustomAlert(){ document.getElementById('custom-alert').classList.add('hidden'); }
+        function playSound(type){ /* 單純回饋無音效沒關係，但抖動 */ }
+        
+        function renderStages(){
+            const container = document.getElementById('stage-list-container');
+            container.innerHTML = '';
+            for(let i=1;i<=5;i++){
+                const stageData = {num:i, name:['','香港核心民生','國際體育大眾','國際外交形勢','科技財經','本地民生趣聞'][i]};
+                const isUnlock = unlockedStages[i];
+                const card = document.createElement('div');
+                card.className = `p-3 rounded-2xl border-4 flex justify-between items-center ${isUnlock ? 'border-slate-800 bg-amber-50' : 'border-slate-300 bg-white opacity-70'}`;
+                card.innerHTML = `<div><span class="text-2xl mr-2">${isUnlock ? '⭐'+(i+3) : '🔒'}</span><span class="font-black">第${i}關：${stageData.name}</span><p class="text-xs text-slate-500">${isUnlock ? '點擊開始' : '需解鎖前一關(答對7題+小遊戲)'}</p></div>
+                <button class="stage-start-btn px-4 py-2 rounded-xl font-bold ${isUnlock ? 'bg-slate-900 text-amber-300' : 'bg-slate-200 text-slate-400 cursor-not-allowed'}" data-stage="${i}" ${!isUnlock ? 'disabled' : ''}>${isUnlock ? '開始挑戰' : '未解鎖'}</button>`;
+                container.appendChild(card);
             }
-        }
-
-        // CORE START GAME BUTTON handler (Fixes the unclickable start button bug)
-        function startGame() {
-            // Find the lowest unlocked stage and start it
-            let stageToStart = 1;
-            for (let i = 5; i >= 1; i--) {
-                if (unlockedStages[i]) {
-                    stageToStart = i;
-                    break;
-                }
-            }
-            selectAndStartStage(stageToStart);
-        }
-
-        // Action when user clicks start stage
-        function selectAndStartStage(stageNum) {
-            playSound('click');
-            currentStageIdx = stageNum;
-            
-            // Filter questions for this stage from global database
-            activeStageList = questionsDatabase.filter(function(q) {
-                return q.stage === stageNum;
+            document.querySelectorAll('.stage-start-btn').forEach(btn=>{
+                btn.addEventListener('click',(e)=>{
+                    let stg = parseInt(btn.dataset.stage);
+                    if(unlockedStages[stg]) startStage(stg);
+                    else showAlert('🔒','關卡鎖定','請先通過前一關並完成小遊戲解鎖！');
+                });
             });
-            currentQuestionIdxInStage = 0;
-            correctInCurrentStage = 0;
-
+        }
+        function startStage(stageNum){
+            currentStage = stageNum;
+            currentStageQuestions = QUESTION_SET.filter(q=>q.stage === stageNum);
+            qIndex = 0; correctInStage = 0; isAnsweredFlag = false;
             document.getElementById('start-screen').classList.add('hidden');
             document.getElementById('game-screen').classList.remove('hidden');
             document.getElementById('game-screen').classList.add('flex');
-            
-            // Set Stage title
-            const titles = ["", "第一關：香港核心民生時事", "第二關：國際體育與大眾常識", "第三關：國際焦點與外交形勢", "第四關：科技與財經社會", "第五關：本地民生與社會趣聞"];
-            document.getElementById('current-stage-title').innerText = titles[stageNum];
-            
-            loadQuestion();
+            document.getElementById('current-stage-title').innerText = `第${stageNum}關`;
+            loadQuestionUI();
         }
-
-        // Go to start screen (reset or level select)
-        function goToStart() {
-            playSound('click');
-            document.getElementById('game-screen').classList.add('hidden');
-            document.getElementById('minigame-screen').classList.add('hidden');
-            document.getElementById('end-screen').classList.add('hidden');
-            document.getElementById('start-screen').classList.remove('hidden');
-            updateStartScreenLevelsUI();
-        }
-
-        // Load Question Data
-        function loadQuestion() {
-            isAnswered = false;
-            selectedOptionIdx = null;
+        function loadQuestionUI(){
+            isAnsweredFlag=false;
             document.getElementById('feedback-panel').classList.add('hidden');
-            
-            const q = activeStageList[currentQuestionIdxInStage];
-            document.getElementById('current-question-num').innerText = currentQuestionIdxInStage + 1;
+            let q = currentStageQuestions[qIndex];
+            document.getElementById('current-question-num').innerText = qIndex+1;
             document.getElementById('category-badge').innerText = q.category;
-            document.getElementById('scenario-text').innerHTML = `<span>⚡ ${q.scenario}</span>`;
+            document.getElementById('scenario-text').innerHTML = `⚡ ${q.scenario}`;
             document.getElementById('question-text').innerText = q.question;
             document.getElementById('question-source-text').innerText = q.source;
-            
-            // Calculate progress bar in current stage (0 to 100%)
-            const progress = ((currentQuestionIdxInStage + 1) / 10) * 100;
-            document.getElementById('progress-bar').style.width = `${progress}%`;
-
-            // Clear & build options
-            const optContainer = document.getElementById('options-container');
-            optContainer.innerHTML = '';
-            
-            q.options.forEach((opt, idx) => {
-                const btn = document.createElement('button');
-                btn.id = `opt-${idx}`;
-                btn.className = "w-full text-left p-4 rounded-xl border-2 border-slate-800 bg-white hover:bg-amber-50 text-slate-800 font-bold transition-all duration-150 transform hover:-translate-y-0.5 active:translate-y-0 shadow-md flex items-center space-x-3";
-                btn.onclick = () => selectOption(idx);
-                
-                const prefix = ["A", "B", "C", "D"][idx];
-                btn.innerHTML = `
-                    <span class="w-7 h-7 flex items-center justify-center bg-slate-900 text-white rounded-full text-xs font-black shrink-0">${prefix}</span>
-                    <span class="text-xs md:text-sm lg:text-base">${opt}</span>
-                `;
-                optContainer.appendChild(btn);
+            let percent = ((qIndex+1)/10)*100;
+            document.getElementById('progress-bar').style.width = `${percent}%`;
+            let optsDiv = document.getElementById('options-container');
+            optsDiv.innerHTML='';
+            q.options.forEach((opt,idx)=>{
+                let btn = document.createElement('button');
+                btn.className = "w-full text-left p-3 rounded-xl border-2 border-slate-800 bg-white hover:bg-amber-50 font-bold flex gap-2 items-center transition";
+                btn.innerHTML = `<span class="bg-slate-800 text-white w-6 h-6 inline-flex justify-center items-center rounded-full">${String.fromCharCode(65+idx)}</span> ${opt}`;
+                btn.onclick = ()=>selectAnswer(idx);
+                optsDiv.appendChild(btn);
             });
         }
-
-        // Handle user selection
-        function selectOption(idx) {
-            if (isAnswered) return; 
-            
-            isAnswered = true;
-            selectedOptionIdx = idx;
-            const q = activeStageList[currentQuestionIdxInStage];
-            
-            // Highlight option styles
-            q.options.forEach((_, optionIdx) => {
-                const btn = document.getElementById(`opt-${optionIdx}`);
-                btn.onclick = null; 
-                
-                if (optionIdx === q.correct) {
-                    btn.className = "w-full text-left p-4 rounded-xl border-4 border-emerald-500 bg-emerald-50 text-emerald-900 font-bold shadow-inner flex items-center space-x-3 animate__animated animate__pulse";
-                } else if (optionIdx === selectedOptionIdx) {
-                    btn.className = "w-full text-left p-4 rounded-xl border-4 border-rose-500 bg-rose-50 text-rose-900 font-bold shadow-inner flex items-center space-x-3 animate__animated animate__shakeX";
-                } else {
-                    btn.className = "w-full text-left p-4 rounded-xl border border-slate-200 bg-slate-100 text-slate-400 font-bold flex items-center space-x-3 opacity-60";
-                }
+        function selectAnswer(selIdx){
+            if(isAnsweredFlag) return;
+            isAnsweredFlag=true;
+            let q = currentStageQuestions[qIndex];
+            let correct = (selIdx === q.correct);
+            if(correct){ coins+=5; correctInStage++; updateCoinUI(); }
+            document.querySelectorAll('#options-container button').forEach((btn,i)=>{
+                btn.style.pointerEvents='none';
+                if(i===q.correct) btn.classList.add('bg-emerald-100','border-emerald-600');
+                if(i===selIdx && !correct) btn.classList.add('bg-rose-100','border-rose-600');
             });
-
-            const feedbackPanel = document.getElementById('feedback-panel');
-            const feedbackIcon = document.getElementById('feedback-icon');
-            const feedbackTitle = document.getElementById('feedback-title');
-            const feedbackText = document.getElementById('feedback-text');
-            const explanationBox = document.getElementById('explanation-box');
-            
-            explanationBox.classList.add('hidden');
-            document.getElementById('explain-btn-text').innerText = "查看詳盡解釋";
-
-            if (idx === q.correct) {
-                playSound('correct');
-                coins += 5;
-                correctInCurrentStage++;
-                updateCoinDisplays();
-                
-                feedbackIcon.innerText = "🎉";
-                feedbackTitle.innerText = "答對了！你太棒了！";
-                feedbackTitle.className = "font-black text-lg text-emerald-600";
-                feedbackText.innerText = "獲得了 5 個寶可夢金幣！繼續加油！";
-                feedbackPanel.className = "border-t-2 border-emerald-100 pt-5 mt-2 animate__animated animate__fadeInUp";
-            } else {
-                playSound('wrong');
-                feedbackIcon.innerText = "😢";
-                feedbackTitle.innerText = "答錯了，不要灰心！";
-                feedbackTitle.className = "font-black text-lg text-rose-600";
-                feedbackText.innerText = "沒關係，看一下詳細解析，下一關一定答對！";
-                feedbackPanel.className = "border-t-2 border-rose-100 pt-5 mt-2 animate__animated animate__fadeInUp";
-            }
-
-            explanationBox.innerText = q.explain;
-            
-            const nextBtnText = document.getElementById('next-btn-text');
-            if (currentQuestionIdxInStage === 9) {
-                nextBtnText.innerText = "進行解鎖大戰！";
-            } else {
-                nextBtnText.innerText = "下一題";
-            }
-
-            feedbackPanel.classList.remove('hidden');
+            let panel = document.getElementById('feedback-panel');
+            document.getElementById('feedback-icon').innerHTML = correct ? '🎉' : '😭';
+            document.getElementById('feedback-title').innerHTML = correct ? '完美！ +5金幣' : '可惜答錯了';
+            document.getElementById('feedback-text').innerHTML = correct ? '繼續保持！' : q.explain;
+            document.getElementById('explanation-box').innerHTML = q.explain;
+            document.getElementById('explanation-box').classList.add('hidden');
+            panel.classList.remove('hidden');
+            let nextBtn = document.getElementById('next-btn');
+            nextBtn.innerText = (qIndex === 9) ? '🏆 完成關卡，解鎖小遊戲' : '下一題 ➡️';
         }
-
-        // Toggle explanation box
-        function toggleExplanation() {
-            playSound('click');
-            const box = document.getElementById('explanation-box');
-            const btnText = document.getElementById('explain-btn-text');
-            if (box.classList.contains('hidden')) {
-                box.classList.remove('hidden');
-                btnText.innerText = "收起詳盡解釋";
-            } else {
-                box.classList.add('hidden');
-                btnText.innerText = "查看詳盡解釋";
-            }
-        }
-
-        // Proceed to next stage question or trigger stage-end mini-game
-        function nextStep() {
-            playSound('click');
-            
-            if (currentQuestionIdxInStage < 9) {
-                currentQuestionIdxInStage++;
-                loadQuestion();
-            } else {
-                // Completed the 10th question of current stage. Validate if they reached 7 correct answers.
-                if (correctInCurrentStage >= 7) {
-                    // Let's trigger the mini-game to unlock the next level!
-                    const gameType = (currentStageIdx % 2 === 1) ? 1 : 2;
-                    openMiniGame(gameType);
-                } else {
-                    // Failed to unlock. Show a retro warning popup.
-                    triggerCustomAlert(
-                        "🚨", 
-                        "解鎖失敗！", 
-                        `在這一關中你需要答對至少 7 題才能開啟下一關（目前：${correctInCurrentStage}/10 題）。多看看解釋，我們重新挑戰這一關吧！`
-                    );
-                    selectAndStartStage(currentStageIdx); // reload the stage to try again
+        function toggleExplanationInline(){ let box=document.getElementById('explanation-box'); box.classList.toggle('hidden'); }
+        async function nextStepAction(){
+            if(!isAnsweredFlag) return;
+            if(qIndex < 9){
+                qIndex++;
+                loadQuestionUI();
+            }else{
+                // 完成10題，判斷是否過關
+                if(correctInStage >= 7){
+                    showMiniGame();
+                }else{
+                    showAlert('⚠️','挑戰失敗',`本關只答對${correctInStage}/10題，需要答對至少7題才能解鎖下一關！重新挑戰吧。`);
+                    startStage(currentStage);
                 }
             }
         }
-
-        function updateCoinDisplays() {
-            document.getElementById('coin-count').innerText = coins;
-            document.getElementById('shop-coin-count').innerText = coins;
-        }
-
-        /* MINIGAMES SYSTEM */
-        let miniGameType = 1;
-        let miniGameTimer = null;
-        let miniGameSecsLeft = 15;
-        let miniGameScore = 0;
-        let berrySpawner = null;
-
-        function openMiniGame(type) {
-            miniGameType = type;
-            miniGameScore = 0;
-            miniGameSecsLeft = 15;
-            
+        function showMiniGame(){
             document.getElementById('game-screen').classList.add('hidden');
-            document.getElementById('minigame-screen').classList.remove('hidden');
-            document.getElementById('minigame-screen').classList.add('flex');
-            
-            document.getElementById('minigame-timer').innerText = miniGameSecsLeft;
-            document.getElementById('minigame-score').innerText = miniGameScore;
-            
-            document.getElementById('minigame-intro-overlay').classList.remove('hidden');
-            const container = document.getElementById('minigame-canvas-container');
-            
-            const prevBerries = container.querySelectorAll('.minigame-berry');
-            prevBerries.forEach(b => b.remove());
-            document.getElementById('minigame2-grid').classList.add('hidden');
-
-            if (type === 1) {
-                document.getElementById('minigame-ready-emoji').innerText = "🍓";
-                document.getElementById('minigame-title').innerText = "精靈莓果大作戰！";
-                document.getElementById('minigame-desc').innerText = "大批藍莓與草莓從天而降！在 15 秒內快速點擊隨機出現的莓果，每點中一個賺取 1 個額外金幣！";
-            } else {
-                document.getElementById('minigame-ready-emoji').innerText = "🐹";
-                document.getElementById('minigame-title').innerText = "三地鼠拍拍樂！";
-                document.getElementById('minigame-desc').innerText = "野生三地鼠和地鼠從洞口冒了出來！快把牠們拍回去！每點擊擊中一隻可獲得 2 個金幣！";
-            }
-        }
-
-        function startMiniGamePlay() {
-            playSound('click');
-            document.getElementById('minigame-intro-overlay').classList.add('hidden');
-            
-            if (miniGameType === 1) {
-                startBerryGame();
-            } else {
-                startMoleGame();
-            }
-
-            miniGameTimer = setInterval(() => {
-                miniGameSecsLeft--;
-                document.getElementById('minigame-timer').innerText = miniGameSecsLeft;
-                
-                if (miniGameSecsLeft <= 0) {
-                    endMiniGame();
-                }
-            }, 1000);
-        }
-
-        function startBerryGame() {
-            const container = document.getElementById('minigame-canvas-container');
-            
-            function spawnBerry() {
-                if (miniGameSecsLeft <= 0) return;
-                
-                const berry = document.createElement('div');
-                berry.className = "absolute minigame-berry text-4xl select-none cursor-pointer transform hover:scale-125 transition-transform duration-100 animate__animated animate__fadeInUp";
-                
-                const berries = ["🍓", "🫐", "🍒", "🍇"];
-                berry.innerText = berries[Math.floor(Math.random() * berries.length)];
-                
-                const posX = Math.random() * (container.clientWidth - 50);
-                const posY = Math.random() * (container.clientHeight - 50);
-                berry.style.left = `${posX}px`;
-                berry.style.top = `${posY}px`;
-                
-                berry.onclick = (e) => {
-                    e.stopPropagation();
-                    playSound('coin');
-                    miniGameScore += 1;
-                    document.getElementById('minigame-score').innerText = miniGameScore;
-                    
-                    berry.innerText = "✨";
-                    berry.classList.add('animate__zoomOut');
-                    setTimeout(() => berry.remove(), 200);
-                };
-                
-                container.appendChild(berry);
-                
-                setTimeout(() => {
-                    if (berry.parentNode) {
-                        berry.remove();
-                    }
-                }, 1500);
-            }
-
-            for (let i = 0; i < 4; i++) {
-                spawnBerry();
-            }
-            berrySpawner = setInterval(spawnBerry, 450);
-        }
-
-        function startMoleGame() {
-            document.getElementById('minigame2-grid').classList.remove('hidden');
-            
-            for (let i = 0; i < 9; i++) {
-                const mole = document.getElementById(`mole-${i}`);
-                mole.style.transform = "translateY(64px)";
-                mole.innerText = Math.random() > 0.3 ? "🐹" : "🐱"; 
-            }
-
-            function popMole() {
-                if (miniGameSecsLeft <= 0) return;
-                
-                const randomHole = Math.floor(Math.random() * 9);
-                const mole = document.getElementById(`mole-${randomHole}`);
-                mole.style.transform = "translateY(0px)";
-                
-                setTimeout(() => {
-                    mole.style.transform = "translateY(64px)";
-                }, 900);
-            }
-
-            popMole();
-            const spawner1 = setInterval(popMole, 600);
-            const spawner2 = setInterval(popMole, 1100);
-            
-            // Clear previous timers if any
-            moleTimers.forEach(t => clearInterval(t));
-            moleTimers = [spawner1, spawner2];
-        }
-
-        function hitMole(holeIdx) {
-            const mole = document.getElementById(`mole-${holeIdx}`);
-            if (mole.style.transform === "translateY(0px)") {
-                playSound('coin');
-                miniGameScore += 2;
-                document.getElementById('minigame-score').innerText = miniGameScore;
-                
-                mole.innerText = "💫";
-                mole.style.transform = "translateY(64px)";
-                
-                setTimeout(() => {
-                    mole.innerText = Math.random() > 0.3 ? "🐹" : "🐱";
-                }, 300);
-            }
-        }
-
-        function endMiniGame() {
-            clearInterval(miniGameTimer);
-            clearInterval(berrySpawner);
-            moleTimers.forEach(t => clearInterval(t));
-            moleTimers = [];
-            
-            coins += miniGameScore;
-            updateCoinDisplays();
-            playSound('gameover');
-
-            // Unlock next stage!
-            const nextStage = currentStageIdx + 1;
-            let unlockMsg = `恭喜解鎖下一關！獲得了 ${miniGameScore} 個额外金幣！`;
-            if (nextStage <= 5) {
-                unlockedStages[nextStage] = true;
-                unlockMsg = `你太優秀了！成功解鎖了第 ${nextStage} 關！並賺取了 ${miniGameScore} 個金幣！皮卡！`;
-            } else {
-                unlockMsg = `大功告成！你已經順利完成了所有的常識時事關卡！共獲得了 ${miniGameScore} 個金幣！`;
-            }
-            
-            const overlay = document.getElementById('minigame-intro-overlay');
-            overlay.innerHTML = `
-                <div class="text-center p-6 bg-slate-800 rounded-3xl border-4 border-amber-400 max-w-sm mx-auto">
-                    <span class="text-5xl mb-2 inline-block">🎉</span>
-                    <h3 class="text-xl font-black text-amber-400 mb-2">關卡圓滿完成！</h3>
-                    <p class="text-white text-xs mb-4 leading-relaxed">${unlockMsg}</p>
-                    <button onclick="concludeAndProgress()" class="bg-amber-400 hover:bg-amber-500 text-slate-900 font-extrabold px-6 py-2 rounded-xl border-2 border-slate-900">
-                        ${nextStage <= 5 ? "前去挑戰下一關" : "查看總成績"}
-                    </button>
-                </div>
-            `;
+            let mgScreen = document.getElementById('minigame-screen');
+            mgScreen.classList.remove('hidden');
+            const overlay = document.getElementById('minigame-overlay');
             overlay.classList.remove('hidden');
+            document.getElementById('minigame-timer').innerText = '15';
+            document.getElementById('minigame-score').innerText = '0';
+            document.getElementById('start-minigame-btn').onclick = ()=>{
+                startMiniGameCore();
+            };
         }
-
-        function concludeAndProgress() {
-            playSound('click');
+        function startMiniGameCore(){
+            let mgField = document.getElementById('minigame-play-field');
+            let overlayDiv = document.getElementById('minigame-overlay');
+            overlayDiv.classList.add('hidden');
+            minigameSec=15; minigamePoints=0;
+            document.getElementById('minigame-timer').innerText = minigameSec;
+            document.getElementById('minigame-score').innerText = '0';
+            // 使用莓果版本 (簡單抓點)
+            mgField.innerHTML = `<div id="berry-area" class="relative w-full h-full"></div>`;
+            let berryArea = document.getElementById('berry-area');
+            function spawnBerry(){
+                if(minigameSec<=0) return;
+                let berryDiv = document.createElement('div');
+                berryDiv.innerText = ['🍓','🫐','🍒','🍇'][Math.floor(Math.random()*4)];
+                berryDiv.className = "absolute text-4xl cursor-pointer animate-bounce";
+                let x = Math.random() * (mgField.clientWidth-50);
+                let y = Math.random() * (mgField.clientHeight-50);
+                berryDiv.style.left = x+'px'; berryDiv.style.top = y+'px';
+                berryDiv.onclick = (e)=>{ e.stopPropagation(); if(minigameSec>0){ minigamePoints++; document.getElementById('minigame-score').innerText = minigamePoints; berryDiv.remove(); playSound('coin'); } };
+                berryArea.appendChild(berryDiv);
+                setTimeout(()=>{ if(berryDiv.parentNode) berryDiv.remove(); }, 1500);
+            }
+            let intervalSpawn = setInterval(spawnBerry, 550);
+            let timer = setInterval(()=>{
+                minigameSec--;
+                document.getElementById('minigame-timer').innerText = minigameSec;
+                if(minigameSec<=0){
+                    clearInterval(timer); clearInterval(intervalSpawn);
+                    endMiniGameProcess(minigamePoints);
+                }
+            },1000);
+            window._mgTimer = timer; window._mgSpawn = intervalSpawn;
+        }
+        function endMiniGameProcess(earned){
+            coins += earned;
+            updateCoinUI();
+            let nextStage = currentStage+1;
+            if(nextStage <=5) unlockedStages[nextStage] = true;
+            renderStages();
+            showAlert('🎉','小遊戲過關',`你獲得${earned}金幣！${nextStage<=5 ? `解鎖第${nextStage}關` : '全破關卡！'}`);
             document.getElementById('minigame-screen').classList.add('hidden');
-            
-            const nextStage = currentStageIdx + 1;
-            if (nextStage <= 5) {
-                goToStart(); 
-            } else {
-                showEndScreen();
+            if(nextStage>5){
+                document.getElementById('end-screen').classList.remove('hidden');
+                document.getElementById('end-coins').innerText = coins;
+                document.getElementById('end-correct').innerText = '50/50';
+            }else{
+                goToStartScreen();
             }
+            if(window._mgTimer)clearInterval(window._mgTimer);
+            if(window._mgSpawn)clearInterval(window._mgSpawn);
         }
-
-        /* END SCREEN SUMMARY */
-        function showEndScreen() {
-            playSound('gameover');
-            document.getElementById('game-screen').classList.add('hidden');
-            document.getElementById('minigame-screen').classList.add('hidden');
-            document.getElementById('end-screen').classList.remove('hidden');
-            
-            document.getElementById('end-coins').innerText = coins;
-            document.getElementById('end-correct').innerText = `50 / 50`;
-        }
-
-        /* SHOP & BACKPACK SYSTEM */
-        function openShop() {
-            playSound('click');
-            document.getElementById('shop-modal').classList.remove('hidden');
-            updateBackpackUI();
-        }
-
-        function closeShop() {
-            playSound('click');
-            document.getElementById('shop-modal').classList.add('hidden');
-        }
-
-        function buyItem(name, cost, emoji) {
-            if (coins >= cost) {
-                playSound('coin');
-                coins -= cost;
-                updateCoinDisplays();
-                
-                inventory.push({ name, emoji });
-                updateBackpackUI();
-                
-                const shopModal = document.getElementById('shop-modal');
-                shopModal.classList.add('shaking');
-                setTimeout(() => shopModal.classList.remove('shaking'), 500);
-            } else {
-                playSound('wrong');
-                triggerCustomAlert("🪙", "金幣不夠唷！", "多去挑戰關卡或在小遊戲裡大顯身手，積攢更多金幣吧！");
-            }
-        }
-
-        function updateBackpackUI() {
-            const bag = document.getElementById('backpack-inventory');
-            if (inventory.length === 0) {
-                bag.innerHTML = `<span class="text-xs text-slate-400">背包裡空空如也，快去賺金幣購買零食吧！</span>`;
-                return;
-            }
-
-            bag.innerHTML = '';
-            inventory.forEach((item, index) => {
-                const itemBtn = document.createElement('button');
-                itemBtn.className = "flex items-center space-x-1.5 bg-rose-50 hover:bg-rose-100 text-rose-800 text-xs font-bold py-1.5 px-3 rounded-full border border-rose-200 transition transform hover:scale-105 active:scale-95 shadow-sm";
-                itemBtn.onclick = () => initShareItem(index);
-                itemBtn.innerHTML = `
-                    <span>${item.emoji}</span>
-                    <span>${item.name}</span>
-                    <span class="text-[10px] bg-rose-200 text-rose-800 px-1 py-0.2 rounded font-normal">分享</span>
-                `;
-                bag.appendChild(itemBtn);
-            });
-        }
-
-        /* SHARING TO POKEMONS */
-        let activeSharingIdx = null;
-
-        function initShareItem(idx) {
-            playSound('click');
-            activeSharingIdx = idx;
-            const item = inventory[idx];
-            
-            document.getElementById('sharing-item-emoji').innerText = item.emoji;
-            document.getElementById('sharing-item-name').innerText = item.name;
-            
-            document.getElementById('shop-modal').classList.add('hidden');
-            document.getElementById('share-modal').classList.remove('hidden');
-        }
-
-        function closeShare() {
-            playSound('click');
-            document.getElementById('share-modal').classList.add('hidden');
-            document.getElementById('shop-modal').classList.remove('hidden');
-        }
-
-        function executeShare(pokemonName, reactionText) {
-            playSound('correct');
-            inventory.splice(activeSharingIdx, 1);
-            
-            document.getElementById('share-modal').classList.add('hidden');
-            
-            document.getElementById('reaction-title').innerText = `${pokemonName} 好高興呀！`;
-            document.getElementById('reaction-desc').innerText = reactionText;
-            document.getElementById('reaction-modal').classList.remove('hidden');
-        }
-
-        function closeReaction() {
-            playSound('click');
-            document.getElementById('reaction-modal').classList.add('hidden');
-            openShop();
-        }
-
-        // Initialize state UI on window load safely
-        window.onload = function() {
-            updateStartScreenLevelsUI();
-        }
+        function goToStartScreen(){ document.getElementById('game-screen').classList.add('hidden'); document.getElementById('minigame-screen').classList.add('hidden'); document.getElementById('end-screen').classList.add('hidden'); document.getElementById('start-screen').classList.remove('hidden'); renderStages(); }
+        function resetToStart(){ goToStartScreen(); }
+        // 商店系統
+        function openShop(){ document.getElementById('shop-modal').classList.remove('hidden'); updateBackpackUI(); }
+        function closeShopModal(){ document.getElementById('shop-modal').classList.add('hidden'); }
+        function buyStoreItem(name,cost,emoji){ if(coins>=cost){ coins-=cost; inventory.push({name,emoji}); updateCoinUI(); updateBackpackUI(); showAlert('🛒','購買成功',`獲得 ${name} ! 去背包分享給寶可夢吧`); } else showAlert('💰','金幣不足','快去答題賺金幣～'); }
+        function updateBackpackUI(){ let bagDiv = document.getElementById('backpack-list'); if(inventory.length===0){ bagDiv.innerHTML='<span class="text-slate-400 text-xs">暫無零食，快購買分享～</span>'; return; } bagDiv.innerHTML=''; inventory.forEach((item,idx)=>{ let btn = document.createElement('button'); btn.className='bg-rose-100 rounded-full px-2 py-1 text-xs flex items-center gap-1'; btn.innerHTML=`${item.emoji} ${item.name} 📤`; btn.onclick=()=>{ currentShareIndex=idx; document.getElementById('share-item-emoji').innerText=item.emoji; document.getElementById('share-item-name').innerText=item.name; document.getElementById('share-modal').classList.remove('hidden'); closeShopModal(); }; bagDiv.appendChild(btn); }); }
+        function shareToPokemon(pokemon,msg){ if(currentShareIndex!==null && inventory[currentShareIndex]){ inventory.splice(currentShareIndex,1); updateBackpackUI(); document.getElementById('share-modal').classList.add('hidden'); document.getElementById('reaction-message').innerHTML = `✨ 你將零食送給${pokemon}！<br>${msg}`; document.getElementById('reaction-modal').classList.remove('hidden'); }else{ closeShareModal(); } }
+        function closeShareModal(){ document.getElementById('share-modal').classList.add('hidden'); openShop(); }
+        function closeReactionModal(){ document.getElementById('reaction-modal').classList.add('hidden'); openShop(); }
+        document.getElementById('global-start-btn').onclick = ()=>{ let firstUnlock=1; for(let i=1;i<=5;i++) if(unlockedStages[i]) firstUnlock=i; startStage(firstUnlock); };
+        window.onload = ()=>{ renderStages(); updateCoinUI(); };
     </script>
 </body>
 </html>
-
-```
