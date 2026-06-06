@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>小常識 · 測驗 · 第三冊-第1課::最後的皇朝</title>
+    <title>動物適應與生態 · 自然常識挑戰 | 生物大冒險</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* 樣式與前相同，僅在底部新增按鈕容器樣式 */
         * {
             margin: 0;
             padding: 0;
@@ -25,12 +24,12 @@
         }
 
         .test-container {
-            max-width: 500px;
+            max-width: 550px;
             width: 100%;
-            height: 98vh;
-            background: rgba(255, 255, 255, 0.9);
+            height: 96vh;
+            background: rgba(255, 255, 255, 0.92);
             backdrop-filter: blur(4px);
-            border-radius: 32px;
+            border-radius: 38px;
             box-shadow: 0 20px 30px -10px rgba(0,40,60,0.4);
             padding: 0.8rem;
             border: 2px solid rgba(255,255,255,0.8);
@@ -45,8 +44,8 @@
             justify-content: space-between;
             background: white;
             padding: 0.4rem 0.8rem;
-            border-radius: 40px;
-            margin-bottom: 0.5rem;
+            border-radius: 60px;
+            margin-bottom: 0.6rem;
             box-shadow: 0 3px 0 #bed0e3;
             flex-shrink: 0;
         }
@@ -56,7 +55,7 @@
             border-radius: 40px;
             padding: 0.3rem 0.8rem;
             font-weight: 700;
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             color: #1f3a4b;
             border: none;
             box-shadow: 0 3px 0 #b38f1c;
@@ -69,7 +68,7 @@
         .back-home:active { transform: translateY(3px); box-shadow: 0 1px 0 #b38f1c; }
 
         .test-title {
-            font-size: 1.2rem;
+            font-size: 1rem;
             font-weight: 900;
             background: #eef5ff;
             padding: 0.2rem 1rem;
@@ -100,10 +99,10 @@
             margin-bottom: 0.2rem;
             font-weight: 600;
             color: #2c5a7a;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
         .progress-bar-bg {
-            height: 16px;
+            height: 14px;
             background: #e2eaf3;
             border-radius: 30px;
             overflow: hidden;
@@ -111,7 +110,7 @@
         }
         .progress-correct {
             height: 100%;
-            background: #58cc71;
+            background: linear-gradient(90deg, #58cc71, #2e9b5c);
             transition: width 0.3s;
             width: 0%;
             border-radius: 30px;
@@ -126,7 +125,7 @@
 
         .question-card {
             background: white;
-            border-radius: 24px;
+            border-radius: 28px;
             padding: 1rem;
             box-shadow: 0 5px 0 #a0b9cf, 0 5px 15px rgba(0,0,0,0.1);
             border: 2px solid #fff6cf;
@@ -136,7 +135,7 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.6rem;
             flex-wrap: wrap;
         }
         .question-number {
@@ -145,15 +144,15 @@
             padding: 0.1rem 0.8rem;
             border-radius: 40px;
             font-weight: 700;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
         }
-        .subtopic-badge {
-            background: #f4d03f;
-            color: #1f3a4b;
+        .type-badge {
+            background: #f39c12;
+            color: #2c2c2c;
             padding: 0.1rem 0.8rem;
             border-radius: 40px;
             font-weight: 700;
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             display: flex;
             align-items: center;
             gap: 4px;
@@ -161,25 +160,25 @@
 
         .question-text {
             font-size: 1.2rem;
-            font-weight: 700;
+            font-weight: 800;
             color: #1e3f5a;
             margin-bottom: 1rem;
-            line-height: 1.3;
+            line-height: 1.35;
             padding-left: 0.3rem;
-            border-left: 4px solid #f3b33d;
+            border-left: 5px solid #f3b33d;
         }
 
         .options-grid {
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 0.6rem;
         }
         .option-btn {
             background: #f5f9ff;
             border: 2px solid #cad9eb;
-            border-radius: 40px;
+            border-radius: 60px;
             padding: 0.7rem 1rem;
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 600;
             color: #1f4973;
             text-align: left;
@@ -207,11 +206,21 @@
             justify-content: center;
             font-weight: 800;
             flex-shrink: 0;
-            font-size: 0.9rem;
+        }
+
+        .explanation-box {
+            background: #fff9e6;
+            border-left: 6px solid #f3b33d;
+            border-radius: 20px;
+            padding: 0.7rem;
+            margin-top: 0.9rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #2c3e4e;
         }
 
         .feedback-pop {
-            background: #333;
+            background: #2c3e50;
             color: white;
             padding: 0.5rem 1rem;
             border-radius: 40px;
@@ -220,8 +229,7 @@
             text-align: center;
             animation: fadeInOut 2s;
             position: sticky;
-            bottom: 10px;
-            z-index: 10;
+            bottom: 8px;
         }
         @keyframes fadeInOut { 0%{opacity:0} 20%{opacity:1} 80%{opacity:1} 100%{opacity:0} }
 
@@ -237,9 +245,9 @@
             background: white;
             border: none;
             padding: 0.5rem 1rem;
-            border-radius: 40px;
+            border-radius: 60px;
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: #1f4973;
             box-shadow: 0 3px 0 #9fbad0;
             cursor: pointer;
@@ -256,10 +264,9 @@
             background: #e1edff;
             padding: 0.2rem 0.8rem;
             border-radius: 40px;
-            font-weight: 600;
+            font-weight: 700;
             color: #1a4972;
-            font-size: 0.9rem;
-            white-space: nowrap;
+            font-size: 0.85rem;
         }
 
         .start-screen {
@@ -274,9 +281,9 @@
             background: #58a700;
             border: none;
             color: white;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: 800;
-            padding: 1rem 2rem;
+            padding: 0.9rem 1.8rem;
             border-radius: 60px;
             box-shadow: 0 6px 0 #3e7a00;
             cursor: pointer;
@@ -286,30 +293,21 @@
         .start-btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #3e7a00; }
 
         .summary-screen {
-            padding: 0.5rem;
+            padding: 0.3rem;
         }
         .summary-title {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: 900;
             color: #1a4972;
             text-align: center;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 0 #c1d9f0;
+            margin-bottom: 0.8rem;
         }
         .overall-stats {
             background: white;
             border-radius: 24px;
             padding: 1rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             box-shadow: 0 5px 0 #a0b9cf;
-            border: 2px solid #fff6cf;
-        }
-        .overall-labels {
-            display: flex;
-            justify-content: space-between;
-            font-weight: 700;
-            color: #2c5a7a;
-            margin-bottom: 0.5rem;
         }
         .overall-bar {
             height: 36px;
@@ -326,176 +324,99 @@
             justify-content: center;
             color: white;
             font-weight: 800;
-            font-size: 1.1rem;
             transition: width 0.3s;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
         }
-
         .section-card {
             background: white;
             border-radius: 24px;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            box-shadow: 0 5px 0 #a0b9cf;
-            border: 2px solid #fff6cf;
-            transition: transform 0.1s;
-        }
-        .section-card:hover {
-            transform: translateY(-2px);
+            padding: 0.8rem;
+            margin-bottom: 0.8rem;
+            box-shadow: 0 4px 0 #a0b9cf;
         }
         .section-header {
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            margin-bottom: 0.8rem;
+            margin-bottom: 0.5rem;
         }
         .section-icon {
-            width: 40px;
-            height: 40px;
+            width: 38px;
+            height: 38px;
             background: #3498db;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 1.2rem;
         }
         .section-name {
-            font-size: 1.2rem;
+            font-size: 1rem;
             font-weight: 800;
             color: #1a4972;
             flex: 1;
         }
-        .section-percent {
-            font-size: 1.5rem;
-            font-weight: 900;
-            color: #2c5a7a;
-        }
+        .section-percent { font-size: 1.3rem; font-weight: 900; }
         .progress-bg {
-            height: 16px;
+            height: 12px;
             background: #e2eaf3;
             border-radius: 30px;
-            margin: 0.5rem 0;
-            overflow: hidden;
+            margin: 0.3rem 0;
         }
         .progress-fill-section {
             height: 100%;
             background: linear-gradient(90deg, #f4d03f, #f39c12);
             border-radius: 30px;
             width: 0%;
-            transition: width 0.3s;
         }
-        .section-stats {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 0.5rem;
-            color: #4f6f8f;
-            font-weight: 600;
-        }
-        .stat-item {
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-        }
-        .stat-item i {
-            font-size: 1.2rem;
-        }
-        .fa-check-circle { color: #58cc71; }
-        .fa-times-circle { color: #e74c3c; }
-        .fa-file-alt { color: #3498db; }
-
-        /* 答錯題目回顧樣式 */
         .wrong-questions-section {
             background: white;
             border-radius: 24px;
             padding: 1rem;
-            margin-top: 1.5rem;
+            margin-top: 1rem;
             box-shadow: 0 5px 0 #a0b9cf;
-            border: 2px solid #fff6cf;
         }
         .wrong-title {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: 800;
             color: #c62828;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            margin-bottom: 0.8rem;
         }
         .wrong-item {
             background: #fff9f9;
             border-left: 4px solid #c62828;
             border-radius: 16px;
-            padding: 0.8rem;
-            margin-bottom: 1rem;
+            padding: 0.7rem;
+            margin-bottom: 0.8rem;
         }
-        .wrong-question {
-            font-weight: 700;
-            color: #1e3f5a;
-            margin-bottom: 0.5rem;
-        }
-        .wrong-answer {
-            color: #c62828;
-            font-size: 0.95rem;
-            margin-bottom: 0.3rem;
-        }
-        .correct-answer {
-            color: #2e7d32;
-            font-size: 0.95rem;
-            margin-bottom: 0.3rem;
-        }
-        .correct-tag {
-            display: inline-block;
-            background: #58cc71;
-            color: white;
-            padding: 0.2rem 0.8rem;
-            border-radius: 40px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            margin-top: 0.3rem;
-        }
-
-        /* 總結頁面雙按鈕容器 */
         .summary-buttons {
             display: flex;
-            gap: 1rem;
+            gap: 0.8rem;
             justify-content: center;
-            margin-top: 1.5rem;
+            margin-top: 1rem;
         }
         .summary-btn {
             background: #48b5a5;
             border: none;
             color: white;
-            font-size: 1.2rem;
             font-weight: 700;
-            padding: 0.8rem 1.5rem;
-            border-radius: 60px;
-            box-shadow: 0 5px 0 #1c6b5e;
+            padding: 0.7rem 1rem;
+            border-radius: 50px;
+            box-shadow: 0 4px 0 #1c6b5e;
             cursor: pointer;
             flex: 1;
-            transition: 0.1s;
             text-align: center;
         }
-        .summary-btn.wrong-btn {
-            background: #e67e22;
-            box-shadow: 0 5px 0 #b85e0f;
-        }
-        .summary-btn:active {
-            transform: translateY(4px);
-            box-shadow: 0 1px 0 #1c6b5e;
-        }
-        .summary-btn.wrong-btn:active {
-            box-shadow: 0 1px 0 #b85e0f;
-        }
-
+        .summary-btn.wrong-btn { background: #e67e22; box-shadow: 0 4px 0 #b85e0f; }
+        .summary-btn:active { transform: translateY(4px); box-shadow: 0 1px 0 #1c6b5e; }
         .hidden { display: none; }
+        i.fa, span { pointer-events: none; }
     </style>
 </head>
 <body>
 <div class="test-container">
     <div class="test-header">
-        <a href="../index-GS.html" class="back-home"><i class="fas fa-arrow-left"></i> 返回</a>
-        <span class="test-title">第三冊第1課·最後的皇朝</span>
+        <a href="#" class="back-home" id="backHomeBtn"><i class="fas fa-leaf"></i> 生態首頁</a>
+        <span class="test-title">🦎 動物適應與演化 · 生態挑戰</span>
         <div class="test-stats">
             <span><i class="fas fa-star"></i> <span id="earnedPoints">0</span>/<span id="totalPoints">0</span></span>
         </div>
@@ -513,8 +434,8 @@
 
     <div class="scrollable-content" id="contentArea">
         <div id="startScreen" class="start-screen">
-            <div class="start-btn" id="btnRandom20">隨機20題</div>
-            <div class="start-btn" id="btnAll">全部題目</div>
+            <div class="start-btn" id="btnFullQuiz">🌿 完整測驗 (30題)</div>
+            <div class="start-btn" id="btnQuick15">⚡ 隨機15題</div>
         </div>
         <div id="questionArea" class="hidden"></div>
         <div id="summaryArea" class="hidden summary-screen"></div>
@@ -524,367 +445,243 @@
         <button class="nav-btn" id="prevBtn" disabled><i class="fas fa-chevron-left"></i> 上一題</button>
         <span class="question-indicator" id="questionIndicator">1/0</span>
         <button class="nav-btn primary" id="nextBtn">下一題 <i class="fas fa-chevron-right"></i></button>
-        <button class="nav-btn primary hidden" id="showResultsBtn">查看結果</button>
+        <button class="nav-btn primary hidden" id="showResultsBtn">📊 查看結果</button>
     </div>
 </div>
 
 <script>
-(function() {
-    let fullTestData = null;
-    let currentSet = [];
-    let userAnswers = [];
-    let questionStatus = [];
-    let earnedPoints = 0;
-    const pointsPerQuestion = 5;
-    let currentIndex = 0;
+    (function() {
+        // ---------- 完整題庫 : 全部基於所提供題目 (選擇/填空/判斷/簡答改為標準化測驗) ----------
+        // 為了統一測驗體驗，將填空/簡答轉為選擇題型（保留原始知識，但仍能計分且完整）
+        // 依據詳細內容建立30道高質量題目（涵蓋Q1~Q30核心觀念）
+        const MASTER_QUESTIONS = [
+            { type:"choice", subtopic:"遷徙本能", question:"動物會進行遷徙的主要動機，生態學歸納為哪兩個關鍵需求？", options:["減少脂肪層與冰冷水源","學習合作與去除毒素","築巢與避免高溫","獲取食物與繁殖後代"], correct:3, explanation:"筆記指出：動物會為了『覓食』和『繁殖』的需要而遷徙，涵蓋生存與繁衍。"},
+            { type:"choice", subtopic:"牙齒適應", question:"根據食物類型，食肉動物與食草動物在牙齒構造上的主要差異為何？", options:["食肉動物有平坦磨牙，食草動物有鋒利尖牙","兩者皆為鐮刀狀牙齒","食肉動物有鋒利尖牙撕裂肉類；食草動物有平坦磨牙磨碎植物","食肉動物無牙齒，食草動物有長牙"], correct:2, explanation:"食肉動物 = 鋒利尖牙撕裂；食草動物 = 平坦磨牙磨碎植物纖維。"},
+            { type:"choice", subtopic:"冬眠策略", question:"冬眠對生活在寒冷環境中的動物最主要生存意義是什麼？", options:["增加代謝率以產生更多熱量","減少能量消耗，度過食物稀缺的冬季","增強肌肉以對抗掠食者","提升繁殖速度"], correct:1, explanation:"冬眠可減少寒冷季節的能量消耗，幫助動物度過食物稀缺的冬季。"},
+            { type:"truefalse", subtopic:"鵜鶘特徵", question:"鵜鶘擁有長喙和喉囊，這與牠捕捉並儲存魚類的食性直接相關。", options:["True","False"], correct:0, explanation:"長喙、喉囊用於捕捉並儲存魚類，為典型構造適應。"},
+            { type:"choice", subtopic:"保護色vs警戒色", question:"「保護色」與「鮮明斑紋(警戒色)」在保護功能上的本質區別為何？", options:["保護色吸引配偶，警戒色嚇阻天敵","保護色隱藏避免被發現；警戒色主動提醒捕食者有毒或難食","保護色讓動物變大，警戒色使動物發光","沒有區別功能相同"], correct:1, explanation:"保護色用於隱藏；警戒色（鮮明斑紋）則是提醒捕食者該動物有毒或難以捕食。"},
+            { type:"truefalse", subtopic:"沙漠兔耳朵", question:"沙漠棉尾兔的褐色毛皮提供保護色，而其長耳朵主要功能是為了收集遠方聲音。", options:["True","False"], correct:1, explanation:"長耳朵主要功能是散熱，而非收集聲音（北極兔短耳保暖，沙漠兔長耳散熱）。"},
+            { type:"choice", subtopic:"矍眼蝶", question:"矍眼蝶身上顯眼的斑紋在生態學上屬於何種適應？", options:["保護色","擬態","警戒色","熱吸收構造"], correct:2, explanation:"鮮明斑紋為警戒色，提醒捕食者可能帶有毒性或難以吞嚥。"},
+            { type:"choice", subtopic:"夏眠行為", question:"蝸牛在乾旱炎熱環境下會採取哪些行為來預防脫水？", options:["挖洞至地底深處","躲入硬殼並用黏液封閉入口，夏眠","快速移動尋找水源","脫去外殼減少水分蒸發"], correct:1, explanation:"躲入硬殼並分泌黏液封口，稱為夏眠，防止水分蒸發。"},
+            { type:"choice", subtopic:"生物多樣性", question:"為何熱帶雨林的動物種類豐富度遠高於極地？", options:["雨林氣候溫暖濕潤且食物多樣；極地寒冷食物有限","極地掠食者太多","雨林動物繁殖力較強","極地動物體型較大"], correct:0, explanation:"雨林溫暖濕潤、水源充足、食物多樣；極地寒冷、食物稀缺，限制了物種多樣性。"},
+            { type:"choice", subtopic:"警戒色功能", question:"矍眼蝶翅膀鮮明斑紋最符合下列哪項描述？", options:["散熱機制","保護色融入環境","擬態群居行為","警戒色提醒捕食者可能有毒"], correct:3, explanation:"筆記明確指出：鮮明斑紋是警戒色，提醒捕食者該動物有毒或難以捕食。"},
+            { type:"choice", subtopic:"夏眠名詞", question:"蝸牛躲入硬殼並用黏液封閉入口以避開高溫乾旱的行為稱為？", options:["冬眠","蛻皮","夏眠","休眠遷徙"], correct:2, explanation:"此行為稱為夏眠 (Aestivation)，避免高溫與水分流失。"},
+            { type:"choice", subtopic:"兔耳適應", question:"北極兔與沙漠棉尾兔的耳朵長度差異主要與何種環境因素適應有關？", options:["躲避天敵視野","調節體溫 (保暖/散熱)","收集不同頻率聲音","跳躍距離"], correct:1, explanation:"北極兔短耳減少熱量流失；沙漠棉尾兔長耳有助散熱，皆為體溫調節。"},
+            { type:"choice", subtopic:"企鵝游泳", question:"皇帝企鵝為了在冰冷海洋中順利活動，腳部演化出何種構造便於游泳？", options:["蹼","鋒利爪子","吸盤","長蹼趾"], correct:0, explanation:"腳有蹼，便於游泳，適應海洋環境。"},
+            { type:"choice", subtopic:"熱帶草原氣候", question:"熱帶草原的環境特點為何？", options:["全年多雨潮濕","乾濕季分明，水源季節性供應","極度乾旱無降雨","終年積雪"], correct:1, explanation:"熱帶草原氣候乾濕季分明，水源呈現季節性供應。"},
+            { type:"truefalse", subtopic:"草原草食動物", question:"熱帶草原乾濕季分明，其草食性動物的比例相對較高。", options:["True","False"], correct:0, explanation:"草原地區草類豐富，支撐大量草食動物，比例較高。"},
+            { type:"choice", subtopic:"雨林vs沙漠", question:"為何熱帶雨林動物種類豐富度高於沙漠？", options:["雨林日照較強","雨林氣候恆定且降雨豐富，提供多樣食物","沙漠動物不擅長繁殖","沙漠食物過多"], correct:1, explanation:"溫暖濕潤、食物多樣；沙漠資源稀缺，物種相對少。"},
+            { type:"truefalse", subtopic:"警戒色求偶", question:"矍眼蝶的鮮明斑紋稱為警戒色，主要作用是為了吸引配偶進行繁殖。", options:["True","False"], correct:1, explanation:"警戒色目的是嚇阻捕食者，非求偶功能。"},
+            { type:"choice", subtopic:"冬季節能", question:"松鼠和蛇在食物稀缺的冬季透過何種方式減少能量消耗？", options:["遷徙","冬眠","夏眠","蛻皮"], correct:1, explanation:"冬眠可減少能量消耗，度過低溫與食物短缺。"},
+            { type:"truefalse", subtopic:"極地小耳", question:"北極熊和皇帝企鵝的小耳朵特徵是為了增強集音能力以偵測捕食者。", options:["True","False"], correct:1, explanation:"小耳朵主要是為了減少熱量流失面積，保暖而非集音。"},
+            { type:"truefalse", subtopic:"蝸牛夏眠", question:"蝸牛面臨高溫缺水時會採取夏眠，利用黏液封閉殼口防止水分蒸發。", options:["True","False"], correct:0, explanation:"正確，夏眠避高溫、防脫水。"},
+            { type:"choice", subtopic:"乾旱適應", question:"非洲陸龜的硬殼和鱗片作用與下列何者最相似？", options:["北極熊厚毛","駱駝厚皮膚減少水分蒸發","海豹保護色","花鹿群居"], correct:1, explanation:"硬殼&鱗片減少水分流失；駱駝厚皮膚同樣減少水分蒸發，適應乾旱。"},
+            { type:"choice", subtopic:"沙漠兔散熱", question:"與北極兔短耳不同，沙漠棉尾兔擁有哪項特徵幫助散熱？", options:["短耳朵","長耳朵","厚脂肪層","鱗片"], correct:1, explanation:"長耳朵有助於在炎熱環境中散發熱量。"},
+            { type:"truefalse", subtopic:"冬眠普遍性", question:"全體種類的松鼠與蛇都會進入冬眠，但魚類不會透過冬眠度過冬季。", options:["True","False"], correct:1, explanation:"部分魚類也會休眠或冬眠，且並非所有松鼠蛇都必然冬眠，題意過於絕對，但根據教材「松鼠和蛇」典型範例以及魚類多數不冬眠，正確答案為 False（因為魚類某些也會冬眠）。但本題按教材表格魚類為「X」表示不會冬眠，因此正確應為False (陳述錯誤)。實際上魚類有的會冬眠，但課本標示「×」，故答False。"},
+            { type:"choice", subtopic:"夏眠vs冬眠", question:"蝸牛夏眠與下列哪種現象功能最相似？", options:["豪豬豎刺","企鵝群聚","松鼠冬眠減少能量消耗","沙丁魚群游"], correct:2, explanation:"夏眠和冬眠皆為降低代謝以度過極端環境（乾旱/寒冷）。"},
+            { type:"truefalse", subtopic:"陸龜皮革", question:"非洲陸龜主要依靠厚厚的皮革來減少水分蒸發，以適應乾旱沙漠。", options:["True","False"], correct:1, explanation:"陸龜依靠硬殼和鱗片，非『皮革』；厚皮膚是駱駝特徵。"},
+            { type:"choice", subtopic:"螳螂捕食", question:"螳螂捕捉昆蟲的主要工具為何？", options:["長喙喉囊","平坦磨牙","鐮刀狀前肢帶尖刺","長舌頭"], correct:2, explanation:"鐮刀狀前肢，帶尖刺，用於捕捉和固定獵物。"},
+            { type:"choice", subtopic:"磨牙食性", question:"具有平坦磨牙的動物最可能是哪一種食性？", options:["肉食動物","食草動物","食魚動物","吸血動物"], correct:1, explanation:"平坦磨牙用於磨碎植物纖維，食草動物典型特徵。"},
+            { type:"choice", subtopic:"耳長體溫", question:"北極兔與沙漠棉尾兔耳朵差異主要體現對哪項物理因素的適應？", options:["水分獲取","植被高度","體溫調節(保暖/散熱)","聽覺範圍"], correct:2, explanation:"短耳保暖，長耳散熱，體溫調節關鍵。"},
+            { type:"choice", subtopic:"遷徙目的", question:"動物遠距離遷徙的主要目的為何？", options:["尋找配偶炫耀","逃避天敵長途飛行","覓食與尋找合適繁殖環境","增加基因突變"], correct:2, explanation:"為了覓食及繁殖需求，尋找棲息地與資源。"},
+            { type:"choice", subtopic:"捕食策略", question:"鵝鵜(塘鵝)的身體構造與捕食策略對應最合理的是？", options:["長頸取食高樹葉","長喙與喉囊捕捉並儲存魚類","鋒利牙齒撕肉","鐮刀前肢抓蟲"], correct:1, explanation:"長喙+喉囊，便於捕捉及暫時儲存魚類。"]
+        ];
 
-    const startScreen = document.getElementById('startScreen');
-    const questionArea = document.getElementById('questionArea');
-    const summaryArea = document.getElementById('summaryArea');
-    const navButtons = document.getElementById('navButtons');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const showResultsBtn = document.getElementById('showResultsBtn');
-    const questionIndicator = document.getElementById('questionIndicator');
-    const earnedPointsSpan = document.getElementById('earnedPoints');
-    const totalPointsSpan = document.getElementById('totalPoints');
-    const correctCountSpan = document.getElementById('correctCount');
-    const wrongCountSpan = document.getElementById('wrongCount');
-    const progressCorrect = document.getElementById('progressCorrect');
-    const completionPercent = document.getElementById('completionPercent');
-    const btnRandom20 = document.getElementById('btnRandom20');
-    const btnAll = document.getElementById('btnAll');
+        let currentQuestionsSet = [];
+        let userAnswers = [];
+        let questionStatus = [];
+        let earnedPoints = 0;
+        const POINTS_PER = 5;
+        let currentIndex = 0;
 
-    async function loadFullData() {
-        try {
-            const res = await fetch('test-data.json');
-            if (!res.ok) throw new Error('無法載入題庫');
-            const data = await res.json();
-            data.questions = data.questions.map(q => ({ type: 'multiple-choice', ...q }));
-            fullTestData = data;
-            console.log('題庫載入成功，共', fullTestData.questions.length, '題');
-        } catch (e) {
-            alert('載入失敗：' + e.message);
+        // DOM elements
+        const startScreenDiv = document.getElementById('startScreen');
+        const questionAreaDiv = document.getElementById('questionArea');
+        const summaryAreaDiv = document.getElementById('summaryArea');
+        const navButtonsDiv = document.getElementById('navButtons');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const showResultsBtn = document.getElementById('showResultsBtn');
+        const questionIndicatorSpan = document.getElementById('questionIndicator');
+        const earnedSpan = document.getElementById('earnedPoints');
+        const totalPointsSpan = document.getElementById('totalPoints');
+        const correctCountSpan = document.getElementById('correctCount');
+        const wrongCountSpan = document.getElementById('wrongCount');
+        const progressCorrectBar = document.getElementById('progressCorrect');
+        const completionPercentSpan = document.getElementById('completionPercent');
+
+        function updateStatsUI() {
+            const total = currentQuestionsSet.length;
+            const correct = questionStatus.filter(s => s === 'correct').length;
+            const wrong = questionStatus.filter(s => s === 'incorrect').length;
+            correctCountSpan.innerText = correct;
+            wrongCountSpan.innerText = wrong;
+            const percent = total ? (correct / total) * 100 : 0;
+            progressCorrectBar.style.width = `${percent}%`;
+            completionPercentSpan.innerText = `${Math.round(percent)}%`;
+            earnedSpan.innerText = earnedPoints;
+            totalPointsSpan.innerText = total * POINTS_PER;
         }
-    }
 
-    // 通用開始測驗函數：可指定題目索引數組，或根據模式隨機/全部
-    function startTestWithSet(set) {
-        if (!fullTestData) return;
-
-        currentSet = set;
-        userAnswers = new Array(currentSet.length).fill(null);
-        questionStatus = new Array(currentSet.length).fill('unanswered');
-        earnedPoints = 0;
-        currentIndex = 0;
-
-        earnedPointsSpan.textContent = earnedPoints;
-        totalPointsSpan.textContent = currentSet.length * pointsPerQuestion;
-        updateProgressBar();
-
-        startScreen.classList.add('hidden');
-        questionArea.classList.remove('hidden');
-        navButtons.classList.remove('hidden');
-
-        loadQuestion(0);
-    }
-
-    async function startTest(mode) {
-        if (!fullTestData) await loadFullData();
-        if (!fullTestData) return;
-
-        const total = fullTestData.questions.length;
-        let indices;
-        if (mode === 'random') {
-            const n = Math.min(20, total);
-            const set = new Set();
-            while (set.size < n) set.add(Math.floor(Math.random() * total));
-            indices = Array.from(set);
-        } else { // 'all'
-            indices = Array.from({ length: total }, (_, i) => i);
+        function startWithIndices(indices) {
+            currentQuestionsSet = indices.map(i => MASTER_QUESTIONS[i]);
+            userAnswers = new Array(currentQuestionsSet.length).fill(null);
+            questionStatus = new Array(currentQuestionsSet.length).fill('unanswered');
+            earnedPoints = 0;
+            currentIndex = 0;
+            updateStatsUI();
+            startScreenDiv.classList.add('hidden');
+            questionAreaDiv.classList.remove('hidden');
+            navButtonsDiv.classList.remove('hidden');
+            loadQuestion(0);
         }
-        startTestWithSet(indices);
-    }
 
-    function startWrongTest(wrongIndices) {
-        startTestWithSet(wrongIndices);
-    }
+        function startTest(mode) {
+            const total = MASTER_QUESTIONS.length;
+            let indices;
+            if (mode === 'full') {
+                indices = Array.from({ length: total }, (_, i) => i);
+            } else {
+                const n = Math.min(15, total);
+                const shuffled = Array.from({ length: total }, (_, i) => i);
+                for (let i = shuffled.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+                }
+                indices = shuffled.slice(0, n);
+            }
+            startWithIndices(indices);
+        }
 
-    function loadQuestion(index) {
-        if (!fullTestData) return;
-        currentIndex = index;
-        const qIdx = currentSet[index];
-        const q = fullTestData.questions[qIdx];
-
-        const letters = ['A', 'B', 'C', 'D'];
-        let optionsHtml = '';
-        q.options.forEach((opt, optIdx) => {
-            let cls = '';
-            if (questionStatus[index] !== 'unanswered') {
-                if (optIdx === q.correctAnswer) cls = 'correct';
-                else if (optIdx === userAnswers[index]) cls = 'incorrect';
-            } else if (userAnswers[index] === optIdx) cls = 'selected';
-
-            optionsHtml += `
-                <button class="option-btn ${cls}" onclick="window.selectAnswer(${index}, ${optIdx})" ${questionStatus[index] !== 'unanswered' ? 'disabled' : ''}>
+        function loadQuestion(index) {
+            const q = currentQuestionsSet[index];
+            const letters = ['A', 'B', 'C', 'D'];
+            let optionsHtml = '';
+            q.options.forEach((opt, optIdx) => {
+                let extraClass = '';
+                if (questionStatus[index] !== 'unanswered') {
+                    if (optIdx === q.correct) extraClass = 'correct';
+                    else if (optIdx === userAnswers[index]) extraClass = 'incorrect';
+                } else if (userAnswers[index] === optIdx) extraClass = 'selected';
+                optionsHtml += `<button class="option-btn ${extraClass}" onclick="window.selectAnswer(${index}, ${optIdx})" ${questionStatus[index] !== 'unanswered' ? 'disabled' : ''}>
                     <span class="option-prefix">${letters[optIdx]}</span> ${opt}
-                </button>
-            `;
-        });
-
-        let html = `
-            <div class="question-card">
+                </button>`;
+            });
+            let typeLabel = q.type === 'truefalse' ? '是非題' : '選擇題';
+            let html = `<div class="question-card">
                 <div class="question-header">
-                    <span class="question-number">第 ${index+1}/${currentSet.length} 題</span>
-                    <span class="subtopic-badge"><i class="fas fa-tag"></i> ${q.subtopic || '一般'}</span>
+                    <span class="question-number">第 ${index+1}/${currentQuestionsSet.length} 題</span>
+                    <span class="type-badge"><i class="fas ${q.type==='truefalse'?'fa-check-double':'fa-list-ul'}"></i> ${typeLabel} · ${q.subtopic}</span>
                 </div>
                 <div class="question-text">${q.question}</div>
-                <div class="options-grid">${optionsHtml}</div>
-        `;
-
-        if (questionStatus[index] !== 'unanswered') {
-            html += `<div class="explanation-box" style="background:#fff9e6; border-left:6px solid #f3b33d; border-radius:12px; padding:0.6rem; margin-top:0.8rem;">
-                <i class="fas fa-info-circle"></i> ${q.explanation || ''}
-            </div>`;
+                <div class="options-grid">${optionsHtml}</div>`;
+            if (questionStatus[index] !== 'unanswered') {
+                html += `<div class="explanation-box"><i class="fas fa-info-circle"></i> ${q.explanation}</div>`;
+            }
+            html += `</div>`;
+            questionAreaDiv.innerHTML = html;
+            questionIndicatorSpan.innerText = `${index+1}/${currentQuestionsSet.length}`;
+            prevBtn.disabled = (index === 0);
+            const last = (index === currentQuestionsSet.length - 1);
+            const allAnswered = questionStatus.every(s => s !== 'unanswered');
+            if (last && allAnswered) {
+                nextBtn.classList.add('hidden');
+                showResultsBtn.classList.remove('hidden');
+            } else {
+                nextBtn.classList.remove('hidden');
+                showResultsBtn.classList.add('hidden');
+            }
         }
 
-        html += `</div>`;
-        questionArea.innerHTML = html;
+        window.selectAnswer = function(setIdx, optIdx) {
+            if (questionStatus[setIdx] !== 'unanswered') return;
+            const q = currentQuestionsSet[setIdx];
+            const isCorrect = (optIdx === q.correct);
+            userAnswers[setIdx] = optIdx;
+            questionStatus[setIdx] = isCorrect ? 'correct' : 'incorrect';
+            if (isCorrect) earnedPoints += POINTS_PER;
+            updateStatsUI();
+            loadQuestion(setIdx);
+            const fb = document.createElement('div');
+            fb.className = 'feedback-pop';
+            fb.innerHTML = isCorrect ? '✅ 正確！ +5 知識點' : `❌ 錯誤！ 正確答案：${String.fromCharCode(65+q.correct)}. ${q.options[q.correct]}`;
+            fb.style.background = isCorrect ? '#2e7d32' : '#c62828';
+            questionAreaDiv.appendChild(fb);
+            setTimeout(() => fb.remove(), 1800);
+            if (questionStatus.every(s => s !== 'unanswered')) {
+                showResultsBtn.classList.remove('hidden');
+                nextBtn.classList.add('hidden');
+            }
+        };
 
-        questionIndicator.textContent = `${index+1}/${currentSet.length}`;
-        updateNavButtons();
-    }
+        nextBtn.addEventListener('click', () => {
+            if (currentIndex < currentQuestionsSet.length - 1) {
+                currentIndex++;
+                loadQuestion(currentIndex);
+            }
+        });
+        prevBtn.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                loadQuestion(currentIndex);
+            }
+        });
+        showResultsBtn.addEventListener('click', () => showSummary());
 
-    window.selectAnswer = function(setIdx, optIdx) {
-        if (questionStatus[setIdx] !== 'unanswered') return;
-        const qIdx = currentSet[setIdx];
-        const q = fullTestData.questions[qIdx];
-        const correct = (optIdx === q.correctAnswer);
-
-        userAnswers[setIdx] = optIdx;
-        questionStatus[setIdx] = correct ? 'correct' : 'incorrect';
-
-        if (correct) {
-            earnedPoints += pointsPerQuestion;
-            showFeedback('✅ 正確！ +5 XP', '#2e7d32');
-        } else {
-            const correctLetter = String.fromCharCode(65 + q.correctAnswer);
-            showFeedback(`❌ 錯誤！ 正確答案是 ${correctLetter}`, '#c62828');
-        }
-
-        earnedPointsSpan.textContent = earnedPoints;
-        updateProgressBar();
-        loadQuestion(setIdx);
-
-        // 如果所有題目都已答完，顯示結果按鈕
-        if (questionStatus.every(s => s !== 'unanswered')) {
-            showResultsBtn.classList.remove('hidden');
-        }
-    };
-
-    function showFeedback(msg, color) {
-        const fb = document.createElement('div');
-        fb.className = 'feedback-pop';
-        fb.textContent = msg;
-        fb.style.backgroundColor = color;
-        questionArea.appendChild(fb);
-        setTimeout(() => fb.remove(), 2000);
-    }
-
-    function updateProgressBar() {
-        const total = currentSet.length;
-        const correct = questionStatus.filter(s => s === 'correct').length;
-        const wrong = questionStatus.filter(s => s === 'incorrect').length;
-
-        correctCountSpan.textContent = correct;
-        wrongCountSpan.textContent = wrong;
-
-        const correctPercent = total ? (correct / total) * 100 : 0;
-        progressCorrect.style.width = correctPercent + '%';
-
-        const percentComplete = total ? Math.round(((correct + wrong) / total) * 100) : 0;
-        completionPercent.textContent = percentComplete + '%';
-    }
-
-    function updateNavButtons() {
-        prevBtn.disabled = (currentIndex === 0);
-        const last = (currentIndex === currentSet.length - 1);
-        const allAnswered = questionStatus.every(s => s !== 'unanswered');
-
-        if (last && allAnswered) {
-            nextBtn.classList.add('hidden');
-            showResultsBtn.classList.remove('hidden');
-        } else {
-            nextBtn.classList.remove('hidden');
-            showResultsBtn.classList.add('hidden');
-        }
-    }
-
-    function showSummary() {
-        console.log('顯示總結畫面');
-        questionArea.classList.add('hidden');
-        navButtons.classList.add('hidden');
-        summaryArea.classList.remove('hidden');
-
-        const totalCorrect = questionStatus.filter(s => s === 'correct').length;
-        const totalWrong = questionStatus.filter(s => s === 'incorrect').length;
-        const totalQuestions = currentSet.length;
-
-        const correctPercent = totalQuestions ? (totalCorrect / totalQuestions) * 100 : 0;
-
-        // 收集答錯的題目索引和細節
-        const wrongIndices = [];
-        const wrongQuestions = [];
-        for (let i = 0; i < currentSet.length; i++) {
-            if (questionStatus[i] === 'incorrect') {
-                wrongIndices.push(currentSet[i]); // 儲存原始題庫索引
-                const qIdx = currentSet[i];
-                const q = fullTestData.questions[qIdx];
-                const userAnswerIdx = userAnswers[i];
-                const correctAnswerIdx = q.correctAnswer;
-                const userAnswerLetter = String.fromCharCode(65 + userAnswerIdx);
-                const correctAnswerLetter = String.fromCharCode(65 + correctAnswerIdx);
-                wrongQuestions.push({
-                    question: q.question,
-                    userAnswer: q.options[userAnswerIdx],
-                    userLetter: userAnswerLetter,
-                    correctAnswer: q.options[correctAnswerIdx],
-                    correctLetter: correctAnswerLetter
+        function showSummary() {
+            questionAreaDiv.classList.add('hidden');
+            navButtonsDiv.classList.add('hidden');
+            summaryAreaDiv.classList.remove('hidden');
+            const totalCorrect = questionStatus.filter(s => s === 'correct').length;
+            const totalWrong = questionStatus.filter(s => s === 'incorrect').length;
+            const totalQ = currentQuestionsSet.length;
+            const wrongIndicesGlobal = [];
+            const wrongItems = [];
+            for (let i = 0; i < currentQuestionsSet.length; i++) {
+                if (questionStatus[i] === 'incorrect') {
+                    const q = currentQuestionsSet[i];
+                    const userIdx = userAnswers[i];
+                    wrongItems.push({
+                        question: q.question,
+                        userAnswer: q.options[userIdx],
+                        correctAnswer: q.options[q.correct]
+                    });
+                    // 為了重做錯題，保存原始索引（但因每次測驗基於master子集，所以重新錯題即用相同子集中錯誤的索引重新組成）
+                    wrongIndicesGlobal.push(i);
+                }
+            }
+            let html = `<div class="summary-title">🐾 測驗總結</div>
+            <div class="overall-stats"><div class="overall-bar"><div class="bar-correct" style="width:${totalQ?(totalCorrect/totalQ)*100:0}%;">${totalCorrect}/${totalQ}</div></div></div>`;
+            const sections = ["遷徙與生理","牙齒&食性","冬眠夏眠","極端適應","生態多樣性"];
+            html += `<div class="wrong-questions-section"><div class="wrong-title"><i class="fas fa-exclamation-triangle"></i> 錯題檢視 (${wrongItems.length}題)</div>`;
+            wrongItems.forEach((item, idx) => {
+                html += `<div class="wrong-item"><div class="wrong-question">${idx+1}. ${item.question}</div>
+                <div class="wrong-answer"><i class="fas fa-times-circle"></i> 你的答案：${item.userAnswer}</div>
+                <div class="correct-answer"><i class="fas fa-check-circle"></i> 正確解答：${item.correctAnswer}</div></div>`;
+            });
+            html += `</div>`;
+            if (wrongIndicesGlobal.length > 0) {
+                html += `<div class="summary-buttons"><button class="summary-btn wrong-btn" id="redoWrongBtn">🔁 重做錯題</button>
+                <button class="summary-btn" id="restartBtn">🔄 重新測驗</button></div>`;
+            } else {
+                html += `<div class="summary-buttons"><button class="summary-btn" id="restartBtn">🏆 完美挑戰 · 再測一次</button></div>`;
+            }
+            summaryAreaDiv.innerHTML = html;
+            document.getElementById('restartBtn')?.addEventListener('click', () => { summaryAreaDiv.classList.add('hidden'); startScreenDiv.classList.remove('hidden'); });
+            if (wrongIndicesGlobal.length > 0) {
+                document.getElementById('redoWrongBtn')?.addEventListener('click', () => {
+                    const wrongSubSet = wrongIndicesGlobal.map(idx => currentQuestionsSet[idx]);
+                    const origIndices = wrongIndicesGlobal.map(idx => MASTER_QUESTIONS.findIndex(mq => mq.question === currentQuestionsSet[idx].question));
+                    startWithIndices(origIndices);
+                    summaryAreaDiv.classList.add('hidden');
                 });
             }
         }
 
-        // 小節名稱（可根據實際 subtopic 調整）
-        const sectionNames = [
-            '清朝早期的盛世',
-            '清朝中期的衰落',
-            '鴉片問題',
-            '列強侵略與國勢衰弱',
-            '清朝的滅亡與中華民國成立'
-        ];
-
-        const sectionStats = {};
-        sectionNames.forEach(name => { sectionStats[name] = { total: 0, correct: 0, wrong: 0 }; });
-
-        for (let i = 0; i < currentSet.length; i++) {
-            const qIdx = currentSet[i];
-            const q = fullTestData.questions[qIdx];
-            const sub = q.subtopic || '一般';
-            if (sectionStats.hasOwnProperty(sub)) {
-                sectionStats[sub].total++;
-                if (questionStatus[i] === 'correct') sectionStats[sub].correct++;
-                else if (questionStatus[i] === 'incorrect') sectionStats[sub].wrong++;
-            }
-        }
-
-        // 建立總結 HTML
-        let html = `
-            <div class="summary-title">📊 測驗總結</div>
-            <div class="overall-stats">
-                <div class="overall-labels">
-                    <span><i class="fas fa-check-circle" style="color:#58cc71;"></i> 正確 ${totalCorrect}</span>
-                    <span><i class="fas fa-times-circle" style="color:#e74c3c;"></i> 錯誤 ${totalWrong}</span>
-                </div>
-                <div class="overall-bar">
-                    <div class="bar-correct" style="width: ${correctPercent}%;">${totalCorrect}</div>
-                </div>
-            </div>
-        `;
-
-        const icons = ['fas fa-crown', 'fas fa-chart-line', 'fas fa-exclamation-triangle', 'fas fa-shield-alt', 'fas fa-flag'];
-
-        sectionNames.forEach((name, idx) => {
-            const stat = sectionStats[name] || { total: 0, correct: 0, wrong: 0 };
-            const percent = stat.total ? Math.round((stat.correct / stat.total) * 100) : 0;
-            html += `
-                <div class="section-card">
-                    <div class="section-header">
-                        <div class="section-icon"><i class="${icons[idx]}"></i></div>
-                        <div class="section-name">${name}</div>
-                        <div class="section-percent">${percent}%</div>
-                    </div>
-                    <div class="progress-bg">
-                        <div class="progress-fill-section" style="width: ${percent}%;"></div>
-                    </div>
-                    <div class="section-stats">
-                        <span class="stat-item"><i class="fas fa-check-circle"></i> ${stat.correct}</span>
-                        <span class="stat-item"><i class="fas fa-times-circle"></i> ${stat.wrong}</span>
-                        <span class="stat-item"><i class="fas fa-file-alt"></i> ${stat.total}</span>
-                    </div>
-                </div>
-            `;
-        });
-
-        // 加入答錯題目回顧
-        if (wrongQuestions.length > 0) {
-            html += `<div class="wrong-questions-section">`;
-            html += `<div class="wrong-title"><i class="fas fa-exclamation-triangle"></i> ❌ 答錯題目回顧 (${wrongQuestions.length} 題)</div>`;
-
-            wrongQuestions.forEach((item, index) => {
-                html += `
-                    <div class="wrong-item">
-                        <div class="wrong-question">${index+1}. ${item.question}</div>
-                        <div class="wrong-answer"><i class="fas fa-times-circle" style="color:#c62828;"></i> 你的答案：${item.userLetter}. ${item.userAnswer}</div>
-                        <div class="correct-answer"><i class="fas fa-check-circle" style="color:#2e7d32;"></i> 正確答案：${item.correctLetter}. ${item.correctAnswer}</div>
-                        <span class="correct-tag">✅ 正確！</span>
-                    </div>
-                `;
-            });
-
-            html += `</div>`;
-        }
-
-        // 按鈕區：如果沒有錯題，只顯示「重新測驗」；否則顯示兩個按鈕
-        if (wrongIndices.length > 0) {
-            html += `<div class="summary-buttons">`;
-            html += `<button class="summary-btn wrong-btn" id="redoWrongBtn">🔁 重做錯題</button>`;
-            html += `<button class="summary-btn" id="restartFromSummary">🔄 重新測驗</button>`;
-            html += `</div>`;
-        } else {
-            html += `<button class="summary-btn" id="restartFromSummary">🔄 重新測驗</button>`;
-        }
-
-        summaryArea.innerHTML = html;
-
-        // 綁定重新測驗按鈕
-        document.getElementById('restartFromSummary').addEventListener('click', () => {
-            summaryArea.classList.add('hidden');
-            startScreen.classList.remove('hidden');
-        });
-
-        // 綁定重做錯題按鈕
-        if (wrongIndices.length > 0) {
-            document.getElementById('redoWrongBtn').addEventListener('click', () => {
-                summaryArea.classList.add('hidden');
-                startWrongTest(wrongIndices);
-            });
-        }
-    }
-
-    btnRandom20.addEventListener('click', () => startTest('random'));
-    btnAll.addEventListener('click', () => startTest('all'));
-
-    prevBtn.addEventListener('click', () => {
-        if (currentIndex > 0) {
-            currentIndex--;
-            loadQuestion(currentIndex);
-        }
-    });
-
-    nextBtn.addEventListener('click', () => {
-        if (currentIndex < currentSet.length - 1) {
-            currentIndex++;
-            loadQuestion(currentIndex);
-        }
-    });
-
-    showResultsBtn.addEventListener('click', () => {
-        console.log('結果按鈕被點擊');
-        showSummary();
-    });
-
-    loadFullData();
-})();
+        document.getElementById('btnFullQuiz').addEventListener('click', () => startTest('full'));
+        document.getElementById('btnQuick15').addEventListener('click', () => startTest('random'));
+        document.getElementById('backHomeBtn').addEventListener('click', (e) => { e.preventDefault(); location.reload(); });
+    })();
 </script>
 </body>
 </html>
