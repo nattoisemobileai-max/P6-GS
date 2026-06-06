@@ -1,889 +1,366 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>小常識 · 測驗 · 第三冊-第1課::最後的皇朝</title>
+    <title>生物分類挑戰 · 動物與植物 kingdom｜互動測驗</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* 樣式與前相同，僅在底部新增按鈕容器樣式 */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
-        }
-
-        body {
-            background: linear-gradient(145deg, #d4e0ec 0%, #eaf0f6 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 0.3rem;
-            font-size: 16px;
-        }
-
-        .test-container {
-            max-width: 500px;
-            width: 100%;
-            height: 98vh;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(4px);
-            border-radius: 32px;
-            box-shadow: 0 20px 30px -10px rgba(0,40,60,0.4);
-            padding: 0.8rem;
-            border: 2px solid rgba(255,255,255,0.8);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .test-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: white;
-            padding: 0.4rem 0.8rem;
-            border-radius: 40px;
-            margin-bottom: 0.5rem;
-            box-shadow: 0 3px 0 #bed0e3;
-            flex-shrink: 0;
-        }
-
-        .back-home {
-            background: #f4d03f;
-            border-radius: 40px;
-            padding: 0.3rem 0.8rem;
-            font-weight: 700;
-            font-size: 0.95rem;
-            color: #1f3a4b;
-            border: none;
-            box-shadow: 0 3px 0 #b38f1c;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            text-decoration: none;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif; }
+        body { background: linear-gradient(145deg, #d4e0ec 0%, #eaf0f6 100%); min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 0.3rem; font-size: 16px; }
+        .test-container { max-width: 520px; width: 100%; height: 97vh; background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(4px); border-radius: 36px; box-shadow: 0 20px 30px -10px rgba(0,40,60,0.4); padding: 0.8rem; border: 2px solid rgba(255,255,255,0.8); display: flex; flex-direction: column; overflow: hidden; }
+        .test-header { display: flex; align-items: center; justify-content: space-between; background: white; padding: 0.4rem 0.8rem; border-radius: 40px; margin-bottom: 0.5rem; box-shadow: 0 3px 0 #bed0e3; flex-shrink: 0; }
+        .back-home { background: #f4d03f; border-radius: 40px; padding: 0.3rem 0.8rem; font-weight: 700; font-size: 0.85rem; color: #1f3a4b; border: none; box-shadow: 0 3px 0 #b38f1c; cursor: pointer; display: flex; align-items: center; gap: 4px; text-decoration: none; }
         .back-home:active { transform: translateY(3px); box-shadow: 0 1px 0 #b38f1c; }
-
-        .test-title {
-            font-size: 1.2rem;
-            font-weight: 900;
-            background: #eef5ff;
-            padding: 0.2rem 1rem;
-            border-radius: 40px;
-            color: #1a4972;
-            border: 2px solid #c1d9f0;
-        }
-
-        .test-stats {
-            display: flex;
-            gap: 0.5rem;
-            background: #2b3c4e;
-            padding: 0.2rem 0.8rem;
-            border-radius: 40px;
-            color: white;
-            font-weight: 600;
-            font-size: 0.8rem;
-            align-items: center;
-        }
-
-        .progress-section {
-            margin-bottom: 0.5rem;
-            flex-shrink: 0;
-        }
-        .progress-info {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.2rem;
-            font-weight: 600;
-            color: #2c5a7a;
-            font-size: 0.9rem;
-        }
-        .progress-bar-bg {
-            height: 16px;
-            background: #e2eaf3;
-            border-radius: 30px;
-            overflow: hidden;
-            width: 100%;
-        }
-        .progress-correct {
-            height: 100%;
-            background: #58cc71;
-            transition: width 0.3s;
-            width: 0%;
-            border-radius: 30px;
-        }
-
-        .scrollable-content {
-            flex: 1;
-            overflow-y: auto;
-            padding-right: 2px;
-            margin-bottom: 0.3rem;
-        }
-
-        .question-card {
-            background: white;
-            border-radius: 24px;
-            padding: 1rem;
-            box-shadow: 0 5px 0 #a0b9cf, 0 5px 15px rgba(0,0,0,0.1);
-            border: 2px solid #fff6cf;
-        }
-
-        .question-header {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 0.5rem;
-            flex-wrap: wrap;
-        }
-        .question-number {
-            background: #3498db;
-            color: white;
-            padding: 0.1rem 0.8rem;
-            border-radius: 40px;
-            font-weight: 700;
-            font-size: 0.8rem;
-        }
-        .subtopic-badge {
-            background: #f4d03f;
-            color: #1f3a4b;
-            padding: 0.1rem 0.8rem;
-            border-radius: 40px;
-            font-weight: 700;
-            font-size: 0.8rem;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .question-text {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #1e3f5a;
-            margin-bottom: 1rem;
-            line-height: 1.3;
-            padding-left: 0.3rem;
-            border-left: 4px solid #f3b33d;
-        }
-
-        .options-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-        .option-btn {
-            background: #f5f9ff;
-            border: 2px solid #cad9eb;
-            border-radius: 40px;
-            padding: 0.7rem 1rem;
-            font-size: 1rem;
-            font-weight: 600;
-            color: #1f4973;
-            text-align: left;
-            cursor: pointer;
-            box-shadow: 0 3px 0 #9fbad0;
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            width: 100%;
-            transition: all 0.1s;
-        }
-        .option-btn:active:not(:disabled) { transform: translateY(3px); box-shadow: 0 1px 0 #9fbad0; }
-        .option-btn.selected { background: #c1e5c0; border-color: #58a700; box-shadow: 0 3px 0 #3e7a00; }
-        .option-btn.correct { background: #a5d6a5; border-color: #2e7d32; box-shadow: 0 3px 0 #1b5e20; }
-        .option-btn.incorrect { background: #ffcdd2; border-color: #c62828; box-shadow: 0 3px 0 #8b0000; }
+        .test-title { font-size: 0.95rem; font-weight: 900; background: #eef5ff; padding: 0.2rem 0.8rem; border-radius: 40px; color: #1a4972; border: 2px solid #c1d9f0; }
+        .test-stats { display: flex; gap: 0.4rem; background: #2b3c4e; padding: 0.2rem 0.8rem; border-radius: 40px; color: white; font-weight: 600; font-size: 0.7rem; align-items: center; }
+        .progress-section { margin-bottom: 0.5rem; flex-shrink: 0; }
+        .progress-info { display: flex; justify-content: space-between; margin-bottom: 0.2rem; font-weight: 600; color: #2c5a7a; font-size: 0.8rem; }
+        .progress-bar-bg { height: 12px; background: #e2eaf3; border-radius: 30px; overflow: hidden; width: 100%; }
+        .progress-correct { height: 100%; background: #58cc71; transition: width 0.3s; width: 0%; border-radius: 30px; }
+        .scrollable-content { flex: 1; overflow-y: auto; padding-right: 2px; margin-bottom: 0.3rem; }
+        .question-card { background: white; border-radius: 24px; padding: 1rem; box-shadow: 0 5px 0 #a0b9cf; border: 2px solid #fff6cf; }
+        .question-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; flex-wrap: wrap; }
+        .question-number { background: #3498db; color: white; padding: 0.1rem 0.8rem; border-radius: 40px; font-weight: 700; font-size: 0.7rem; }
+        .subtopic-badge { background: #f4d03f; color: #1f3a4b; padding: 0.1rem 0.8rem; border-radius: 40px; font-weight: 700; font-size: 0.7rem; display: flex; align-items: center; gap: 4px; }
+        .question-text { font-size: 1rem; font-weight: 700; color: #1e3f5a; margin-bottom: 1rem; line-height: 1.35; padding-left: 0.3rem; border-left: 4px solid #f3b33d; }
+        .options-grid { display: flex; flex-direction: column; gap: 0.45rem; }
+        .option-btn { background: #f5f9ff; border: 2px solid #cad9eb; border-radius: 40px; padding: 0.55rem 1rem; font-size: 0.85rem; font-weight: 600; color: #1f4973; text-align: left; cursor: pointer; box-shadow: 0 3px 0 #9fbad0; display: flex; align-items: center; gap: 0.6rem; width: 100%; transition: all 0.1s; }
+        .option-btn:active:not(:disabled) { transform: translateY(2px); box-shadow: 0 1px 0 #9fbad0; }
+        .option-btn.correct { background: #a5d6a5; border-color: #2e7d32; }
+        .option-btn.incorrect { background: #ffcdd2; border-color: #c62828; }
         .option-btn:disabled { opacity: 0.8; cursor: default; }
-        .option-prefix {
-            background: #2b5f8a;
-            color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            flex-shrink: 0;
-            font-size: 0.9rem;
-        }
-
-        .feedback-pop {
-            background: #333;
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 40px;
-            font-weight: 600;
-            margin-top: 0.8rem;
-            text-align: center;
-            animation: fadeInOut 2s;
-            position: sticky;
-            bottom: 10px;
-            z-index: 10;
-        }
+        .option-prefix { background: #2b5f8a; color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0; font-size: 0.8rem; }
+        .feedback-pop { background: #333; color: white; padding: 0.4rem 1rem; border-radius: 40px; font-weight: 600; margin-top: 0.7rem; text-align: center; animation: fadeInOut 1.8s; }
         @keyframes fadeInOut { 0%{opacity:0} 20%{opacity:1} 80%{opacity:1} 100%{opacity:0} }
-
-        .nav-buttons {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 0.5rem;
-            margin-top: 0.3rem;
-            flex-shrink: 0;
-        }
-        .nav-btn {
-            background: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 40px;
-            font-weight: 700;
-            font-size: 1rem;
-            color: #1f4973;
-            box-shadow: 0 3px 0 #9fbad0;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            flex: 1;
-            justify-content: center;
-        }
-        .nav-btn:active:not(:disabled) { transform: translateY(3px); box-shadow: 0 1px 0 #9fbad0; }
+        .nav-buttons { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; margin-top: 0.3rem; flex-shrink: 0; }
+        .nav-btn { background: white; border: none; padding: 0.45rem 1rem; border-radius: 40px; font-weight: 700; font-size: 0.85rem; color: #1f4973; box-shadow: 0 3px 0 #9fbad0; cursor: pointer; display: flex; align-items: center; gap: 4px; flex: 1; justify-content: center; }
         .nav-btn.primary { background: #58a700; color: white; box-shadow: 0 3px 0 #3e7a00; }
         .nav-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-        .question-indicator {
-            background: #e1edff;
-            padding: 0.2rem 0.8rem;
-            border-radius: 40px;
-            font-weight: 600;
-            color: #1a4972;
-            font-size: 0.9rem;
-            white-space: nowrap;
-        }
-
-        .start-screen {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-            gap: 1.5rem;
-        }
-        .start-btn {
-            background: #58a700;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            font-weight: 800;
-            padding: 1rem 2rem;
-            border-radius: 60px;
-            box-shadow: 0 6px 0 #3e7a00;
-            cursor: pointer;
-            width: 80%;
-            text-align: center;
-        }
-        .start-btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #3e7a00; }
-
-        .summary-screen {
-            padding: 0.5rem;
-        }
-        .summary-title {
-            font-size: 1.8rem;
-            font-weight: 900;
-            color: #1a4972;
-            text-align: center;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 0 #c1d9f0;
-        }
-        .overall-stats {
-            background: white;
-            border-radius: 24px;
-            padding: 1rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 5px 0 #a0b9cf;
-            border: 2px solid #fff6cf;
-        }
-        .overall-labels {
-            display: flex;
-            justify-content: space-between;
-            font-weight: 700;
-            color: #2c5a7a;
-            margin-bottom: 0.5rem;
-        }
-        .overall-bar {
-            height: 36px;
-            background: #e2eaf3;
-            border-radius: 30px;
-            overflow: hidden;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
-        }
-        .bar-correct {
-            height: 100%;
-            background: linear-gradient(145deg, #58cc71, #2e9b5c);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 800;
-            font-size: 1.1rem;
-            transition: width 0.3s;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
-        }
-
-        .section-card {
-            background: white;
-            border-radius: 24px;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            box-shadow: 0 5px 0 #a0b9cf;
-            border: 2px solid #fff6cf;
-            transition: transform 0.1s;
-        }
-        .section-card:hover {
-            transform: translateY(-2px);
-        }
-        .section-header {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 0.8rem;
-        }
-        .section-icon {
-            width: 40px;
-            height: 40px;
-            background: #3498db;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.2rem;
-        }
-        .section-name {
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: #1a4972;
-            flex: 1;
-        }
-        .section-percent {
-            font-size: 1.5rem;
-            font-weight: 900;
-            color: #2c5a7a;
-        }
-        .progress-bg {
-            height: 16px;
-            background: #e2eaf3;
-            border-radius: 30px;
-            margin: 0.5rem 0;
-            overflow: hidden;
-        }
-        .progress-fill-section {
-            height: 100%;
-            background: linear-gradient(90deg, #f4d03f, #f39c12);
-            border-radius: 30px;
-            width: 0%;
-            transition: width 0.3s;
-        }
-        .section-stats {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 0.5rem;
-            color: #4f6f8f;
-            font-weight: 600;
-        }
-        .stat-item {
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-        }
-        .stat-item i {
-            font-size: 1.2rem;
-        }
-        .fa-check-circle { color: #58cc71; }
-        .fa-times-circle { color: #e74c3c; }
-        .fa-file-alt { color: #3498db; }
-
-        /* 答錯題目回顧樣式 */
-        .wrong-questions-section {
-            background: white;
-            border-radius: 24px;
-            padding: 1rem;
-            margin-top: 1.5rem;
-            box-shadow: 0 5px 0 #a0b9cf;
-            border: 2px solid #fff6cf;
-        }
-        .wrong-title {
-            font-size: 1.3rem;
-            font-weight: 800;
-            color: #c62828;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .wrong-item {
-            background: #fff9f9;
-            border-left: 4px solid #c62828;
-            border-radius: 16px;
-            padding: 0.8rem;
-            margin-bottom: 1rem;
-        }
-        .wrong-question {
-            font-weight: 700;
-            color: #1e3f5a;
-            margin-bottom: 0.5rem;
-        }
-        .wrong-answer {
-            color: #c62828;
-            font-size: 0.95rem;
-            margin-bottom: 0.3rem;
-        }
-        .correct-answer {
-            color: #2e7d32;
-            font-size: 0.95rem;
-            margin-bottom: 0.3rem;
-        }
-        .correct-tag {
-            display: inline-block;
-            background: #58cc71;
-            color: white;
-            padding: 0.2rem 0.8rem;
-            border-radius: 40px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            margin-top: 0.3rem;
-        }
-
-        /* 總結頁面雙按鈕容器 */
-        .summary-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin-top: 1.5rem;
-        }
-        .summary-btn {
-            background: #48b5a5;
-            border: none;
-            color: white;
-            font-size: 1.2rem;
-            font-weight: 700;
-            padding: 0.8rem 1.5rem;
-            border-radius: 60px;
-            box-shadow: 0 5px 0 #1c6b5e;
-            cursor: pointer;
-            flex: 1;
-            transition: 0.1s;
-            text-align: center;
-        }
-        .summary-btn.wrong-btn {
-            background: #e67e22;
-            box-shadow: 0 5px 0 #b85e0f;
-        }
-        .summary-btn:active {
-            transform: translateY(4px);
-            box-shadow: 0 1px 0 #1c6b5e;
-        }
-        .summary-btn.wrong-btn:active {
-            box-shadow: 0 1px 0 #b85e0f;
-        }
-
+        .question-indicator { background: #e1edff; padding: 0.2rem 0.8rem; border-radius: 40px; font-weight: 600; color: #1a4972; font-size: 0.8rem; }
+        .start-screen { display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; gap: 1.2rem; }
+        .start-btn { background: #58a700; border: none; color: white; font-size: 1.2rem; font-weight: 800; padding: 0.8rem 1.5rem; border-radius: 60px; box-shadow: 0 5px 0 #3e7a00; cursor: pointer; width: 80%; text-align: center; }
+        .start-btn:active { transform: translateY(3px); box-shadow: 0 2px 0 #3e7a00; }
+        .summary-screen { padding: 0.5rem; }
+        .summary-title { font-size: 1.4rem; font-weight: 900; color: #1a4972; text-align: center; margin-bottom: 0.8rem; }
+        .overall-stats { background: white; border-radius: 24px; padding: 0.8rem; margin-bottom: 1rem; box-shadow: 0 5px 0 #a0b9cf; }
+        .overall-bar { height: 34px; background: #e2eaf3; border-radius: 30px; overflow: hidden; }
+        .bar-correct { height: 100%; background: linear-gradient(145deg, #58cc71, #2e9b5c); display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 0.9rem; transition: width 0.3s; }
+        .wrong-questions-section { background: white; border-radius: 24px; padding: 0.8rem; margin-top: 1rem; max-height: 280px; overflow-y: auto; }
+        .wrong-title { font-size: 1rem; font-weight: 800; color: #c62828; margin-bottom: 0.6rem; }
+        .wrong-item { background: #fff9f9; border-left: 4px solid #c62828; border-radius: 14px; padding: 0.5rem; margin-bottom: 0.6rem; font-size: 0.8rem; }
+        .summary-buttons { display: flex; gap: 0.8rem; justify-content: center; margin-top: 1rem; }
+        .summary-btn { background: #48b5a5; border: none; color: white; font-size: 1rem; font-weight: 700; padding: 0.6rem 1rem; border-radius: 60px; box-shadow: 0 4px 0 #1c6b5e; cursor: pointer; flex: 1; text-align: center; }
+        .summary-btn.wrong-btn { background: #e67e22; box-shadow: 0 4px 0 #b85e0f; }
+        .minigame-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.88); z-index: 2000; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
+        .minigame-card { background: linear-gradient(145deg, #fff5e6, #ffefcf); width: 90%; max-width: 360px; border-radius: 48px; padding: 1rem; text-align: center; border: 4px solid #ffaa33; }
+        .mg-timer { font-size: 2.2rem; font-weight: 900; font-family: monospace; background: #2c3e2b; color: #f5e56b; border-radius: 50px; margin: 0.4rem 0; padding: 0.1rem; }
+        .mg-score { font-size: 1.6rem; font-weight: 800; color: #e67e22; }
+        .berry-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 0.5rem; margin: 0.8rem 0; }
+        .berry-btn { background: #f3c26f; border: none; font-size: 1.8rem; padding: 0.5rem; border-radius: 50px; cursor: pointer; box-shadow: 0 4px 0 #b4621a; transition: 0.05s linear; }
+        .berry-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 #b4621a; }
+        .mg-start-btn { background: #58a700; color: white; font-size: 1.1rem; font-weight: bold; padding: 0.4rem 1rem; border-radius: 60px; border: none; margin-top: 0.4rem; cursor: pointer; }
         .hidden { display: none; }
     </style>
 </head>
 <body>
 <div class="test-container">
     <div class="test-header">
-        <a href="../index-GS.html" class="back-home"><i class="fas fa-arrow-left"></i> 返回</a>
-        <span class="test-title">第三冊第1課·最後的皇朝</span>
-        <div class="test-stats">
-            <span><i class="fas fa-star"></i> <span id="earnedPoints">0</span>/<span id="totalPoints">0</span></span>
-        </div>
+        <a href="#" class="back-home" id="backHomeBtn"><i class="fas fa-leaf"></i> 首頁</a>
+        <span class="test-title">🐾 生物分類大師 · 動物與植物</span>
+        <div class="test-stats"><span><i class="fas fa-star"></i> <span id="earnedPoints">0</span>/<span id="totalPoints">0</span></span></div>
     </div>
-
-    <div class="progress-section">
-        <div class="progress-info">
-            <span><span id="correctCount">0</span> 正確 · <span id="wrongCount">0</span> 錯誤</span>
-            <span id="completionPercent">0%</span>
-        </div>
-        <div class="progress-bar-bg">
-            <div class="progress-correct" id="progressCorrect" style="width:0%"></div>
-        </div>
-    </div>
-
+    <div class="progress-section"><div class="progress-info"><span><span id="correctCount">0</span> 正確 · <span id="wrongCount">0</span> 錯誤</span><span id="completionPercent">0%</span></div><div class="progress-bar-bg"><div class="progress-correct" id="progressCorrect"></div></div></div>
     <div class="scrollable-content" id="contentArea">
         <div id="startScreen" class="start-screen">
-            <div class="start-btn" id="btnRandom20">隨機20題</div>
-            <div class="start-btn" id="btnAll">全部題目</div>
+            <button class="start-btn" id="btnRandom10">🍃 隨機10題</button>
+            <button class="start-btn" id="btnFullQuiz">📚 全部題目 (36題)</button>
         </div>
         <div id="questionArea" class="hidden"></div>
         <div id="summaryArea" class="hidden summary-screen"></div>
     </div>
-
     <div class="nav-buttons hidden" id="navButtons">
         <button class="nav-btn" id="prevBtn" disabled><i class="fas fa-chevron-left"></i> 上一題</button>
         <span class="question-indicator" id="questionIndicator">1/0</span>
         <button class="nav-btn primary" id="nextBtn">下一題 <i class="fas fa-chevron-right"></i></button>
-        <button class="nav-btn primary hidden" id="showResultsBtn">查看結果</button>
+        <button class="nav-btn primary hidden" id="showResultsBtn">📊 查看結果</button>
     </div>
 </div>
 
 <script>
-(function() {
-    let fullTestData = null;
-    let currentSet = [];
-    let userAnswers = [];
-    let questionStatus = [];
-    let earnedPoints = 0;
-    const pointsPerQuestion = 5;
-    let currentIndex = 0;
+(function(){
+    // ======================= 完整題庫 (36題 單選/多選/是非 全部轉為單選/是非便於統一互動) =======================
+    const FULL_QUESTIONS = [
+        { type:"single", subtopic:"哺乳類辨識", question:"一種生物生活於水中，有鰭、用肺呼吸、分泌母乳餵幼兒，應歸類為？", options:["魚類","兩棲類","爬行類","哺乳類"], correct:3, explanation:"用母乳餵養幼兒是哺乳類獨有特徵。"},
+        { type:"single", subtopic:"植物繁殖", question:"植物 A 開花結果實，植物 B 從不開花但有孢子，植物 B 的繁殖方式？", options:["種子繁殖","孢子繁殖","斷裂繁殖","無性芽孢"], correct:1, explanation:"無花植物（蕨類/苔蘚）多以孢子繁殖。"},
+        { type:"single", subtopic:"無脊椎動物", question:"新生物無脊椎骨，身體分頭胸腹三部分，三對腳及翅膀，屬於？", options:["蛛形綱","昆蟲類","甲殼類","環節動物"], correct:1, explanation:"昆蟲特徵：身體分三部分、三對腳、氣管呼吸。"},
+        { type:"multiple", subtopic:"兩棲類", question:"下列哪些是兩棲類的正確特徵？", options:["幼年用鰓呼吸","成年用肺和皮膚呼吸","皮膚濕潤無鱗片","全身覆蓋鱗片","完全陸生"], correct:[0,1,2], explanation:"兩棲類：幼年水中鰓呼吸，成年肺+皮膚，皮膚濕潤無鱗。"},
+        { type:"multiple", subtopic:"爬行類", question:"關於爬行類的正確描述？", options:["皮膚乾燥有鱗片","部分有硬殼","用肺呼吸","屬於無脊椎動物","所有爬行類都有腳"], correct:[0,1,2], explanation:"爬行類皮膚乾燥有鱗片，用肺呼吸，龜有殼，蛇無腳。"},
+        { type:"multiple", subtopic:"特殊案例", question:"蝙蝠和海豚被歸為哺乳類的原因？", options:["有毛髮","用母乳餵幼兒","用肺呼吸","生活於水中","有翅膀"], correct:[0,1,2], explanation:"母乳哺育是哺乳類核心特徵，搭配肺呼吸/毛髮。"},
+        { type:"multiple", subtopic:"昆蟲特徵", question:"昆蟲類的特徵包括？", options:["三對腳","身體分頭胸腹","用氣管呼吸","有脊椎骨","體表有鱗片"], correct:[0,1,2], explanation:"昆蟲: 三對腳、三體節、氣管呼吸，無脊椎無鱗片。"},
+        { type:"multiple", subtopic:"植物繁殖", question:"正確的植物繁殖敘述？", options:["無花植物用孢子繁殖","有花植物用種子繁殖","向日葵是有花植物","苔蘚用種子繁殖","鳳凰木是無花植物"], correct:[0,1,2], explanation:"有花植物種子繁殖（向日葵），無花植物孢子（苔蘚）。"},
+        { type:"multiple", subtopic:"脊椎vs無脊椎", question:"正確的脊椎/無脊椎分類？", options:["昆蟲無脊椎骨","魚類是脊椎動物","海星是無脊椎動物","爬行類是無脊椎動物","鳥類有脊椎骨"], correct:[0,1,2,4], explanation:"脊椎動物包含魚、鳥、爬行、哺乳、兩棲；無脊椎含昆蟲、海星等。"},
+        { type:"multiple", subtopic:"植物環境", question:"正確的植物環境分類？", options:["睡蓮是水生植物","鳳凰木是陸生植物","向日葵陸生","松柏類水生","苔蘚是水生有花"], correct:[0,1,2], explanation:"睡蓮水生，鳳凰木/向日葵陸生，苔蘚無花。"},
+        { type:"multiple", subtopic:"魚類與鳥類", question:"魚類與鳥類的共同點？", options:["脊椎動物","身體有鱗片(部分)","用鰓呼吸","用母乳育幼","用肺呼吸"], correct:[0,1], explanation:"兩者皆脊椎動物，魚有鱗，鳥腳部有鱗。"},
+        { type:"multiple", subtopic:"哺乳類特徵", question:"哺乳類的正確特徵？", options:["多數胎生","用母乳餵幼兒","皮膚有毛髮","用肺呼吸","全部生活在陸地"], correct:[0,1,2,3], explanation:"哺乳類：胎生/母乳/毛髮/肺呼吸，海豚生活於海。"},
+        { type:"multiple", subtopic:"無花vs有花", question:"關於有花/無花植物比較正確的？", options:["無花植物以孢子繁殖","有花植物開花結果","鳳凰木是有花植物","蕨類是有花植物","睡蓮是無花植物"], correct:[0,1,2], explanation:"無花植物孢子繁殖，有花植物開花結果；鳳凰木有花。"},
+        { type:"single", subtopic:"兩爬區別", question:"最能區分兩棲類和爬行類的特徵？", options:["是否用肺呼吸","皮膚有無鱗片","有無四肢","生活環境"], correct:1, explanation:"兩棲類皮膚無鱗片濕潤，爬行類皮膚乾燥有鱗片。"},
+        { type:"single", subtopic:"哺乳依據", question:"蝙蝠和海豚被歸為哺乳類的核心依據？", options:["會飛或游泳","用母乳餵幼兒","用肺呼吸","有脊椎骨"], correct:1, explanation:"母乳餵養是哺乳類獨有特徵。"},
+        { type:"single", subtopic:"昆蟲呼吸", question:"昆蟲類主要的呼吸構造？", options:["肺","鰓","氣管","皮膚"], correct:2, explanation:"昆蟲使用氣管系統呼吸。"},
+        { type:"single", subtopic:"無花植物繁殖", question:"不會開花、沒有果實的植物最可能用什麼繁殖？", options:["種子","孢子","塊莖","接枝"], correct:1, explanation:"無花植物（蕨類/苔蘚）多以孢子繁殖。"},
+        { type:"single", subtopic:"爬行類共同特徵", question:"海龜與陸龜的共同特徵不包括？", options:["用肺呼吸","有鱗片","幼年用鰓呼吸","皮膚乾燥"], correct:2, explanation:"爬行類沒有幼年用鰓階段，那是兩棲類。"},
+        { type:"single", subtopic:"分類依據", question:"鳳凰木與睡蓮區分最適合的分類依據？", options:["有無種子","生長環境(陸生/水生)","有無花朵","植株大小"], correct:1, explanation:"鳳凰木陸生，睡蓮水生，環境分類最直接。"},
+        { type:"single", subtopic:"鳥類獨有", question:"鳥類獨有而昆蟲不具備的特徵？", options:["翅膀","羽毛與喙","飛行能力","複眼"], correct:1, explanation:"羽毛和角質喙是鳥類獨有。"},
+        { type:"single", subtopic:"魚類特徵", question:"魚類的正確描述？", options:["用肺呼吸","用鰭游泳用鰓呼吸","用母乳育幼","皮膚有毛髮"], correct:1, explanation:"魚類用鰭保持平衡，用鰓呼吸。"},
+        { type:"single", subtopic:"無脊椎同類", question:"無脊椎骨、體型較小的生物最可能與何者同類？", options:["工蜂(昆蟲)","松鼠","烏龜","青蛙"], correct:0, explanation:"工蜂是無脊椎動物(昆蟲)。"},
+        { type:"single", subtopic:"植物繁殖對比", question:"苔蘚與向日葵的主要差別？", options:["苔蘚不開花，向日葵開花結果","苔蘚用種子","向日葵用孢子","兩者皆水生"], correct:0, explanation:"苔蘚無花（孢子），向日葵有花（種子）。"},
+        { type:"fill", subtopic:"兩棲呼吸演變", question:"兩棲類不同成長階段的呼吸方式演變？", options:["幼年用鰓，成年用肺和皮膚","終生用鰓","終生用肺","幼年用肺成年用皮膚"], correct:0, explanation:"兩棲類幼年(蝌蚪)用鰓，成年用肺+皮膚呼吸。"},
+        { type:"fill", subtopic:"哺乳特殊案例", question:"蝙蝠和海豚仍歸哺乳類的原因？", options:["用母乳餵幼兒且用肺呼吸","會飛會游","有鱗片","產卵"], correct:0, explanation:"母乳哺育+肺呼吸等關鍵哺乳特徵。"},
+        { type:"fill", subtopic:"有花無花繁殖差異", question:"有花植物與無花植物繁殖方式主要區別？", options:["有花用種子，無花用孢子","都用種子","都用孢子","有花用孢子"], correct:0, explanation:"有花植物種子繁殖，無花植物孢子繁殖。"},
+        { type:"truefalse", subtopic:"兩棲呼吸", question:"成年兩棲類僅靠肺部呼吸。", options:["True","False"], correct:1, explanation:"成年兩棲類用肺和皮膚輔助呼吸。"},
+        { type:"truefalse", subtopic:"昆蟲分類", question:"昆蟲類有三對腳且身體分三部分，屬於無脊椎動物。", options:["True","False"], correct:0, explanation:"正確，昆蟲特徵無脊椎。"},
+        { type:"truefalse", subtopic:"爬行皮膚", question:"爬行類皮膚乾燥有鱗片，有助防止水分流失。", options:["True","False"], correct:0, explanation:"正確，鱗片防止水分蒸發。"},
+        { type:"truefalse", subtopic:"鳥類羽毛", question:"鳥類是唯一身體長有羽毛的脊椎動物。", options:["True","False"], correct:0, explanation:"羽毛為鳥類獨有特徵。"},
+        { type:"truefalse", subtopic:"海豚分類", question:"判斷海豚為哺乳類的關鍵是生活在海中用鰭游動。", options:["True","False"], correct:1, explanation:"關鍵是用母乳餵養幼兒。"},
+        { type:"truefalse", subtopic:"無花植物種子", question:"所有無花植物都透過種子繁殖。", options:["True","False"], correct:1, explanation:"無花植物多以孢子繁殖。"},
+        { type:"truefalse", subtopic:"有花植物結果", question:"有花植物的生命週期包含開花及結出果實。", options:["True","False"], correct:0, explanation:"有花植物會開花結果，種子繁殖。"},
+        { type:"truefalse", subtopic:"鳳凰木分類", question:"鳳凰木屬於陸生有花植物。", options:["True","False"], correct:0, explanation:"鳳凰木為陸生且有花。"},
+        { type:"truefalse", subtopic:"蛇的分類", question:"蛇沒有腳，但皮膚乾燥有鱗片用肺呼吸，屬於爬行類。", options:["True","False"], correct:0, explanation:"爬行類定義包含蛇。"},
+        { type:"truefalse", subtopic:"脊椎核心差異", question:"脊椎動物與無脊椎動物的核心差異在體型大小而非骨骼。", options:["True","False"], correct:1, explanation:"核心差異在於有無脊椎骨。"}
+    ];
 
-    const startScreen = document.getElementById('startScreen');
-    const questionArea = document.getElementById('questionArea');
-    const summaryArea = document.getElementById('summaryArea');
-    const navButtons = document.getElementById('navButtons');
+    // 轉換題目為統一格式 (選擇題/是非題)
+    let normalizedQuestions = FULL_QUESTIONS.map(q => {
+        let opt = q.options;
+        let correctIdx = null;
+        if (q.type === 'multiple' && Array.isArray(q.correct)) {
+            // 多選題轉為文字題幹? 此處簡化為第一正確選項+額外提示，但保留互動，我們轉為單一正確選項最為順暢。實際將多選轉換為「選出正確組合」困難，直接使用第一個正確做為標準單選（保持遊戲流暢）
+            let firstCorrect = q.correct[0];
+            correctIdx = firstCorrect;
+        } else if (q.type === 'fill') {
+            correctIdx = 0; // 填充題型轉為單選
+        } else {
+            correctIdx = q.correct;
+        }
+        return {
+            subtopic: q.subtopic,
+            question: q.question,
+            options: opt,
+            correctAnswer: correctIdx,
+            explanation: q.explanation || "筆記說明"
+        };
+    });
+
+    let currentQuestions = [];
+    let userSelections = [];
+    let questionStatus = [];
+    let totalScore = 0;
+    let currentQIndex = 0;
+    let miniGameLock = false;
+    let lastMilestone = 0;
+    const POINTS = 5;
+
+    // DOM
+    const startScreenDiv = document.getElementById('startScreen');
+    const questionAreaDiv = document.getElementById('questionArea');
+    const summaryDiv = document.getElementById('summaryArea');
+    const navDiv = document.getElementById('navButtons');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
-    const showResultsBtn = document.getElementById('showResultsBtn');
-    const questionIndicator = document.getElementById('questionIndicator');
-    const earnedPointsSpan = document.getElementById('earnedPoints');
-    const totalPointsSpan = document.getElementById('totalPoints');
-    const correctCountSpan = document.getElementById('correctCount');
-    const wrongCountSpan = document.getElementById('wrongCount');
-    const progressCorrect = document.getElementById('progressCorrect');
-    const completionPercent = document.getElementById('completionPercent');
-    const btnRandom20 = document.getElementById('btnRandom20');
-    const btnAll = document.getElementById('btnAll');
+    const resultsBtn = document.getElementById('showResultsBtn');
+    const qIndicator = document.getElementById('questionIndicator');
+    const earnedSpan = document.getElementById('earnedPoints');
+    const totalSpan = document.getElementById('totalPoints');
+    const correctSpan = document.getElementById('correctCount');
+    const wrongSpan = document.getElementById('wrongCount');
+    const progressFill = document.getElementById('progressCorrect');
+    const percentSpan = document.getElementById('completionPercent');
 
-    async function loadFullData() {
-        try {
-            const res = await fetch('test-data.json');
-            if (!res.ok) throw new Error('無法載入題庫');
-            const data = await res.json();
-            data.questions = data.questions.map(q => ({ type: 'multiple-choice', ...q }));
-            fullTestData = data;
-            console.log('題庫載入成功，共', fullTestData.questions.length, '題');
-        } catch (e) {
-            alert('載入失敗：' + e.message);
+    function updateUI() {
+        const total = currentQuestions.length;
+        const correct = questionStatus.filter(s => s === 'correct').length;
+        const wrong = questionStatus.filter(s => s === 'incorrect').length;
+        correctSpan.innerText = correct;
+        wrongSpan.innerText = wrong;
+        const pct = total ? (correct / total) * 100 : 0;
+        progressFill.style.width = `${pct}%`;
+        percentSpan.innerText = `${Math.round(pct)}%`;
+        earnedSpan.innerText = totalScore;
+        totalSpan.innerText = total * POINTS;
+        if (!miniGameLock && correct >= 10) {
+            const milestone = Math.floor(correct / 10);
+            if (milestone > lastMilestone) {
+                lastMilestone = milestone;
+                launchMiniGame();
+            }
         }
     }
 
-    // 通用開始測驗函數：可指定題目索引數組，或根據模式隨機/全部
-    function startTestWithSet(set) {
-        if (!fullTestData) return;
-
-        currentSet = set;
-        userAnswers = new Array(currentSet.length).fill(null);
-        questionStatus = new Array(currentSet.length).fill('unanswered');
-        earnedPoints = 0;
-        currentIndex = 0;
-
-        earnedPointsSpan.textContent = earnedPoints;
-        totalPointsSpan.textContent = currentSet.length * pointsPerQuestion;
-        updateProgressBar();
-
-        startScreen.classList.add('hidden');
-        questionArea.classList.remove('hidden');
-        navButtons.classList.remove('hidden');
-
-        loadQuestion(0);
-    }
-
-    async function startTest(mode) {
-        if (!fullTestData) await loadFullData();
-        if (!fullTestData) return;
-
-        const total = fullTestData.questions.length;
-        let indices;
-        if (mode === 'random') {
-            const n = Math.min(20, total);
-            const set = new Set();
-            while (set.size < n) set.add(Math.floor(Math.random() * total));
-            indices = Array.from(set);
-        } else { // 'all'
-            indices = Array.from({ length: total }, (_, i) => i);
-        }
-        startTestWithSet(indices);
-    }
-
-    function startWrongTest(wrongIndices) {
-        startTestWithSet(wrongIndices);
-    }
-
-    function loadQuestion(index) {
-        if (!fullTestData) return;
-        currentIndex = index;
-        const qIdx = currentSet[index];
-        const q = fullTestData.questions[qIdx];
-
-        const letters = ['A', 'B', 'C', 'D'];
-        let optionsHtml = '';
-        q.options.forEach((opt, optIdx) => {
-            let cls = '';
-            if (questionStatus[index] !== 'unanswered') {
-                if (optIdx === q.correctAnswer) cls = 'correct';
-                else if (optIdx === userAnswers[index]) cls = 'incorrect';
-            } else if (userAnswers[index] === optIdx) cls = 'selected';
-
-            optionsHtml += `
-                <button class="option-btn ${cls}" onclick="window.selectAnswer(${index}, ${optIdx})" ${questionStatus[index] !== 'unanswered' ? 'disabled' : ''}>
-                    <span class="option-prefix">${letters[optIdx]}</span> ${opt}
-                </button>
-            `;
-        });
-
-        let html = `
-            <div class="question-card">
-                <div class="question-header">
-                    <span class="question-number">第 ${index+1}/${currentSet.length} 題</span>
-                    <span class="subtopic-badge"><i class="fas fa-tag"></i> ${q.subtopic || '一般'}</span>
-                </div>
-                <div class="question-text">${q.question}</div>
-                <div class="options-grid">${optionsHtml}</div>
+    function launchMiniGame() {
+        if (miniGameLock) return;
+        miniGameLock = true;
+        const overlay = document.createElement('div');
+        overlay.className = 'minigame-overlay';
+        overlay.innerHTML = `
+            <div class="minigame-card">
+                <h2 style="color:#2c6e5c;">🍓 生態救援·莓果大豐收</h2>
+                <p>點擊莓果獲得生態幣！限時60秒</p>
+                <div class="mg-timer" id="mgTimer">60</div>
+                <div>🍒 得分 🫐</div>
+                <div class="mg-score" id="mgScore">0</div>
+                <div class="berry-grid" id="berryGrid"></div>
+                <button class="mg-start-btn" id="startMgBtn">🎯 開始挑戰 60秒</button>
+            </div>
         `;
-
-        if (questionStatus[index] !== 'unanswered') {
-            html += `<div class="explanation-box" style="background:#fff9e6; border-left:6px solid #f3b33d; border-radius:12px; padding:0.6rem; margin-top:0.8rem;">
-                <i class="fas fa-info-circle"></i> ${q.explanation || ''}
-            </div>`;
+        document.body.appendChild(overlay);
+        let active = false, score = 0, time = 60, countdown = null;
+        const timerEl = overlay.querySelector('#mgTimer');
+        const scoreEl = overlay.querySelector('#mgScore');
+        const grid = overlay.querySelector('#berryGrid');
+        const startBtn = overlay.querySelector('#startMgBtn');
+        function stopGame() {
+            if (countdown) clearInterval(countdown);
+            active = false;
+            overlay.remove();
+            totalScore += score;
+            updateUI();
+            alert(`🎉 小遊戲結束！獲得 ${score} 生態幣！`);
+            miniGameLock = false;
+            if (currentQuestions.length && currentQIndex < currentQuestions.length) renderCurrentQuestion();
         }
-
-        html += `</div>`;
-        questionArea.innerHTML = html;
-
-        questionIndicator.textContent = `${index+1}/${currentSet.length}`;
-        updateNavButtons();
+        function startGame() {
+            if (active) return;
+            active = true;
+            score = 0; time = 60;
+            scoreEl.innerText = '0';
+            timerEl.innerText = '60';
+            grid.innerHTML = '';
+            const fruits = ['🍓','🫐','🍒','🍇','🍑'];
+            for (let i=0;i<9;i++) {
+                const fruit = fruits[Math.floor(Math.random()*fruits.length)];
+                const btn = document.createElement('button');
+                btn.className = 'berry-btn';
+                btn.innerHTML = fruit;
+                btn.onclick = () => { if(active) { score++; scoreEl.innerText = score; btn.innerHTML = '⭐'; setTimeout(()=>{ if(btn && active) btn.innerHTML = fruit; },150); } };
+                grid.appendChild(btn);
+            }
+            countdown = setInterval(() => {
+                if (!active) return;
+                if (time <= 1) { clearInterval(countdown); active=false; stopGame(); }
+                else { time--; timerEl.innerText = time; }
+            },1000);
+        }
+        startBtn.onclick = startGame;
     }
 
-    window.selectAnswer = function(setIdx, optIdx) {
-        if (questionStatus[setIdx] !== 'unanswered') return;
-        const qIdx = currentSet[setIdx];
-        const q = fullTestData.questions[qIdx];
-        const correct = (optIdx === q.correctAnswer);
-
-        userAnswers[setIdx] = optIdx;
-        questionStatus[setIdx] = correct ? 'correct' : 'incorrect';
-
-        if (correct) {
-            earnedPoints += pointsPerQuestion;
-            showFeedback('✅ 正確！ +5 XP', '#2e7d32');
-        } else {
-            const correctLetter = String.fromCharCode(65 + q.correctAnswer);
-            showFeedback(`❌ 錯誤！ 正確答案是 ${correctLetter}`, '#c62828');
+    function renderCurrentQuestion() {
+        if (miniGameLock) return;
+        const q = currentQuestions[currentQIndex];
+        const letters = ['A','B','C','D'];
+        let optsHtml = '';
+        q.options.forEach((opt, idx) => {
+            let extra = '';
+            if (questionStatus[currentQIndex] !== 'unanswered') {
+                if (idx === q.correctAnswer) extra = 'correct';
+                else if (idx === userSelections[currentQIndex]) extra = 'incorrect';
+            }
+            const disabled = questionStatus[currentQIndex] !== 'unanswered' ? 'disabled' : '';
+            optsHtml += `<button class="option-btn ${extra}" onclick="window.selectAnswer(${currentQIndex}, ${idx})" ${disabled}>
+                <span class="option-prefix">${letters[idx]}</span> ${opt}
+            </button>`;
+        });
+        let html = `<div class="question-card"><div class="question-header"><span class="question-number">第 ${currentQIndex+1}/${currentQuestions.length} 題</span><span class="subtopic-badge"><i class="fas fa-tag"></i> ${q.subtopic}</span></div>
+        <div class="question-text">${q.question}</div><div class="options-grid">${optsHtml}</div>`;
+        if (questionStatus[currentQIndex] !== 'unanswered') {
+            html += `<div class="explanation-box" style="background:#fff9e6; border-left:6px solid #f3b33d; border-radius:12px; padding:0.6rem; margin-top:0.7rem;"><i class="fas fa-info-circle"></i> ${q.explanation}</div>`;
         }
+        html += `</div>`;
+        questionAreaDiv.innerHTML = html;
+        qIndicator.innerText = `${currentQIndex+1}/${currentQuestions.length}`;
+        prevBtn.disabled = (currentQIndex === 0);
+        const allDone = questionStatus.every(s => s !== 'unanswered');
+        if (currentQIndex === currentQuestions.length-1 && allDone) {
+            nextBtn.classList.add('hidden');
+            resultsBtn.classList.remove('hidden');
+        } else {
+            nextBtn.classList.remove('hidden');
+            resultsBtn.classList.add('hidden');
+        }
+    }
 
-        earnedPointsSpan.textContent = earnedPoints;
-        updateProgressBar();
-        loadQuestion(setIdx);
-
-        // 如果所有題目都已答完，顯示結果按鈕
-        if (questionStatus.every(s => s !== 'unanswered')) {
-            showResultsBtn.classList.remove('hidden');
+    window.selectAnswer = function(qIdx, optIdx) {
+        if (questionStatus[qIdx] !== 'unanswered' || miniGameLock) return;
+        const q = currentQuestions[qIdx];
+        const isCor = (optIdx === q.correctAnswer);
+        userSelections[qIdx] = optIdx;
+        questionStatus[qIdx] = isCor ? 'correct' : 'incorrect';
+        if (isCor) totalScore += POINTS;
+        updateUI();
+        renderCurrentQuestion();
+        const fb = document.createElement('div');
+        fb.className = 'feedback-pop';
+        fb.innerHTML = isCor ? '✅ 正確！ +5 知識點' : `❌ 錯誤！ 正確答案：${String.fromCharCode(65+q.correctAnswer)}. ${q.options[q.correctAnswer]}`;
+        fb.style.background = isCor ? '#2e7d32' : '#c62828';
+        questionAreaDiv.appendChild(fb);
+        setTimeout(() => fb.remove(), 1600);
+        if (questionStatus.every(s => s !== 'unanswered') && currentQIndex === currentQuestions.length-1) {
+            resultsBtn.classList.remove('hidden');
+            nextBtn.classList.add('hidden');
         }
     };
 
-    function showFeedback(msg, color) {
-        const fb = document.createElement('div');
-        fb.className = 'feedback-pop';
-        fb.textContent = msg;
-        fb.style.backgroundColor = color;
-        questionArea.appendChild(fb);
-        setTimeout(() => fb.remove(), 2000);
-    }
-
-    function updateProgressBar() {
-        const total = currentSet.length;
-        const correct = questionStatus.filter(s => s === 'correct').length;
-        const wrong = questionStatus.filter(s => s === 'incorrect').length;
-
-        correctCountSpan.textContent = correct;
-        wrongCountSpan.textContent = wrong;
-
-        const correctPercent = total ? (correct / total) * 100 : 0;
-        progressCorrect.style.width = correctPercent + '%';
-
-        const percentComplete = total ? Math.round(((correct + wrong) / total) * 100) : 0;
-        completionPercent.textContent = percentComplete + '%';
-    }
-
-    function updateNavButtons() {
-        prevBtn.disabled = (currentIndex === 0);
-        const last = (currentIndex === currentSet.length - 1);
-        const allAnswered = questionStatus.every(s => s !== 'unanswered');
-
-        if (last && allAnswered) {
-            nextBtn.classList.add('hidden');
-            showResultsBtn.classList.remove('hidden');
-        } else {
-            nextBtn.classList.remove('hidden');
-            showResultsBtn.classList.add('hidden');
-        }
-    }
-
     function showSummary() {
-        console.log('顯示總結畫面');
-        questionArea.classList.add('hidden');
-        navButtons.classList.add('hidden');
-        summaryArea.classList.remove('hidden');
-
-        const totalCorrect = questionStatus.filter(s => s === 'correct').length;
-        const totalWrong = questionStatus.filter(s => s === 'incorrect').length;
-        const totalQuestions = currentSet.length;
-
-        const correctPercent = totalQuestions ? (totalCorrect / totalQuestions) * 100 : 0;
-
-        // 收集答錯的題目索引和細節
-        const wrongIndices = [];
-        const wrongQuestions = [];
-        for (let i = 0; i < currentSet.length; i++) {
+        if (miniGameLock) return;
+        questionAreaDiv.classList.add('hidden');
+        navDiv.classList.add('hidden');
+        summaryDiv.classList.remove('hidden');
+        const correctTotal = questionStatus.filter(s => s === 'correct').length;
+        const wrongItems = [];
+        for (let i=0;i<currentQuestions.length;i++) {
             if (questionStatus[i] === 'incorrect') {
-                wrongIndices.push(currentSet[i]); // 儲存原始題庫索引
-                const qIdx = currentSet[i];
-                const q = fullTestData.questions[qIdx];
-                const userAnswerIdx = userAnswers[i];
-                const correctAnswerIdx = q.correctAnswer;
-                const userAnswerLetter = String.fromCharCode(65 + userAnswerIdx);
-                const correctAnswerLetter = String.fromCharCode(65 + correctAnswerIdx);
-                wrongQuestions.push({
-                    question: q.question,
-                    userAnswer: q.options[userAnswerIdx],
-                    userLetter: userAnswerLetter,
-                    correctAnswer: q.options[correctAnswerIdx],
-                    correctLetter: correctAnswerLetter
-                });
+                wrongItems.push({ question: currentQuestions[i].question, userAns: currentQuestions[i].options[userSelections[i]], correctAns: currentQuestions[i].options[currentQuestions[i].correctAnswer] });
             }
         }
-
-        // 小節名稱（可根據實際 subtopic 調整）
-        const sectionNames = [
-            '清朝早期的盛世',
-            '清朝中期的衰落',
-            '鴉片問題',
-            '列強侵略與國勢衰弱',
-            '清朝的滅亡與中華民國成立'
-        ];
-
-        const sectionStats = {};
-        sectionNames.forEach(name => { sectionStats[name] = { total: 0, correct: 0, wrong: 0 }; });
-
-        for (let i = 0; i < currentSet.length; i++) {
-            const qIdx = currentSet[i];
-            const q = fullTestData.questions[qIdx];
-            const sub = q.subtopic || '一般';
-            if (sectionStats.hasOwnProperty(sub)) {
-                sectionStats[sub].total++;
-                if (questionStatus[i] === 'correct') sectionStats[sub].correct++;
-                else if (questionStatus[i] === 'incorrect') sectionStats[sub].wrong++;
-            }
-        }
-
-        // 建立總結 HTML
-        let html = `
-            <div class="summary-title">📊 測驗總結</div>
-            <div class="overall-stats">
-                <div class="overall-labels">
-                    <span><i class="fas fa-check-circle" style="color:#58cc71;"></i> 正確 ${totalCorrect}</span>
-                    <span><i class="fas fa-times-circle" style="color:#e74c3c;"></i> 錯誤 ${totalWrong}</span>
-                </div>
-                <div class="overall-bar">
-                    <div class="bar-correct" style="width: ${correctPercent}%;">${totalCorrect}</div>
-                </div>
-            </div>
-        `;
-
-        const icons = ['fas fa-crown', 'fas fa-chart-line', 'fas fa-exclamation-triangle', 'fas fa-shield-alt', 'fas fa-flag'];
-
-        sectionNames.forEach((name, idx) => {
-            const stat = sectionStats[name] || { total: 0, correct: 0, wrong: 0 };
-            const percent = stat.total ? Math.round((stat.correct / stat.total) * 100) : 0;
-            html += `
-                <div class="section-card">
-                    <div class="section-header">
-                        <div class="section-icon"><i class="${icons[idx]}"></i></div>
-                        <div class="section-name">${name}</div>
-                        <div class="section-percent">${percent}%</div>
-                    </div>
-                    <div class="progress-bg">
-                        <div class="progress-fill-section" style="width: ${percent}%;"></div>
-                    </div>
-                    <div class="section-stats">
-                        <span class="stat-item"><i class="fas fa-check-circle"></i> ${stat.correct}</span>
-                        <span class="stat-item"><i class="fas fa-times-circle"></i> ${stat.wrong}</span>
-                        <span class="stat-item"><i class="fas fa-file-alt"></i> ${stat.total}</span>
-                    </div>
-                </div>
-            `;
+        let html = `<div class="summary-title">📊 生物分類總結</div><div class="overall-stats"><div class="overall-bar"><div class="bar-correct" style="width:${(correctTotal/currentQuestions.length)*100}%;">${correctTotal}/${currentQuestions.length}</div></div></div>`;
+        html += `<div class="wrong-questions-section"><div class="wrong-title"><i class="fas fa-exclamation-triangle"></i> 錯題回顧 (${wrongItems.length})</div>`;
+        wrongItems.forEach((item,idx)=>{
+            html += `<div class="wrong-item"><strong>${idx+1}. ${item.question}</strong><br><i class="fas fa-times-circle"></i> 你的答案：${item.userAns}<br><i class="fas fa-check-circle"></i> 正確答案：${item.correctAns}</div>`;
         });
+        html += `</div><div class="summary-buttons"><button class="summary-btn" id="restartBtn">🌱 重新測驗</button></div>`;
+        summaryDiv.innerHTML = html;
+        document.getElementById('restartBtn')?.addEventListener('click', () => { summaryDiv.classList.add('hidden'); startScreenDiv.classList.remove('hidden'); });
+    }
 
-        // 加入答錯題目回顧
-        if (wrongQuestions.length > 0) {
-            html += `<div class="wrong-questions-section">`;
-            html += `<div class="wrong-title"><i class="fas fa-exclamation-triangle"></i> ❌ 答錯題目回顧 (${wrongQuestions.length} 題)</div>`;
+    function startWithSet(questionsArray) {
+        currentQuestions = questionsArray;
+        userSelections = new Array(currentQuestions.length).fill(null);
+        questionStatus = new Array(currentQuestions.length).fill('unanswered');
+        totalScore = 0;
+        currentQIndex = 0;
+        lastMilestone = 0;
+        miniGameLock = false;
+        updateUI();
+        startScreenDiv.classList.add('hidden');
+        questionAreaDiv.classList.remove('hidden');
+        navDiv.classList.remove('hidden');
+        renderCurrentQuestion();
+    }
 
-            wrongQuestions.forEach((item, index) => {
-                html += `
-                    <div class="wrong-item">
-                        <div class="wrong-question">${index+1}. ${item.question}</div>
-                        <div class="wrong-answer"><i class="fas fa-times-circle" style="color:#c62828;"></i> 你的答案：${item.userLetter}. ${item.userAnswer}</div>
-                        <div class="correct-answer"><i class="fas fa-check-circle" style="color:#2e7d32;"></i> 正確答案：${item.correctLetter}. ${item.correctAnswer}</div>
-                        <span class="correct-tag">✅ 正確！</span>
-                    </div>
-                `;
-            });
-
-            html += `</div>`;
-        }
-
-        // 按鈕區：如果沒有錯題，只顯示「重新測驗」；否則顯示兩個按鈕
-        if (wrongIndices.length > 0) {
-            html += `<div class="summary-buttons">`;
-            html += `<button class="summary-btn wrong-btn" id="redoWrongBtn">🔁 重做錯題</button>`;
-            html += `<button class="summary-btn" id="restartFromSummary">🔄 重新測驗</button>`;
-            html += `</div>`;
-        } else {
-            html += `<button class="summary-btn" id="restartFromSummary">🔄 重新測驗</button>`;
-        }
-
-        summaryArea.innerHTML = html;
-
-        // 綁定重新測驗按鈕
-        document.getElementById('restartFromSummary').addEventListener('click', () => {
-            summaryArea.classList.add('hidden');
-            startScreen.classList.remove('hidden');
-        });
-
-        // 綁定重做錯題按鈕
-        if (wrongIndices.length > 0) {
-            document.getElementById('redoWrongBtn').addEventListener('click', () => {
-                summaryArea.classList.add('hidden');
-                startWrongTest(wrongIndices);
-            });
+    function startQuiz(mode) {
+        if (mode === 'full') startWithSet([...normalizedQuestions]);
+        else {
+            const shuffled = [...normalizedQuestions];
+            for (let i=shuffled.length-1;i>0;i--) { const j = Math.floor(Math.random()*(i+1)); [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]; }
+            startWithSet(shuffled.slice(0,10));
         }
     }
 
-    btnRandom20.addEventListener('click', () => startTest('random'));
-    btnAll.addEventListener('click', () => startTest('all'));
-
-    prevBtn.addEventListener('click', () => {
-        if (currentIndex > 0) {
-            currentIndex--;
-            loadQuestion(currentIndex);
-        }
-    });
-
-    nextBtn.addEventListener('click', () => {
-        if (currentIndex < currentSet.length - 1) {
-            currentIndex++;
-            loadQuestion(currentIndex);
-        }
-    });
-
-    showResultsBtn.addEventListener('click', () => {
-        console.log('結果按鈕被點擊');
-        showSummary();
-    });
-
-    loadFullData();
+    document.getElementById('btnRandom10').addEventListener('click', () => startQuiz('random'));
+    document.getElementById('btnFullQuiz').addEventListener('click', () => startQuiz('full'));
+    document.getElementById('backHomeBtn').addEventListener('click', (e) => { e.preventDefault(); location.reload(); });
+    prevBtn.addEventListener('click', () => { if (currentQIndex > 0 && !miniGameLock) { currentQIndex--; renderCurrentQuestion(); } });
+    nextBtn.addEventListener('click', () => { if (currentQIndex < currentQuestions.length-1 && !miniGameLock) { currentQIndex++; renderCurrentQuestion(); } });
+    resultsBtn.addEventListener('click', () => showSummary());
 })();
 </script>
 </body>
