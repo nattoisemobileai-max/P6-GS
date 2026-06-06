@@ -617,12 +617,18 @@
                 <div class="book-sub">生態環境政策 · 法治新聞 | 拓展視野</div>
                 <!-- 原本只有本地焦點，現在在旁邊新增兩個按鈕 (set1, set2 對應風格) 沒有任何彈窗內容 -->
                 <div class="news-group">
-                    <!-- 原有本地焦點保留樣式且無內容生成，僅視覺呈現 -->
-                    <span class="news-item"><i class="fas fa-map-marker-alt"></i> 本地焦點</span>
-                    <!-- 新增的第一個新聞按鈕 (對應第五冊延伸/生物) -->
-                    <span class="news-item extra-news" id="extraNewsBtn1"><i class="fas fa-leaf"></i> 生態·新視野</span>
-                    <!-- 新增的第二個新聞按鈕 (對應第四冊延伸/法治) -->
-                    <span class="news-item extra-news" id="extraNewsBtn2"><i class="fas fa-scale-balanced"></i> 法治·前沿</span>
+                    <!-- 原有本地焦點：點擊後跳轉到 news-local.html -->
+                    <a href="news-local.html" class="news-item" style="text-decoration: none;">
+                        <i class="fas fa-map-marker-alt"></i> 本地焦點
+                    </a>
+                    <!-- 新增的第一個新聞按鈕 (對應第五冊延伸/生物)：跳轉到 news-set1.html -->
+                    <a href="news-set1.html" class="news-item extra-news" style="text-decoration: none;">
+                        <i class="fas fa-leaf"></i> 生態·新視野
+                    </a>
+                    <!-- 新增的第二個新聞按鈕 (對應第四冊延伸/法治)：跳轉到 news-set2.html -->
+                    <a href="news-set2.html" class="news-item extra-news" style="text-decoration: none;">
+                        <i class="fas fa-scale-balanced"></i> 法治·前沿
+                    </a>
                 </div>
                 <!-- 備註：無任何彈窗或生成內容，純按鈕樣式，不執行額外邏輯（除非點擊時無動作或導向預留）。此處按鈕沒有附加事件，僅僅是UI按鈕，但若要無反應則保持靜態。根據要求「只需加兩個按鈕旁邊」，沒有需要產生新聞文本。但為了體驗，我們可讓按鈕單純無效果或之後可擴充，完全符合「no need to generate @生態環境快訊 (Set1)」僅視覺增加按鈕 -->
                 <div class="podcast-sub" style="margin-top:0.8rem; text-align:left; font-size:0.7rem;">📌 新增兩個焦點按鈕：生態·新視野 與 法治·前沿 (無自動生成內容，僅供入口)</div>
