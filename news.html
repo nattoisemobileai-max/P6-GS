@@ -10,7 +10,7 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;700&family=Noto+Sans+TC:wght@400;700;900&display=swap');
         * {
-            user-select: none; /* 避免拖拽干擾點擊 */
+            user-select: none;
         }
         body {
             font-family: 'Noto Sans TC', 'Chakra Petch', sans-serif;
@@ -33,7 +33,6 @@
             50% { transform: scale(1.05); background-color: #fef9c3;}
             100% { transform: scale(1);}
         }
-        /* 自定義捲軸 */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #fde68a; border-radius: 12px; }
         ::-webkit-scrollbar-thumb { background: #b45309; border-radius: 12px; }
@@ -41,24 +40,24 @@
             cursor: pointer;
             transition: 0.1s linear;
         }
-        .mole-hole:active {
-            transform: scale(0.96);
-        }
-        .click-feedback {
-            transition: 0.05s linear;
-        }
         .click-feedback:active {
             transform: scale(0.96);
+        }
+        .berry-item {
+            cursor: pointer;
+            transition: transform 0.05s linear;
+        }
+        .berry-item:active {
+            transform: scale(0.85);
         }
     </style>
 </head>
 <body class="min-h-screen flex flex-col relative">
 
-    <!-- 頂部狀態列 皮卡超公仔真實圖 -->
+    <!-- 頂部狀態列 -->
     <header class="bg-gradient-to-r from-amber-400 to-yellow-500 border-b-4 border-slate-800 p-3 sticky top-0 z-50 shadow-lg">
         <div class="max-w-4xl mx-auto flex justify-between items-center">
             <div class="flex items-center space-x-3">
-                <!-- 真實寶可夢皮卡超圖片 (官方藝術風格) -->
                 <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png" 
                      alt="皮卡超" class="w-12 h-12 drop-shadow-md hover:animate-bounce transition cursor-pointer" 
                      title="皮卡超 皮卡皮卡！">
@@ -81,7 +80,7 @@
 
     <main class="flex-grow max-w-4xl w-full mx-auto p-3 md:p-4 flex flex-col justify-center">
         
-        <!-- 自定義提示模態框 (取代alert) -->
+        <!-- 自定義提示模態框 -->
         <div id="custom-alert" class="hidden fixed inset-0 bg-slate-900/80 z-[60] flex items-center justify-center p-4">
             <div class="bg-white rounded-2xl retro-border max-w-sm w-full p-5 text-center animate__animated animate__zoomIn">
                 <span id="alert-emoji" class="text-5xl inline-block mb-2">⚠️</span>
@@ -91,7 +90,7 @@
             </div>
         </div>
 
-        <!-- 起始畫面 關卡選擇 -->
+        <!-- 起始畫面 -->
         <section id="start-screen" class="bg-white rounded-3xl retro-border p-5 shadow-xl animate__animated animate__fadeIn">
             <div class="text-center">
                 <div class="flex justify-center gap-2 mb-3">
@@ -101,10 +100,7 @@
                 <h2 class="text-2xl md:text-3xl font-black text-slate-900">⚡ 皮卡超常識時事冒險</h2>
                 <p class="text-slate-500 text-xs max-w-md mx-auto mt-1">精選50道高頻時事 + 常識題 • 每關答對7題解鎖小遊戲 → 開啟下一關！</p>
             </div>
-            <!-- 關卡列表容器 -->
-            <div id="stage-list-container" class="space-y-3 my-5 max-h-[400px] overflow-y-auto pr-1">
-                <!-- 動態js渲染關卡 避免html重複bug-->
-            </div>
+            <div id="stage-list-container" class="space-y-3 my-5 max-h-[400px] overflow-y-auto pr-1"></div>
             <div class="text-center mt-4">
                 <button id="global-start-btn" class="bg-slate-900 hover:bg-slate-800 text-amber-300 font-black text-lg px-10 py-3 rounded-2xl border-4 border-slate-800 shadow-[4px_4px_0px_#facc15] transition transform hover:-translate-y-0.5 active:translate-y-0">
                     開始冒險！皮卡～
@@ -139,20 +135,20 @@
             </div>
         </section>
 
-        <!-- 小遊戲畫面 (解鎖關鍵) -->
+        <!-- 小遊戲畫面 (修復遊戲結束與下一關邏輯) -->
         <section id="minigame-screen" class="hidden bg-white rounded-3xl retro-border p-5 shadow-xl text-center flex-col items-center">
             <h2 id="minigame-title" class="text-2xl font-black text-slate-800">🍓 莓果大作戰</h2>
-            <p id="minigame-desc" class="text-slate-500 text-sm">點擊出現的莓果！每顆+1金幣！</p>
+            <p id="minigame-desc" class="text-slate-500 text-sm">點擊出現的莓果！每顆+1金幣！限時60秒大作戰！</p>
             <div class="flex justify-center gap-5 my-3">
-                <div class="bg-red-50 px-4 py-1 rounded-xl"><span class="font-bold">⏱️ </span><span id="minigame-timer">15</span>秒</div>
+                <div class="bg-red-50 px-4 py-1 rounded-xl"><span class="font-bold">⏱️ </span><span id="minigame-timer">60</span>秒</div>
                 <div class="bg-amber-50 px-4 py-1 rounded-xl"><span class="font-bold">💰 +</span><span id="minigame-score">0</span></div>
             </div>
-            <div id="minigame-play-field" class="relative w-full h-80 bg-slate-900 rounded-2xl overflow-hidden border-4 border-slate-800 cursor-pointer">
-                <div id="minigame-overlay" class="absolute inset-0 bg-black/80 flex flex-col items-center justify-center z-10">
+            <div id="minigame-play-field" class="relative w-full h-80 bg-slate-900 rounded-2xl overflow-hidden border-4 border-slate-800">
+                <div id="minigame-overlay" class="absolute inset-0 bg-black/80 flex flex-col items-center justify-center z-10 rounded-2xl">
                     <span class="text-6xl mb-2">🎮</span>
-                    <button id="start-minigame-btn" class="bg-purple-500 text-white font-bold px-6 py-2 rounded-xl text-xl animate-bounce">開始挑戰！</button>
+                    <button id="start-minigame-btn" class="bg-purple-500 text-white font-bold px-6 py-2 rounded-xl text-xl animate-bounce shadow-lg">開始挑戰！60秒計時</button>
                 </div>
-                <div id="minigame-grid-mole" class="hidden grid grid-cols-3 gap-2 p-3 h-full w-full"></div>
+                <div id="minigame-active-area" class="relative w-full h-full hidden"></div>
             </div>
         </section>
 
@@ -201,23 +197,21 @@
     <footer class="bg-slate-900 text-slate-400 text-center text-[10px] py-2">© 2026 皮卡超時事闖關 | 高頻必考 50 題</footer>
 
     <script>
-        // ---------- 完整50題資料庫 (依stage分類/每關10題) 已收錄風穎學而思來源 ----------
+        // ---------- 完整50題資料庫 (保持不變) ----------
         const QUESTION_SET = [
-            // stage 1 (10題)
-            {stage:1,category:"香港民生",scenario:"🚕 傑尼龜攔了計程車",question:"的士自2026年4月1日起，車內必須提供至少幾種電子支付？",options:["1種","2種","3種","4種"],correct:1,explain:"運輸署規定至少2種電子支付，方便乘客。",source:"風穎P25"},
-            {stage:1,category:"醫療",scenario:"🏥 波加曼排急診",question:"公立醫院急症室收費由180元調至多少元？",options:["220元","300元","400元","500元"],correct:2,explain:"由180元大幅上調至400元，減少濫用。",source:"風穎P4"},
+            {stage:1,category:"香港民生",scenario:"🚕 傑尼龜攔了計程車",question:"的士自2026年4月1日起，車內必須提供至少幾種電子支付？",options:["1種","2種","3種","4種"],correct:1,explain:"運輸署規定至少2種電子支付。",source:"風穎P25"},
+            {stage:1,category:"醫療",scenario:"🏥 波加曼排急診",question:"公立醫院急症室收費由180元調至多少元？",options:["220元","300元","400元","500元"],correct:2,explain:"由180元上調至400元。",source:"風穎P4"},
             {stage:1,category:"禁煙",scenario:"🔥 小火龍見禁煙標誌",question:"4月30日起，禁止公眾地方管有哪類產品？",options:["傳統捲煙","打火機","電子煙等另類煙","煙斗"],correct:2,explain:"電子煙、加熱煙全面禁止。",source:"風穎P15"},
-            {stage:1,category:"最低工資",scenario:"⚡ 皮卡超看薪資",question:"5月1日起最低工資上調至每小時多少元？",options:["37.5","40.0","43.1","45.5"],correct:2,explain:"每小時43.1元，保障勞工。",source:"風穎P31"},
+            {stage:1,category:"最低工資",scenario:"⚡ 皮卡超看薪資",question:"5月1日起最低工資上調至每小時多少元？",options:["37.5","40.0","43.1","45.5"],correct:2,explain:"每小時43.1元。",source:"風穎P31"},
             {stage:1,category:"國安教育",scenario:"🍃 妙蛙種子參展",question:"2026年4月15日是第幾個全民國家安全教育日？",options:["第9","第10","第11","第12"],correct:2,explain:"第11個國家安全教育日。",source:"風穎P20"},
-            {stage:1,category:"教育政策",scenario:"📚 皮卡超看新聞",question:"下學年全港多少間小學獲派「0班」？",options:["5間","10間","15間","20間"],correct:2,explain:"因收生不足，15間小學停辦小一。",source:"風穎P18"},
+            {stage:1,category:"教育政策",scenario:"📚 皮卡超看新聞",question:"下學年全港多少間小學獲派「0班」？",options:["5間","10間","15間","20間"],correct:2,explain:"15間小學停辦小一。",source:"風穎P18"},
             {stage:1,category:"醫療建設",scenario:"🏥 啟德醫院",question:"預計2026年10月分階段啟用的東九龍大型醫院是？",options:["香港中醫醫院","啟德醫院","廣華新樓","天水圍醫院"],correct:1,explain:"啟德醫院超大型急症醫院。",source:"風穎P26"},
-            {stage:1,category:"環保",scenario:"♻️ 妙蛙種子回收",question:"智能廚餘回收桶申請門檻下調至多少戶？",options:["100戶","200戶","300戶","400戶"],correct:1,explain:"門檻降至200戶，增加回收點。",source:"學而思P12"},
+            {stage:1,category:"環保",scenario:"♻️ 妙蛙種子回收",question:"智能廚餘回收桶申請門檻下調至多少戶？",options:["100戶","200戶","300戶","400戶"],correct:1,explain:"門檻降至200戶。",source:"學而思P12"},
             {stage:1,category:"立法會",scenario:"⚡ 立會主席",question:"現任香港立法會主席是哪位？",options:["梁君彥","李慧琼","陳健波","李家超"],correct:1,explain:"李慧琼現任立會主席。",source:"風穎P19"},
             {stage:1,category:"北部都會區",scenario:"🌆 科技城",question:"北部都會區創科發展橋頭堡是哪個科技城？",options:["數碼港","科學園","新田科技城","前海"],correct:2,explain:"新田科技城融入大灣區。",source:"風穎P46"},
-            // stage 2 (國際體育大眾)
             {stage:2,category:"世界盃",scenario:"⚽ 傑尼龜守門",question:"2026世界盃由哪三國聯合主辦？",options:["美加墨","日韓中","英法德","巴阿智"],correct:0,explain:"美國、加拿大、墨西哥合辦。",source:"風穎P40"},
             {stage:2,category:"冬奧",scenario:"❄️ 穿山鼠滑雪",question:"2026冬奧由義大利哪兩個城市舉辦？",options:["米蘭/科爾蒂納","羅馬/都靈","威尼斯/米蘭","佛羅倫斯"],correct:0,explain:"米蘭與科爾蒂納丹佩佐。",source:"風穎P38"},
-            {stage:2,category:"世界衛生日",scenario:"🐧 衛生節日",question:"4月7日是聯合國什麼節日？",options:["地球日","衛生日","環境日","無煙日"],correct:1,explain:"世界衛生日，重視公共健康。",source:"風穎P33"},
+            {stage:2,category:"世界衛生日",scenario:"🐧 衛生節日",question:"4月7日是聯合國什麼節日？",options:["地球日","衛生日","環境日","無煙日"],correct:1,explain:"世界衛生日。",source:"風穎P33"},
             {stage:2,category:"中文日",scenario:"📖 書法",question:"聯合國中文日是哪一天？",options:["3/12","4/15","4/20","5/1"],correct:2,explain:"4月20日穀雨節氣。",source:"風穎P45"},
             {stage:2,category:"最美校園",scenario:"🏫 科大",question:"香港最美大學校園亞洲最高排名？",options:["港大","中大","科大","理大"],correct:2,explain:"香港科技大學清水灣校園亞洲第一。",source:"風穎P21"},
             {stage:2,category:"花展",scenario:"🌸 維園花展",question:"2026年香港花卉展覽主題花是？",options:["鬱金香","洋紫荊","紫羅蘭","玫瑰"],correct:2,explain:"主題花為紫羅蘭。",source:"風穎P24"},
@@ -225,7 +219,6 @@
             {stage:2,category:"血月",scenario:"🌕 天文台",question:"3月3日香港觀測到什麼天文現象？",options:["雙星伴月","日全食","血月","流星雨"],correct:2,explain:"月全食血月奇景。",source:"風穎P27"},
             {stage:2,category:"寒冷乾旱",scenario:"💧 節水呼籲",question:"今年3月天氣異常為何？",options:["溫暖多雨","極度寒冷乾旱","大霧","颱風"],correct:1,explain:"極度寒冷乾旱，呼籲節水。",source:"學而思P2"},
             {stage:2,category:"張敬軒",scenario:"🎤 歌手",question:"哪位歌手任保安局正向計劃導師？",options:["陳奕迅","張敬軒","張學友","郭富城"],correct:1,explain:"張敬軒推廣青年正向引導。",source:"風穎P1"},
-            // stage 3 (外交國際)
             {stage:3,category:"兩會",scenario:"📜 法治",question:"全國兩會宣布制定哪部新法？",options:["反跨境腐敗法","國家安全法","反壟斷法","數據安全法"],correct:0,explain:"制定反跨境腐敗法。",source:"風穎P13"},
             {stage:3,category:"外交藍皮書",scenario:"🇯🇵 日本",question:"日本外交藍皮書將哪國降級？",options:["中國","韓國","美國","英國"],correct:0,explain:"將中國從最重要降為重要鄰國。",source:"風穎P11"},
             {stage:3,category:"原油危機",scenario:"🛢️ 霍爾木茲",question:"哪個海峽受阻引發原油危機？",options:["馬六甲","霍爾木茲","直布羅陀","英吉利"],correct:1,explain:"霍爾木茲海峽石油要道。",source:"風穎P16"},
@@ -236,7 +229,6 @@
             {stage:3,category:"阿提米絲",scenario:"🚀 NASA",question:"Artemis IV載人登月推遲至？",options:["2026","2027","2028年初","2030"],correct:2,explain:"推遲至2028年初。",source:"風穎P22"},
             {stage:3,category:"國民黨主席",scenario:"🇹🇼 訪問",question:"4月初赴陸訪問的國民黨主席？",options:["鄭麗文","朱立倫","馬英九","韓國瑜"],correct:0,explain:"鄭麗文展開和平訪問。",source:"風穎P28"},
             {stage:3,category:"巴基斯坦",scenario:"🇵🇰 國事訪問",question:"哪國總統4月訪華重申命運共同體？",options:["巴基斯坦","俄羅斯","阿根廷","南非"],correct:0,explain:"巴基斯坦總統訪華。",source:"風穎P44"},
-            // stage 4 (科技財經)
             {stage:4,category:"Gemini",scenario:"🤖 AI",question:"Google Gemini何時對香港解禁？",options:["1-2月","3月中至5月","6-7月","12月"],correct:1,explain:"2026年3月中至5月分批開放。",source:"風穎P10"},
             {stage:4,category:"OpenClaw",scenario:"🦞 AI框架",question:"爆紅開源AI代理框架名稱？",options:["OpenClaw","Siri AI","DeepL","Crayfish"],correct:0,explain:"OpenClaw俗稱小龍蝦。",source:"風穎P8"},
             {stage:4,category:"Lululemon",scenario:"🧘 運動品牌",question:"哪品牌因PFAS致癌物遭調查？",options:["Lululemon","Nike","Adidas","Reebok"],correct:0,explain:"加拿大Lululemon被調查。",source:"風穎P6"},
@@ -247,7 +239,6 @@
             {stage:4,category:"奧斯卡動畫",scenario:"🎬 Kpop",question:"哪部動畫獲最佳動畫片？",options:["Kpop獵魔女團","貓貓奇幻漂流","Kpop之星","首爾熱舞"],correct:0,explain:"Kpop獵魔女團獲獎。",source:"風穎P5"},
             {stage:4,category:"Web3節",scenario:"⛓️ 區塊鏈",question:"香港Web3嘉年華核心探討？",options:["5G","區塊鏈","元宇宙教育","量子電腦"],correct:1,explain:"區塊鏈及數字金融。",source:"風穎P37"},
             {stage:4,category:"Art Basel",scenario:"🎨 藝術展",question:"巴塞爾藝術展3月在哪舉行？",options:["文化中心","會展中心","M+","亞博館"],correct:1,explain:"灣仔會展中心。",source:"風穎P39"},
-            // stage5 民生趣聞
             {stage:5,category:"創業家計劃",scenario:"🏪 房委會",question:"創業家2.0商鋪規模是首階段幾倍？",options:["兩倍","三倍","五倍","七倍"],correct:1,explain:"擴大至三倍。",source:"學而思P10"},
             {stage:5,category:"露天座位",scenario:"☕ 食肆",question:"露天座位申請原則上多久批准？",options:["1週","約一個月","三個月","半年"],correct:1,explain:"約一個月內審批。",source:"學而思P11"},
             {stage:5,category:"廣州早茶",scenario:"🥟 點心",question:"茶點從製作到上桌不得超過多少小時？",options:["12","24","36","48"],correct:1,explain:"不得超過24小時。",source:"風穎P17"},
@@ -260,18 +251,15 @@
             {stage:5,category:"校園偷竊",scenario:"👮 法治",question:"校方處理偷竊事件的最終行動？",options:["口頭警告","家長調解","勒令退學","報警"],correct:3,explain:"報警處理以作警惕。",source:"學而思P8"}
         ];
 
-        // 全域變數
         let coins = 0, inventory = [];
         let unlockedStages = {1:true,2:false,3:false,4:false,5:false};
-        let currentStage = 1, currentStageQuestions = [], qIndex = 0, correctInStage = 0, isAnsweredFlag = false, selectedIdx = null;
-        let minigameActive = false, minigameInterval = null, minigameSec = 15, minigamePoints = 0, berryInterval = null, moleTimeouts = [];
-        let currentShareIndex = null;
+        let currentStage = 1, currentStageQuestions = [], qIndex = 0, correctInStage = 0, isAnsweredFlag = false;
+        let activeMinigameTimers = { spawn: null, countdown: null };
+        let minigameRunning = false;
 
-        // 輔助函數
         function updateCoinUI() { document.getElementById('coin-count').innerText = coins; if(document.getElementById('shop-coin')) document.getElementById('shop-coin').innerText = coins; }
         function showAlert(emoji,title,msg){ let a=document.getElementById('custom-alert'); document.getElementById('alert-emoji').innerText=emoji; document.getElementById('alert-title').innerText=title; document.getElementById('alert-message').innerText=msg; a.classList.remove('hidden'); }
         function closeCustomAlert(){ document.getElementById('custom-alert').classList.add('hidden'); }
-        function playSound(type){ /* 單純回饋無音效沒關係，但抖動 */ }
         
         function renderStages(){
             const container = document.getElementById('stage-list-container');
@@ -352,7 +340,6 @@
                 qIndex++;
                 loadQuestionUI();
             }else{
-                // 完成10題，判斷是否過關
                 if(correctInStage >= 7){
                     showMiniGame();
                 }else{
@@ -367,65 +354,114 @@
             mgScreen.classList.remove('hidden');
             const overlay = document.getElementById('minigame-overlay');
             overlay.classList.remove('hidden');
-            document.getElementById('minigame-timer').innerText = '15';
+            document.getElementById('minigame-timer').innerText = '60';
             document.getElementById('minigame-score').innerText = '0';
-            document.getElementById('start-minigame-btn').onclick = ()=>{
+            const startBtn = document.getElementById('start-minigame-btn');
+            startBtn.onclick = ()=>{
+                if(minigameRunning) return;
                 startMiniGameCore();
             };
         }
+        
         function startMiniGameCore(){
-            let mgField = document.getElementById('minigame-play-field');
-            let overlayDiv = document.getElementById('minigame-overlay');
-            overlayDiv.classList.add('hidden');
-            minigameSec=15; minigamePoints=0;
-            document.getElementById('minigame-timer').innerText = minigameSec;
-            document.getElementById('minigame-score').innerText = '0';
-            // 使用莓果版本 (簡單抓點)
-            mgField.innerHTML = `<div id="berry-area" class="relative w-full h-full"></div>`;
-            let berryArea = document.getElementById('berry-area');
+            if(minigameRunning) return;
+            if(activeMinigameTimers.spawn) clearInterval(activeMinigameTimers.spawn);
+            if(activeMinigameTimers.countdown) clearInterval(activeMinigameTimers.countdown);
+            
+            let timeLeft = 60;
+            let points = 0;
+            minigameRunning = true;
+            document.getElementById('minigame-timer').innerText = timeLeft;
+            document.getElementById('minigame-score').innerText = points;
+            const overlay = document.getElementById('minigame-overlay');
+            overlay.classList.add('hidden');
+            const activeArea = document.getElementById('minigame-active-area');
+            activeArea.innerHTML = '';
+            activeArea.classList.remove('hidden');
+            const containerDiv = document.getElementById('minigame-play-field');
+            const area = activeArea;
+            area.className = "relative w-full h-full";
+            
             function spawnBerry(){
-                if(minigameSec<=0) return;
+                if(!minigameRunning) return;
                 let berryDiv = document.createElement('div');
-                berryDiv.innerText = ['🍓','🫐','🍒','🍇'][Math.floor(Math.random()*4)];
-                berryDiv.className = "absolute text-4xl cursor-pointer animate-bounce";
-                let x = Math.random() * (mgField.clientWidth-50);
-                let y = Math.random() * (mgField.clientHeight-50);
-                berryDiv.style.left = x+'px'; berryDiv.style.top = y+'px';
-                berryDiv.onclick = (e)=>{ e.stopPropagation(); if(minigameSec>0){ minigamePoints++; document.getElementById('minigame-score').innerText = minigamePoints; berryDiv.remove(); playSound('coin'); } };
-                berryArea.appendChild(berryDiv);
-                setTimeout(()=>{ if(berryDiv.parentNode) berryDiv.remove(); }, 1500);
+                const fruits = ['🍓','🫐','🍒','🍇','🍑'];
+                berryDiv.innerText = fruits[Math.floor(Math.random()*fruits.length)];
+                berryDiv.className = "absolute text-4xl berry-item animate-bounce";
+                let maxW = Math.max(area.clientWidth - 60, 100);
+                let maxH = Math.max(area.clientHeight - 60, 100);
+                let x = Math.random() * maxW;
+                let y = Math.random() * maxH;
+                berryDiv.style.left = x + 'px';
+                berryDiv.style.top = y + 'px';
+                berryDiv.style.cursor = 'pointer';
+                berryDiv.onclick = (e) => {
+                    e.stopPropagation();
+                    if(minigameRunning){
+                        points++;
+                        document.getElementById('minigame-score').innerText = points;
+                        berryDiv.remove();
+                    }
+                };
+                area.appendChild(berryDiv);
+                setTimeout(() => {
+                    if(berryDiv && berryDiv.parentNode) berryDiv.remove();
+                }, 1300);
             }
-            let intervalSpawn = setInterval(spawnBerry, 550);
-            let timer = setInterval(()=>{
-                minigameSec--;
-                document.getElementById('minigame-timer').innerText = minigameSec;
-                if(minigameSec<=0){
-                    clearInterval(timer); clearInterval(intervalSpawn);
-                    endMiniGameProcess(minigamePoints);
+            
+            const spawnInterval = setInterval(spawnBerry, 450);
+            const timerInterval = setInterval(() => {
+                if(!minigameRunning) return;
+                if(timeLeft <= 1){
+                    clearInterval(spawnInterval);
+                    clearInterval(timerInterval);
+                    minigameRunning = false;
+                    endMiniGameProcess(points);
+                } else {
+                    timeLeft--;
+                    document.getElementById('minigame-timer').innerText = timeLeft;
                 }
-            },1000);
-            window._mgTimer = timer; window._mgSpawn = intervalSpawn;
+            }, 1000);
+            
+            activeMinigameTimers.spawn = spawnInterval;
+            activeMinigameTimers.countdown = timerInterval;
         }
+        
         function endMiniGameProcess(earned){
+            if(activeMinigameTimers.spawn) clearInterval(activeMinigameTimers.spawn);
+            if(activeMinigameTimers.countdown) clearInterval(activeMinigameTimers.countdown);
+            minigameRunning = false;
+            const activeArea = document.getElementById('minigame-active-area');
+            activeArea.classList.add('hidden');
+            activeArea.innerHTML = '';
+            const overlay = document.getElementById('minigame-overlay');
+            overlay.classList.remove('hidden');
+            
             coins += earned;
             updateCoinUI();
-            let nextStage = currentStage+1;
-            if(nextStage <=5) unlockedStages[nextStage] = true;
+            let nextStage = currentStage + 1;
+            if(nextStage <= 5) unlockedStages[nextStage] = true;
             renderStages();
-            showAlert('🎉','小遊戲過關',`你獲得${earned}金幣！${nextStage<=5 ? `解鎖第${nextStage}關` : '全破關卡！'}`);
+            showAlert('🎉','小遊戲過關',`你獲得 ${earned} 金幣！${nextStage <=5 ? `成功解鎖第${nextStage}關！` : '太強了！全破關卡！'}`);
             document.getElementById('minigame-screen').classList.add('hidden');
-            if(nextStage>5){
+            if(nextStage > 5){
                 document.getElementById('end-screen').classList.remove('hidden');
                 document.getElementById('end-coins').innerText = coins;
                 document.getElementById('end-correct').innerText = '50/50';
-            }else{
+            } else {
                 goToStartScreen();
             }
-            if(window._mgTimer)clearInterval(window._mgTimer);
-            if(window._mgSpawn)clearInterval(window._mgSpawn);
         }
-        function goToStartScreen(){ document.getElementById('game-screen').classList.add('hidden'); document.getElementById('minigame-screen').classList.add('hidden'); document.getElementById('end-screen').classList.add('hidden'); document.getElementById('start-screen').classList.remove('hidden'); renderStages(); }
+        
+        function goToStartScreen(){ 
+            document.getElementById('game-screen').classList.add('hidden'); 
+            document.getElementById('minigame-screen').classList.add('hidden'); 
+            document.getElementById('end-screen').classList.add('hidden'); 
+            document.getElementById('start-screen').classList.remove('hidden'); 
+            renderStages(); 
+        }
         function resetToStart(){ goToStartScreen(); }
+        
         // 商店系統
         function openShop(){ document.getElementById('shop-modal').classList.remove('hidden'); updateBackpackUI(); }
         function closeShopModal(){ document.getElementById('shop-modal').classList.add('hidden'); }
