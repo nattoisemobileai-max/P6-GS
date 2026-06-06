@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>動物適應與生態 · 自然常識挑戰 | 生物大冒險</title>
+    <title>第五冊第3課:: 動物與環境-測驗</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -326,48 +326,6 @@
             font-weight: 800;
             transition: width 0.3s;
         }
-        .section-card {
-            background: white;
-            border-radius: 24px;
-            padding: 0.8rem;
-            margin-bottom: 0.8rem;
-            box-shadow: 0 4px 0 #a0b9cf;
-        }
-        .section-header {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 0.5rem;
-        }
-        .section-icon {
-            width: 38px;
-            height: 38px;
-            background: #3498db;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-        }
-        .section-name {
-            font-size: 1rem;
-            font-weight: 800;
-            color: #1a4972;
-            flex: 1;
-        }
-        .section-percent { font-size: 1.3rem; font-weight: 900; }
-        .progress-bg {
-            height: 12px;
-            background: #e2eaf3;
-            border-radius: 30px;
-            margin: 0.3rem 0;
-        }
-        .progress-fill-section {
-            height: 100%;
-            background: linear-gradient(90deg, #f4d03f, #f39c12);
-            border-radius: 30px;
-            width: 0%;
-        }
         .wrong-questions-section {
             background: white;
             border-radius: 24px;
@@ -410,6 +368,81 @@
         .summary-btn:active { transform: translateY(4px); box-shadow: 0 1px 0 #1c6b5e; }
         .hidden { display: none; }
         i.fa, span { pointer-events: none; }
+
+        /* 過三關迷你遊戲樣式 (modal) */
+        .game-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+        .game-panel {
+            background: #2c2e3a;
+            border-radius: 48px;
+            padding: 1.2rem;
+            width: 300px;
+            text-align: center;
+            border: 4px solid #ffd966;
+            box-shadow: 0 20px 30px black;
+        }
+        .game-title {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: #ffd966;
+            margin-bottom: 0.5rem;
+        }
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            background: #1f212e;
+            padding: 12px;
+            border-radius: 28px;
+            margin: 12px 0;
+        }
+        .cell {
+            background: #ffeedd;
+            aspect-ratio: 1 / 1;
+            border-radius: 20px;
+            font-size: 2.2rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #aa9f8c;
+            transition: 0.05s linear;
+            color: #2c3e50;
+        }
+        .cell:active { transform: translateY(2px); box-shadow: 0 1px 0 #aa9f8c; }
+        .game-status {
+            background: #f4c542;
+            padding: 8px;
+            border-radius: 40px;
+            font-weight: 800;
+            margin: 10px 0;
+        }
+        .game-reset-btn {
+            background: #58a700;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 50px;
+            color: white;
+            font-weight: bold;
+            margin-top: 8px;
+            cursor: pointer;
+        }
+        .close-game-btn {
+            background: #c0392b;
+            margin-left: 8px;
+        }
     </style>
 </head>
 <body>
@@ -451,11 +484,9 @@
 
 <script>
     (function() {
-        // ---------- 完整題庫 : 全部基於所提供題目 (選擇/填空/判斷/簡答改為標準化測驗) ----------
-        // 為了統一測驗體驗，將填空/簡答轉為選擇題型（保留原始知識，但仍能計分且完整）
-        // 依據詳細內容建立30道高質量題目（涵蓋Q1~Q30核心觀念）
+        // ---------- 完整題庫 (30道高品質生物適應題) ----------
         const MASTER_QUESTIONS = [
-            { type:"choice", subtopic:"遷徙本能", question:"動物會進行遷徙的主要動機，生態學歸納為哪兩個關鍵需求？", options:["減少脂肪層與冰冷水源","學習合作與去除毒素","築巢與避免高溫","獲取食物與繁殖後代"], correct:3, explanation:"筆記指出：動物會為了『覓食』和『繁殖』的需要而遷徙，涵蓋生存與繁衍。"},
+            { type:"choice", subtopic:"遷徙本能", question:"動物會進行遷徙的主要動機，生態學歸納為哪兩個關鍵需求？", options:["減少脂肪層與冰冷水源","學習合作與去除毒素","築巢與避免高溫","獲取食物與繁殖後代"], correct:3, explanation:"動物為了『覓食』和『繁殖』的需要而遷徙，涵蓋生存與繁衍。"},
             { type:"choice", subtopic:"牙齒適應", question:"根據食物類型，食肉動物與食草動物在牙齒構造上的主要差異為何？", options:["食肉動物有平坦磨牙，食草動物有鋒利尖牙","兩者皆為鐮刀狀牙齒","食肉動物有鋒利尖牙撕裂肉類；食草動物有平坦磨牙磨碎植物","食肉動物無牙齒，食草動物有長牙"], correct:2, explanation:"食肉動物 = 鋒利尖牙撕裂；食草動物 = 平坦磨牙磨碎植物纖維。"},
             { type:"choice", subtopic:"冬眠策略", question:"冬眠對生活在寒冷環境中的動物最主要生存意義是什麼？", options:["增加代謝率以產生更多熱量","減少能量消耗，度過食物稀缺的冬季","增強肌肉以對抗掠食者","提升繁殖速度"], correct:1, explanation:"冬眠可減少寒冷季節的能量消耗，幫助動物度過食物稀缺的冬季。"},
             { type:"truefalse", subtopic:"鵜鶘特徵", question:"鵜鶘擁有長喙和喉囊，這與牠捕捉並儲存魚類的食性直接相關。", options:["True","False"], correct:0, explanation:"長喙、喉囊用於捕捉並儲存魚類，為典型構造適應。"},
@@ -463,38 +494,40 @@
             { type:"truefalse", subtopic:"沙漠兔耳朵", question:"沙漠棉尾兔的褐色毛皮提供保護色，而其長耳朵主要功能是為了收集遠方聲音。", options:["True","False"], correct:1, explanation:"長耳朵主要功能是散熱，而非收集聲音（北極兔短耳保暖，沙漠兔長耳散熱）。"},
             { type:"choice", subtopic:"矍眼蝶", question:"矍眼蝶身上顯眼的斑紋在生態學上屬於何種適應？", options:["保護色","擬態","警戒色","熱吸收構造"], correct:2, explanation:"鮮明斑紋為警戒色，提醒捕食者可能帶有毒性或難以吞嚥。"},
             { type:"choice", subtopic:"夏眠行為", question:"蝸牛在乾旱炎熱環境下會採取哪些行為來預防脫水？", options:["挖洞至地底深處","躲入硬殼並用黏液封閉入口，夏眠","快速移動尋找水源","脫去外殼減少水分蒸發"], correct:1, explanation:"躲入硬殼並分泌黏液封口，稱為夏眠，防止水分蒸發。"},
-            { type:"choice", subtopic:"生物多樣性", question:"為何熱帶雨林的動物種類豐富度遠高於極地？", options:["雨林氣候溫暖濕潤且食物多樣；極地寒冷食物有限","極地掠食者太多","雨林動物繁殖力較強","極地動物體型較大"], correct:0, explanation:"雨林溫暖濕潤、水源充足、食物多樣；極地寒冷、食物稀缺，限制了物種多樣性。"},
-            { type:"choice", subtopic:"警戒色功能", question:"矍眼蝶翅膀鮮明斑紋最符合下列哪項描述？", options:["散熱機制","保護色融入環境","擬態群居行為","警戒色提醒捕食者可能有毒"], correct:3, explanation:"筆記明確指出：鮮明斑紋是警戒色，提醒捕食者該動物有毒或難以捕食。"},
+            { type:"choice", subtopic:"生物多樣性", question:"為何熱帶雨林的動物種類豐富度遠高於極地？", options:["雨林氣候溫暖濕潤且食物多樣；極地寒冷食物有限","雨林掠食者太多","雨林動物繁殖力較強","極地動物體型較大"], correct:0, explanation:"雨林溫暖濕潤、水源充足、食物多樣；極地寒冷、食物稀缺。"},
+            { type:"choice", subtopic:"警戒色功能", question:"矍眼蝶翅膀鮮明斑紋最符合下列哪項描述？", options:["散熱機制","保護色融入環境","擬態群居行為","警戒色提醒捕食者可能有毒"], correct:3, explanation:"鮮明斑紋是警戒色，提醒捕食者該動物有毒或難以捕食。"},
             { type:"choice", subtopic:"夏眠名詞", question:"蝸牛躲入硬殼並用黏液封閉入口以避開高溫乾旱的行為稱為？", options:["冬眠","蛻皮","夏眠","休眠遷徙"], correct:2, explanation:"此行為稱為夏眠 (Aestivation)，避免高溫與水分流失。"},
             { type:"choice", subtopic:"兔耳適應", question:"北極兔與沙漠棉尾兔的耳朵長度差異主要與何種環境因素適應有關？", options:["躲避天敵視野","調節體溫 (保暖/散熱)","收集不同頻率聲音","跳躍距離"], correct:1, explanation:"北極兔短耳減少熱量流失；沙漠棉尾兔長耳有助散熱，皆為體溫調節。"},
             { type:"choice", subtopic:"企鵝游泳", question:"皇帝企鵝為了在冰冷海洋中順利活動，腳部演化出何種構造便於游泳？", options:["蹼","鋒利爪子","吸盤","長蹼趾"], correct:0, explanation:"腳有蹼，便於游泳，適應海洋環境。"},
             { type:"choice", subtopic:"熱帶草原氣候", question:"熱帶草原的環境特點為何？", options:["全年多雨潮濕","乾濕季分明，水源季節性供應","極度乾旱無降雨","終年積雪"], correct:1, explanation:"熱帶草原氣候乾濕季分明，水源呈現季節性供應。"},
-            { type:"truefalse", subtopic:"草原草食動物", question:"熱帶草原乾濕季分明，其草食性動物的比例相對較高。", options:["True","False"], correct:0, explanation:"草原地區草類豐富，支撐大量草食動物，比例較高。"},
-            { type:"choice", subtopic:"雨林vs沙漠", question:"為何熱帶雨林動物種類豐富度高於沙漠？", options:["雨林日照較強","雨林氣候恆定且降雨豐富，提供多樣食物","沙漠動物不擅長繁殖","沙漠食物過多"], correct:1, explanation:"溫暖濕潤、食物多樣；沙漠資源稀缺，物種相對少。"},
+            { type:"truefalse", subtopic:"草原草食動物", question:"熱帶草原乾濕季分明，其草食性動物的比例相對較高。", options:["True","False"], correct:0, explanation:"草原地區草類豐富，支撐大量草食動物。"},
+            { type:"choice", subtopic:"雨林vs沙漠", question:"為何熱帶雨林動物種類豐富度高於沙漠？", options:["雨林日照較強","雨林氣候恆定且降雨豐富，提供多樣食物","沙漠動物不擅長繁殖","沙漠食物過多"], correct:1, explanation:"溫暖濕潤、食物多樣；沙漠資源稀缺。"},
             { type:"truefalse", subtopic:"警戒色求偶", question:"矍眼蝶的鮮明斑紋稱為警戒色，主要作用是為了吸引配偶進行繁殖。", options:["True","False"], correct:1, explanation:"警戒色目的是嚇阻捕食者，非求偶功能。"},
             { type:"choice", subtopic:"冬季節能", question:"松鼠和蛇在食物稀缺的冬季透過何種方式減少能量消耗？", options:["遷徙","冬眠","夏眠","蛻皮"], correct:1, explanation:"冬眠可減少能量消耗，度過低溫與食物短缺。"},
             { type:"truefalse", subtopic:"極地小耳", question:"北極熊和皇帝企鵝的小耳朵特徵是為了增強集音能力以偵測捕食者。", options:["True","False"], correct:1, explanation:"小耳朵主要是為了減少熱量流失面積，保暖而非集音。"},
             { type:"truefalse", subtopic:"蝸牛夏眠", question:"蝸牛面臨高溫缺水時會採取夏眠，利用黏液封閉殼口防止水分蒸發。", options:["True","False"], correct:0, explanation:"正確，夏眠避高溫、防脫水。"},
-            { type:"choice", subtopic:"乾旱適應", question:"非洲陸龜的硬殼和鱗片作用與下列何者最相似？", options:["北極熊厚毛","駱駝厚皮膚減少水分蒸發","海豹保護色","花鹿群居"], correct:1, explanation:"硬殼&鱗片減少水分流失；駱駝厚皮膚同樣減少水分蒸發，適應乾旱。"},
+            { type:"choice", subtopic:"乾旱適應", question:"非洲陸龜的硬殼和鱗片作用與下列何者最相似？", options:["北極熊厚毛","駱駝厚皮膚減少水分蒸發","海豹保護色","花鹿群居"], correct:1, explanation:"硬殼&鱗片減少水分流失；駱駝厚皮膚同樣減少水分蒸發。"},
             { type:"choice", subtopic:"沙漠兔散熱", question:"與北極兔短耳不同，沙漠棉尾兔擁有哪項特徵幫助散熱？", options:["短耳朵","長耳朵","厚脂肪層","鱗片"], correct:1, explanation:"長耳朵有助於在炎熱環境中散發熱量。"},
-            { type:"truefalse", subtopic:"冬眠普遍性", question:"全體種類的松鼠與蛇都會進入冬眠，但魚類不會透過冬眠度過冬季。", options:["True","False"], correct:1, explanation:"部分魚類也會休眠或冬眠，且並非所有松鼠蛇都必然冬眠，題意過於絕對，但根據教材「松鼠和蛇」典型範例以及魚類多數不冬眠，正確答案為 False（因為魚類某些也會冬眠）。但本題按教材表格魚類為「X」表示不會冬眠，因此正確應為False (陳述錯誤)。實際上魚類有的會冬眠，但課本標示「×」，故答False。"},
-            { type:"choice", subtopic:"夏眠vs冬眠", question:"蝸牛夏眠與下列哪種現象功能最相似？", options:["豪豬豎刺","企鵝群聚","松鼠冬眠減少能量消耗","沙丁魚群游"], correct:2, explanation:"夏眠和冬眠皆為降低代謝以度過極端環境（乾旱/寒冷）。"},
-            { type:"truefalse", subtopic:"陸龜皮革", question:"非洲陸龜主要依靠厚厚的皮革來減少水分蒸發，以適應乾旱沙漠。", options:["True","False"], correct:1, explanation:"陸龜依靠硬殼和鱗片，非『皮革』；厚皮膚是駱駝特徵。"},
+            { type:"truefalse", subtopic:"冬眠普遍性", question:"全體種類的松鼠與蛇都會進入冬眠，但魚類不會透過冬眠度過冬季。", options:["True","False"], correct:1, explanation:"部分魚類也會休眠或冬眠，且並非所有松鼠蛇都必然冬眠。"},
+            { type:"choice", subtopic:"夏眠vs冬眠", question:"蝸牛夏眠與下列哪種現象功能最相似？", options:["豪豬豎刺","企鵝群聚","松鼠冬眠減少能量消耗","沙丁魚群游"], correct:2, explanation:"夏眠和冬眠皆為降低代謝以度過極端環境。"},
+            { type:"truefalse", subtopic:"陸龜皮革", question:"非洲陸龜主要依靠厚厚的皮革來減少水分蒸發，以適應乾旱沙漠。", options:["True","False"], correct:1, explanation:"陸龜依靠硬殼和鱗片，非『皮革』。"},
             { type:"choice", subtopic:"螳螂捕食", question:"螳螂捕捉昆蟲的主要工具為何？", options:["長喙喉囊","平坦磨牙","鐮刀狀前肢帶尖刺","長舌頭"], correct:2, explanation:"鐮刀狀前肢，帶尖刺，用於捕捉和固定獵物。"},
             { type:"choice", subtopic:"磨牙食性", question:"具有平坦磨牙的動物最可能是哪一種食性？", options:["肉食動物","食草動物","食魚動物","吸血動物"], correct:1, explanation:"平坦磨牙用於磨碎植物纖維，食草動物典型特徵。"},
             { type:"choice", subtopic:"耳長體溫", question:"北極兔與沙漠棉尾兔耳朵差異主要體現對哪項物理因素的適應？", options:["水分獲取","植被高度","體溫調節(保暖/散熱)","聽覺範圍"], correct:2, explanation:"短耳保暖，長耳散熱，體溫調節關鍵。"},
-            { type:"choice", subtopic:"遷徙目的", question:"動物遠距離遷徙的主要目的為何？", options:["尋找配偶炫耀","逃避天敵長途飛行","覓食與尋找合適繁殖環境","增加基因突變"], correct:2, explanation:"為了覓食及繁殖需求，尋找棲息地與資源。"},
-            { type:"choice", subtopic:"捕食策略", question:"鵝鵜(塘鵝)的身體構造與捕食策略對應最合理的是？", options:["長頸取食高樹葉","長喙與喉囊捕捉並儲存魚類","鋒利牙齒撕肉","鐮刀前肢抓蟲"], correct:1, explanation:"長喙+喉囊，便於捕捉及暫時儲存魚類。"]
+            { type:"choice", subtopic:"遷徙目的", question:"動物遠距離遷徙的主要目的為何？", options:["尋找配偶炫耀","逃避天敵長途飛行","覓食與尋找合適繁殖環境","增加基因突變"], correct:2, explanation:"為了覓食及繁殖需求。"},
+            { type:"choice", subtopic:"捕食策略", question:"鵝鵜(塘鵝)的身體構造與捕食策略對應最合理的是？", options:["長頸取食高樹葉","長喙與喉囊捕捉並儲存魚類","鋒利牙齒撕肉","鐮刀前肢抓蟲"], correct:1, explanation:"長喙+喉囊，便於捕捉及暫時儲存魚類。"}
         ];
 
         let currentQuestionsSet = [];
         let userAnswers = [];
         let questionStatus = [];
         let earnedPoints = 0;
+        let consecutiveCorrect = 0;      // 連續正確計數 (用於觸發過三關)
+        let miniGamePlayed = false;       // 整個測驗限玩一次
+        let gameActive = false;           // 避免遊戲進行中同時觸發
         const POINTS_PER = 5;
         let currentIndex = 0;
 
-        // DOM elements
         const startScreenDiv = document.getElementById('startScreen');
         const questionAreaDiv = document.getElementById('questionArea');
         const summaryAreaDiv = document.getElementById('summaryArea');
@@ -523,11 +556,85 @@
             totalPointsSpan.innerText = total * POINTS_PER;
         }
 
+        // 顯示過三關小遊戲（限一次）
+        function showTicTacToe() {
+            if (miniGamePlayed) return;
+            miniGamePlayed = true;
+            let board = ['', '', '', '', '', '', '', '', ''];
+            let currentPlayer = '🐾'; // 玩家代表動物腳印
+            let gameActiveState = true;
+            const winPatterns = [
+                [0,1,2],[3,4,5],[6,7,8],
+                [0,3,6],[1,4,7],[2,5,8],
+                [0,4,8],[2,4,6]
+            ];
+            function checkWinner() {
+                for(let pattern of winPatterns) {
+                    const [a,b,c] = pattern;
+                    if(board[a] && board[a] === board[b] && board[a] === board[c]) return board[a];
+                }
+                return board.every(cell => cell !== '') ? 'tie' : null;
+            }
+            function renderBoard(modalDiv, boardDiv) {
+                boardDiv.innerHTML = '';
+                for(let i=0;i<9;i++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'cell';
+                    cell.innerText = board[i] === '🐾' ? '🐾' : (board[i] === '🌿' ? '🌿' : '');
+                    cell.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        if(!gameActiveState) return;
+                        if(board[i] !== '') return;
+                        board[i] = currentPlayer;
+                        renderBoard(modalDiv, boardDiv);
+                        let winner = checkWinner();
+                        if(winner) {
+                            gameActiveState = false;
+                            const statusDiv = modalDiv.querySelector('.game-status');
+                            if(winner === 'tie') statusDiv.innerText = '🤝 平局！ 獲得生態徽章 🤝';
+                            else if(winner === '🐾') statusDiv.innerText = '🎉 動物勝利！+50 獎勵經驗 🎉';
+                            else statusDiv.innerText = '🌿 植物勝利！再接再厲 🌿';
+                            const resetBtn = modalDiv.querySelector('.game-reset-btn');
+                            resetBtn.innerText = '關閉遊戲';
+                            return;
+                        }
+                        currentPlayer = (currentPlayer === '🐾') ? '🌿' : '🐾';
+                        if(!winner && board.every(cell => cell !== '')) return;
+                        if(gameActiveState) renderBoard(modalDiv, boardDiv);
+                    });
+                    boardDiv.appendChild(cell);
+                }
+            }
+            const modal = document.createElement('div');
+            modal.className = 'game-modal';
+            const panel = document.createElement('div');
+            panel.className = 'game-panel';
+            panel.innerHTML = `<div class="game-title">🎲 過三關 · 限時獎勵</div>
+                               <div class="game-status">🐾 動物 (🐾) 先手，對抗植物 (🌿)</div>
+                               <div class="board" id="ticBoard"></div>
+                               <button class="game-reset-btn" id="closeGameOnlyBtn">完成遊戲</button>
+                               <button class="game-reset-btn close-game-btn" id="forceCloseGameBtn">關閉</button>`;
+            modal.appendChild(panel);
+            document.body.appendChild(modal);
+            const boardContainer = panel.querySelector('#ticBoard');
+            const statusDiv = panel.querySelector('.game-status');
+            function render() { renderBoard(modal, boardContainer); }
+            render();
+            const closeBtn = panel.querySelector('#closeGameOnlyBtn');
+            const forceClose = panel.querySelector('#forceCloseGameBtn');
+            const finishGame = () => { modal.remove(); };
+            closeBtn.addEventListener('click', () => finishGame());
+            forceClose.addEventListener('click', () => finishGame());
+        }
+
         function startWithIndices(indices) {
             currentQuestionsSet = indices.map(i => MASTER_QUESTIONS[i]);
             userAnswers = new Array(currentQuestionsSet.length).fill(null);
             questionStatus = new Array(currentQuestionsSet.length).fill('unanswered');
             earnedPoints = 0;
+            consecutiveCorrect = 0;
+            miniGamePlayed = false;   // 每套新測驗重置限玩一次
+            gameActive = false;
             currentIndex = 0;
             updateStatsUI();
             startScreenDiv.classList.add('hidden');
@@ -599,7 +706,17 @@
             const isCorrect = (optIdx === q.correct);
             userAnswers[setIdx] = optIdx;
             questionStatus[setIdx] = isCorrect ? 'correct' : 'incorrect';
-            if (isCorrect) earnedPoints += POINTS_PER;
+            if (isCorrect) {
+                earnedPoints += POINTS_PER;
+                consecutiveCorrect++;
+                if (consecutiveCorrect >= 10 && !miniGamePlayed && !gameActive) {
+                    gameActive = true;
+                    showTicTacToe();
+                    setTimeout(() => { gameActive = false; }, 500);
+                }
+            } else {
+                consecutiveCorrect = 0;
+            }
             updateStatsUI();
             loadQuestion(setIdx);
             const fb = document.createElement('div');
@@ -635,7 +752,6 @@
             const totalCorrect = questionStatus.filter(s => s === 'correct').length;
             const totalWrong = questionStatus.filter(s => s === 'incorrect').length;
             const totalQ = currentQuestionsSet.length;
-            const wrongIndicesGlobal = [];
             const wrongItems = [];
             for (let i = 0; i < currentQuestionsSet.length; i++) {
                 if (questionStatus[i] === 'incorrect') {
@@ -646,36 +762,19 @@
                         userAnswer: q.options[userIdx],
                         correctAnswer: q.options[q.correct]
                     });
-                    // 為了重做錯題，保存原始索引（但因每次測驗基於master子集，所以重新錯題即用相同子集中錯誤的索引重新組成）
-                    wrongIndicesGlobal.push(i);
                 }
             }
             let html = `<div class="summary-title">🐾 測驗總結</div>
             <div class="overall-stats"><div class="overall-bar"><div class="bar-correct" style="width:${totalQ?(totalCorrect/totalQ)*100:0}%;">${totalCorrect}/${totalQ}</div></div></div>`;
-            const sections = ["遷徙與生理","牙齒&食性","冬眠夏眠","極端適應","生態多樣性"];
             html += `<div class="wrong-questions-section"><div class="wrong-title"><i class="fas fa-exclamation-triangle"></i> 錯題檢視 (${wrongItems.length}題)</div>`;
             wrongItems.forEach((item, idx) => {
                 html += `<div class="wrong-item"><div class="wrong-question">${idx+1}. ${item.question}</div>
                 <div class="wrong-answer"><i class="fas fa-times-circle"></i> 你的答案：${item.userAnswer}</div>
                 <div class="correct-answer"><i class="fas fa-check-circle"></i> 正確解答：${item.correctAnswer}</div></div>`;
             });
-            html += `</div>`;
-            if (wrongIndicesGlobal.length > 0) {
-                html += `<div class="summary-buttons"><button class="summary-btn wrong-btn" id="redoWrongBtn">🔁 重做錯題</button>
-                <button class="summary-btn" id="restartBtn">🔄 重新測驗</button></div>`;
-            } else {
-                html += `<div class="summary-buttons"><button class="summary-btn" id="restartBtn">🏆 完美挑戰 · 再測一次</button></div>`;
-            }
+            html += `</div><div class="summary-buttons"><button class="summary-btn" id="restartBtn">🏆 重新測驗</button></div>`;
             summaryAreaDiv.innerHTML = html;
             document.getElementById('restartBtn')?.addEventListener('click', () => { summaryAreaDiv.classList.add('hidden'); startScreenDiv.classList.remove('hidden'); });
-            if (wrongIndicesGlobal.length > 0) {
-                document.getElementById('redoWrongBtn')?.addEventListener('click', () => {
-                    const wrongSubSet = wrongIndicesGlobal.map(idx => currentQuestionsSet[idx]);
-                    const origIndices = wrongIndicesGlobal.map(idx => MASTER_QUESTIONS.findIndex(mq => mq.question === currentQuestionsSet[idx].question));
-                    startWithIndices(origIndices);
-                    summaryAreaDiv.classList.add('hidden');
-                });
-            }
         }
 
         document.getElementById('btnFullQuiz').addEventListener('click', () => startTest('full'));
