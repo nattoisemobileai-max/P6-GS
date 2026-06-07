@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>生物分類挑戰 · 動物與植物 kingdom｜互動測驗</title>
+    <title>生物分類挑戰 · 動物與植物 kingdom｜互動測驗 (支援多選題)</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif; }
@@ -25,12 +25,19 @@
         .subtopic-badge { background: #f4d03f; color: #1f3a4b; padding: 0.1rem 0.8rem; border-radius: 40px; font-weight: 700; font-size: 0.7rem; display: flex; align-items: center; gap: 4px; }
         .question-text { font-size: 1rem; font-weight: 700; color: #1e3f5a; margin-bottom: 1rem; line-height: 1.35; padding-left: 0.3rem; border-left: 4px solid #f3b33d; }
         .options-grid { display: flex; flex-direction: column; gap: 0.45rem; }
-        .option-btn { background: #f5f9ff; border: 2px solid #cad9eb; border-radius: 40px; padding: 0.55rem 1rem; font-size: 0.85rem; font-weight: 600; color: #1f4973; text-align: left; cursor: pointer; box-shadow: 0 3px 0 #9fbad0; display: flex; align-items: center; gap: 0.6rem; width: 100%; transition: all 0.1s; }
+        .option-btn, .multi-option { background: #f5f9ff; border: 2px solid #cad9eb; border-radius: 40px; padding: 0.55rem 1rem; font-size: 0.85rem; font-weight: 600; color: #1f4973; text-align: left; cursor: pointer; box-shadow: 0 3px 0 #9fbad0; display: flex; align-items: center; gap: 0.6rem; width: 100%; transition: all 0.1s; }
+        .multi-option { cursor: pointer; background: #f5f9ff; }
+        .multi-option.disabled { opacity: 0.7; cursor: default; pointer-events: none; }
+        .multi-option input { width: 20px; height: 20px; margin-right: 8px; accent-color: #2c7a4d; cursor: pointer; pointer-events: auto; }
+        .multi-option.disabled input { pointer-events: none; }
         .option-btn:active:not(:disabled) { transform: translateY(2px); box-shadow: 0 1px 0 #9fbad0; }
         .option-btn.correct { background: #a5d6a5; border-color: #2e7d32; }
         .option-btn.incorrect { background: #ffcdd2; border-color: #c62828; }
         .option-btn:disabled { opacity: 0.8; cursor: default; }
         .option-prefix { background: #2b5f8a; color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0; font-size: 0.8rem; }
+        .check-label { display: flex; align-items: center; gap: 10px; width: 100%; }
+        .submit-multi-btn { background: #2c7a4d; color: white; font-weight: bold; border: none; border-radius: 40px; padding: 0.5rem 1rem; margin-top: 0.8rem; width: 100%; font-size: 0.9rem; box-shadow: 0 3px 0 #1a5a36; cursor: pointer; transition: 0.05s linear; }
+        .submit-multi-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 #1a5a36; }
         .feedback-pop { background: #333; color: white; padding: 0.4rem 1rem; border-radius: 40px; font-weight: 600; margin-top: 0.7rem; text-align: center; animation: fadeInOut 1.8s; }
         @keyframes fadeInOut { 0%{opacity:0} 20%{opacity:1} 80%{opacity:1} 100%{opacity:0} }
         .nav-buttons { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; margin-top: 0.3rem; flex-shrink: 0; }
@@ -61,20 +68,21 @@
         .berry-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 #b4621a; }
         .mg-start-btn { background: #58a700; color: white; font-size: 1.1rem; font-weight: bold; padding: 0.4rem 1rem; border-radius: 60px; border: none; margin-top: 0.4rem; cursor: pointer; }
         .hidden { display: none; }
+        .explanation-box { background:#fff9e6; border-left:6px solid #f3b33d; border-radius:12px; padding:0.6rem; margin-top:0.7rem; font-size:0.85rem; }
     </style>
 </head>
 <body>
 <div class="test-container">
     <div class="test-header">
         <a href="#" class="back-home" id="backHomeBtn"><i class="fas fa-leaf"></i> 首頁</a>
-        <span class="test-title">🐾 生物分類大師 · 動物與植物</span>
+        <span class="test-title">🐾 生物分類大師 · 多選支援版</span>
         <div class="test-stats"><span><i class="fas fa-star"></i> <span id="earnedPoints">0</span>/<span id="totalPoints">0</span></span></div>
     </div>
     <div class="progress-section"><div class="progress-info"><span><span id="correctCount">0</span> 正確 · <span id="wrongCount">0</span> 錯誤</span><span id="completionPercent">0%</span></div><div class="progress-bar-bg"><div class="progress-correct" id="progressCorrect"></div></div></div>
     <div class="scrollable-content" id="contentArea">
         <div id="startScreen" class="start-screen">
-            <button class="start-btn" id="btnRandom10">🍃 隨機10題</button>
-            <button class="start-btn" id="btnFullQuiz">📚 全部題目 (36題)</button>
+            <button class="start-btn" id="btnRandom10">🍃 隨機10題 (含多選)</button>
+            <button class="start-btn" id="btnFullQuiz">📚 全部題目 (36題·多選完整)</button>
         </div>
         <div id="questionArea" class="hidden"></div>
         <div id="summaryArea" class="hidden summary-screen"></div>
@@ -89,8 +97,8 @@
 
 <script>
 (function(){
-    // ======================= 完整題庫 (36題 單選/多選/是非 全部轉為單選/是非便於統一互動) =======================
-    const FULL_QUESTIONS = [
+    // ======================= 原始題庫 完整保留多選答案陣列 =======================
+    const FULL_QUESTIONS_RAW = [
         { type:"single", subtopic:"哺乳類辨識", question:"一種生物生活於水中，有鰭、用肺呼吸、分泌母乳餵幼兒，應歸類為？", options:["魚類","兩棲類","爬行類","哺乳類"], correct:3, explanation:"用母乳餵養幼兒是哺乳類獨有特徵。"},
         { type:"single", subtopic:"植物繁殖", question:"植物 A 開花結果實，植物 B 從不開花但有孢子，植物 B 的繁殖方式？", options:["種子繁殖","孢子繁殖","斷裂繁殖","無性芽孢"], correct:1, explanation:"無花植物（蕨類/苔蘚）多以孢子繁殖。"},
         { type:"single", subtopic:"無脊椎動物", question:"新生物無脊椎骨，身體分頭胸腹三部分，三對腳及翅膀，屬於？", options:["蛛形綱","昆蟲類","甲殼類","環節動物"], correct:1, explanation:"昆蟲特徵：身體分三部分、三對腳、氣管呼吸。"},
@@ -129,38 +137,43 @@
         { type:"truefalse", subtopic:"脊椎核心差異", question:"脊椎動物與無脊椎動物的核心差異在體型大小而非骨骼。", options:["True","False"], correct:1, explanation:"核心差異在於有無脊椎骨。"}
     ];
 
-    // 轉換題目為統一格式 (選擇題/是非題)
-    let normalizedQuestions = FULL_QUESTIONS.map(q => {
-        let opt = q.options;
-        let correctIdx = null;
-        if (q.type === 'multiple' && Array.isArray(q.correct)) {
-            // 多選題轉為文字題幹? 此處簡化為第一正確選項+額外提示，但保留互動，我們轉為單一正確選項最為順暢。實際將多選轉換為「選出正確組合」困難，直接使用第一個正確做為標準單選（保持遊戲流暢）
-            let firstCorrect = q.correct[0];
-            correctIdx = firstCorrect;
-        } else if (q.type === 'fill') {
-            correctIdx = 0; // 填充題型轉為單選
-        } else {
-            correctIdx = q.correct;
-        }
-        return {
-            subtopic: q.subtopic,
-            question: q.question,
-            options: opt,
-            correctAnswer: correctIdx,
-            explanation: q.explanation || "筆記說明"
-        };
-    });
+    // 構建正規化題庫：保留單選/多選正確資訊
+    function buildMasterQuestions() {
+        return FULL_QUESTIONS_RAW.map(q => {
+            if (q.type === 'multiple') {
+                return {
+                    subtopic: q.subtopic,
+                    question: q.question,
+                    options: [...q.options],
+                    type: 'multiple',
+                    correctMultiple: [...q.correct],   // 正確索引陣列
+                    explanation: q.explanation
+                };
+            } else {
+                // single, fill, truefalse 都統一為單選 (correct為數字)
+                let correctIdx = (q.type === 'fill') ? 0 : q.correct;
+                if (q.type === 'truefalse') correctIdx = q.correct;
+                return {
+                    subtopic: q.subtopic,
+                    question: q.question,
+                    options: [...q.options],
+                    type: 'single',
+                    correctSingle: correctIdx,
+                    explanation: q.explanation
+                };
+            }
+        });
+    }
 
-    let currentQuestions = [];
-    let userSelections = [];
-    let questionStatus = [];
+    const MASTER = buildMasterQuestions();
+    let currentQuestions = [];        // 每題物件將包含動態 userAnswer, status
     let totalScore = 0;
     let currentQIndex = 0;
     let miniGameLock = false;
     let lastMilestone = 0;
     const POINTS = 5;
 
-    // DOM
+    // DOM 元素
     const startScreenDiv = document.getElementById('startScreen');
     const questionAreaDiv = document.getElementById('questionArea');
     const summaryDiv = document.getElementById('summaryArea');
@@ -178,107 +191,143 @@
 
     function updateUI() {
         const total = currentQuestions.length;
-        const correct = questionStatus.filter(s => s === 'correct').length;
-        const wrong = questionStatus.filter(s => s === 'incorrect').length;
+        const correct = currentQuestions.filter(q => q.status === 'correct').length;
+        const wrong = currentQuestions.filter(q => q.status === 'incorrect').length;
         correctSpan.innerText = correct;
         wrongSpan.innerText = wrong;
         const pct = total ? (correct / total) * 100 : 0;
         progressFill.style.width = `${pct}%`;
         percentSpan.innerText = `${Math.round(pct)}%`;
+        const totalPossible = total * POINTS;
         earnedSpan.innerText = totalScore;
-        totalSpan.innerText = total * POINTS;
+        totalSpan.innerText = totalPossible;
         if (!miniGameLock && correct >= 10) {
             const milestone = Math.floor(correct / 10);
-            if (milestone > lastMilestone) {
-                lastMilestone = milestone;
-                launchMiniGame();
-            }
+            if (milestone > lastMilestone) { lastMilestone = milestone; launchMiniGame(); }
         }
     }
 
-    function launchMiniGame() {
-        if (miniGameLock) return;
-        miniGameLock = true;
-        const overlay = document.createElement('div');
-        overlay.className = 'minigame-overlay';
-        overlay.innerHTML = `
-            <div class="minigame-card">
-                <h2 style="color:#2c6e5c;">🍓 生態救援·莓果大豐收</h2>
-                <p>點擊莓果獲得生態幣！限時60秒</p>
-                <div class="mg-timer" id="mgTimer">60</div>
-                <div>🍒 得分 🫐</div>
-                <div class="mg-score" id="mgScore">0</div>
-                <div class="berry-grid" id="berryGrid"></div>
-                <button class="mg-start-btn" id="startMgBtn">🎯 開始挑戰 60秒</button>
-            </div>
-        `;
-        document.body.appendChild(overlay);
-        let active = false, score = 0, time = 60, countdown = null;
-        const timerEl = overlay.querySelector('#mgTimer');
-        const scoreEl = overlay.querySelector('#mgScore');
-        const grid = overlay.querySelector('#berryGrid');
-        const startBtn = overlay.querySelector('#startMgBtn');
-        function stopGame() {
-            if (countdown) clearInterval(countdown);
-            active = false;
-            overlay.remove();
-            totalScore += score;
-            updateUI();
-            alert(`🎉 小遊戲結束！獲得 ${score} 生態幣！`);
-            miniGameLock = false;
-            if (currentQuestions.length && currentQIndex < currentQuestions.length) renderCurrentQuestion();
-        }
-        function startGame() {
-            if (active) return;
-            active = true;
-            score = 0; time = 60;
-            scoreEl.innerText = '0';
-            timerEl.innerText = '60';
-            grid.innerHTML = '';
-            const fruits = ['🍓','🫐','🍒','🍇','🍑'];
-            for (let i=0;i<9;i++) {
-                const fruit = fruits[Math.floor(Math.random()*fruits.length)];
-                const btn = document.createElement('button');
-                btn.className = 'berry-btn';
-                btn.innerHTML = fruit;
-                btn.onclick = () => { if(active) { score++; scoreEl.innerText = score; btn.innerHTML = '⭐'; setTimeout(()=>{ if(btn && active) btn.innerHTML = fruit; },150); } };
-                grid.appendChild(btn);
+    // 評估答案 (單選或多選)
+    function evaluateAnswer(questionObj) {
+        if (questionObj.type === 'single') {
+            const isCor = (questionObj.userAnswer === questionObj.correctSingle);
+            questionObj.status = isCor ? 'correct' : 'incorrect';
+            if (isCor) totalScore += POINTS;
+        } else { // multiple
+            const userSet = new Set(questionObj.userAnswer || []);
+            const correctSet = new Set(questionObj.correctMultiple);
+            let isEqual = (userSet.size === correctSet.size);
+            if (isEqual) {
+                for (let idx of correctSet) if (!userSet.has(idx)) { isEqual = false; break; }
             }
-            countdown = setInterval(() => {
-                if (!active) return;
-                if (time <= 1) { clearInterval(countdown); active=false; stopGame(); }
-                else { time--; timerEl.innerText = time; }
-            },1000);
+            questionObj.status = isEqual ? 'correct' : 'incorrect';
+            if (isEqual) totalScore += POINTS;
         }
-        startBtn.onclick = startGame;
+        updateUI();
+    }
+
+    // 處理單選點擊
+    window.answerSingle = function(qIdx, optIdx) {
+        const q = currentQuestions[qIdx];
+        if (q.status !== 'unanswered' || miniGameLock) return;
+        q.userAnswer = optIdx;
+        evaluateAnswer(q);
+        renderCurrentQuestion();
+        const fb = document.createElement('div');
+        fb.className = 'feedback-pop';
+        const isCorrect = (q.status === 'correct');
+        fb.innerHTML = isCorrect ? `✅ 正確！ +${POINTS} 知識點` : `❌ 錯誤！ 正確答案: ${String.fromCharCode(65+q.correctSingle)}. ${q.options[q.correctSingle]}`;
+        fb.style.background = isCorrect ? '#2e7d32' : '#c62828';
+        questionAreaDiv.appendChild(fb);
+        setTimeout(() => fb.remove(), 1600);
+        checkAllDoneAndUpdateNav();
+    };
+
+    // 多選提交 (從暫存選取)
+    window.submitMultiple = function(qIdx) {
+        const q = currentQuestions[qIdx];
+        if (q.status !== 'unanswered' || miniGameLock) return;
+        const checkboxes = document.querySelectorAll(`.multi-chk-${qIdx}`);
+        const selected = [];
+        checkboxes.forEach((cb, idx) => { if (cb.checked) selected.push(idx); });
+        q.userAnswer = selected;
+        evaluateAnswer(q);
+        renderCurrentQuestion();
+        const correctSet = new Set(q.correctMultiple);
+        const missing = q.correctMultiple.filter(idx => !selected.includes(idx));
+        const extra = selected.filter(idx => !correctSet.has(idx));
+        let msg = '';
+        if (q.status === 'correct') msg = `🎉 完全正確！ +${POINTS} 點`;
+        else msg = `❌ 多選答案不完整/錯誤。正確選項: ${q.correctMultiple.map(i=>String.fromCharCode(65+i)).join(', ')}。`;
+        const fb = document.createElement('div');
+        fb.className = 'feedback-pop';
+        fb.innerHTML = msg + `<br>📘 ${q.explanation}`;
+        fb.style.background = q.status === 'correct' ? '#2e7d32' : '#c62828';
+        questionAreaDiv.appendChild(fb);
+        setTimeout(() => fb.remove(), 2000);
+        checkAllDoneAndUpdateNav();
+    };
+
+    function checkAllDoneAndUpdateNav() {
+        const allDone = currentQuestions.every(q => q.status !== 'unanswered');
+        if (allDone && currentQIndex === currentQuestions.length-1) {
+            resultsBtn.classList.remove('hidden');
+            nextBtn.classList.add('hidden');
+        } else {
+            nextBtn.classList.remove('hidden');
+            resultsBtn.classList.add('hidden');
+        }
     }
 
     function renderCurrentQuestion() {
         if (miniGameLock) return;
         const q = currentQuestions[currentQIndex];
-        const letters = ['A','B','C','D'];
+        const letters = ['A','B','C','D','E','F'];
         let optsHtml = '';
-        q.options.forEach((opt, idx) => {
-            let extra = '';
-            if (questionStatus[currentQIndex] !== 'unanswered') {
-                if (idx === q.correctAnswer) extra = 'correct';
-                else if (idx === userSelections[currentQIndex]) extra = 'incorrect';
+        const isAnswered = (q.status !== 'unanswered');
+        if (q.type === 'single') {
+            q.options.forEach((opt, idx) => {
+                let extra = '';
+                if (isAnswered) {
+                    if (idx === q.correctSingle) extra = 'correct';
+                    else if (idx === q.userAnswer) extra = 'incorrect';
+                }
+                const disabledAttr = isAnswered ? 'disabled' : '';
+                optsHtml += `<button class="option-btn ${extra}" onclick="answerSingle(${currentQIndex}, ${idx})" ${disabledAttr}>
+                    <span class="option-prefix">${letters[idx]}</span> ${opt}
+                </button>`;
+            });
+        } else { // multiple 多選
+            const selectedSet = new Set(isAnswered ? (q.userAnswer || []) : []);
+            q.options.forEach((opt, idx) => {
+                const isChecked = isAnswered ? selectedSet.has(idx) : false;
+                const disabledClass = isAnswered ? 'disabled' : '';
+                const checkedAttr = isChecked ? 'checked' : '';
+                optsHtml += `<div class="multi-option ${disabledClass}" style="display:flex; align-items:center; gap:10px; padding:0.5rem 1rem;">
+                    <input type="checkbox" class="multi-chk-${currentQIndex}" value="${idx}" id="multi_${currentQIndex}_${idx}" ${checkedAttr} ${isAnswered ? 'disabled' : ''}>
+                    <label for="multi_${currentQIndex}_${idx}" style="flex:1; cursor:pointer; font-weight:600;">${letters[idx]}. ${opt}</label>
+                </div>`;
+            });
+            if (!isAnswered) {
+                optsHtml += `<button class="submit-multi-btn" onclick="submitMultiple(${currentQIndex})"><i class="fas fa-check-double"></i> 確認多選答案</button>`;
+            } else {
+                // 顯示正確/錯誤標記
+                const userSelected = q.userAnswer || [];
+                const correctIdxSet = new Set(q.correctMultiple);
+                const isFullCorrect = (q.status === 'correct');
+                optsHtml += `<div class="explanation-box" style="margin-top:10px;"><i class="fas fa-info-circle"></i> ${q.explanation}<br>${isFullCorrect ? '✔️ 完全正確' : '❌ 答案不正確，正確選項: ' + q.correctMultiple.map(i=>letters[i]).join(', ')}</div>`;
             }
-            const disabled = questionStatus[currentQIndex] !== 'unanswered' ? 'disabled' : '';
-            optsHtml += `<button class="option-btn ${extra}" onclick="window.selectAnswer(${currentQIndex}, ${idx})" ${disabled}>
-                <span class="option-prefix">${letters[idx]}</span> ${opt}
-            </button>`;
-        });
-        let html = `<div class="question-card"><div class="question-header"><span class="question-number">第 ${currentQIndex+1}/${currentQuestions.length} 題</span><span class="subtopic-badge"><i class="fas fa-tag"></i> ${q.subtopic}</span></div>
+        }
+        let html = `<div class="question-card"><div class="question-header"><span class="question-number">第 ${currentQIndex+1}/${currentQuestions.length} 題</span><span class="subtopic-badge"><i class="fas fa-tag"></i> ${q.subtopic} ${q.type === 'multiple' ? '📌 多選題' : '⚡ 單選'}</span></div>
         <div class="question-text">${q.question}</div><div class="options-grid">${optsHtml}</div>`;
-        if (questionStatus[currentQIndex] !== 'unanswered') {
-            html += `<div class="explanation-box" style="background:#fff9e6; border-left:6px solid #f3b33d; border-radius:12px; padding:0.6rem; margin-top:0.7rem;"><i class="fas fa-info-circle"></i> ${q.explanation}</div>`;
+        if (isAnswered && q.type === 'single') {
+            html += `<div class="explanation-box"><i class="fas fa-info-circle"></i> ${q.explanation}</div>`;
         }
         html += `</div>`;
         questionAreaDiv.innerHTML = html;
         qIndicator.innerText = `${currentQIndex+1}/${currentQuestions.length}`;
         prevBtn.disabled = (currentQIndex === 0);
-        const allDone = questionStatus.every(s => s !== 'unanswered');
+        const allDone = currentQuestions.every(q => q.status !== 'unanswered');
         if (currentQIndex === currentQuestions.length-1 && allDone) {
             nextBtn.classList.add('hidden');
             resultsBtn.classList.remove('hidden');
@@ -288,40 +337,30 @@
         }
     }
 
-    window.selectAnswer = function(qIdx, optIdx) {
-        if (questionStatus[qIdx] !== 'unanswered' || miniGameLock) return;
-        const q = currentQuestions[qIdx];
-        const isCor = (optIdx === q.correctAnswer);
-        userSelections[qIdx] = optIdx;
-        questionStatus[qIdx] = isCor ? 'correct' : 'incorrect';
-        if (isCor) totalScore += POINTS;
-        updateUI();
-        renderCurrentQuestion();
-        const fb = document.createElement('div');
-        fb.className = 'feedback-pop';
-        fb.innerHTML = isCor ? '✅ 正確！ +5 知識點' : `❌ 錯誤！ 正確答案：${String.fromCharCode(65+q.correctAnswer)}. ${q.options[q.correctAnswer]}`;
-        fb.style.background = isCor ? '#2e7d32' : '#c62828';
-        questionAreaDiv.appendChild(fb);
-        setTimeout(() => fb.remove(), 1600);
-        if (questionStatus.every(s => s !== 'unanswered') && currentQIndex === currentQuestions.length-1) {
-            resultsBtn.classList.remove('hidden');
-            nextBtn.classList.add('hidden');
-        }
-    };
-
     function showSummary() {
         if (miniGameLock) return;
         questionAreaDiv.classList.add('hidden');
         navDiv.classList.add('hidden');
         summaryDiv.classList.remove('hidden');
-        const correctTotal = questionStatus.filter(s => s === 'correct').length;
+        const correctTotal = currentQuestions.filter(s => s.status === 'correct').length;
         const wrongItems = [];
-        for (let i=0;i<currentQuestions.length;i++) {
-            if (questionStatus[i] === 'incorrect') {
-                wrongItems.push({ question: currentQuestions[i].question, userAns: currentQuestions[i].options[userSelections[i]], correctAns: currentQuestions[i].options[currentQuestions[i].correctAnswer] });
+        for (let i=0; i<currentQuestions.length; i++) {
+            if (currentQuestions[i].status === 'incorrect') {
+                let userDisplay = '';
+                const qq = currentQuestions[i];
+                if (qq.type === 'single') {
+                    userDisplay = qq.options[qq.userAnswer];
+                } else {
+                    const ansIdx = qq.userAnswer || [];
+                    userDisplay = ansIdx.map(idx => qq.options[idx]).join(', ') || '(未選)';
+                }
+                let correctDisplay = '';
+                if (qq.type === 'single') correctDisplay = qq.options[qq.correctSingle];
+                else correctDisplay = qq.correctMultiple.map(idx => qq.options[idx]).join(', ');
+                wrongItems.push({ question: qq.question, userAns: userDisplay, correctAns: correctDisplay });
             }
         }
-        let html = `<div class="summary-title">📊 生物分類總結</div><div class="overall-stats"><div class="overall-bar"><div class="bar-correct" style="width:${(correctTotal/currentQuestions.length)*100}%;">${correctTotal}/${currentQuestions.length}</div></div></div>`;
+        let html = `<div class="summary-title">📊 生物分類總結 (含多選題)</div><div class="overall-stats"><div class="overall-bar"><div class="bar-correct" style="width:${(correctTotal/currentQuestions.length)*100}%;">${correctTotal}/${currentQuestions.length}</div></div></div>`;
         html += `<div class="wrong-questions-section"><div class="wrong-title"><i class="fas fa-exclamation-triangle"></i> 錯題回顧 (${wrongItems.length})</div>`;
         wrongItems.forEach((item,idx)=>{
             html += `<div class="wrong-item"><strong>${idx+1}. ${item.question}</strong><br><i class="fas fa-times-circle"></i> 你的答案：${item.userAns}<br><i class="fas fa-check-circle"></i> 正確答案：${item.correctAns}</div>`;
@@ -332,9 +371,11 @@
     }
 
     function startWithSet(questionsArray) {
-        currentQuestions = questionsArray;
-        userSelections = new Array(currentQuestions.length).fill(null);
-        questionStatus = new Array(currentQuestions.length).fill('unanswered');
+        currentQuestions = questionsArray.map(q => ({
+            ...q,
+            userAnswer: (q.type === 'multiple') ? [] : null,
+            status: 'unanswered'
+        }));
         totalScore = 0;
         currentQIndex = 0;
         lastMilestone = 0;
@@ -347,12 +388,43 @@
     }
 
     function startQuiz(mode) {
-        if (mode === 'full') startWithSet([...normalizedQuestions]);
+        if (mode === 'full') startWithSet([...MASTER]);
         else {
-            const shuffled = [...normalizedQuestions];
+            const shuffled = [...MASTER];
             for (let i=shuffled.length-1;i>0;i--) { const j = Math.floor(Math.random()*(i+1)); [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]; }
             startWithSet(shuffled.slice(0,10));
         }
+    }
+
+    // miniGame 保留原樣
+    function launchMiniGame() { /* 同上邏輯保留 fun */ 
+        if (miniGameLock) return;
+        miniGameLock = true;
+        const overlay = document.createElement('div');
+        overlay.className = 'minigame-overlay';
+        overlay.innerHTML = `<div class="minigame-card"><h2>🍓 生態救援·莓果大豐收</h2><p>點擊莓果獲得生態幣！限時60秒</p><div class="mg-timer" id="mgTimer">60</div><div>🍒 得分 🫐</div><div class="mg-score" id="mgScore">0</div><div class="berry-grid" id="berryGrid"></div><button class="mg-start-btn" id="startMgBtn">🎯 開始挑戰 60秒</button></div>`;
+        document.body.appendChild(overlay);
+        let active = false, score = 0, time = 60, countdown = null;
+        const timerEl = overlay.querySelector('#mgTimer');
+        const scoreEl = overlay.querySelector('#mgScore');
+        const grid = overlay.querySelector('#berryGrid');
+        const startBtn = overlay.querySelector('#startMgBtn');
+        const stopGame = () => { if (countdown) clearInterval(countdown); active = false; overlay.remove(); totalScore += score; updateUI(); alert(`🎉 小遊戲結束！獲得 ${score} 生態幣！`); miniGameLock = false; if (currentQuestions.length && currentQIndex < currentQuestions.length) renderCurrentQuestion(); };
+        const startGame = () => {
+            if (active) return;
+            active = true; score = 0; time = 60;
+            scoreEl.innerText = '0'; timerEl.innerText = '60';
+            grid.innerHTML = '';
+            const fruits = ['🍓','🫐','🍒','🍇','🍑'];
+            for (let i=0;i<9;i++) {
+                const fruit = fruits[Math.floor(Math.random()*fruits.length)];
+                const btn = document.createElement('button'); btn.className = 'berry-btn'; btn.innerHTML = fruit;
+                btn.onclick = () => { if(active) { score++; scoreEl.innerText = score; btn.innerHTML = '⭐'; setTimeout(()=>{ if(btn && active) btn.innerHTML = fruit; },150); } };
+                grid.appendChild(btn);
+            }
+            countdown = setInterval(() => { if (!active) return; if (time <= 1) { clearInterval(countdown); active=false; stopGame(); } else { time--; timerEl.innerText = time; } },1000);
+        };
+        startBtn.onclick = startGame;
     }
 
     document.getElementById('btnRandom10').addEventListener('click', () => startQuiz('random'));
