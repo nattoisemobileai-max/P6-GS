@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>小常識 · 測驗 · 第四冊-第1課 :: 一國兩制</title>
+    <title>一國兩制 · 互動測驗 (隨機出題｜即時紅色錯誤標示)</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -16,45 +16,47 @@
         html, body {
             height: 100%;
             width: 100%;
-            background: #f1f5f9;
+            background: #eef2f5;
         }
 
         body {
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 12px;
+            padding: 14px;
         }
 
+        /* 主卡片 — 類似參考網站的柔和白卡片 */
         .quiz-card {
-            max-width: 550px;
+            max-width: 560px;
             width: 100%;
-            height: 98%;
-            max-height: 800px;
             background: white;
             border-radius: 36px;
-            box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.2);
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            height: 95vh;
+            max-height: 780px;
         }
 
+        /* 頂部欄位 */
         .nav-top {
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 14px 18px;
             background: white;
-            border-bottom: 1px solid #eef2f6;
+            border-bottom: 1px solid #e9edf2;
             flex-shrink: 0;
         }
-        .back-button {
+        .back-home {
             background: #f4d03f;
             border-radius: 40px;
             padding: 6px 14px;
             font-weight: 700;
             font-size: 0.85rem;
-            color: #1e2f3e;
+            color: #2c3e2f;
             box-shadow: 0 2px 0 #c49f1a;
             cursor: pointer;
             display: inline-flex;
@@ -62,7 +64,7 @@
             gap: 6px;
             border: none;
         }
-        .back-button:active { transform: translateY(2px); box-shadow: 0 0px 0 #c49f1a; }
+        .back-home:active { transform: translateY(2px); box-shadow: 0 1px 0 #c49f1a; }
         .lesson-title {
             background: #eef3fc;
             padding: 5px 16px;
@@ -71,7 +73,6 @@
             font-size: 0.85rem;
             color: #1e4668;
             border: 1px solid #dee9f2;
-            white-space: nowrap;
         }
         .score-badge {
             background: #2c3e50;
@@ -85,21 +86,22 @@
             gap: 5px;
         }
 
+        /* 進度區域 */
         .stats-area {
             padding: 14px 18px 8px;
-            background: #ffffff;
+            background: white;
             flex-shrink: 0;
         }
         .stats-row {
             display: flex;
             justify-content: space-between;
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: #4b6b8f;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #2c5282;
             margin-bottom: 8px;
         }
         .progress-bar-bg {
-            background: #e6edf4;
+            background: #e2e8f0;
             border-radius: 20px;
             height: 8px;
             width: 100%;
@@ -116,13 +118,14 @@
             display: inline-block;
             background: #e9ecef;
             border-radius: 30px;
-            padding: 2px 10px;
+            padding: 4px 12px;
             font-size: 0.7rem;
             font-weight: 600;
-            margin-top: 6px;
+            margin-top: 8px;
             color: #2c5282;
         }
 
+        /* 滾動內容區 */
         .scroll-content {
             flex: 1;
             overflow-y: auto;
@@ -131,6 +134,7 @@
             -webkit-overflow-scrolling: touch;
         }
 
+        /* 開始畫面 */
         .start-screen {
             display: flex;
             flex-direction: column;
@@ -144,7 +148,7 @@
             background: #58a700;
             border: none;
             color: white;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: 800;
             padding: 14px 24px;
             border-radius: 60px;
@@ -164,6 +168,7 @@
             text-align: center;
         }
 
+        /* 題目卡片 */
         .question-card {
             background: #ffffff;
             border-radius: 28px;
@@ -196,7 +201,7 @@
             color: #2c3e50;
         }
         .q-text {
-            font-size: 1.02rem;
+            font-size: 1.05rem;
             font-weight: 700;
             color: #1f3e5c;
             border-left: 4px solid #f3b33d;
@@ -204,6 +209,7 @@
             margin: 12px 0 16px 0;
             line-height: 1.4;
         }
+        /* 選項按鈕 */
         .options-list {
             display: flex;
             flex-direction: column;
@@ -213,7 +219,7 @@
             background: #f8fafd;
             border: 1.5px solid #e2e8f0;
             border-radius: 100px;
-            padding: 10px 16px;
+            padding: 12px 16px;
             font-weight: 600;
             font-size: 0.9rem;
             display: flex;
@@ -222,6 +228,7 @@
             cursor: pointer;
             width: 100%;
             text-align: left;
+            transition: 0.05s linear;
         }
         .opt-btn:active { transform: scale(0.99); }
         .opt-prefix {
@@ -237,21 +244,34 @@
             flex-shrink: 0;
         }
         .opt-btn.selected { background: #e0f2e0; border-color: #58a700; }
-        .opt-btn.correct { background: #c8e6c9; border-color: #2e7d32; }
-        .opt-btn.incorrect { background: #ffebee; border-color: #c62828; }
-        
+        /* 正確選項（綠色） */
+        .opt-btn.correct { 
+            background: #c8e6c9; 
+            border-color: #2e7d32; 
+            box-shadow: 0 0 0 1px #2e7d32;
+        }
+        /* 錯誤選項（紅色醒目） */
+        .opt-btn.incorrect { 
+            background: #ffcdd2; 
+            border-color: #c62828; 
+            box-shadow: 0 0 0 2px #c62828;
+            color: #b71c1c;
+            font-weight: 700;
+        }
+        /* 多選提交按鈕 */
         .multi-submit-btn {
             margin-top: 16px;
             background: #58a700;
             border: none;
             color: white;
             font-weight: 700;
-            padding: 10px;
+            padding: 12px;
             border-radius: 40px;
             width: 100%;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 0.95rem;
         }
+        /* 是非題按鈕 */
         .tf-group {
             display: flex;
             gap: 12px;
@@ -262,11 +282,23 @@
             background: #f1f5f9;
             border: 1.5px solid #cddfe7;
             border-radius: 60px;
-            padding: 10px;
+            padding: 12px;
             font-weight: 800;
+            font-size: 1rem;
             text-align: center;
             cursor: pointer;
         }
+        .tf-btn.correct {
+            background: #c8e6c9;
+            border-color: #2e7d32;
+        }
+        .tf-btn.incorrect {
+            background: #ffcdd2;
+            border-color: #c62828;
+            color: #b71c1c;
+            box-shadow: 0 0 0 2px #c62828;
+        }
+        /* 填空 */
         .fill-area {
             margin: 12px 0;
         }
@@ -288,15 +320,17 @@
             width: 100%;
             cursor: pointer;
         }
+        /* 解說區域 */
         .explain-box {
             background: #fff9e6;
             border-left: 5px solid #f3b33d;
             border-radius: 16px;
-            padding: 12px;
+            padding: 14px;
             margin-top: 16px;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
+            line-height: 1.45;
         }
-
+        /* 底部導航 */
         .nav-footer {
             display: flex;
             gap: 12px;
@@ -308,13 +342,14 @@
         .nav-btn {
             background: white;
             border: none;
-            padding: 8px 0;
+            padding: 10px 0;
             border-radius: 60px;
             font-weight: 700;
             flex: 1;
             text-align: center;
             box-shadow: 0 2px 0 #cfdfef;
             cursor: pointer;
+            font-size: 0.9rem;
         }
         .nav-primary {
             background: #58a700;
@@ -326,10 +361,11 @@
             padding: 6px 16px;
             border-radius: 40px;
             font-weight: 600;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
         }
         .hidden { display: none; }
 
+        /* 總結頁面 — 清楚顯示錯誤答案 */
         .summary-container {
             padding: 8px 4px;
             height: 100%;
@@ -354,10 +390,14 @@
         }
         .review-item {
             border-left: 5px solid;
-            padding: 12px;
+            padding: 14px;
             margin-bottom: 12px;
             background: #fffdf7;
             border-radius: 20px;
+        }
+        .review-item.wrong-highlight {
+            background: #fff0f0;
+            border-left-color: #c62828;
         }
         .restart-btn {
             background: #48b5a5;
@@ -369,79 +409,14 @@
             margin: 16px 0;
             color: white;
         }
-
-        .game-modal {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85);
-            backdrop-filter: blur(8px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            visibility: hidden;
-            opacity: 0;
-            transition: 0.2s;
-        }
-        .game-modal.active {
-            visibility: visible;
-            opacity: 1;
-        }
-        .game-window {
-            background: #1f3a2f;
-            width: 92%;
-            max-width: 500px;
-            border-radius: 48px;
-            border: 4px solid #ffcd7e;
-            overflow: hidden;
-        }
-        .game-header {
-            background: #2c3e2f;
-            padding: 12px;
-            display: flex;
-            justify-content: space-between;
-            color: #ffd966;
-            font-weight: 800;
-        }
-        .game-timer {
-            background: #00000066;
-            padding: 4px 12px;
-            border-radius: 40px;
-            font-family: monospace;
-        }
-        canvas {
-            background: #1e2a2a;
-            width: 100%;
-            display: block;
-            cursor: none;
-        }
-        .game-stats {
-            background: #1f2a1b;
-            padding: 10px;
-            display: flex;
-            justify-content: space-between;
-            color: #ffec9e;
-            font-weight: bold;
-        }
-        .close-game {
-            background: #f4d03f;
-            border: none;
-            border-radius: 40px;
-            padding: 8px;
-            margin: 12px auto;
-            width: 140px;
-            font-weight: bold;
-            cursor: pointer;
-        }
     </style>
 </head>
 <body>
 <div class="quiz-card">
     <div class="nav-top">
-        <button class="back-button" id="resetHomeBtn"><i class="fas fa-arrow-left"></i> 返回</button>
+        <button class="back-home" id="resetHomeBtn"><i class="fas fa-arrow-left"></i> 首頁</button>
         <span class="lesson-title">第四冊第1課·一國兩制</span>
-        <div class="score-badge"><i class="fas fa-star"></i> <span id="scoreValue">0</span>/<span id="totalScoreSpan">800</span></div>
+        <div class="score-badge"><i class="fas fa-star"></i> <span id="scoreValue">0</span>/<span id="totalScoreSpan">160</span></div>
     </div>
 
     <div class="stats-area">
@@ -450,43 +425,28 @@
             <span id="percentComplete">0%</span>
         </div>
         <div class="progress-bar-bg"><div class="progress-fill" id="progressFillBar"></div></div>
-        <div class="stage-badge" id="stageBadge">📌 隨機出題｜每階段答對80%解鎖隨機小遊戲 (30秒)</div>
+        <div class="stage-badge">🍃 隨機出題｜答錯即紅色標示＋詳解</div>
     </div>
 
     <div class="scroll-content" id="scrollContent">
         <div id="startPanel" class="start-screen">
             <div class="start-btn" id="launchQuizBtn">📖 隨機抽題測驗 (16題)</div>
-            <div class="info-tip">🎲 題目順序隨機排列！<br>🎁 每階段達標 → 隨機出現【恐龍跳躍 / 彈球 / 賽車】獎勵遊戲！⏱️ 30秒倒數</div>
+            <div class="info-tip">🎲 題目隨機排列｜答錯時選項會變成紅色並顯示說明</div>
         </div>
         <div id="questionsPanel" class="hidden"></div>
         <div id="summaryPanel" class="hidden summary-container"></div>
     </div>
 
     <div id="navFooter" class="nav-footer hidden">
-        <button class="nav-btn" id="prevBtn" disabled>上一題</button>
+        <button class="nav-btn" id="prevBtn" disabled><i class="fas fa-chevron-left"></i> 上一題</button>
         <span class="indicator" id="qIndicator">1/16</span>
-        <button class="nav-btn nav-primary" id="nextBtn">下一題</button>
-        <button class="nav-btn nav-primary hidden" id="viewResultBtn">📊 結果</button>
-    </div>
-</div>
-
-<div id="rewardModal" class="game-modal">
-    <div class="game-window">
-        <div class="game-header">
-            <span><i class="fas fa-gamepad"></i> <span id="gameTitle">獎勵遊戲</span></span>
-            <span class="game-timer">⏱️ <span id="timerDisplay">30</span> 秒</span>
-        </div>
-        <canvas id="gameCanvas" width="460" height="260" style="width:100%; height:auto; aspect-ratio:460/260"></canvas>
-        <div class="game-stats">
-            <span>🏆 得分: <span id="gameScore">0</span></span>
-            <span id="gameHint">🎮 隨機遊戲</span>
-        </div>
-        <div style="display:flex; justify-content:center;"><button class="close-game" id="closeGameBtn">關閉遊戲</button></div>
+        <button class="nav-btn nav-primary" id="nextBtn">下一題 <i class="fas fa-chevron-right"></i></button>
+        <button class="nav-btn nav-primary hidden" id="viewResultBtn">📊 查看結果</button>
     </div>
 </div>
 
 <script>
-    // ========= 完整16題題庫 =========
+    // ---------- 完整16題題庫 (一國兩制) ----------
     const FULL_QUIZ_SET = [
         { id:1, type:"mc", text:"根據《基本法》第一條、第二條及第十二條的內容，關於香港特別行政區的憲制地位與權力來源，下列哪些描述是正確的？", options:["香港特別行政區獲全國人民代表大會授權，依照法律規定實行高度自治。","高度自治權屬於香港固有權利，全國人大僅負責確認而並非進行法律授權。","香港作為一個地方行政區域，在行政架構上不受中央人民政府直接管轄。","香港特別行政區是中華人民共和國領土內，一個不可分離之部分與區域。"], correct:[0,3], multi:true, explanation:"《基本法》第二條授權香港實行高度自治；第一條表明香港不可分離。第十二條明確香港直轄於中央人民政府，因此授權來源是全國人大，並非固有。" },
         { id:2, type:"mc", text:"在「一國兩制」的方針與《基本法》框架下，中央人民政府直接負責管理以下哪些涉及國家層面的事務？", options:["負責香港境內的社會治安維持與本地警務處日常執法工作。","負責香港特別行政區的防務工作，防範外來侵略並保衛安全。","管理與香港特別行政區相關的外交事務以維護國家整體利益。","直接制定香港內部的民事法律，以確保兩地法律制度完全統一。"], correct:[1,2], multi:true, explanation:"外交、國防由中央負責；內部治安、立法屬於香港自治範圍，中央不直接制定香港民事法律。" },
@@ -506,17 +466,16 @@
         { id:16, type:"tf", text:"中央人民政府負責任免香港特區的主要官員，是因為這項事務涉及國家的主權與安全。", correct:true, explanation:"主要官員任免涉及國家主權安全，屬中央權力。" }
     ];
 
-    // ---------- 測驗核心 (隨機順序) ----------
-    let currentIndices = [];          // 隨機排序後的原始索引
+    // 測驗全域變數
+    let currentIndices = [];      // 隨機排序後的原始索引
     let userAnswers = [];
     let answerState = [];
     let totalPoints = 0;
     let currentIdx = 0;
     let quizCompleted = false;
-    let stageRewardGiven = {1:false, 2:false, final:false};
     let tempMultiSelection = {};
 
-    // DOM
+    // DOM 元素
     const startPanel = document.getElementById('startPanel');
     const questionsDiv = document.getElementById('questionsPanel');
     const summaryDiv = document.getElementById('summaryPanel');
@@ -533,11 +492,13 @@
     const resetHome = document.getElementById('resetHomeBtn');
     const launchQuiz = document.getElementById('launchQuizBtn');
 
+    // 輔助函數
     function normalizeFill(s){ return s.trim().toLowerCase().replace(/[・\s,，、]/g, ''); }
     function isFillMatch(q, ans){
         let norm = normalizeFill(ans);
         return q.correctKeywords.some(kw => norm.includes(normalizeFill(kw)));
     }
+
     function updateStats(){
         let c = answerState.filter(s=>s==='correct').length;
         let w = answerState.filter(s=>s==='incorrect').length;
@@ -548,9 +509,9 @@
         let answeredPercent = currentIndices.length ? Math.round(((c+w)/currentIndices.length)*100) : 0;
         percentSpan.innerText = answeredPercent+'%';
         scoreSpan.innerText = totalPoints;
-        return {c, total:currentIndices.length};
     }
 
+    // 提交答案核心
     function submitAnswer(idx, val){
         if(answerState[idx] !== 'unanswered') return;
         const q = FULL_QUIZ_SET[currentIndices[idx]];
@@ -559,14 +520,22 @@
         else if(q.type === 'mc' && Array.isArray(q.correct)) isCor = (val.length === q.correct.length && q.correct.every(v => val.includes(v)));
         else if(q.type === 'tf') isCor = (val === q.correct);
         else if(q.type === 'fill') isCor = isFillMatch(q, val);
+        
         answerState[idx] = isCor ? 'correct' : 'incorrect';
         userAnswers[idx] = val;
         if(isCor) totalPoints += (q.type==='mc' && Array.isArray(q.correct)) ? 10 : 5;
         updateStats();
         renderCurrentQuestion();
-        checkStageReward();
+        
+        const allDone = answerState.every(s => s !== 'unanswered');
+        if(allDone && !quizCompleted){
+            quizCompleted = true;
+            nextBtn.classList.add('hidden');
+            viewResultBtn.classList.remove('hidden');
+        }
     }
 
+    // 多選暫存邏輯
     function toggleMultiOption(opt){
         if(!tempMultiSelection[currentIdx]) tempMultiSelection[currentIdx] = [];
         let arr = tempMultiSelection[currentIdx];
@@ -582,6 +551,7 @@
         delete tempMultiSelection[currentIdx];
     }
 
+    // 渲染目前題目 (重點：紅色顯示錯誤)
     function renderCurrentQuestion(){
         let idx = currentIdx;
         let q = FULL_QUIZ_SET[currentIndices[idx]];
@@ -590,17 +560,20 @@
         let html = `<div class="question-card">
             <div class="q-meta"><span class="q-num">第 ${idx+1}/${currentIndices.length} 題</span><span class="q-type">${q.type==='mc'?(Array.isArray(q.correct)?'多選題':'單選題'):(q.type==='tf'?'是非題':'填充題')}</span></div>
             <div class="q-text">${q.text}</div>`;
+        
         if(q.type === 'single'){
             html += `<div class="options-list">`;
             q.options.forEach((opt,i)=>{
                 let extra = '';
-                if(answered && i===q.correct) extra='correct';
-                else if(answered && i===saved) extra='incorrect';
-                else if(!answered && i===saved) extra='selected';
+                if(answered){
+                    if(i === q.correct) extra = 'correct';
+                    else if(i === saved) extra = 'incorrect';
+                } else if(!answered && i === saved) extra = 'selected';
                 html += `<button class="opt-btn ${extra}" onclick="window.singleSelect(${i})" ${answered?'disabled':''}><span class="opt-prefix">${String.fromCharCode(65+i)}</span> ${opt}</button>`;
             });
             html += `</div>`;
-        } else if(q.type === 'mc' && Array.isArray(q.correct)){
+        } 
+        else if(q.type === 'mc' && Array.isArray(q.correct)){
             let tempSel = (!answered && tempMultiSelection[idx]) ? tempMultiSelection[idx] : (answered && Array.isArray(saved) ? saved : []);
             html += `<div class="options-list">`;
             q.options.forEach((opt,i)=>{
@@ -616,14 +589,31 @@
             });
             html += `</div>`;
             if(!answered) html += `<button class="multi-submit-btn" id="submitMultiBtn">📌 提交答案</button>`;
-        } else if(q.type === 'tf'){
-            html += `<div class="tf-group"><button class="tf-btn" id="tfTrueBtn" ${answered?'disabled':''}>✔️ 正確</button><button class="tf-btn" id="tfFalseBtn" ${answered?'disabled':''}>❌ 錯誤</button></div>`;
-        } else if(q.type === 'fill'){
-            html += `<div class="fill-area"><input type="text" id="fillInput" class="fill-input" placeholder="請輸入答案" ${answered?'disabled':''} value="${answered? (saved||''):''}"><button id="fillSubmitBtn" class="fill-submit" ${answered?'disabled':''}>提交答案</button></div>`;
+        } 
+        else if(q.type === 'tf'){
+            let trueExtra = '', falseExtra = '';
+            if(answered){
+                if(saved === true) trueExtra = (q.correct === true) ? 'correct' : 'incorrect';
+                else falseExtra = (q.correct === false) ? 'correct' : 'incorrect';
+            }
+            html += `<div class="tf-group">
+                <button class="tf-btn ${trueExtra}" id="tfTrueBtn" ${answered?'disabled':''}>✔️ 正確</button>
+                <button class="tf-btn ${falseExtra}" id="tfFalseBtn" ${answered?'disabled':''}>❌ 錯誤</button>
+            </div>`;
+        } 
+        else if(q.type === 'fill'){
+            html += `<div class="fill-area">
+                <input type="text" id="fillInput" class="fill-input" placeholder="請輸入答案" ${answered?'disabled':''} value="${answered? (saved||''):''}">
+                <button id="fillSubmitBtn" class="fill-submit" ${answered?'disabled':''}>提交答案</button>
+            </div>`;
         }
-        if(answered && q.explanation) html += `<div class="explain-box"><i class="fas fa-info-circle"></i> ${q.explanation}</div>`;
+        
+        if(answered && q.explanation) {
+            html += `<div class="explain-box"><i class="fas fa-info-circle"></i> ${q.explanation}</div>`;
+        }
         html += `</div>`;
         questionsDiv.innerHTML = html;
+        
         if(q.type === 'tf' && !answered){
             document.getElementById('tfTrueBtn').onclick = () => submitAnswer(idx, true);
             document.getElementById('tfFalseBtn').onclick = () => submitAnswer(idx, false);
@@ -642,33 +632,7 @@
     window.singleSelect = (opt) => { submitAnswer(currentIdx, opt); };
     window.toggleMulti = toggleMultiOption;
 
-    function checkStageReward(){
-        let total = currentIndices.length;
-        let stage1Corr = answerState.slice(0,10).filter(s=>s==='correct').length;
-        let stage1Answered = answerState.slice(0,10).every(s=>s!=='unanswered');
-        if(!stageRewardGiven[1] && stage1Answered && stage1Corr >= 8 && total>=10){
-            stageRewardGiven[1] = true;
-            openRandomRewardGame("🎉 第1階段答對8題！獎勵小遊戲 🎉");
-        }
-        let stage2Indices = [10,11,12,13,14,15];
-        let stage2Answered = stage2Indices.every(i=>answerState[i]!=='unanswered');
-        let stage2Corr = stage2Indices.filter(i=>answerState[i]==='correct').length;
-        if(!stageRewardGiven[2] && stage2Answered && stage2Corr >= 5 && total>=16){
-            stageRewardGiven[2] = true;
-            openRandomRewardGame("🎉 第2階段答對5題以上！獎勵小遊戲 🎉");
-        }
-        let allDone = answerState.every(s=>s!=='unanswered');
-        if(allDone && !quizCompleted){
-            quizCompleted = true;
-            nextBtn.classList.add('hidden');
-            viewResultBtn.classList.remove('hidden');
-            if(!stageRewardGiven.final){
-                stageRewardGiven.final = true;
-                openRandomRewardGame("🏆 完成全部16題！最終大獎遊戲 🏆");
-            }
-        }
-    }
-
+    // 總結頁面（清楚展示錯誤答案）
     function showSummary(){
         questionsDiv.classList.add('hidden');
         navFooter.classList.add('hidden');
@@ -694,7 +658,7 @@
                 userShow = `「${userAnswers[i]||''}」`;
                 correctShow = qq.correctKeywords.join(' 或 ');
             }
-            html += `<div class="review-item" style="border-left-color:${isRight?'#2e7d32':'#c62828'}">
+            html += `<div class="review-item ${!isRight ? 'wrong-highlight' : ''}" style="border-left-color:${isRight?'#2e7d32':'#c62828'}">
                 <strong>${isRight?'✅':'❌'} ${qq.text}</strong><br>🖊️ 你的答案：${userShow}<br>📖 正確答案：${correctShow}
             </div>`;
         }
@@ -703,37 +667,36 @@
         document.getElementById('restartQuizBtn')?.addEventListener('click', fullReset);
     }
 
+    // 完全重置
     function fullReset(){
         startPanel.classList.remove('hidden');
         questionsDiv.classList.add('hidden');
         summaryDiv.classList.add('hidden');
         navFooter.classList.add('hidden');
         quizCompleted = false;
-        stageRewardGiven = {1:false,2:false,final:false};
         currentIndices = [];
         userAnswers = [];
         answerState = [];
         totalPoints = 0;
         tempMultiSelection = {};
         updateStats();
-        if(window.gameInterval) clearInterval(window.gameInterval);
-        if(window.gameAnim) cancelAnimationFrame(window.gameAnim);
-        document.getElementById('rewardModal').classList.remove('active');
         nextBtn.classList.remove('hidden');
         viewResultBtn.classList.add('hidden');
     }
 
+    // 開始隨機測驗
     function startQuiz(){
-        // 隨機排序題目索引
         let indices = Array.from({length: FULL_QUIZ_SET.length}, (_,i)=>i);
-        for(let i=indices.length-1;i>0;i--){ let j=Math.floor(Math.random()*(i+1)); [indices[i],indices[j]]=[indices[j],indices[i]]; }
+        for(let i=indices.length-1;i>0;i--){ 
+            let j = Math.floor(Math.random()*(i+1)); 
+            [indices[i], indices[j]] = [indices[j], indices[i]]; 
+        }
         currentIndices = indices;
         userAnswers = new Array(16).fill(null);
         answerState = new Array(16).fill('unanswered');
         totalPoints = 0;
         currentIdx = 0;
         quizCompleted = false;
-        stageRewardGiven = {1:false,2:false,final:false};
         tempMultiSelection = {};
         updateStats();
         startPanel.classList.add('hidden');
@@ -745,6 +708,7 @@
         renderCurrentQuestion();
     }
 
+    // 事件綁定
     launchQuiz.addEventListener('click', startQuiz);
     resetHome.addEventListener('click', fullReset);
     prevBtn.addEventListener('click', ()=>{ if(currentIdx>0){ currentIdx--; renderCurrentQuestion(); } });
@@ -752,140 +716,6 @@
     viewResultBtn.addEventListener('click', showSummary);
     document.getElementById('totalScoreSpan').innerText = "160";
     updateStats();
-
-    // ========= 隨機獎勵遊戲模組 (恐龍/彈球/賽車 + 30秒倒數) =========
-    let currentGameType = null, gameAnim = null, gameInterval = null, gameActiveFlag = false, gameScore = 0;
-    const canvasGame = document.getElementById('gameCanvas'), ctxGame = canvasGame.getContext('2d');
-    const timerSpanG = document.getElementById('timerDisplay'), scoreSpanG = document.getElementById('gameScore'), gameTitleSpan = document.getElementById('gameTitle'), hintSpanG = document.getElementById('gameHint');
-    
-    function stopGameLoop(){ if(gameAnim) cancelAnimationFrame(gameAnim); if(gameInterval) clearInterval(gameInterval); gameActiveFlag=false; }
-    function closeGameModal(){ stopGameLoop(); document.getElementById('rewardModal').classList.remove('active'); }
-    document.getElementById('closeGameBtn').onclick = closeGameModal;
-
-    function openRandomRewardGame(titleMsg){
-        const games = ['dino', 'pinball', 'racer'];
-        const randomIdx = Math.floor(Math.random() * 3);
-        currentGameType = games[randomIdx];
-        let gameName = currentGameType==='dino'?'🦖 恐龍跳躍':(currentGameType==='pinball'?'🎾 彈球':'🏎️ 賽車躲車');
-        gameTitleSpan.innerText = titleMsg + " - " + gameName;
-        document.getElementById('rewardModal').classList.add('active');
-        setTimeout(()=>{ initGameWithTimer(); }, 50);
-    }
-    
-    function initGameWithTimer(){
-        stopGameLoop();
-        gameScore = 0; scoreSpanG.innerText = "0";
-        let timeLeft = 30; timerSpanG.innerText = timeLeft;
-        gameActiveFlag = true;
-        if(currentGameType === 'dino') initDinoGame();
-        else if(currentGameType === 'pinball') initPinballGame();
-        else if(currentGameType === 'racer') initRacerGame();
-        gameInterval = setInterval(()=>{
-            if(!gameActiveFlag) return;
-            timeLeft--;
-            timerSpanG.innerText = timeLeft;
-            if(timeLeft <= 0){
-                clearInterval(gameInterval);
-                gameActiveFlag = false;
-                cancelAnimationFrame(gameAnim);
-                hintSpanG.innerText = "⏰ GAME OVER！ 關閉視窗繼續測驗";
-            }
-        }, 1000);
-    }
-    
-    // ----- 恐龍跳躍 -----
-    let dinoY, dinoVy, isJumping, gravity, groundY, obstacleX, frameCountD;
-    function initDinoGame(){
-        hintSpanG.innerText = "🦖 點擊/空白鍵跳躍 避開仙人掌";
-        dinoY = canvasGame.height-50; dinoVy=0; isJumping=false; gravity=0.8; groundY=canvasGame.height-50;
-        obstacleX = canvasGame.width; frameCountD=0;
-        function updateDino(){
-            if(!gameActiveFlag) return;
-            if(isJumping){
-                dinoVy += gravity;
-                dinoY += dinoVy;
-                if(dinoY >= groundY){ dinoY=groundY; isJumping=false; dinoVy=0; }
-                if(dinoY < 0) dinoY=0;
-            }
-            obstacleX -= 5;
-            if(obstacleX < 0){ obstacleX = canvasGame.width + Math.random()*200; gameScore++; scoreSpanG.innerText=gameScore; }
-            let collision = (obstacleX < 40 && obstacleX+20 > 20 && dinoY+30 > groundY-20);
-            if(collision){ gameActiveFlag=false; clearInterval(gameInterval); hintSpanG.innerText="💥 撞到！遊戲結束"; }
-            drawDino();
-            gameAnim = requestAnimationFrame(updateDino);
-        }
-        function drawDino(){
-            ctxGame.clearRect(0,0,canvasGame.width,canvasGame.height);
-            ctxGame.fillStyle='#2a6b47'; ctxGame.fillRect(0,0,canvasGame.width,canvasGame.height);
-            ctxGame.fillStyle='#8B5A2B'; ctxGame.fillRect(obstacleX, groundY-25, 20, 25);
-            ctxGame.fillStyle='#f4d03f'; ctxGame.fillRect(20, dinoY, 30, 30);
-            ctxGame.fillStyle='white'; ctxGame.fillRect(28, dinoY+8, 8, 8);
-            ctxGame.fillStyle='black'; ctxGame.fillRect(30, dinoY+12, 4, 4);
-            ctxGame.fillStyle='#ffcc66'; ctxGame.fillRect(45, dinoY+15, 8, 8);
-        }
-        window.dinoJump = function(e){ if(!gameActiveFlag) return; if(!isJumping && dinoY>=groundY-5){ dinoVy=-12; isJumping=true; } };
-        canvasGame.onclick = ()=>window.dinoJump();
-        window.addEventListener('keydown', function(e){ if(e.code==='Space'){ e.preventDefault(); window.dinoJump(); } });
-        updateDino();
-    }
-    
-    // ----- 彈球 -----
-    let ballX, ballY, ballVx, ballVy, paddleX;
-    function initPinballGame(){
-        hintSpanG.innerText = "🎯 滑鼠/手指移動擋板，接住小球";
-        ballX=canvasGame.width/2; ballY=canvasGame.height-80; ballVx=3; ballVy=-3; paddleX=canvasGame.width/2-40;
-        function updatePinball(){
-            if(!gameActiveFlag) return;
-            ballX+=ballVx; ballY+=ballVy;
-            if(ballX<5||ballX>canvasGame.width-5) ballVx=-ballVx;
-            if(ballY<20) ballVy=-ballVy;
-            let paddleLeft=paddleX, paddleRight=paddleX+80;
-            if(ballY+5>canvasGame.height-20 && ballX>paddleLeft && ballX<paddleRight){ ballVy=-Math.abs(ballVy); gameScore++; scoreSpanG.innerText=gameScore; }
-            if(ballY>canvasGame.height){ gameActiveFlag=false; clearInterval(gameInterval); hintSpanG.innerText="💥 沒接到！遊戲結束"; }
-            drawPinball();
-            gameAnim = requestAnimationFrame(updatePinball);
-        }
-        function drawPinball(){
-            ctxGame.clearRect(0,0,canvasGame.width,canvasGame.height);
-            ctxGame.fillStyle='#1a3a2a'; ctxGame.fillRect(0,0,canvasGame.width,canvasGame.height);
-            ctxGame.fillStyle='#ffaa33'; ctxGame.beginPath(); ctxGame.arc(ballX,ballY,8,0,Math.PI*2); ctxGame.fill();
-            ctxGame.fillStyle='#58a700'; ctxGame.fillRect(paddleX, canvasGame.height-20, 80, 12);
-        }
-        canvasGame.onmousemove = (e)=>{ let rect=canvasGame.getBoundingClientRect(); let x=(e.clientX-rect.left)*(canvasGame.width/rect.width); paddleX=Math.min(Math.max(x-40,5),canvasGame.width-85); };
-        canvasGame.ontouchmove = (e)=>{ e.preventDefault(); let rect=canvasGame.getBoundingClientRect(); let x=(e.touches[0].clientX-rect.left)*(canvasGame.width/rect.width); paddleX=Math.min(Math.max(x-40,5),canvasGame.width-85); };
-        updatePinball();
-    }
-    
-    // ----- 賽車躲避 -----
-    let carXPos, enemiesList, frameRace;
-    function initRacerGame(){
-        hintSpanG.innerText = "🏎️ 左右移動避開紅車";
-        carXPos=canvasGame.width/2-25; enemiesList=[]; frameRace=0;
-        function updateRacer(){
-            if(!gameActiveFlag) return;
-            frameRace++;
-            if(frameRace%35===0){ enemiesList.push({x:Math.random()*(canvasGame.width-40), y:-40, w:30, h:40}); }
-            for(let i=0;i<enemiesList.length;i++){ enemiesList[i].y+=5; if(enemiesList[i].y>canvasGame.height) enemiesList.splice(i,1); }
-            let collision=false;
-            for(let e of enemiesList){
-                if(e.x<carXPos+50 && e.x+30>carXPos && e.y+40>canvasGame.height-70 && e.y<canvasGame.height-30){ collision=true; break; }
-            }
-            if(collision){ gameActiveFlag=false; clearInterval(gameInterval); hintSpanG.innerText="💥 撞車！遊戲結束"; }
-            gameScore++; scoreSpanG.innerText=Math.floor(gameScore/10);
-            drawRacer();
-            gameAnim = requestAnimationFrame(updateRacer);
-        }
-        function drawRacer(){
-            ctxGame.clearRect(0,0,canvasGame.width,canvasGame.height);
-            ctxGame.fillStyle='#2c5a3e'; ctxGame.fillRect(0,0,canvasGame.width,canvasGame.height);
-            for(let i=0;i<3;i++){ ctxGame.fillStyle='#dddd44'; ctxGame.fillRect(canvasGame.width/2-15+(i%2? -40:40), (frameRace*5)%canvasGame.height, 10, 30); }
-            ctxGame.fillStyle='#e34d4d'; ctxGame.fillRect(carXPos, canvasGame.height-70, 50, 45);
-            for(let e of enemiesList){ ctxGame.fillStyle='#c0392b'; ctxGame.fillRect(e.x, e.y, e.w, e.h); }
-        }
-        canvasGame.onmousemove = (e)=>{ let rect=canvasGame.getBoundingClientRect(); let x=(e.clientX-rect.left)*(canvasGame.width/rect.width); carXPos=Math.min(Math.max(x-25,5),canvasGame.width-55); };
-        canvasGame.ontouchmove = (e)=>{ e.preventDefault(); let rect=canvasGame.getBoundingClientRect(); let x=(e.touches[0].clientX-rect.left)*(canvasGame.width/rect.width); carXPos=Math.min(Math.max(x-25,5),canvasGame.width-55); };
-        updateRacer();
-    }
 </script>
 </body>
 </html>
