@@ -1,67 +1,70 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-HK">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>最後的皇朝 · 筆記</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>第1節 · 演進歷程 | 中史筆記</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+            font-family: 'Nunito', 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
 
         body {
-            background: linear-gradient(145deg, #d4e0ec 0%, #eaf0f6 100%);
+            background: linear-gradient(145deg, #f3f0ea 0%, #e8e2d8 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            padding: 0;
-            font-size: 18px;
+            padding: 0.5rem;
+            font-size: 16px;
         }
 
         .notes-container {
-            max-width: 100%;
+            max-width: 1100px;
             width: 100%;
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(4px);
-            border-radius: 0;
-            box-shadow: none;
-            padding: 0.5rem 0.3rem;
-            border: none;
+            border-radius: 2rem;
+            padding: 0.8rem 0.8rem 1.5rem;
+            box-shadow: 0 20px 35px rgba(0, 40, 60, 0.15);
+            margin-top: 1rem;
+            margin-bottom: 2rem;
         }
 
+        /* 頂部導航 */
         .notes-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
             background: white;
-            padding: 0.5rem 0.8rem;
-            border-radius: 40px;
-            margin-bottom: 1rem;
-            box-shadow: 0 4px 0 #bed0e3;
+            padding: 0.6rem 1rem;
+            border-radius: 60px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 0 #cbdbe0;
             flex-wrap: wrap;
-            gap: 0.5rem;
+            gap: 0.6rem;
         }
 
         .back-home {
             background: #f4d03f;
             border-radius: 40px;
-            padding: 0.4rem 1rem;
+            padding: 0.5rem 1.2rem;
             font-weight: 700;
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: #1f3a4b;
             border: none;
             box-shadow: 0 3px 0 #b38f1c;
             cursor: pointer;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: 6px;
             text-decoration: none;
             white-space: nowrap;
+            transition: 0.08s linear;
         }
         .back-home:active {
             transform: translateY(3px);
@@ -69,29 +72,33 @@
         }
 
         .notes-title {
-            font-size: 1.4rem;
+            font-size: clamp(1rem, 4vw, 1.3rem);
             font-weight: 900;
-            background: #eef5ff;
-            padding: 0.3rem 1.2rem;
+            background: #fdf2e9;
+            padding: 0.4rem 1.2rem;
             border-radius: 40px;
-            color: #1a4972;
-            border: 2px solid #c1d9f0;
+            color: #5c3e1f;
+            border: 2px solid #e8c9a8;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
+            flex: 1;
+            min-width: 200px;
+            justify-content: center;
         }
         .notes-title i {
-            color: #3498db;
+            color: #b8860b;
             font-size: 1.2rem;
         }
 
+        /* 筆記本主體 */
         .notebook {
-            background: #f5faff;
+            background: #fdf8f2;
             border-radius: 25px;
-            padding: 1rem 0.8rem;
+            padding: 1.2rem 1rem;
             margin-bottom: 1.5rem;
-            box-shadow: 0 6px 0 #9bb7d1, 0 8px 20px rgba(0,40,60,0.1);
-            border: 2px solid #c1d9f0;
+            box-shadow: 0 6px 0 #d4b88c, 0 8px 20px rgba(0, 40, 60, 0.1);
+            border: 2px solid #e8d5c0;
         }
 
         .notebook-header {
@@ -100,68 +107,31 @@
             gap: 0.8rem;
             margin-bottom: 1.5rem;
             padding-bottom: 0.8rem;
-            border-bottom: 3px solid #9bb7d1;
+            border-bottom: 3px solid #d4b88c;
             flex-wrap: wrap;
         }
         .notebook-icon {
             width: 50px;
             height: 50px;
-            background: #3498db;
+            background: #b8860b;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 1.8rem;
-            box-shadow: 0 3px 0 #1f5b8a;
+            font-size: 1.6rem;
+            box-shadow: 0 3px 0 #8b6508;
             flex-shrink: 0;
         }
         .notebook-title {
-            font-size: 1.6rem;
+            font-size: clamp(1.2rem, 5vw, 1.6rem);
             font-weight: 800;
-            color: #1a4972;
+            color: #5c3e1f;
             line-height: 1.3;
             flex: 1;
         }
 
-        
-        .keywords-title {
-            font-size: 1.4rem;
-            font-weight: 900;
-            background: #eef5ff;
-            padding: 0.2rem 1.2rem;
-            border-radius: 40px;
-            color: #1a4972;
-            border: 2px solid #c1d9f0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .keywords-title i {
-            color: #9b59b6;
-        }
-
-        .keywords-container {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(4px);
-            border-radius: 32px;
-            padding: 1rem 0.8rem;
-            box-shadow: 0 20px 30px -10px rgba(0,40,60,0.4);
-        }
-
-        .keywords-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: white;
-            padding: 0.5rem 0.8rem;
-            border-radius: 40px;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 4px 0 #bed0e3;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
+        /* 章節區塊 */
         .section-container {
             display: flex;
             flex-direction: column;
@@ -171,8 +141,8 @@
             background: white;
             border-radius: 22px;
             padding: 1.2rem 1rem;
-            border-left: 6px solid #3498db;
-            box-shadow: 0 4px 0 #bed0e3;
+            border-left: 6px solid #b8860b;
+            box-shadow: 0 4px 0 #e8d5c0;
         }
         .section-header {
             display: flex;
@@ -184,67 +154,33 @@
         .section-icon {
             width: 44px;
             height: 44px;
-            background: #3498db;
+            background: #b8860b;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             flex-shrink: 0;
         }
         .section-title {
-            font-size: 1.5rem;
+            font-size: clamp(1.1rem, 4.5vw, 1.4rem);
             font-weight: 800;
-            color: #1a4972;
+            color: #5c3e1f;
             line-height: 1.3;
         }
         .section-content {
-            color: #1f3a4b;
+            color: #3d2b1f;
             line-height: 1.8;
-            font-size: 1.1rem;
+            font-size: clamp(0.95rem, 4vw, 1.1rem);
         }
-.keyword-list {
-            list-style: none;
-        }
-              .keyword-item {
-            background: #f5f9ff;
-            border: 2px solid #cad9eb;
-            border-radius: 50px;
-            padding: 0.8rem 1.5rem;
-            font-weight: 600;
-            color: #1f4973;
-            box-shadow: 0 4px 0 #9fbad0;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.8rem;
-            font-size: 1.3rem;
-            /* 確保圖示和文字在同一行絕不分離 */
-            white-space: nowrap;
-        }
-        .keyword-item:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-        .keyword-term {
-            font-weight: 800;
-            color: #1a4972;
-            min-width: 120px;
-            font-size: 1.1rem;
-        }
-        .keyword-def {
-            color: #1f3a4b;
-            line-height: 1.6;
-            font-size: 1rem;
-        }
-        .keyword-def i {
-            color: #f3b33d;
-            margin-right: 4px;
-        }
+
+        /* 表格 */
         .table-wrap {
             overflow-x: auto;
             margin: 1rem 0;
+            border-radius: 16px;
+            box-shadow: 0 3px 0 #e8d5c0;
         }
         table {
             width: 100%;
@@ -252,24 +188,27 @@
             background: white;
             border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 3px 0 #bed0e3;
-            font-size: 1rem;
+            font-size: clamp(0.85rem, 3.5vw, 1rem);
+            min-width: 500px;
         }
         th {
-            background: #3498db;
+            background: #b8860b;
             color: white;
             font-weight: 700;
-            padding: 0.6rem;
+            padding: 0.7rem 0.6rem;
             text-align: left;
+            white-space: nowrap;
         }
         td {
-            padding: 0.6rem;
-            border-bottom: 1px solid #e1edff;
+            padding: 0.7rem 0.6rem;
+            border-bottom: 1px solid #f0e6d8;
+            vertical-align: top;
         }
         tr:last-child td {
             border-bottom: none;
         }
 
+        /* 列表 */
         .bullet-list {
             list-style: none;
             margin-top: 0.5rem;
@@ -277,11 +216,11 @@
         .bullet-list li {
             padding: 0.4rem 0 0.4rem 1.8rem;
             position: relative;
-            font-size: 1.1rem;
+            font-size: clamp(0.95rem, 4vw, 1.1rem);
         }
         .bullet-list li:before {
             content: "•";
-            color: #3498db;
+            color: #b8860b;
             font-weight: bold;
             font-size: 1.6rem;
             position: absolute;
@@ -289,59 +228,63 @@
             top: -2px;
         }
 
+        /* 高亮文字 */
         .highlight {
             background: #fffacd;
             padding: 0.1rem 0.3rem;
             border-radius: 10px;
             font-weight: 700;
-            color: #1e3f5a;
+            color: #5c3e1f;
             border: 1px solid #f3b33d;
             display: inline-block;
             margin: 0 0.1rem;
-            font-size: 1.1rem;
+            font-size: 1em;
         }
 
+        /* 標籤 */
         .badge {
             display: inline-block;
             background: #f4d03f;
-            color: #1f3a4b;
+            color: #3d2b1f;
             padding: 0.2rem 0.9rem;
             border-radius: 40px;
             font-weight: 700;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             margin-right: 0.3rem;
             margin-bottom: 0.3rem;
             border: 1px solid #e67e22;
         }
 
+        /* 重點框 */
         .highlight-box {
-            background: #e1f0fa;
+            background: #fef7e8;
             border-radius: 16px;
             padding: 1rem;
             margin: 1rem 0;
-            border: 2px dashed #9bb7d1;
-            font-size: 1.1rem;
+            border: 2px dashed #d4b88c;
+            font-size: clamp(0.95rem, 4vw, 1.1rem);
         }
 
+        /* 插圖佔位 */
         .illustration-placeholder {
-            background: #f0f4fa;
+            background: #fdf8f2;
             border-radius: 16px;
             padding: 0.8rem;
             margin: 1.2rem 0 0.2rem;
             text-align: center;
-            border: 2px dashed #7fa3c2;
-            color: #2c5a7a;
+            border: 2px dashed #d4b88c;
+            color: #7a5c3e;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
             flex-wrap: wrap;
         }
         .illustration-placeholder i {
             font-size: 2rem;
-            color: #5a9ec2;
+            color: #b8860b;
         }
         .illustration-placeholder img {
             max-width: 100%;
@@ -351,312 +294,378 @@
             margin: 0 auto;
         }
 
+        /* 關鍵詞區塊 */
+        .keywords-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(4px);
+            border-radius: 25px;
+            padding: 1.2rem 1rem;
+            box-shadow: 0 6px 0 #d4b88c, 0 8px 20px rgba(0, 40, 60, 0.1);
+            border: 2px solid #e8d5c0;
+            margin-top: 0.5rem;
+        }
+        .keywords-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .keywords-title {
+            font-size: clamp(1.1rem, 4.5vw, 1.4rem);
+            font-weight: 900;
+            background: #fef7e8;
+            padding: 0.3rem 1.2rem;
+            border-radius: 40px;
+            color: #5c3e1f;
+            border: 2px solid #e8d5c0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .keywords-title i {
+            color: #b8860b;
+        }
+        .keyword-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            justify-content: center;
+        }
+        .keyword-item {
+            background: #fdf8f2;
+            border: 2px solid #e8d5c0;
+            border-radius: 50px;
+            padding: 0.5rem 1.2rem;
+            font-weight: 700;
+            color: #5c3e1f;
+            box-shadow: 0 3px 0 #d4b88c;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: clamp(0.85rem, 3.5vw, 1rem);
+            white-space: nowrap;
+        }
+        .keyword-item i {
+            color: #e67e22;
+            font-size: 0.9rem;
+        }
+
+        /* 頁尾 */
         .footer-note {
             text-align: center;
-            margin-top: 1rem;
-            color: #6b8baa;
+            margin-top: 1.5rem;
+            color: #7a5c3e;
             font-weight: 600;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 0.8rem;
             flex-wrap: wrap;
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
         .save-status {
-            background: #d4e6f5;
-            color: #1a4972;
-            padding: 0.3rem 0.8rem;
+            background: #fef7e8;
+            color: #5c3e1f;
+            padding: 0.3rem 0.9rem;
             border-radius: 40px;
-            border: 1px solid #9bb7d1;
+            border: 1px solid #d4b88c;
             display: inline-flex;
             align-items: center;
             gap: 5px;
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
 
+        /* 響應式 */
         @media (max-width: 480px) {
-            .keywords-header { flex-direction: column; }
-            .keyword-item { flex-direction: column; gap: 0.2rem; }
-            .keyword-term { min-width: auto; }
+            .notes-container { padding: 0.6rem; border-radius: 1.2rem; }
+            .notes-header { flex-direction: column; align-items: stretch; }
+            .back-home, .notes-title { justify-content: center; }
+            .lesson-section { padding: 1rem 0.8rem; }
+            .section-icon { width: 38px; height: 38px; font-size: 1.1rem; }
+            .keyword-item { padding: 0.4rem 0.9rem; white-space: normal; }
         }
 
-        @media (max-width: 380px) {
-            .notes-header {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .back-home, .notes-title {
-                justify-content: center;
-            }
-            .section-title {
-                font-size: 1.3rem;
-            }
+        @media (min-width: 768px) {
+            .notes-container { padding: 1.2rem 1.5rem 2rem; }
+            .notebook { padding: 1.5rem 1.5rem; }
+            .lesson-section { padding: 1.5rem 1.3rem; }
+            .keyword-grid { gap: 0.8rem; }
         }
     </style>
 </head>
 <body>
 <div class="notes-container">
+    <!-- 頂部導航 -->
     <div class="notes-header">
         <a href="../index.html" class="back-home"><i class="fas fa-arrow-left"></i> 返回主頁</a>
         <span class="notes-title">
-            <i class="fas fa-smile-wink"></i> 第三冊第1課 · 康雍乾盛世筆記
+            <i class="fas fa-scroll"></i> 第1章 · 第1節 · 演進歷程
         </span>
     </div>
-    
-<div class="notes-container">
-  <!-- 主要筆記本 -->
+
+    <!-- 主要筆記本 -->
     <div class="notebook">
         <div class="notebook-header">
-            <div class="notebook-icon"><i class="fas fa-landmark"></i></div>
-            <div class="notebook-title">🏯 清朝早期的盛世與皇帝施政 [P4]</div>
+            <div class="notebook-icon"><i class="fas fa-timeline"></i></div>
+            <div class="notebook-title">📜 中華民族與早期國家的起源 · 演進歷程</div>
         </div>
 
         <div class="section-container">
-            <!-- 盛世表格 -->
+            <!-- 夏朝的興起與滅亡 -->
             <div class="lesson-section">
                 <div class="section-header">
                     <div class="section-icon"><i class="fas fa-crown"></i></div>
-                    <div class="section-title">康雍乾盛世</div>
+                    <div class="section-title">🏯 夏朝的興起與滅亡</div>
                 </div>
                 <div class="section-content">
-                    <p>清朝是由<span class="highlight">滿族人</span>建立的中國最後一個皇朝。早期三位皇帝<span class="highlight">康熙、雍正、乾隆</span>在位時，國家呈現盛世局面。</p>
-                    <div class="table-wrap">
-                        <table>
-                            <thead><tr><th>皇帝</th><th>主要施政與作為</th><th>盛世原因分析</th></tr></thead>
-                            <tbody>
-                                <tr><td>康熙</td><td>嚴懲貪官；掃除貪污風氣；平定準噶爾叛亂</td><td>鞏固國家統治；穩定內部局勢；擴張版圖</td></tr>
-                                <tr><td>雍正</td><td>任用人才不分民族；提升行政效率</td><td>政策開明，促進社會穩定和經濟發展</td></tr>
-                                <tr><td>乾隆</td><td>六次南巡江南；大量花費</td><td>文化繁榮與國力強盛；但晚年開始出現揮霍與國力衰退</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="illustration-placeholder">
-                    <img src="images/img-part1.jpg" alt="康雍乾盛世插圖">
-                </div>
-            </div>
-
-            <!-- 乾隆晚年衰退分析（已將總結移至表格下方） -->
-            <div class="lesson-section">
-                <div class="section-header">
-                    <div class="section-icon"><i class="fas fa-chart-line"></i></div>
-                    <div class="section-title">💥 乾隆晚年國勢轉弱原因分析[P4]</div>
-                </div>
-                <div class="section-content">
-                    <div class="table-wrap">
-                        <table>
-                            <thead><tr><th>影響因素</th><th>說明</th></tr></thead>
-                            <tbody>
-                                <tr><td>人口壓力</td><td>人口持續增加，但土地資源有限，造成糧食短缺</td></tr>
-                                <tr><td>政府財政問題</td><td>大量花費於乾隆南巡及宮廷生活，導致財政負擔加重</td></tr>
-                                <tr><td>貪污問題</td><td>朝廷貪污風氣猖獗，削弱政府執行力</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- 小總結放在表格下方 -->
                     <div class="highlight-box">
-                        <span class="badge">小總結</span> 乾隆皇帝晚年，人口快速增加，但耕地不足，百姓生活艱苦，國勢開始轉弱。朝廷內部貪污問題未能根除，影響政務效率和社會穩定。
+                        <span class="badge">核心概念</span> <span class="highlight">夏朝</span>被認為是中國歷史上第一個<span class="highlight">世襲王朝</span>，其統治權由父子或兄弟相傳，形成「<span class="highlight">家天下</span>」的局面，即國家被視為家族的私有財產。
+                    </div>
+
+                    <h3 style="font-size:1.1rem; margin:1rem 0 0.4rem; color:#5c3e1f;">夏朝的建立與制度</h3>
+                    <ul class="bullet-list">
+                        <li><span class="highlight">啟</span>定都陽城，建造宮殿，設立百官，組織軍隊，制定刑法，反映出夏朝已形成較完整的早期國家組織。</li>
+                        <li>權力由禪讓轉變為世襲，成為中國歷史上第一個世襲王朝。</li>
+                    </ul>
+
+                    <h3 style="font-size:1.1rem; margin:1.2rem 0 0.4rem; color:#5c3e1f;">夏朝滅亡原因</h3>
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>主要原因</th><th>詳細說明</th></tr></thead>
+                            <tbody>
+                                <tr><td>君主昏庸</td><td>最後一位君主夏桀酗酒作樂、殘害臣民、勞役百姓，修築豪華宮室引發民怨。</td></tr>
+                                <tr><td>民心思變</td><td>眾多部落對夏桀不滿，尤其是東方商族領袖湯聯合不滿夏桀的部落起兵推翻夏朝。</td></tr>
+                                <tr><td>「家天下」的弊端</td><td>權力世襲導致國家被視作家族私有，缺乏有效監督與制衡，最終加速政權崩潰。</td></tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 <div class="illustration-placeholder">
-                    <img src="images/img-part2.jpg" alt="康雍乾盛世插圖">
+                    <img src="images/img-xia.jpg" alt="夏朝插圖">
                 </div>
             </div>
 
-            <!-- 鴉片戰爭 -->
+            <!-- 考古證據：二里頭遺址 -->
             <div class="lesson-section">
                 <div class="section-header">
-                    <div class="section-icon"><i class="fas fa-skull"></i></div>
-                    <div class="section-title">💀 鴉片戰爭的起因與影響[P5]</div>
+                    <div class="section-icon"><i class="fas fa-search"></i></div>
+                    <div class="section-title">🔍 考古證據：二里頭遺址</div>
                 </div>
                 <div class="section-content">
-                    <p>英國商人在中國販賣<span class="highlight">鴉片</span>，導致大量國民沉迷吸食，造成國家健康和軍事戰鬥力下降，經濟損失嚴重。</p>
-                    <p>鴉片是什麼嗎？鴉片是毒品，會危害健康，我們要向毒品說不。</p>
-                    <h3 style="font-size:1.2rem; margin:0.8rem 0 0.3rem;">鴉片的社會禍害</h3>
-                    <div class="table-wrap">
-                        <table>
-                            <thead><tr><th>影響層面</th><th>描述</th></tr></thead>
-                            <tbody>
-                                <tr><td>健康</td><td>國民吸食鴉片危害身體，影響生育和生活質量，無力工作。</td></tr>
-                                <tr><td>經濟</td><td>花費大量金錢購買鴉片，白銀流向外國，造成國庫空虛。（財政外流和貧困）</td></tr>
-                                <tr><td>軍事</td><td>吸食者體力和精神下降，軍隊戰鬥力減弱</td></tr>
-<tr><td>其他</td><td>官商勾結走私鴉片，遺政府日趨腐敗。</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="illustration-placeholder">
-                    <img src="images/img-part9.jpg" alt="康雍乾盛世插圖">
-                </div>
-                    <h3 style="font-size:1.2rem; margin:1rem 0 0.3rem;">清政府的鴉片政策與結果</h3>
                     <ul class="bullet-list">
-                        <li>1839年，清政府派遣<span class="highlight">林則徐</span>到廣州查禁鴉片。</li>
-                        <li>林則徐在<span class="highlight">虎門銷毀</span>大量鴉片。</li>
-                        <li>英國不滿，於1840年發動<span class="highlight">鴉片戰爭</span>。</li>
+                        <li>1959年在河南省偃師縣二里頭村發現，距今約<span class="highlight">3800至3500年前</span>的都城遺址。</li>
+                        <li>特徵包括「<span class="highlight">井</span>」字形道路網絡、大型宮殿基址，出土精美的青銅器、玉器、陶器與樂器，反映農業生產成熟與文明發展。</li>
+                        <li>二里頭遺址被學者認為是<span class="highlight">夏朝後期遺跡</span>，為夏朝存在提供實物證據，將中國史的開端推前。</li>
                     </ul>
-                    
-                    <h3 style="font-size:1.2rem; margin:1rem 0 0.3rem;">鴉片戰爭結果與不平等的《南京條約》</h3>
-                    <div class="table-wrap">
-                        <table>
-                            <thead><tr><th>結果</th><th>內容</th></tr></thead>
-                            <tbody>
-                                <tr><td>戰爭結果</td><td> 1842年，<u>清</u>政府戰敗</td></tr>
-                                <tr><td>《南京條約》條款</td><td>賠款<u>英國</u>大額銀兩；開放<u>廣州</u>、<u>上海</u>等五個通商口岸；<u>香港島</u>割讓<u>英國</u>管治</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
+                </div>
+                <div class="illustration-placeholder">
+                    <img src="images/img-erlitou.jpg" alt="二里頭遺址插圖">
+                </div>
+            </div>
+
+            <!-- 商朝的興起與滅亡 -->
+            <div class="lesson-section">
+                <div class="section-header">
+                    <div class="section-icon"><i class="fas fa-landmark"></i></div>
+                    <div class="section-title">👑 商朝的興起與滅亡</div>
+                </div>
+                <div class="section-content">
                     <div class="highlight-box">
-                        <span class="badge">不平等條約[P6-Q2]</span>「不平等條約」指的是列強強加於<u>清</u>政府的條約，條款對<u>中國</u>(清政府)極為不利，體現主權喪失與經濟剝削。
+                        <span class="badge">核心概念</span> 商朝是中國歷史上首個以<span class="highlight">甲骨文</span>作為重要文字記錄的朝代，其政治體制、軍事行動均有較明確史料佐證。
                     </div>
-                </div>
-                <div class="illustration-placeholder">
-                    <img src="images/img-part4.jpg" alt="鴉片戰爭插圖">
-                </div>
-            </div>
 
-            <!-- 列強侵略與不平等條約 -->
-            <div class="lesson-section">
-                <div class="section-header">
-                    <div class="section-icon"><i class="fas fa-file-contract"></i></div>
-                    <div class="section-title">📜 列強侵略與更多不平等條約[P6~7]</div>
-                </div>
-                <div class="section-content">
-                    <div class="table-wrap">
-                        <table>
-                            <thead><tr>戰爭名稱<th></th><th>條約名稱</th><th>時間</th><th>主要內容與影響</th></tr></thead>
-                            <tbody>
-                                <tr><td>《北京條約》</td><td>英法聯軍之役</td><td>1856-1860年</td><td>增開<u>天津</u>為通商口岸，賠款<u>英法</u>聯軍，割讓<u>九龍半島</u>給<u>英國</u>管治。</td></tr>
-                                <tr><td>《馬關條約》</td><td>中日甲午戰爭</td><td>1894-1895年</td><td>向<u>日本</u>大額的賠款。割讓遼東半島、台灣及澎湖列島給日本。增開四個通商口岸。</td></tr>
-                                <tr><td>《辛丑和約》</td><td>八國聯軍之役</td><td>1900-1901年</td><td>向八國聯軍大額賠款，拆除<u>大沽口</u>到<u>北京</u>防禦炮台，並允許列強/聯軍駐軍［在<u>北京</u>至<u>山海關</u>一帶。</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <p>[P6-Q1]這些條約共同特點：</p>
+                    <h3 style="font-size:1.1rem; margin:1rem 0 0.4rem; color:#5c3e1f;">商朝的建立</h3>
                     <ul class="bullet-list">
-                        <li>賠款巨額銀兩</li>
-                        <li>割地讓權</li>
-                        <li>擴大開放通商口岸</li>
-                        <li>允許外國軍隊駐紮</li>
-                    </ul>
-                    <h3 style="font-size:1.2rem; margin:1rem 0 0.3rem;">條約與香港的關係</h3>
-                    <div class="table-wrap">
-                        <table>
-                            <thead><tr><th>條約名稱</th><th>與香港相關的條款</th></tr></thead>
-                            <tbody>
-                                <tr><td>《南京條約》</td><td>將香港島割讓給<u>英國</u></td></tr>
-                                <tr><td>《北京條約》</td><td>將九龍半島割讓給英國</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <p>這些條約使中國主權嚴重受損，國勢愈加衰弱。</p>
-                </div>
-                <div class="illustration-placeholder">
-                    <img src="images/img-part8.jpg" alt="不平等條約插圖">
-                </div>
-            </div>
-
-            <!-- 清朝滅亡的內外因素 -->
-            <div class="lesson-section">
-                <div class="section-header">
-                    <div class="section-icon"><i class="fas fa-dizzy"></i></div>
-                    <div class="section-title">🙅‍♂️ 清朝滅亡的內外因[P8]</div>
-                </div>
-                <div class="section-content">
-                    <div class="table-wrap">
-                        <table>
-                            <thead><tr><th>類別</th><th>內容</th></tr></thead>
-                            <tbody>
-                                <tr><td>內部問題</td><td>政府腐敗無能，貪污盛行，無力解決社會經濟矛盾</td></tr>
-                                <tr><td>外部侵略</td><td>列強侵略連連，簽訂大量不平等條約，割地賠款，軍事被迫弱化</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <h3 style="font-size:1.2rem; margin:1rem 0 0.3rem;">孫中山與革命運動</h3>
-                    <ul class="bullet-list">
-                        <li>孫中山（原名孫文），廣東香山人，受過中學和大學教育。</li>
-                        <li>1905年成立<span class="highlight">同盟會</span>，組織海內外志士推動革命。</li>
-                        <li>發動多次起義，包括著名的「<span class="highlight">黃花崗之役</span>」。</li>
-                        <li>1911年<span class="highlight">武昌起義</span>成功，推翻清朝。</li>
-                        <li>1912年1月1日，<span class="highlight">中華民國</span>成立，孫中山被推舉為臨時大總統。</li>
+                        <li>商族領袖<span class="highlight">湯</span>推翻夏朝，建立商朝，定都亳（今河南商丘一帶）。</li>
+                        <li>商朝統治注重仁德，對臣民有一定的惠及政策，促使諸侯附從。</li>
                     </ul>
 
-                    <h3 style="font-size:1.2rem; margin:1rem 0 0.3rem;">孫中山與香港的關係[P9]</h3>
-                    <p>孫中山在香港有密切歷史活動與革命組織。透過香港的國際環境和華人社群，推動革命事業。</p>
+                    <h3 style="font-size:1.1rem; margin:1.2rem 0 0.4rem; color:#5c3e1f;">商朝滅亡原因</h3>
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>主要原因</th><th>詳細說明</th></tr></thead>
+                            <tbody>
+                                <tr><td>君主昏庸殘暴</td><td>商朝末代君主商紂王殘酷，施以酷刑，勞役百姓，引發民怨與諸侯叛變。</td></tr>
+                                <tr><td>貴族革命</td><td>周武王聯合諸侯起兵攻商，史稱中國第一次「<span class="highlight">貴族革命</span>」，以武力改朝換代，轉移「天命」。</td></tr>
+                                <tr><td>軍事敗北</td><td>商軍在<span class="highlight">牧野之戰</span>中因內部將士倒戈，導致戰敗，商朝政權瓦解。</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div class="illustration-placeholder">
-                    <img src="images/img-part6.jpg" alt="康雍乾盛世插圖">
+                    <img src="images/img-shang.jpg" alt="商朝插圖">
                 </div>
             </div>
 
-            <!-- 本單元小結 -->
+            <!-- 甲骨文的發現與意義 -->
             <div class="lesson-section">
                 <div class="section-header">
-                    <div class="section-icon"><i class="fas fa-clipboard-check"></i></div>
-                    <div class="section-title">📝 本單元小結</div>
+                    <div class="section-icon"><i class="fas fa-pen-fancy"></i></div>
+                    <div class="section-title">📝 甲骨文的發現與意義</div>
+                </div>
+                <div class="section-content">
+                    <ul class="bullet-list">
+                        <li>甲骨文刻於龜甲或獸骨上，為商朝後期的占卜記錄。</li>
+                        <li>1899年<span class="highlight">王懿榮</span>發現，甲骨文文字與《史記》等歷史文獻相互印證，成為中國「<span class="highlight">信史</span>」的起點。</li>
+                        <li>甲骨文記錄了政治、軍事、祭祀等多方面內容，反映商朝社會制度與文化。</li>
+                    </ul>
+                </div>
+                <div class="illustration-placeholder">
+                    <img src="images/img-oracle.jpg" alt="甲骨文插圖">
+                </div>
+            </div>
+
+            <!-- 夏商滅亡的共通點比較 -->
+            <div class="lesson-section">
+                <div class="section-header">
+                    <div class="section-icon"><i class="fas fa-balance-scale"></i></div>
+                    <div class="section-title">⚔️ 夏商滅亡的共通點比較</div>
                 </div>
                 <div class="section-content">
                     <div class="table-wrap">
                         <table>
-                            <thead><tr><th>時期</th><th>國勢狀況</th><th>主要原因與事件</th></tr></thead>
+                            <thead><tr><th>項目</th><th>夏朝滅亡</th><th>商朝滅亡</th></tr></thead>
                             <tbody>
-                                <tr><td>清朝早期</td><td>國勢強盛</td><td>康熙、雍正、乾隆三帝治國有方，內政穩定，版圖鞏固</td></tr>
-                                <tr><td>清朝中後期</td><td>國勢衰弱</td><td>鴉片問題嚴重，英國發動鴉片戰爭，清政府戰敗，被迫簽訂多項不平等條約</td></tr>
-                                <tr><td>清朝末年</td><td>滅亡</td><td>政府腐敗無能，列強侵略加劇，孫中山領導革命成功，建立中華民國</td></tr>
+                                <tr><td>君主行為</td><td>夏桀酗酒殘暴，勞役百姓，激起民怨</td><td>紂王殘虐忠臣，施酷刑，激起諸侯反叛</td></tr>
+                                <tr><td>政權性質</td><td>權力世襲，形成「家天下」</td><td>貴族階層內部衝突，貴族革命導致政權更替</td></tr>
+                                <tr><td>反抗勢力</td><td>東方商族及不滿部落聯合起兵</td><td>周武王聯合諸侯起兵攻商</td></tr>
+                                <tr><td>滅亡結果</td><td>夏朝滅亡，商朝建立</td><td>商朝滅亡，周朝建立</td></tr>
                             </tbody>
                         </table>
                     </div>
-                    
                 </div>
-                 <div class="illustration-placeholder">
-                    <img src="images/img-summary.jpg" alt="課本總結">
+            </div>
+
+            <!-- 歷史事件與相關概念 -->
+            <div class="lesson-section">
+                <div class="section-header">
+                    <div class="section-icon"><i class="fas fa-book"></i></div>
+                    <div class="section-title">🕰️ 歷史事件與相關概念</div>
+                </div>
+                <div class="section-content">
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>事件/概念</th><th>說明</th></tr></thead>
+                            <tbody>
+                                <tr><td>天命</td><td>古人認為統治權來自於「天命」，代表天意對君主合法性的認可。</td></tr>
+                                <tr><td>革命（周易定義）</td><td>指順應天意與民心，通過武力改朝換代，轉移天命的行為。</td></tr>
+                                <tr><td>貴族革命</td><td>以貴族階層為主導的政權更替，商朝被周朝取代即為中國歷史上的第一次貴族革命。</td></tr>
+                                <tr><td>牧野之戰</td><td>周武王率軍在牧野與商軍決戰，商軍因內部倒戈而敗北，是商朝滅亡的關鍵戰役。</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 重要名詞與地理對照 -->
+            <div class="lesson-section">
+                <div class="section-header">
+                    <div class="section-icon"><i class="fas fa-map-marked-alt"></i></div>
+                    <div class="section-title">🗺️ 重要名詞與地理對照</div>
+                </div>
+                <div class="section-content">
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>名稱</th><th>現代地理位置</th><th>備註</th></tr></thead>
+                            <tbody>
+                                <tr><td>陽城</td><td>河南省偃師縣二里頭村</td><td>夏朝都城遺址</td></tr>
+                                <tr><td>亳（亳邑）</td><td>河南商丘一帶</td><td>商朝都城</td></tr>
+                                <tr><td>黃河</td><td>中國北方大河</td><td>夏、商、周主要活動區域</td></tr>
+                                <tr><td>長江</td><td>中國南方大河</td><td>重要水系</td></tr>
+                                <tr><td>淮河</td><td>東部流域</td><td>商末束皋聚居區</td></tr>
+                                <tr><td>南巢</td><td>商朝末期流放地</td><td>商桀被放逐之地</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 文化與考古遺存 -->
+            <div class="lesson-section">
+                <div class="section-header">
+                    <div class="section-icon"><i class="fas fa-gem"></i></div>
+                    <div class="section-title">🏺 文化與考古遺存</div>
+                </div>
+                <div class="section-content">
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>文物類型</th><th>說明</th></tr></thead>
+                            <tbody>
+                                <tr><td>青銅器</td><td>反映當時農業發展與冶金技術成熟，常見於二里頭遺址及商朝晚期殷墟發現。</td></tr>
+                                <tr><td>玉器</td><td>表示當時文明程度較高，具有宗教與禮儀功能。</td></tr>
+                                <tr><td>陶器</td><td>反映農業生活與手工藝水平。</td></tr>
+                                <tr><td>甲骨文</td><td>商朝晚期的占卜文字記錄，是中國最早的成熟書寫系統。</td></tr>
+                                <tr><td>「井」字形道路</td><td>二里頭遺址的城市規劃特徵，顯示早期國家對空間組織的高度重視。</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 歷史發展脈絡 -->
+            <div class="lesson-section">
+                <div class="section-header">
+                    <div class="section-icon"><i class="fas fa-sitemap"></i></div>
+                    <div class="section-title">📌 歷史發展脈絡</div>
+                </div>
+                <div class="section-content">
+                    <ul class="bullet-list">
+                        <li><span class="highlight">夏朝</span>為中國第一個世襲制的王朝，標誌著部落聯盟向早期國家的過渡。</li>
+                        <li><span class="highlight">商朝</span>建立在夏朝基礎之上，強化了中央集權與文字記錄，推動社會文明進步。</li>
+                        <li>兩朝的滅亡均因君主昏庸與殘暴，引發民怨與貴族或諸侯的聯合反抗，最終導致政權更迭。</li>
+                        <li>商朝的滅亡與周朝的興起，展現了古代中國政治權力的轉移及「<span class="highlight">天命</span>」理念的實踐。</li>
+                    </ul>
+                    <div class="highlight-box">
+                        <span class="badge">總結</span> 夏、商兩代的興衰反映了早期中國政治制度從禪讓向世襲的轉變及貴族階層對政權更替的影響，這種權力運作模式奠定了後世封建王朝的制度基礎。
+                    </div>
+                </div>
+                <div class="illustration-placeholder">
+                    <img src="images/img-summary.jpg" alt="歷史發展脈絡總結">
                 </div>
             </div>
         </div> <!-- section-container -->
-       <div class="keywords-container">
-    <div class="keywords-header">
-        <span class="keywords-title">
-            <i class="fas fa-key"></i> 關鍵詞彙
-        </span>
-    </div>
 
-    <div class="keywords-card">
-        <div class="keyword-grid">
-            <span class="keyword-item"><i class="fas fa-tag">清朝</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 滿族</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 康熙</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 雍正</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 乾隆</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 盛世</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 鴉片戰爭</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 林則徐</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 虎門銷煙</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 賠款</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 南京條約</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 香港島</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 不平等條約</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 列強</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 北京條約</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 九龍半島</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 馬關條約</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 台灣</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 遼東半島</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 澎湖列島</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 八國聯軍</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 辛丑和約</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 慈禧太后</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 孫中山</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 中國同盟會</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 黃花崗之役</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 武昌起義</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 辛亥革命</i></span>
-            <span class="keyword-item"><i class="fas fa-tag"> 中華民國</i></span>
+        <!-- 關鍵詞彙 -->
+        <div class="keywords-container">
+            <div class="keywords-header">
+                <span class="keywords-title">
+                    <i class="fas fa-key"></i> 關鍵詞彙
+                </span>
+            </div>
+            <div class="keyword-grid">
+                <span class="keyword-item"><i class="fas fa-tag"></i> 夏朝</span>
+                <span class="keyword-item"><i class="fas fa-tag"></i> 世襲王朝</span>
+                <span class="keyword-item"><i class="fas fa-tag"></i> 家天下</span>
+                <span class="keyword-item"><i class="fas fa-tag"></i> 啟</span>
+                <span class="keyword-item"><i class="fas fa-tag"></i> 夏桀</span>
+                <span class="keyword-item"><i class="fas fa-tag"></i> 二里頭遺址</span>
+                <span class="keyword-item"><i class="fas fa-tag"></i> 商朝</span>
+                <span class="keyword-item"><i class="fas fa-tag"></i> 湯</span>
+                <span class="keyword-item"><i class="fas fa-tag"></i> 商紂王</span>
+                <span class="keyword-item"><i class="fas fa-tag"></i> 貴族革命</span>
+                <span class="keyword-item"><i class="fas fa-tag"></i> 牧野之戰</span>
+                <span class="keyword-item"><i class="fas fa-tag"></i> 甲骨文</span>
+                <span class="keyword-item"><i class="fas fa-tag"></i> 王懿榮</span>
+                <span class="keyword-item"><i class="fas fa-tag"></i> 信史</span>
+                <span class="keyword-item"><i class="fas fa-tag"></i> 天命</span>
+                <span class="keyword-item"><i class="fas fa-tag"></i> 革命</span>
+                <span class="keyword-item"><i class="fas fa-tag"></i> 陽城</span>
+                <span class="keyword-item"><i class="fas fa-tag"></i> 亳</span>
+                <span class="keyword-item"><i class="fas fa-tag"></i> 青銅器</span>
+                <span class="keyword-item"><i class="fas fa-tag"></i> 玉器</span>
+                <span class="keyword-item"><i class="fas fa-tag"></i> 陶器</span>
+                <span class="keyword-item"><i class="fas fa-tag"></i> 井字形道路</span>
+            </div>
         </div>
-    </div>
     </div> <!-- notebook -->
 
     <!-- 頁尾 -->
-    
-</div> <!-- notes-container -->
+    <div class="footer-note">
+        <span class="save-status"><i class="fas fa-check-circle"></i> 筆記已整理</span>
+        <span>📜 中史 · 第1章第1節 · 演進歷程</span>
+    </div>
+</div>
 </body>
 </html>
